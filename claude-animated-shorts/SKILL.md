@@ -34,6 +34,11 @@ User rules that apply:
   - Real shading and lighting on the cards: a two-tone cel shadow on head and body from the scene's sun direction, a rim
     or bounce light on the far edge, and cast or contact shadows on the ground. Night and golden scenes tint them.
   - Budget: the boil gives a new canvas per character every 2-3 frames, so the render runs ~20-40 % slower. Plan for it.
+  - Measured on the user's reference short (frame by frame, held close-up): heads tilt 10-15 deg, swing and bob
+    continuously (the character moves ~2x more than the frame); the expression changes every 5-8 frames on the narration's
+    beats; mouths change shape word by word (lip flap) when a character "speaks" or reacts; reaction effects (sweat drops,
+    tears, motion ticks); a soft head gradient (lit side bright, cool grey shadow side, darker band under a hat) tinted by
+    the scene light (warm torch side + cool moon side at night). The camera glides almost all the time; shots 1.5-3 s.
 - "Just do it" once the script is approved.
 
 ## Pipeline
