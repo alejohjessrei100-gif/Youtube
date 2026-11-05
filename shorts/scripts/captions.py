@@ -7,10 +7,10 @@ words = json.load(open(sys.argv[1]))["words"]
 SPOKEN = {"1739": "1739"}  # the narrator says "seventeen thirty-nine": shown as the year
 clean = lambda w: re.sub(r"[^\w'\-]", "", w).lower()
 # phrasing written from the script (1-2 words, natural breaks), matched in order against the spoken words
-PHRASES = """in 1739|britain|went to|war|with spain|over a|single|ear|captain|robert|jenkins|said|spanish|coast guards|had cut|it off|
+PHRASES = """in 1739|britain|went to|war|with spain|over a|single|ear|captain|robert|jenkins|said|spanish|coast|guards|had cut|it off|
 eight years|earlier|nobody|cared|then he|told|parliament|crowds|roared|the prime|minister|didn't even|want|a war|but|the crowd|won|
-wait|all that|over an|ear|you see|the ear|was just|an excuse|the real|fight|was over|trade|and smuggling|even|the name|came later|
-a historian|made it|up|over a|century|after|history|forgot|the trade|deals|it remembered|the ear"""
+wait|all that|over an|ear|you see|the ear|was just|an excuse|the real|fight|was over|trade|and|smuggling|even|the name|came later|
+a historian|made it|up|over a|century|after|history|forgot|the trade|deals|it|remembered|the ear"""
 groups, i = [], 0
 for ph in [p.strip() for p in PHRASES.replace("\n", "").split("|")]:
     g = []
@@ -22,6 +22,10 @@ assert i == len(words), (i, len(words))
 def ts(t):
     t = max(0, t); h = int(t // 3600); m = int(t % 3600 // 60); s = t % 60
     return f"{h}:{m:02d}:{s:05.2f}"
+import os
+from PIL import ImageFont
+FONT = ImageFont.truetype(os.path.join(os.path.dirname(os.path.abspath(sys.argv[2])), "fonts", "Montserrat_900Black.ttf"), 150)
+MAXW = 2 * (1440 * 0.85 - 720) - 20
 lines = []
 for k, g in enumerate(groups):
     a = g[0]["s"] - 0.03
@@ -29,7 +33,10 @@ for k, g in enumerate(groups):
     b = g[-1]["e"] + 0.2
     if nxt is not None: b = nxt if nxt - g[-1]["e"] < 0.35 else min(b, nxt)
     text = " ".join(SPOKEN.get(clean(w["w"]), clean(w["w"])) for w in g)
-    lines.append(f"Dialogue: 0,{ts(a)},{ts(b)},Cap,,0,0,0,,{{\\fscx85\\fscy85\\t(0,90,\\fscx100\\fscy100)}}{text}")
+    # keep every caption clear of the Shorts like/share column (right 15 % of the frame): shrink only the few that would reach it
+    wpx = FONT.getlength(text) + 26
+    fs = f"\\fs{int(150 * MAXW / wpx)}" if wpx > MAXW else ""
+    lines.append(f"Dialogue: 0,{ts(a)},{ts(b)},Cap,,0,0,0,,{{{fs}\\fscx85\\fscy85\\t(0,90,\\fscx100\\fscy100)}}{text}")
 head = """[Script Info]
 ScriptType: v4.00+
 PlayResX: 1440
@@ -39,7 +46,7 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,Montserrat Black,150,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,13,7,2,50,50,470,1
+Style: Cap,Montserrat Black,150,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,13,7,2,50,50,720,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text

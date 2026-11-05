@@ -7,7 +7,7 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,Montserrat Black,150,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,13,7,2,50,50,470,1
+Style: Cap,Montserrat Black,150,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,13,7,2,50,50,720,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -24,7 +24,8 @@ Dialogue: 0,0:00:05.43,0:00:05.83,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fs
 Dialogue: 0,0:00:05.83,0:00:06.25,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}jenkins
 Dialogue: 0,0:00:06.25,0:00:06.65,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}said
 Dialogue: 0,0:00:06.65,0:00:07.07,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}spanish
-Dialogue: 0,0:00:07.07,0:00:07.75,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}coast guards
+Dialogue: 0,0:00:07.07,0:00:07.43,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}coast
+Dialogue: 0,0:00:07.43,0:00:07.75,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}guards
 Dialogue: 0,0:00:07.75,0:00:08.19,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}had cut
 Dialogue: 0,0:00:08.19,0:00:08.63,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}it off
 Dialogue: 0,0:00:08.63,0:00:09.29,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}eight years
@@ -56,7 +57,8 @@ Dialogue: 0,0:00:22.83,0:00:23.23,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fs
 Dialogue: 0,0:00:23.23,0:00:23.51,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}fight
 Dialogue: 0,0:00:23.51,0:00:23.91,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}was over
 Dialogue: 0,0:00:23.91,0:00:24.31,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}trade
-Dialogue: 0,0:00:24.31,0:00:25.39,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}and smuggling
+Dialogue: 0,0:00:24.31,0:00:24.57,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}and
+Dialogue: 0,0:00:24.57,0:00:25.39,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}smuggling
 Dialogue: 0,0:00:25.39,0:00:25.61,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}even
 Dialogue: 0,0:00:25.61,0:00:26.05,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}the name
 Dialogue: 0,0:00:26.05,0:00:26.85,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}came later
@@ -70,5 +72,6 @@ Dialogue: 0,0:00:29.57,0:00:30.13,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fs
 Dialogue: 0,0:00:30.13,0:00:30.59,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}forgot
 Dialogue: 0,0:00:30.59,0:00:31.15,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}the trade
 Dialogue: 0,0:00:31.15,0:00:31.85,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}deals
-Dialogue: 0,0:00:31.85,0:00:32.33,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}it remembered
+Dialogue: 0,0:00:31.85,0:00:31.91,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}it
+Dialogue: 0,0:00:31.91,0:00:32.33,Cap,,0,0,0,,{\fs137\fscx85\fscy85\t(0,90,\fscx100\fscy100)}remembered
 Dialogue: 0,0:00:32.33,0:00:33.18,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}the ear
