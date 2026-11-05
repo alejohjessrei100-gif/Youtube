@@ -1,0 +1,74 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1440
+PlayResY: 2560
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Montserrat Black,150,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,13,7,2,50,50,950,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.63,Cap,,0,0,0,,{\fs136\fscx85\fscy85\t(0,90,\fscx100\fscy100)}sweden built
+Dialogue: 0,0:00:00.63,0:00:01.21,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}a warship
+Dialogue: 0,0:00:01.21,0:00:02.19,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}with 64
+Dialogue: 0,0:00:02.19,0:00:03.06,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}cannons
+Dialogue: 0,0:00:03.21,0:00:03.45,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}and it
+Dialogue: 0,0:00:03.45,0:00:03.91,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}lost a
+Dialogue: 0,0:00:03.91,0:00:04.19,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}fight
+Dialogue: 0,0:00:04.19,0:00:04.59,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}to a
+Dialogue: 0,0:00:04.59,0:00:05.16,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}breeze
+Dialogue: 0,0:00:05.59,0:00:06.15,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}you see
+Dialogue: 0,0:00:06.15,0:00:07.53,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}in 1628
+Dialogue: 0,0:00:07.53,0:00:08.01,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}sweden's
+Dialogue: 0,0:00:08.01,0:00:08.19,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}king
+Dialogue: 0,0:00:08.19,0:00:08.57,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}ordered
+Dialogue: 0,0:00:08.57,0:00:09.01,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}a ship
+Dialogue: 0,0:00:09.01,0:00:09.93,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}to terrify
+Dialogue: 0,0:00:09.93,0:00:10.61,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}europe
+Dialogue: 0,0:00:10.61,0:00:11.01,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}before it
+Dialogue: 0,0:00:11.01,0:00:11.54,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}sailed
+Dialogue: 0,0:00:11.73,0:00:12.39,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}30 sailors
+Dialogue: 0,0:00:12.39,0:00:13.11,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}ran across
+Dialogue: 0,0:00:13.11,0:00:13.83,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}the deck
+Dialogue: 0,0:00:13.83,0:00:14.41,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}after three
+Dialogue: 0,0:00:14.41,0:00:15.03,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}runs
+Dialogue: 0,0:00:15.03,0:00:15.51,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}it nearly
+Dialogue: 0,0:00:15.51,0:00:16.53,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}tipped over
+Dialogue: 0,0:00:16.53,0:00:17.01,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}so they
+Dialogue: 0,0:00:17.01,0:00:17.27,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}stopped
+Dialogue: 0,0:00:17.27,0:00:18.09,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}the test
+Dialogue: 0,0:00:18.09,0:00:18.71,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}and sailed
+Dialogue: 0,0:00:18.71,0:00:19.45,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}anyway
+Dialogue: 0,0:00:19.45,0:00:20.15,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}one gust
+Dialogue: 0,0:00:20.15,0:00:21.13,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}tilted it
+Dialogue: 0,0:00:21.13,0:00:21.61,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}a second
+Dialogue: 0,0:00:21.61,0:00:22.03,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}poured
+Dialogue: 0,0:00:22.03,0:00:22.49,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}the sea
+Dialogue: 0,0:00:22.49,0:00:22.91,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}through its
+Dialogue: 0,0:00:22.91,0:00:23.23,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}open
+Dialogue: 0,0:00:23.23,0:00:24.13,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}gun ports
+Dialogue: 0,0:00:24.13,0:00:24.67,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}1300
+Dialogue: 0,0:00:24.67,0:00:25.77,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}meters out
+Dialogue: 0,0:00:25.77,0:00:26.23,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}it was
+Dialogue: 0,0:00:26.23,0:00:27.05,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}top heavy
+Dialogue: 0,0:00:27.05,0:00:27.45,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}and adding
+Dialogue: 0,0:00:27.45,0:00:28.03,Cap,,0,0,0,,{\fs129\fscx85\fscy85\t(0,90,\fscx100\fscy100)}weight below
+Dialogue: 0,0:00:28.03,0:00:28.39,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}would have
+Dialogue: 0,0:00:28.39,0:00:28.69,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}dropped
+Dialogue: 0,0:00:28.69,0:00:29.09,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}the gun
+Dialogue: 0,0:00:29.09,0:00:29.33,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}ports
+Dialogue: 0,0:00:29.33,0:00:29.69,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}to the
+Dialogue: 0,0:00:29.69,0:00:30.56,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}waterline
+Dialogue: 0,0:00:31.31,0:00:31.89,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}333
+Dialogue: 0,0:00:31.89,0:00:32.81,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}years later
+Dialogue: 0,0:00:32.81,0:00:33.27,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}they raised
+Dialogue: 0,0:00:33.27,0:00:33.71,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}it
+Dialogue: 0,0:00:33.71,0:00:34.73,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}98 percent
+Dialogue: 0,0:00:34.73,0:00:35.42,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}intact
+Dialogue: 0,0:00:35.71,0:00:36.27,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}a terrible
+Dialogue: 0,0:00:36.27,0:00:37.21,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}warship
+Dialogue: 0,0:00:37.21,0:00:37.67,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}a perfect
+Dialogue: 0,0:00:37.67,0:00:38.56,Cap,,0,0,0,,{\fs138\fscx85\fscy85\t(0,90,\fscx100\fscy100)}time capsule

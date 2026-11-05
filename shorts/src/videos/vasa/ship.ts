@@ -156,7 +156,8 @@ const rakeX = (x: number, yn: number) => { const s = sOf(x); return x + 2.4 * yn
 export type Sail = { geo: THREE.BufferGeometry; x: number; yTop: number; h: number; wTop: number; wBot: number; depth: number };
 export type ShipParts = {
   group: THREE.Group; lids: THREE.InstancedMesh; guns: THREE.InstancedMesh; sails: Sail[];
-  flags: { mesh: THREE.Mesh; len: number; hgt: number; nu: number }[]; ports: { d: number; side: number; k: number; x: number; y: number; z: number }[];
+  flags: { mesh: THREE.Mesh; len: number; hgt: number; nu: number }[]; sailMeshes: THREE.Mesh[]; ballast: THREE.InstancedMesh; hullMat: THREE.MeshLambertMaterial;
+  ports: { d: number; side: number; k: number; x: number; y: number; z: number }[];
 };
 
 export const buildShip = (): ShipParts => {
@@ -203,6 +204,8 @@ export const buildShip = (): ShipParts => {
     b.add(grid(n, 6, (i, j) => { const x = L0 + (L1 - L0) * (sa + ((sb - sa) * i) / n), w = Math.max(0.05, halfAt(x, y) - 0.06); return [x, y, -w + (2 * w * j) / 6]; }, (_i, _j, p) => [p[0] / 4, p[2] / 4]), deckM);
   };
   deck(0.005, 0.11, 10.8); deck(0.1, 0.3, 8.6); deck(0.29, 0.79, 5.6); deck(0.78, 0.985, 7.6);
+  // inside (seen only in the cutaway): upper + lower gun deck and the hold floor
+  deck(0.03, 0.95, 3.25); deck(0.03, 0.93, 1.1); deck(0.08, 0.88, -3.3);
   const bulk = (s: number, y0: number, y1: number, dir: number) => {
     const x = L0 + (L1 - L0) * s, w0 = halfAt(x, y0) - 0.03, w1 = halfAt(x, y1) - 0.03;
     const a = V(x, y0, -w0 * dir), bb = V(x, y0, w0 * dir), c = V(x, y1, w1 * dir), d = V(x, y1, -w1 * dir);
@@ -212,12 +215,12 @@ export const buildShip = (): ShipParts => {
   bulk(0.295, 5.6, 8.6, 1); bulk(0.105, 8.6, 10.8, 1); bulk(0.785, 5.6, 7.6, -1);
   // deck furniture: hatches, capstan, belfry, barrels, coiled ropes, a few deck guns on carriages
   const hatch = (x: number, z: number, y: number, w = 1.6, d = 1.4) => { b.add(new THREE.BoxGeometry(w, 0.3, d).translate(x, y + 0.15, z), darkM); b.add(new THREE.BoxGeometry(w - 0.2, 0.06, d - 0.2).translate(x, y + 0.31, z), woodM); };
-  hatch(5.2, -1.4, 5.6, 1.6, 1.2); hatch(9, 0.5, 5.6, 1.2, 1.2);
+  hatch(9, 0.5, 5.6, 1.2, 1.2);
   b.add(new THREE.CylinderGeometry(0.45, 0.55, 1.1, 12).translate(-7.5, 6.15, 0), woodM);
   for (let k = 0; k < 6; k++) { const a = (k / 6) * Math.PI; b.add(new THREE.BoxGeometry(2.4, 0.1, 0.1).rotateY(a).translate(-7.5, 6.55, 0), woodM); }
-  for (const [x, z] of [[2.5, -3.6], [3.1, -3.2], [-3.8, -3.0], [7.5, -3.4]]) b.add(new THREE.CylinderGeometry(0.32, 0.36, 0.85, 12).translate(x, 6.03, z), lam("barrel", () => ({ color: "#8a5a34" })));
-  for (const [x, z] of [[1.6, 3.6], [-3.8, -3.4], [6.2, 3.4]]) b.add(new THREE.TorusGeometry(0.34, 0.08, 6, 16).rotateX(Math.PI / 2).translate(x, 5.68, z), ropeM);
-  for (const [x, side] of [[-5.5, 1], [-5.5, -1], [3.6, -1]]) {
+  for (const [x, z] of [[6.6, -3.9], [7.3, -3.3], [-8.6, -3.6], [8.0, -3.9]]) b.add(new THREE.CylinderGeometry(0.32, 0.36, 0.85, 12).translate(x, 6.03, z), lam("barrel", () => ({ color: "#8a5a34" })));
+  for (const [x, z] of [[5.4, 3.9], [-8.4, 3.2], [6.6, 3.4]]) b.add(new THREE.TorusGeometry(0.34, 0.08, 6, 16).rotateX(Math.PI / 2).translate(x, 5.68, z), ropeM);
+  for (const [x, side] of [[-5.5, 1], [-5.5, -1]]) {
     const z = side * (halfAt(x, 6.2) - 1.2);
     b.add(new THREE.BoxGeometry(1.1, 0.4, 0.9).translate(x, 5.8, z), lam("carriage", () => ({ color: "#7a4a2a" })));
     b.add(spar(V(x, 6.15, z - side * 0.4), V(x, 6.25, z + side * 1.25), 0.14, 0.11, 10), bronze);
@@ -353,11 +356,11 @@ export const buildShip = (): ShipParts => {
   // ---- sails (rebuilt per frame by poseSails) ----
   // emissive = light shining through the canvas (golden backlight makes the sails glow instead of going grey)
   const sailM = twoTone(new THREE.MeshLambertMaterial({ map: sailTex(), side: THREE.DoubleSide, emissive: new THREE.Color("#8a5a32"), emissiveIntensity: 0.55, emissiveMap: sailTex() }), 0.4);
-  const sails: Sail[] = [];
+  const sails: Sail[] = [], sailMeshes: THREE.Mesh[] = [];
   const mkSail = (x: number, yTop: number, h: number, wTop: number, wBot: number, depth: number) => {
     const geo = grid(14, 10, () => [0, 0, 0], (i, j) => [i / 14, 1 - j / 10]);
     const m = new THREE.Mesh(geo, sailM); m.castShadow = true; m.receiveShadow = true; m.frustumCulled = false; group.add(m);
-    const s: Sail = { geo, x, yTop, h, wTop, wBot, depth }; sails.push(s); poseSail(s, 1);
+    const s: Sail = { geo, x, yTop, h, wTop, wBot, depth }; sails.push(s); sailMeshes.push(m); poseSail(s, 1);
   };
   mkSail(MASTS.fore.x + 0.85, 20.8, 9.2, 15.5, 17, 2.4);
   mkSail(MASTS.fore.x + 0.2, 34.3, 11.4, 9.8, 15, 2.0);
@@ -377,7 +380,18 @@ export const buildShip = (): ShipParts => {
   mkFlag([rakeX(L0, 1) - 0.9, 21.3, 0], 6.5, 4.2, 16);
   for (const m of masts) mkFlag([m.x - m.r * 1.3, m.h2 + 0.6, 0], 9, 1.0, 20);
   void r; void NOINK;
-  return { group, lids, guns, sails, flags, ports };
+  // ---- ballast: grey stones in the hold (count animated in the cutaway) ----
+  const ballast = new THREE.InstancedMesh(new THREE.DodecahedronGeometry(0.32, 0), lam("ballast", () => ({ color: "#8d8a86" })), 420);
+  { const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), rr = rng(77);
+    for (let i = 0; i < 420; i++) {
+      // fill from the keel up: layer by layer across the hold, aft of the cut and forward of it alike
+      const layer = Math.floor(i / 60), x = -12 + 26 * rr(), y = -4.25 + 0.38 * layer + 0.12 * rr(), w = Math.max(0.3, halfAt(x, y + 0.3) - 0.45);
+      e.set(rr() * 6, rr() * 6, rr() * 6); q.setFromEuler(e);
+      const k = 0.8 + 0.5 * rr();
+      ballast.setMatrixAt(i, m4.compose(V(x, y, (rr() * 2 - 1) * w), q, V(k, k * 0.8, k)));
+    }
+    ballast.count = 120; ballast.castShadow = true; ballast.receiveShadow = true; ballast.frustumCulled = false; group.add(ballast); }
+  return { group, lids, guns, sails, flags, ports, sailMeshes, ballast, hullMat: hullM as THREE.MeshLambertMaterial };
 };
 
 /** sail cloth: hangs from its yard (top edge straight), billows forward (+x) by `fill` (0 slack .. 1 full) */
@@ -416,4 +430,19 @@ export const posePorts = (sp: ShipParts, open: (d: number, side: number, k: numb
     sp.guns.setMatrixAt(i, m4.compose(p.set(pt.x, pt.y - 0.05, pt.z - pt.side * (2.5 - 1.15 * out)), q, one));
   });
   sp.lids.instanceMatrix.needsUpdate = true; sp.guns.instanceMatrix.needsUpdate = true;
+};
+
+/** cutaway: clip every ship material at a world-space plane (null = off). Only recompiles when it switches. */
+let clipOn = false;
+export const setClip = (sp: ShipParts, plane: THREE.Plane | null) => {
+  const on = !!plane;
+  sp.group.traverse((o) => {
+    const m = o as THREE.Mesh;
+    if (!m.isMesh) return;
+    for (const mat of Array.isArray(m.material) ? m.material : [m.material]) {
+      if (on) mat.clippingPlanes = [plane!]; else mat.clippingPlanes = null;
+      if (on !== clipOn) mat.needsUpdate = true;
+    }
+  });
+  clipOn = on;
 };

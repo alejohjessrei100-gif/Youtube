@@ -48,7 +48,8 @@ const useKit = () => {
 
 const Inner: React.FC<{ id: number; kit: Kit }> = ({ id, kit }) => {
   const f = useCurrentFrame();
-  const { camera, scene } = useThree();
+  const { camera, scene, gl } = useThree();
+  gl.localClippingEnabled = true;
   const world = useMemo(() => new World(kit), [kit]);
   const target = useMemo(() => new THREE.Vector3(), []);
   const on = useMemo(toggles, []);

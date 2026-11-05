@@ -48,11 +48,14 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,Montserrat Black,150,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,13,7,2,50,50,720,1
+Style: Cap,Montserrat Black,150,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,13,7,2,50,50,MARGINV,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
+# MarginV from the bottom (1440 x 2560): 720 = baseline at 72 % (cup). CAP_MARGINV=950 lifts it to ~63 %, clear of the
+# Shorts title / channel overlay at the bottom and the button column on the right.
+head = head.replace("MARGINV", os.environ.get("CAP_MARGINV", "720"))
 open(sys.argv[2], "w").write(head + "\n".join(lines) + "\n")
 print(len(groups), "captions")
 for g in groups: print(f"{g[0]['s']:6.2f}  {' '.join(clean(w['w']) for w in g)}")

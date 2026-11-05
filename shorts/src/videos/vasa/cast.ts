@@ -5,7 +5,7 @@
 // Cards, effects and blobs live on the NOINK layer so the world ink pass never outlines their quads.
 import * as THREE from "three";
 import { Pen, bodyFront, bodySide, fxGlow, fxShadow, fxContact, fxBurst, fxPuff, fxSplash, INK, Outfit, Expr, FrontOpts, SideOpts, townsfolk, SKIN } from "./toon";
-import { FPS, SHOTS, V3, smooth, clamp01, W, SAILORS, shipToWorld, shipUp, shipPose, LION, portX, PORT_LO, PORT_HI, halfAt, lidOpenAt, BREEZE_HIT, QUAY_Y, CROWD_CAM } from "./story";
+import { FPS, SHOTS, V3, smooth, clamp01, W, SAILORS, shipToWorld, shipUp, shipPose, LION, portX, PORT_LO, PORT_HI, halfAt, lidOpenAt, BREEZE_HIT, QUAY_Y, CROWD_CAM, MOOR_X, KING_WALK, KING_STOP, BOAT, crewSide, RUNS, ADMIRAL, GUSTS, CUT_X, BALLAST, UNDER_X, SEABED, CROWD61_CAM, RAISE_X, MUSEUM_X } from "./story";
 import { LIGHTS } from "./lights";
 import { NOINK } from "./ink";
 import { cardShade, blobMaterial, CARD_K } from "./cardshade";
@@ -283,6 +283,43 @@ const fxCap = (p: Pen, col: string) => {
   p.poly([[40, 110], [160, 110], [160, 128], [40, 128]], "#8a2e26", 8);
 };
 
+/** the sea pouring in at a port: a curling foam crest over blue water (400 x 260), ph animates the curl */
+const fxGush = (p: Pen, ph: number) => {
+  const g = p.g, w = 14 * Math.sin(ph * 6.283);
+  g.lineJoin = "round";
+  g.fillStyle = "#3f8fd6"; g.strokeStyle = INK; g.lineWidth = 9;
+  g.beginPath(); g.moveTo(20, 250); g.quadraticCurveTo(60, 120 + w, 170, 70); g.quadraticCurveTo(300, 30, 360, 120 - w); g.quadraticCurveTo(300, 110, 270, 160); g.lineTo(380, 250); g.closePath(); g.fill(); g.stroke();
+  g.fillStyle = "#f4fbff";
+  g.beginPath(); g.moveTo(120, 110 + w * 0.5); g.quadraticCurveTo(220, 40, 350, 112 - w); g.quadraticCurveTo(290, 92, 262, 140); g.quadraticCurveTo(200, 90, 120, 110 + w * 0.5); g.fill(); g.stroke();
+  for (let k = 0; k < 6; k++) { const a = ph * 6.283 + k; g.beginPath(); g.arc(150 + 40 * k + 8 * Math.sin(a), 60 - 18 * Math.cos(a) - (k % 2) * 14, 9 + (k % 3) * 3, 0, 7); g.fill(); g.stroke(); }
+};
+/** centre-of-gravity symbol: quartered black / yellow disc with a white rim (256) */
+const fxCG = (p: Pen) => {
+  const g = p.g, c = 128, r = 96;
+  g.fillStyle = "#ffffff"; g.beginPath(); g.arc(c, c, r + 16, 0, 7); g.fill();
+  for (let k = 0; k < 4; k++) { g.fillStyle = k % 2 ? "#f3c22c" : "#1b1520"; g.beginPath(); g.moveTo(c, c); g.arc(c, c, r, (k * Math.PI) / 2, ((k + 1) * Math.PI) / 2); g.closePath(); g.fill(); }
+  g.strokeStyle = "#1b1520"; g.lineWidth = 10; g.beginPath(); g.arc(c, c, r + 16, 0, 7); g.stroke();
+};
+const fxRedRing = (p: Pen) => { const g = p.g; g.strokeStyle = "#ff3b2f"; g.lineWidth = 22; g.beginPath(); g.arc(128, 128, 96, 0, 7); g.stroke(); g.strokeStyle = "#1b1520"; g.lineWidth = 6; g.beginPath(); g.arc(128, 128, 108, 0, 7); g.stroke(); };
+const fxFish = (p: Pen, kind: number, fk: number) => {
+  const g = p.g, col = ["#f0a23a", "#6fb8d8", "#d8d0b8"][kind], w = 8 * Math.sin(fk * 6.283);
+  g.lineJoin = "round";
+  g.fillStyle = col; g.strokeStyle = INK; g.lineWidth = 8;
+  g.beginPath(); g.ellipse(130, 80, 90, 44, 0, 0, 7); g.fill(); g.stroke();
+  g.beginPath(); g.moveTo(215, 80); g.lineTo(285, 40 + w); g.lineTo(285, 120 + w); g.closePath(); g.fill(); g.stroke();
+  g.fillStyle = INK; g.beginPath(); g.arc(80, 70, 9, 0, 7); g.fill();
+};
+const fxRay = (p: Pen) => { const g = p.g, gr = g.createLinearGradient(0, 0, 0, 512); gr.addColorStop(0, "rgba(220,255,250,0.55)"); gr.addColorStop(1, "rgba(220,255,250,0)"); g.fillStyle = gr; g.fillRect(24, 0, 80, 512); };
+const fxBubble = (p: Pen) => { const g = p.g; g.strokeStyle = "rgba(230,255,255,0.9)"; g.lineWidth = 6; g.beginPath(); g.arc(32, 32, 22, 0, 7); g.stroke(); g.fillStyle = "rgba(255,255,255,0.9)"; g.beginPath(); g.arc(24, 24, 5, 0, 7); g.fill(); };
+/** 1961 / today: everyday clothes */
+const modern = (v: number): Outfit => {
+  const coats = ["#d8d2c4", "#3a4a6a", "#8a3a3a", "#2f6a5a", "#b8863a", "#5a5a66", "#7b5ac9"], hair = ["#2a1d18", "#7a4a26", "#b9b2a8", "#d9a441", "#4a3020"];
+  const skins = ["#ffe2c2", "#f5c9a0", "#ecd0b6", "#c99067", "#e8b48c"];
+  const o: Outfit = { jacket: coats[v % 7], pants: "#3a3f52", boots: "#2a2626", skin: skins[v % 5], hat: "hair", hair: hair[v % 5], glasses: v % 3 === 0, noButtons: v % 2 === 0 };
+  if (v % 5 === 3) return { ...o, dress: ["#c25a7a", "#5a8fc2", "#d9a441"][v % 3] };
+  if (v % 7 === 5) return { ...o, hat: "cap", cap: "#4a4a52" };
+  return o;
+};
 const gulls = (out: Stage, t: number, c: V3, n = 4, spread = 30) => {
   for (let k = 0; k < n; k++) {
     const ph = hh(k, 41), x = c[0] + spread * (hh(k, 42) - 0.5) + 3 * Math.sin(t * 0.4 + ph * 6), y = c[1] + 6 * hh(k, 43) + Math.sin(t * 0.7 + k), z = c[2] + spread * 0.4 * (hh(k, 44) - 0.5);
@@ -351,10 +388,10 @@ export const stage = (id: number, t: number, cam: CamInfo): Stage => {
       const pp = shipToWorld([x, y, -halfAt(x, y) - 1.2], f);
       out.fx.push({ key: `puff${q}`, cw: 300, ch: 300, draw: (p) => fxPuff(p, q), x: pp[0], y: pp[1], z: pp[2], w: 1.3, h: 1.3, soft: true });
     }
-  } else if (s.place === "harbour") {
+  } else if (id === 4 || id === 13) {
     // the crowd on the quay, cheering and waving hats between the lens and the ship
     // laid out across the view from the lens (fixed in the world), 11-17 m out, three loose rows
-    const c0 = CROWD_CAM(96), P0 = shipPose(96), dx = P0.x + 4 - c0[0], dz = -c0[2], dl = Math.hypot(dx, dz), fx2 = dx / dl, fz2 = dz / dl;
+    const c0: V3 = id === 4 ? CROWD_CAM(96) : [MOOR_X + 40, QUAY_Y + 2.6, -64], P0 = shipPose(id === 4 ? 96 : 560), dx = P0.x + 4 - c0[0], dz = -c0[2], dl = Math.hypot(dx, dz), fx2 = dx / dl, fz2 = dz / dl;
     for (let k = 0; k < 16; k++) {
       const row = k % 3, across = -4.6 + (k * 0.62) + 0.3 * hh(k, 61), d = 12 + row * 1.7 + 0.6 * hh(k, 62);
       const x = c0[0] + fx2 * d + fz2 * across, z = Math.min(-45.5, c0[2] + fz2 * d - fx2 * across);
@@ -366,10 +403,124 @@ export const stage = (id: number, t: number, cam: CamInfo): Stage => {
     bowWave(out, t, f, 2.6);
     // the gust sets off across the water toward the sails
     const u = (f - 108) / 30;
-    if (u > 0 && u < 1.1) {
+    if (id === 4 && u > 0 && u < 1.1) {
       const ph = Math.round(((f * 0.07) % 1) * 8) / 8;
       out.fx.push({ key: `wind${ph}`, cw: 600, ch: 300, draw: (p) => fxWind(p, ph), x: P.x + 34 - 26 * u, y: 3 + 12 * u, z: -26 + 22 * u, w: 6 + 4 * u, h: 3 + 2 * u });
     }
+  } else if (id >= 6 && id <= 7) {
+    // the king and two courtiers on the pier
+    const kingO: Outfit = { jacket: "#2f4f9a", pants: "#d9c48a", boots: "#3a2a20", hat: "crown", hair: "#7a4a26", beard: "#7a4a26", moustache: "#7a4a26", sash: "#e2ae45", buttons: "#e2ae45", build: "stout", skin: "#f2c9a6" };
+    const court = (v: number): Outfit => ({ jacket: v ? "#5a2a4a" : "#2f5a4a", pants: "#2a2a30", boots: INK, hat: "brim", cap: v ? "#1d1b22" : "#3a2a20", trim: v ? "#f4f0e6" : undefined, moustache: "#4a3020", buttons: "#d9dde0", skin: v ? "#ecd0b6" : "#f5c9a0" });
+    const k = id === 6 ? KING_WALK(f) : KING_STOP, walking = id === 6 && f < 240;
+    const kex: Expr = id === 6 ? "smile_closed" : f < W.terrify ? "grin" : "laugh";
+    put(cam, out, { i: 70, o: kingO, okey: "king" }, k[0], k[1], k[2], walking ? { mode: "stroll", phase: t * 1.0, expr: kex } : { mode: "stand", expr: kex, pose: "point", look: 1, headTilt: -10 }, t, 1.3);
+    for (const [j, dx] of [[0, -1.25], [1, 1.25]] as [number, number][]) {
+      const c = id === 6 ? KING_WALK(f - 16) : KING_STOP;
+      put(cam, out, { i: 71 + j, o: court(j), okey: `court${j}` }, c[0] + dx, c[1], c[2] + 1.7, walking ? { mode: "stroll", phase: t * 1.0 + 0.3 * j, expr: "smile" } : { mode: "stand", expr: j ? "grin" : "smile", look: j ? -1 : 1, pose: j ? "up" : undefined, k: t }, t, 1.1);
+    }
+    gulls(out, t, [MOOR_X - 6, 30, -4], 4, 30);
+  } else if (id === 8) {
+    // two foreign observers in a rowboat: one gasps behind his hand, one trembles
+    const spy = (v: number): Outfit => ({ jacket: v ? "#3f6f4a" : "#8c3b4a", pants: "#3a3240", boots: INK, hat: "brim", cap: v ? "#4a3a2e" : "#2a2630", trim: v ? undefined : "#c0353a", moustache: v ? undefined : "#3a2a20", skin: v ? "#f5c9a0" : "#ecd0b6", noButtons: true });
+    const sh = 3.5 * Math.sin(t * 38) * smooth((f - 286) / 6);
+    put(cam, out, { i: 80, o: spy(0), okey: "spy0" }, BOAT[0] - 0.9, -0.12, BOAT[2] + 0.1, { mode: "sit", expr: f < 288 ? "nervous" : "shock", pose: "cover", look: -1, tilt: sh, headTilt: -6 }, t, 1.4, { blob: false });
+    put(cam, out, { i: 81, o: spy(1), okey: "spy1" }, BOAT[0] + 0.8, -0.12, BOAT[2] - 0.1, { mode: "sit", expr: "nervous", look: -1, facing: -1, tilt: -sh, headTilt: 8 }, t, 1.6, { blob: false });
+    gulls(out, t, [MOOR_X + 4, 32, 0], 4, 30);
+  } else if (id === 9 || id === 11 || id === 12) {
+    // the thirty: a pack of six columns x five rows that runs across the waist and back (crewSide), seen side-on
+    const COLS = [-4.2, -2.8, 1.5, 2.7, 4.0, 5.2], side = crewSide(f), runIdx = RUNS.findIndex(([a, b]) => f >= a && f < b);
+    for (let c = 0; c < 6; c++) for (let r = 0; r < 5; r++) {
+      const n = c * 5 + r, lag = (hh(n, 71) - 0.5) * 4, sd = crewSide(f - lag);
+      const x = COLS[c] + 0.25 * (hh(n, 72) - 0.5), z = sd * 2.3 + (r - 2) * 0.8 + 0.2 * (hh(n, 73) - 0.5);
+      const w = shipToWorld([x, 5.6, z], f), running = runIdx >= 0 && Math.abs(sd) < 0.98;
+      const o: Outfit = { jacket: ["#d9c8a0", "#6f86a8", "#a8825a", "#c9b48a", "#7a8a6a"][n % 5], pants: ["#5a4a3a", "#4a3a2e", "#3b3f52"][n % 3], boots: INK, hat: "knit", cap: ["#b8443a", "#2f5a8a", "#6b4a2e", "#3f6a3a", "#c98a2a"][(n * 3) % 5], noButtons: true, skin: ["#ffe2c2", "#f5c9a0", "#ecd0b6", "#e8b48c"][n % 4], moustache: n % 4 === 1 ? "#4a3020" : undefined };
+      const who: Who2 = { i: 100 + n, o, okey: `crew${n}` };
+      if (running && id === 9) {
+        const toPort = RUNS[runIdx][2] < 0, mirror = (toPort ? -1 : 1) * cam.right.z < 0;
+        const pl = person(cam, who, w[0], w[1], w[2], { side: true, mirror }, {}, { mode: "march", phase: t * 2.6 + hh(n, 74), expr: n % 3 ? "stern" : "grin", stride: 1.4 }, 1);
+        pl.roll = rollFor(cam, w[0], w[2], up); out.places.push(pl); blob(out, w[0], w[1] + 0.03, w[2], 1);
+      } else {
+        const ex: Expr = id === 9 ? (n % 2 ? "grin" : "smile") : f < W.stopped ? "nervous" : n % 3 ? "shock" : "dazed";
+        put(cam, out, who, w[0], w[1], w[2], { mode: "stand", expr: ex, facing: (n % 2 ? 1 : -1) as -1 | 1, look: n % 2 ? 1 : -1, pose: id >= 11 && n % 4 === 0 ? "cover" : undefined }, t, id === 9 ? 1.2 : 1.5, { up });
+      }
+    }
+    if (id >= 11) {
+      const adm: Outfit = { jacket: "#2a2a3a", pants: "#2a2a3a", boots: INK, hat: "brim", cap: "#1d1b22", trim: "#f4f0e6", sash: "#c0353a", moustache: "#5a3a22", buttons: "#e2ae45", build: "stout", skin: "#f2c9a6" };
+      const a = shipToWorld(ADMIRAL, f);
+      if (id === 11) put(cam, out, { i: 90, o: adm, okey: "adm" }, a[0], a[1], a[2], { mode: "stand", expr: f < W.stopped - 2 ? "nervous" : "shock", pose: "up", k: f < W.stopped ? t * 0.8 : 0.25 }, t, f < W.stopped ? 1.2 : 1.8, { up });
+      else { const sh2 = smooth((f - 545) / 7); put(cam, out, { i: 90, o: adm, okey: "adm" }, a[0], a[1], a[2], { mode: "stand", expr: "smile_closed", pose: "shrug", k: sh2, headTilt: 12 * sh2 }, t, 1.4, { up }); }
+    }
+  } else if (id >= 14 && id <= 17) {
+    // the sinking: the gusts, spray along the port side, the sea pouring through the lower gun ports, men in the water
+    for (const [k, g0] of GUSTS.entries()) {
+      const u = (f - g0 + 14) / 22;
+      if (u > 0 && u < 1.1 && (id === 14 || id === 15)) {
+        const ph = Math.round(((f * 0.07) % 1) * 8) / 8, sz = k ? 1.6 : 1;
+        out.fx.push({ key: `wind${ph}`, cw: 600, ch: 300, draw: (p) => fxWind(p, ph), x: P.x + 26 - 24 * u, y: 4 + 14 * u, z: -22 + 20 * u, w: 7 * sz, h: 3.5 * sz });
+      }
+    }
+    const heel = P.heel;
+    if (heel > 0.18) for (let k = 2; k < 11; k++) {
+      // lower port k on the port side: where it meets the sea, a white gush pours in
+      const x = portX(0, k), pw = shipToWorld([x, PORT_LO, -halfAt(x, PORT_LO) - 0.2], f);
+      if (pw[1] > 1.6) continue;
+      // a foaming gush where the sea climbs over the sill and pours in (at the waterline against the hull)
+      const ph = Math.round(((t * 2.2 + k * 0.31) % 1) * 6) / 6, hw = shipToWorld([x, 0, -halfAt(x, 0.6) - 0.15], f);
+      out.fx.push({ key: `gush${ph}`, cw: 400, ch: 260, draw: (p) => fxGush(p, ph), x: hw[0], y: 0.45, z: Math.min(hw[2], pw[2]) - 0.25, w: 2.6, h: 1.7 });
+    }
+    if (id >= 15) spray(out, t, shipToWorld([2, 0.5, -6.5], f), 26, 30, 2.5);
+    if (id === 17) for (let k = 0; k < 6; k++) {
+      // sailors in the water (heads and shoulders above the surface), waving
+      const x = P.x - 14 + 5.4 * k, z = -11 - 2.2 * (k % 3), o: Outfit = { jacket: ["#d9c8a0", "#6f86a8", "#a8825a"][k % 3], pants: "#4a3a2e", boots: INK, hat: "knit", cap: ["#b8443a", "#2f5a8a", "#c98a2a"][k % 3], noButtons: true };
+      put(cam, out, { i: 140 + k, o, okey: `swim${k}` }, x, -1.25 + 0.06 * Math.sin(t * 3 + k), z, { mode: "stand", expr: k % 2 ? "shock" : "nervous", pose: "up", k: t * 1.5 + k }, t, 1.6, { blob: false });
+    }
+    gulls(out, t, [P.x - 10, 34, -6], 5, 40);
+  } else if (id === 18 || id === 19) {
+    // the cutaway: a centre-of-gravity marker that sits high, then drops as the ballast pours in; the ports flash red
+    const cg = 6.4 - 5.0 * smooth((f - BALLAST[0]) / (BALLAST[1] - BALLAST[0] + 6)), c = shipToWorld([CUT_X + 1.2, cg, 0], f);
+    out.fx.push({ key: "cgmark", cw: 256, ch: 256, draw: (p) => fxCG(p), x: c[0], y: c[1], z: c[2], w: 1.5, h: 1.5 });
+    if (id === 19 && f >= W.waterline - 6) for (const sd of [-1, 1]) {
+      const pw = shipToWorld([CUT_X + 0.6, PORT_LO, sd * (halfAt(0.6, PORT_LO) + 0.3)], f), on = Math.floor((f - W.waterline) / 5) % 2 === 0;
+      if (on) out.fx.push({ key: "redring", cw: 256, ch: 256, draw: (p) => fxRedRing(p), x: pw[0] + 0.8, y: pw[1], z: pw[2], w: 2.2, h: 2.2 });
+    }
+  } else if (id === 20 || id === 21) {
+    // the sea bed: fish, shafts of light, drifting silt; on the lift, a mud cloud and bubbles
+    for (let k = 0; k < 9; k++) {
+      const u = (t * 0.08 + hh(k, 81)) % 1, x = UNDER_X - 30 + 60 * u, y = SEABED + 6 + 14 * hh(k, 82) + Math.sin(t + k), z = -18 + 30 * hh(k, 83);
+      const fk = Math.round(((t * 2 + hh(k, 84)) % 1) * 4) / 4;
+      out.fx.push({ key: `fish${k % 3}_${fk}`, cw: 300, ch: 160, draw: (p) => fxFish(p, k % 3, fk), x, y, z, w: 1.2 + 0.6 * hh(k, 85), h: 0.65 + 0.3 * hh(k, 85) });
+    }
+    for (let k = 0; k < 6; k++) out.fx.push({ key: "ray", cw: 128, ch: 512, draw: (p) => fxRay(p), x: UNDER_X - 20 + 9 * k + 3 * Math.sin(t * 0.3 + k), y: SEABED + 18, z: -6 + 4 * hh(k, 86), w: 4, h: 36, soft: true, rot: 0.25 });
+    spray(out, t, [UNDER_X, SEABED + 5, -8], 30, 50, 18);
+    if (id === 21) {
+      const u = clamp01((f - 990) / 24);
+      for (let k = 0; k < 14; k++) out.fx.push({ key: "mud", cw: 256, ch: 256, draw: (p) => fxGlow(p, "120,112,84"), x: UNDER_X - 22 + 44 * hh(k, 87), y: SEABED + 1 + 4 * u * hh(k, 88), z: -6 + 12 * hh(k, 89), w: 5 + 6 * u, h: 4 + 5 * u, soft: true });
+      for (let k = 0; k < 24; k++) { const b2 = (t * 0.7 + hh(k, 90)) % 1; out.fx.push({ key: "bubble", cw: 64, ch: 64, draw: (p) => fxBubble(p), x: UNDER_X - 15 + 30 * hh(k, 91), y: SEABED + 8 + 20 * b2, z: -8 + 4 * hh(k, 92), w: 0.3, h: 0.3, soft: true }); }
+    }
+  } else if (id === 22) {
+    // 1961: the crowd on the quay, flashbulbs; water streaming off the hull
+    const c0 = CROWD61_CAM, dx = RAISE_X + 2 - c0[0], dz = -c0[2], dl = Math.hypot(dx, dz), fx2 = dx / dl, fz2 = dz / dl;
+    for (let k = 0; k < 14; k++) {
+      const row = k % 3, across = -4.2 + k * 0.64 + 0.3 * hh(k, 93), d = 12 + row * 1.7 + 0.6 * hh(k, 94);
+      const x = c0[0] + fx2 * d + fz2 * across, z = Math.min(-45.5, c0[2] + fz2 * d - fx2 * across);
+      const o = modern(k), photo = k % 4 === 1;
+      put(cam, out, { i: 160 + k, o, okey: `m61_${k}` }, x, QUAY_Y, z, { mode: "stand", expr: (["grin", "shock", "laugh", "relief_open"] as Expr[])[k % 4], pose: photo ? "cover" : k % 3 === 0 ? "point" : "up", k: t * 1.3 + hh(k, 95), facing: k % 2 ? 1 : -1, look: k % 2 ? 1 : -1 }, t, 1.4);
+      if (photo && Math.floor((t * 3 + hh(k, 96) * 3) % 3) === 0 && ((f + k * 7) % 23) < 3) out.fx.push({ key: "flash", cw: 500, ch: 500, draw: (p) => fxBurst(p, 0.25, "#ffffff", 10, 40, 200), x, y: QUAY_Y + 1.75, z: z + 0.3, w: 0.9, h: 0.9 });
+    }
+    for (let k = 0; k < 10; k++) { const pw = shipToWorld([-16 + 3.4 * k, 0.3, -(halfAt(-16 + 3.4 * k, 1) + 0.2)], f), q = Math.round(((t + k * 0.13) % 1) * 10) / 10; out.fx.push({ key: `splash${q}`, cw: 800, ch: 800, draw: (p) => fxSplash(p, q), x: pw[0], y: 0.4, z: pw[2], w: 1.6, h: 1.6 }); }
+    gulls(out, t, [RAISE_X, 30, -6], 6, 40);
+  } else if (id === 23 || id === 24) {
+    // the museum: visitors on the galleries, spotlight glows, a flash on "capsule"
+    if (id === 23) for (let k = 0; k < 10; k++) {
+      const x = MUSEUM_X + 17 + 1.25 * k + 0.4 * hh(k, 97), z = -17.6 - 1.1 * (k % 2);
+      put(cam, out, { i: 180 + k, o: modern(k + 20), okey: `mus${k}` }, x, 2.0, z, { mode: "stand", expr: (["grin", "shock", "smile", "relief_open"] as Expr[])[k % 4], pose: k % 3 === 0 ? "point" : undefined, look: 1, facing: k % 2 ? 1 : -1 }, t, 1.1);
+    } else {
+      const kid: Outfit = { jacket: "#f08a2c", pants: "#3b5b9a", boots: "#f4f1ea", hat: "cap", cap: "#e2453c", build: "kid" };
+      put(cam, out, { i: 190, o: kid, okey: "kid" }, MUSEUM_X + 32.58, 5.0, -5.94, { mode: "stand", expr: f < W.capsule ? "grin" : "laugh", pose: "point", look: -1, facing: -1, headTilt: -8 }, t, 1.5);
+      put(cam, out, { i: 191, o: modern(3), okey: "parent" }, MUSEUM_X + 31.67, 5.0, -5.8, { mode: "stand", expr: f < W.capsule ? "shock" : "relief_open", pose: "cover", look: -1 }, t, 1.2);
+      if (f >= W.capsule && f < W.capsule + 6) out.fx.push({ key: `flash${f - W.capsule}`, cw: 500, ch: 500, draw: (p) => fxBurst(p, (f - W.capsule) / 6, "#ffffff", 12, 40, 230), x: MUSEUM_X + 31.9, y: 6.7, z: -5.6, w: 1.6, h: 1.6 });
+    }
+    for (let k = 0; k < 6; k++) glow(out, MUSEUM_X - 20 + 11 * k, 25, -10 + 6 * (k % 2), 7, "255,214,150", "spot");
   }
   void W; void townsfolk; void fxBurst; void glow; void clamp01;
   return out;

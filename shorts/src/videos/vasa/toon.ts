@@ -472,6 +472,17 @@ const hatOn = (p: Pen, o: Outfit, hp: P2[], H: Blob, cx: number, hc: number, lig
     p.poly(body, null, ow);
     const [bx, by] = R([[cx, yb + 1 * u]])[0];
     p.ell(bx, by, 0.45 * W, 0.05 * HH, "#1d1b22", ow, 0, 360, (a * 180) / Math.PI);
+  } else if (o.hat === "crown") {
+    // a king: his hair, then a gilded crown with five points and three red stones
+    hatOn(p, { ...o, hat: "hair" }, hp, H, cx, hc, light, seed, facing, side);
+    const yb = crown + 0.2 * HH, ht = 0.3 * HH, wb = 0.34 * W, gold = "#e2ae45";
+    const pts: P2[] = [[cx - wb, yb], [cx + wb, yb]];
+    for (let k = 4; k >= 0; k--) { const x = cx - wb + (2 * wb * k) / 4; pts.push([x, yb - ht - (k % 2 ? 0 : 0.12 * HH)]); if (k) pts.push([x - wb / 4, yb - ht * 0.45]); }
+    const body = R(pts);
+    p.shadedFill(body, gold, mul(gold, SH_FELT), light, wb, 0.4);
+    p.poly(body, null, ow);
+    p.band(R([[cx - wb - 2 * u, yb - 3 * u], [cx + wb + 2 * u, yb - 3 * u]]), "#c9902e", 8 * u, 1.6 * u, "round");
+    for (const dx of [-0.55, 0, 0.55]) { const [qx, qy] = R([[cx + dx * wb, yb - 0.1 * HH]])[0]; p.ell(qx, qy, 5 * u, 5 * u, "#c0353a", 1.6 * u); }
   } else if (o.hat === "brim") {
     // 1620s felt hat: tall tapered crown, wide soft brim tipped by the head tilt, optional plume (o.trim)
     const col = o.cap ?? "#2a2630", yb = crown + 0.2 * HH, ht = 0.5 * HH, wb = 0.3 * W, wt = 0.24 * W;
@@ -729,7 +740,7 @@ export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
   p.shadedFill(hp, skin, mul(skin, SH_SKIN), light, H.a, 0.62, 0.45, 1.55);
   p.inkRing(hp, ow, thick);
   hatOn(p, o, hp, H, 300, hc, light, seed, facing, false);
-  const brim = !!o.hat && o.hat !== "hair" && o.hat !== "bonnet" && o.hat !== "cap" && o.hat !== "wig" && o.hat !== "knit" && o.hat !== "laurel";
+  const brim = !!o.hat && o.hat !== "hair" && o.hat !== "bonnet" && o.hat !== "cap" && o.hat !== "wig" && o.hat !== "knit" && o.hat !== "laurel" && o.hat !== "crown";
   if (o.beard) {
     const bp: P2[] = [];
     for (let i = 0; i <= 16; i++) { const t = rad(10 + (160 * i) / 16); bp.push([300 + 0.96 * H.a * Math.cos(t), hc + 0.25 * H.b + 0.95 * H.b * Math.sin(t) + (i % 2 ? 4 * u : 0)]); }
