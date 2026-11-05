@@ -24,6 +24,16 @@ User rules that apply:
 - Final export 2K vertical: 1440x2560, `--scale 1.3333`.
 - Opus max verifies every check.
 - Save after every step.
+- Characters are never stationary (user rule, 2026-11-05). Every character on screen, every frame, has:
+  - Idle life: a slow breathing bob (1-2 % of height, 0.8-1.2 Hz, seeded phase per character), a gentle weight-shift
+    sway (1-3 deg tilt), a head bob or nod on stressed words, and blinks. Crowds use per-character phases.
+  - Wobbly line boil: the outline and shapes redraw with a small seeded jitter that changes every 2-3 frames
+    (hand-drawn "boil"), so even a held pose shimmers.
+  - Squash and stretch on every action: anticipation, overshoot, settle (e.g. jumps, shrugs, sword swings, cheers).
+  - Secondary motion: hair, wigs, coat tails, hat brims and held props lag and bounce after the body moves.
+  - Real shading and lighting on the cards: a two-tone cel shadow on head and body from the scene's sun direction, a rim
+    or bounce light on the far edge, and cast or contact shadows on the ground. Night and golden scenes tint them.
+  - Budget: the boil gives a new canvas per character every 2-3 frames, so the render runs ~20-40 % slower. Plan for it.
 - "Just do it" once the script is approved.
 
 ## Pipeline
