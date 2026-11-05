@@ -1,6 +1,18 @@
 # Where we left off (2026-11-05, late)
 
-## LATEST: cup short v2 (feedback applied in code, NOT rendered yet)
+## STARTING A NEW SHORT (the user's next request)
+The cup short is parked: v1 was delivered, v2 fixes are in code, the user does not want it continued for now.
+For a NEW storyline:
+1. Copy `src/videos/cup/` to `src/videos/<slug>/`. It is the most advanced engine: line boil, idle life (`alive()`),
+   strong shading, the `ZOOM` framing factor, a candle-light preset, the dichroic shader as an example of physical FX.
+   Register a new composition in `src/index.ts`.
+2. Follow SKILL.md: 10 ideas (fact-checked, retention-first) -> script (80-105 words, retention map + 2 alt hooks)
+   -> the user records the ElevenLabs voiceover -> ASR timings -> render the 5 s hook test for approval -> full build
+   -> one contact-sheet check -> 2K render -> captions (`scripts/captions.py` + a phrases file) -> send.
+3. Lessons from the cup v1 feedback: frame WIDE (subjects no bigger than the cup v2 framings), keep shading clearly
+   visible, keep every character fully in frame, keep the camera out of geometry.
+
+## Cup short v2 (parked: feedback applied in code, NOT rendered)
 User feedback on the v1 render (`cup/The_Cup_That_Changes_Colour_2K_captions.mp4`):
 1. Framing too tight. All cameras now sit `ZOOM = 1.38`x further back (`src/videos/cup/story.ts`), so subjects are
    about 72 % of their old size. The micro-world and the screen push-in are not zoomed. S2, S4 and S7 were widened
