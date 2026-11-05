@@ -17,14 +17,7 @@
   https://www.discovermagazine.com/the-sciences/the-vasa-warship-sank-after-only-25-minutes-of-sailing-taking-30-lives-with
 
 ## Script
-Sweden built a warship with sixty-four cannons, and it lost a fight to a breeze.
-You see, in sixteen twenty-eight, Sweden's king ordered a ship to terrify Europe.
-Before it sailed, thirty sailors ran across the deck. After three runs, it nearly tipped over.
-So they stopped the test, and sailed anyway.
-One gust tilted it. A second poured the sea through its open gun ports, thirteen hundred metres out.
-It was top-heavy, and adding weight below would have dropped the gun ports to the waterline.
-Three hundred thirty-three years later, they raised it, ninety-eight percent intact.
-A terrible warship. A perfect time capsule.
+Sweden built a warship with sixty-four cannons, and it lost a fight to a breeze. You see, in sixteen twenty-eight, Sweden's king ordered a ship to terrify Europe. Before it sailed, thirty sailors ran across the deck. After three runs, it nearly tipped over. So they stopped the test, and sailed anyway. One gust tilted it. A second poured the sea through its open gun ports, thirteen hundred metres out. It was top-heavy, and adding weight below would have dropped the gun ports to the waterline. Three hundred thirty-three years later, they raised it, ninety-eight percent intact. A terrible warship. A perfect time capsule.
 
 ## Retention map (estimated; re-time from the ASR)
 - 0-5.6 s ABSURD HOOK: a 64-cannon warship lost a fight to a breeze. Open question: how? Frame 0: a sailor's face
