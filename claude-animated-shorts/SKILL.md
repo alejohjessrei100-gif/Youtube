@@ -24,6 +24,8 @@ User rules that apply:
 - Final export 2K vertical: 1440x2560, `--scale 1.3333`.
 - Opus max verifies every check.
 - Save after every step.
+- Length: every video is 30-40 s (user rule, 2026-11-05). The user's ElevenLabs narrator runs ~2.7 words/s including
+  pauses (Jenkins' Ear: 91 words = 33.3 s), so scripts are 80-105 words (aim ~95). Count before sending a script.
 - Characters are never stationary (user rule, 2026-11-05). Every character on screen, every frame, has:
   - Idle life: a slow breathing bob (1-2 % of height, 0.8-1.2 Hz, seeded phase per character), a gentle weight-shift
     sway (1-3 deg tilt), a head bob or nod on stressed words, and blinks. Crowds use per-character phases.
