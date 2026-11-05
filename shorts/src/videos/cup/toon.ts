@@ -9,8 +9,8 @@ const WHITE = "#ffffff";
 const MOUTH = "#5a1e28";
 const TONGUE = "#e86e78";
 type C3 = [number, number, number];
-const SH_SKIN: C3 = [0.84, 0.8, 0.9]; // measured shadow/lit ratio on skin heads
-const SH_CLOTH: C3 = [0.64, 0.66, 0.74]; // torsos: lit side -> far side ~0.65
+const SH_SKIN: C3 = [0.7, 0.66, 0.84]; // measured shadow/lit ratio on skin heads
+const SH_CLOTH: C3 = [0.52, 0.54, 0.68]; // torsos: lit side -> far side ~0.55 (user: shading must read clearly)
 const SH_FELT: C3 = [0.62, 0.62, 0.7];
 
 export type Build = "adult" | "stout" | "kid";
@@ -646,7 +646,7 @@ export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
     p.gradFill(sp, o.jacket, mul(o.jacket, SH_CLOTH), light);
     p.inkRing(sp, ow * 0.9, thick);
   } else {
-    p.gradFill(tp, o.jacket, mul(o.jacket, SH_CLOTH), light);
+    p.gradFill(tp, o.jacket, mul(o.jacket, SH_CLOTH), light, 0.12);
     p.clip(tp, () => {
       if (o.belt) {
         for (const s of [-1, 1]) p.band([[tcx - s * 0.75 * T.a, chin - 0.05 * HH], [tcx + s * 0.8 * T.a, torsoBot - 0.1 * HH]], o.belt!, 5.5 * u, 1.8 * u);
@@ -713,7 +713,7 @@ export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
   p.rot = Ah ? [rad(Ah), 300, chin, cpx - 300, cpy - chin] : null;
   hatBehind(p, o, H, 300, hc, light, thick, ow, false);
   const hp = blobPts(300, hc, H);
-  p.shadedFill(hp, skin, mul(skin, SH_SKIN), light, H.a);
+  p.shadedFill(hp, skin, mul(skin, SH_SKIN), light, H.a, 0.62, 0.45, 1.55);
   p.inkRing(hp, ow, thick);
   hatOn(p, o, hp, H, 300, hc, light, seed, facing, false);
   const brim = !!o.hat && o.hat !== "hair" && o.hat !== "bonnet" && o.hat !== "cap" && o.hat !== "wig" && o.hat !== "knit" && o.hat !== "laurel";
@@ -836,7 +836,7 @@ export const bodySide = (p: Pen, o: Outfit, opts: SideOpts) => {
   } else if (rifle) { near = [S, [S[0] - 4 * u, S[1] + 0.42 * HH], B0]; far = mode === "march" ? swingArm(rad(30) * nearFwd) : swingArm(0); }
   else { near = swingArm(rad(-30) * nearFwd); far = mode === "march" ? swingArm(rad(30) * nearFwd) : null; }
   if (far) { p.stroke(curve(far[0], far[1], far[2]), 5.2 * u, farArm); p.dot(far[2][0], far[2][1], 5.5 * u); }
-  p.gradFill(tp, o.jacket, mul(o.jacket, SH_CLOTH), light);
+  p.gradFill(tp, o.jacket, mul(o.jacket, SH_CLOTH), light, 0.12);
   p.clip(tp, () => {
     if (o.belt) p.band([[tcx - 0.65 * T.a, chin - 0.05 * HH], [tcx + 0.75 * T.a, torsoBot - 0.1 * HH]], o.belt!, 5.5 * u, 1.8 * u);
     if (o.sash) p.band([[tcx - 1.3 * T.a, torsoBot - 0.32 * HH], [tcx + 1.3 * T.a, torsoBot - 0.32 * HH]], o.sash, 0.13 * HH, 1.8 * u);
@@ -852,7 +852,7 @@ export const bodySide = (p: Pen, o: Outfit, opts: SideOpts) => {
   const hx = 300 + 4 * u;
   hatBehind(p, o, H, hx, hc, light, thick, ow, true);
   const hp = blobPts(hx, hc, H);
-  p.shadedFill(hp, skin, mul(skin, SH_SKIN), light, H.a);
+  p.shadedFill(hp, skin, mul(skin, SH_SKIN), light, H.a, 0.62, 0.45, 1.55);
   p.inkRing(hp, ow, thick);
   hatOn(p, o, hp, H, hx, hc, light, seed, 1, true);
   const brim = !!o.hat && o.hat !== "hair" && o.hat !== "bonnet" && o.hat !== "cap";

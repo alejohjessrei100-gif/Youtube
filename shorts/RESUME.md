@@ -1,4 +1,19 @@
-# Where we left off (2026-11-05)
+# Where we left off (2026-11-05, late)
+
+## LATEST: cup short v2 (feedback applied in code, NOT rendered yet)
+User feedback on the v1 render (`cup/The_Cup_That_Changes_Colour_2K_captions.mp4`):
+1. Framing too tight. All cameras now sit `ZOOM = 1.38`x further back (`src/videos/cup/story.ts`), so subjects are
+   about 72 % of their old size. The micro-world and the screen push-in are not zoomed. S2, S4 and S7 were widened
+   further. The last 3 test stills (frames 50, 145, 215: out/cup/e/u*) were rendered but not reviewed.
+2. Shading barely visible. Now stronger: SH_SKIN [0.7, 0.66, 0.84], SH_CLOTH [0.52, 0.54, 0.68], a broad head
+   gradient (`shadedFill ..., 0.62, 0.45, 1.55`) and the torso gradient flat at 0.12 (`toon.ts`). Checked: reads clearly.
+3. A scientist went out of frame. SCI is now [LBX-0.9] and [LBX+0.95], S10 is wider (fov 50), and S11 starts offset
+   so the push-in stays clear of them. Checked: both in frame.
+NEXT: check stills 50/145/215, run a 1-in-12 contact sheet, render with
+`COMP=CupShort node scripts/render.mjs out/cup/final2 0 1056 100 2 1.3333333333333333`, then run
+`scripts/finish_cup.sh` (change D=out/cup/final to final2) and send the captioned MP4.
+Keep framings this wide (or wider) and the shading this strong in every future short.
+
 
 ## Done
 - Jenkins' Ear short: `ear/Over_a_Single_Ear_2K.mp4` and `ear/Over_a_Single_Ear_2K_captions.mp4`.
