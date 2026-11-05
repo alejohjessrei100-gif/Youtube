@@ -33,7 +33,9 @@ User rules that apply:
   - Put the viewer inside it ("you", or one underdog to follow); mockers get one short spoken line.
   - Escalate in threes, each beat bigger. Every sentence brings a new image and new information: no filler, no
     lecturing ("either way", "historians say" up front). Hedge disputed claims briefly, inside the story.
-  - The "You see," reveal comes late; the last line is a short ironic button that answers or echoes the first line, so
+  - SCRIPT SHAPE (user rule, 2026-11-05, overrides the lines around it): line 1 is ONE absurd sentence, and line 2
+    starts with "You see," and goes straight into the story (setting, escalation, payoff, ironic button).
+  - The "You see," lead-in comes right after the hook (not late); the last line is a short ironic button that answers or echoes the first line, so
     the video loops.
   - For each script, send a second-by-second retention map and 2 alternative hooks with it.
 - Visual hook (user rule, 2026-11-05): the picture must stop the scroll on its own ("this guy's animation is so good").

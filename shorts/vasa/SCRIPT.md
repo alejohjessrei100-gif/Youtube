@@ -1,4 +1,4 @@
-# Vasa short: script v2 (102 words, ~38 s at 2.7 words/s)
+# Vasa short: script v3 (104 words, ~38.5 s at 2.7 words/s)
 
 ## Facts and sources
 - Vasa, Swedish royal warship, 64 guns, ~700 carved sculptures; sank 10 Aug 1628 on her maiden voyage, ~1,300 m out,
@@ -17,26 +17,25 @@
   https://www.discovermagazine.com/the-sciences/the-vasa-warship-sank-after-only-25-minutes-of-sailing-taking-30-lives-with
 
 ## Script
-A warship with sixty-four cannons sank before it left the harbour.
-Seven hundred carved statues. The pride of Sweden's king.
-Before it sailed, thirty sailors ran across its deck. Three runs, and it nearly rolled over.
-They stopped the test. Not the voyage.
-A gust: it leans. It rights itself. A second gust: water floods its open gun ports, thirteen hundred metres out.
-You see, it was top-heavy. More weight below would drop its gun ports to the sea. No quick fix.
-Raised three hundred thirty-three years later: ninety-eight percent original.
-The safest place for a warship? The bottom of the harbour.
+Sweden built a warship with sixty-four cannons, and it lost a fight to a breeze.
+You see, in sixteen twenty-eight, Sweden's king ordered a ship to terrify Europe.
+Before it sailed, thirty sailors ran across the deck. After three runs, it nearly tipped over.
+So they stopped the test, and sailed anyway.
+One gust tilted it. A second poured the sea through its open gun ports, thirteen hundred metres out.
+It was top-heavy, and adding weight below would have dropped the gun ports to the waterline.
+Three hundred thirty-three years later, they raised it, ninety-eight percent intact.
+A terrible warship. A perfect time capsule.
 
 ## Retention map (estimated; re-time from the ASR)
-- 0-4 s HOOK paradox (64 cannons, sank in harbour). Open question: why? Frame 0: a sailor's face mid-shout as the deck
-  tilts, gold backlight; 0.5 s macro of the gilded lion figurehead, spray; 3rd shot: water at a gun port.
-- 4-7 s Scale/pride: statues, king. Glide past the carved stern, crowds on the quay.
-- 7-13 s Escalation: 30 sailors run, 1-2-3, the ship rolls more each run.
-- 13-15 s FIRST PAYOFF / pattern break (~35 %): "They stopped the test. Not the voyage." Hard cut, beat of silence.
-- 15-23 s Set piece in threes: gust, recover, second gust, sea pours in, 1,300 m.
-- 23-30 s REVEAL (60-80 %): "You see," top-heavy cutaway; more ballast lowers the gun ports to the sea; no quick fix.
-- 30-33 s Time jump: 1961, she rises, 98 % original.
-- 33-37 s BUTTON echoing line 1 ("harbour") -> loops to the hook.
+- 0-5.6 s ABSURD HOOK: a 64-cannon warship lost a fight to a breeze. Open question: how? Frame 0: a sailor's face
+  as the deck tilts, gold backlight; 0.5 s macro of the gilded lion figurehead, spray; 3rd shot: water at a gun port.
+- 5.6-10.4 s "You see," straight into the story: 1628, the king, a ship to terrify Europe (carved stern, cannons).
+- 10.4-16.3 s Escalation in threes: 30 sailors run, 1-2-3, the ship rolls more each run.
+- 16.3-19.3 s PATTERN BREAK (~45 %): "So they stopped the test, and sailed anyway." Hard cut, crowds.
+- 19.3-25.9 s Set piece: gust one, gust two, the sea pours in, 1,300 m.
+- 25.9-31.9 s HARD PAYOFF (~70-80 %): top-heavy; more ballast would drop the gun ports to the waterline.
+- 31.9-38.5 s 1961: it rises, 98 % intact; ironic button.
 
 ## Alternative hooks
-- A: "Thirty sailors ran across this warship's deck, and proved it would capsize. It sailed anyway."
-- B: "This warship's deadliest enemy wasn't a navy. It was a breeze."
+- A: "Sweden's mightiest warship was beaten by the wind before it left the harbour."
+- B: "Europe's most terrifying warship sank after a trip shorter than a walk to the shops."
