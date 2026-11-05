@@ -36,6 +36,17 @@ User rules that apply:
   - The "You see," reveal comes late; the last line is a short ironic button that answers or echoes the first line, so
     the video loops.
   - For each script, send a second-by-second retention map and 2 alternative hooks with it.
+- Visual hook (user rule, 2026-11-05): the picture must stop the scroll on its own ("this guy's animation is so good").
+  Measured on the user's references (first 3 s, frame by frame):
+  - Frame 0 = a character's face mid-action + a mystery object or situation, lit for mood. Never an establishing wide.
+  - 3 shots in the first 3 s; the camera is already moving on frame 0 and moves fastest at the start.
+  - A macro insert of a tactile hero object within the first second (gold, bronze, glass, fire, foam), shallow DOF.
+  - Mood lighting from frame 0: golden/storm backlight, torches, neon, moonlight; rim light, glow, god rays, haze.
+  - Hero props are modelled in detail (sculpted / lathe / displaced meshes, rich materials), not boxes. Particles
+    (spray, sand, sparks, dust) and moving elements in every shot.
+  - Scale contrast and foreground framing; a new "wow" image (place, light change, set piece, gag) every 3-5 s.
+  - Thumbnail test: frame 0 and the first macro insert must each work as a thumbnail.
+  - Workflow: build and render ONLY the first 3 s first, send it for approval, then build the rest to that standard.
 - No clipping, no inconsistency (user rule, 2026-11-05). Before the full render, run and pass these checks:
   - Clipping, automated per frame: every character card (about 0.6 x 2.1 m plane, yaw to camera) against world mesh
     bounding boxes and against other cards (feet >= 0.5 m apart unless touching on purpose); held props and effects
