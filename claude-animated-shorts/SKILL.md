@@ -24,6 +24,18 @@ User rules that apply:
 - Final export 2K vertical: 1440x2560, `--scale 1.3333`.
 - Opus max verifies every check.
 - Save after every step.
+- Retention-first scripts (user rule, 2026-11-05): write every script so a viewer genuinely keeps watching, not just
+  to tell the facts. Measured on the user's two reference shorts (transcribed word by word):
+  - Line 1 is a paradox, a warning or an impossible situation, with no date, name or setup first. The viewer must
+    understand the weirdness in under 2 s. Never give away the outcome in the hook.
+  - Hold ONE open question (what is it for? why? how?) until the last 20-30 %. Give a small first payoff around 30 %
+    (a pattern break) so the viewer is rewarded, while the real "why" stays open.
+  - Put the viewer inside it ("you", or one underdog to follow); mockers get one short spoken line.
+  - Escalate in threes, each beat bigger. Every sentence brings a new image and new information: no filler, no
+    lecturing ("either way", "historians say" up front). Hedge disputed claims briefly, inside the story.
+  - The "You see," reveal comes late; the last line is a short ironic button that answers or echoes the first line, so
+    the video loops.
+  - For each script, send a second-by-second retention map and 2 alternative hooks with it.
 - No clipping, no inconsistency (user rule, 2026-11-05). Before the full render, run and pass these checks:
   - Clipping, automated per frame: every character card (about 0.6 x 2.1 m plane, yaw to camera) against world mesh
     bounding boxes and against other cards (feet >= 0.5 m apart unless touching on purpose); held props and effects
