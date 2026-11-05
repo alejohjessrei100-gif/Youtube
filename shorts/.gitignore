@@ -1,0 +1,6 @@
+node_modules/
+out/
+frames/
+*.wav
+npm.log
+__pycache__/
