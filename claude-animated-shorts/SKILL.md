@@ -24,6 +24,21 @@ User rules that apply:
 - Final export 2K vertical: 1440x2560, `--scale 1.3333`.
 - Opus max verifies every check.
 - Save after every step.
+- No clipping, no inconsistency (user rule, 2026-11-05). Before the full render, run and pass these checks:
+  - Clipping, automated per frame: every character card (about 0.6 x 2.1 m plane, yaw to camera) against world mesh
+    bounding boxes and against other cards (feet >= 0.5 m apart unless touching on purpose); held props and effects
+    (ears, papers, smoke) never pass through a body or a wall; no card floats above or sinks into its floor, seat or deck.
+  - Camera: never inside or within 0.3 m of any mesh on any frame (sails, masts, rails, walls, crowd cards); no frame
+    edge cutting a face in half; nothing large and blurry right in front of the lens unless it is a planned foreground prop.
+  - Continuity sheet per character, kept in PLAN.md: outfit, colours, head seed (same id = same face in every shot),
+    which hand holds what, injuries or props gained (e.g. the bandage only after the ear is cut), and where they stand.
+    Check it at every cut.
+  - Screen direction: keep the 180-degree rule inside a scene (whoever is on the left stays on the left across cuts)
+    and the same sun side and time of day within a scene.
+  - Facts on screen match the script and the narration (no prop or scene that shows a disputed claim as fact).
+  - Text reads correctly (not mirrored), and captions never cover faces or the key object.
+  - Look at stills at every cut (last frame + first frame), at mid-action of every move, and on a 1-in-10 contact sheet
+    of the whole film; fix anything found and re-check before rendering.
 - Length: every video is 30-40 s (user rule, 2026-11-05). The user's ElevenLabs narrator runs ~2.7 words/s including
   pauses (Jenkins' Ear: 91 words = 33.3 s), so scripts are 80-105 words (aim ~95). Count before sending a script.
 - Characters are never stationary (user rule, 2026-11-05). Every character on screen, every frame, has:
