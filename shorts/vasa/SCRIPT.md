@@ -1,4 +1,4 @@
-# Vasa short: script v1 (100 words, ~37 s at 2.7 words/s)
+# Vasa short: script v2 (102 words, ~38 s at 2.7 words/s)
 
 ## Facts and sources
 - Vasa, Swedish royal warship, 64 guns, ~700 carved sculptures; sank 10 Aug 1628 on her maiden voyage, ~1,300 m out,
@@ -18,11 +18,11 @@
 
 ## Script
 A warship with sixty-four cannons sank before it left the harbour.
-Seven hundred carved statues. A king's pride.
-Before she sailed, thirty sailors ran across her deck. Three runs, and she nearly rolled over.
+Seven hundred carved statues. The pride of Sweden's king.
+Before it sailed, thirty sailors ran across its deck. Three runs, and it nearly rolled over.
 They stopped the test. Not the voyage.
-A gust: she leans. She rights herself. A second gust: water floods her open gun ports, thirteen hundred metres out.
-You see, she was top-heavy. More weight below would drop her gun ports to the sea. No quick fix.
+A gust: it leans. It rights itself. A second gust: water floods its open gun ports, thirteen hundred metres out.
+You see, it was top-heavy. More weight below would drop its gun ports to the sea. No quick fix.
 Raised three hundred thirty-three years later: ninety-eight percent original.
 The safest place for a warship? The bottom of the harbour.
 
