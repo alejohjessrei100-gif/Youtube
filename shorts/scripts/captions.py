@@ -1,10 +1,10 @@
 # Word-timed captions (1-2 words each) burned into the short, in the "bold white + thick black outline" style.
-# usage: python3 captions.py words.json out.ass
+# usage: python3 captions.py words.json out.ass [phrases.txt] [partial]
 # Groups words in pairs, but never across punctuation or a pause, and long words stand alone. Each caption starts on its
 # first word and holds until the next caption (or 0.2 s after its last word when a pause follows). Pop-in: 85 % -> 100 %.
 import json, re, sys
 words = json.load(open(sys.argv[1]))["words"]
-SPOKEN = {"1739": "1739"}  # the narrator says "seventeen thirty-nine": shown as the year
+SPOKEN = {"1739": "1739", "inspects": "in specks"}  # shown as said ("seventeen thirty-nine" = the year; ASR hears "in specks" as "inspects")
 clean = lambda w: re.sub(r"[^\w'\-]", "", w).lower()
 # phrasing written from the script (1-2 words, natural breaks), matched in order against the spoken words
 PHRASES = """in 1739|britain|went to|war|with spain|over a|single|ear|captain|robert|jenkins|said|spanish|coast|guards|had cut|it off|
@@ -12,13 +12,15 @@ eight years|earlier|nobody|cared|then he|told|parliament|crowds|roared|the prime
 wait|all that|over an|ear|you see|the ear|was just|an excuse|the real|fight|was over|trade|and|smuggling|even|the name|came later|
 a historian|made it|up|over a|century|after|history|forgot|the trade|deals|it|remembered|the ear"""
 groups, i = [], 0
-for ph in [p.strip() for p in PHRASES.replace("\n", "").split("|")]:
+if len(sys.argv) > 3: PHRASES = open(sys.argv[3]).read().strip()  # per-video phrasing file (1-2 words per |)
+PARTIAL = len(sys.argv) > 4 and sys.argv[4] == "partial"            # e.g. a hook clip: stop when the phrases end
+for ph in [p.strip() for p in PHRASES.replace("\n", "").split("|") if p.strip()]:
     g = []
     for token in ph.split():
         assert clean(words[i]["w"]) == token, (i, words[i]["w"], token)
         g.append(words[i]); i += 1
     groups.append(g)
-assert i == len(words), (i, len(words))
+assert PARTIAL or i == len(words), (i, len(words))
 def ts(t):
     t = max(0, t); h = int(t // 3600); m = int(t % 3600 // 60); s = t % 60
     return f"{h}:{m:02d}:{s:05.2f}"

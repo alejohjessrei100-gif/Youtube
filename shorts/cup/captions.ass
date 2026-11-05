@@ -1,0 +1,75 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1440
+PlayResY: 2560
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Montserrat Black,150,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,13,7,2,50,50,720,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.55,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}this roman
+Dialogue: 0,0:00:00.55,0:00:00.89,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}cup
+Dialogue: 0,0:00:00.89,0:00:01.79,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}is green
+Dialogue: 0,0:00:01.79,0:00:02.25,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}put a
+Dialogue: 0,0:00:02.25,0:00:02.51,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}candle
+Dialogue: 0,0:00:02.51,0:00:03.25,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}behind it
+Dialogue: 0,0:00:03.25,0:00:03.45,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}and it
+Dialogue: 0,0:00:03.45,0:00:03.75,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}turns
+Dialogue: 0,0:00:03.75,0:00:04.17,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}blood
+Dialogue: 0,0:00:04.17,0:00:04.80,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}red
+Dialogue: 0,0:00:04.97,0:00:05.85,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}no paint
+Dialogue: 0,0:00:05.85,0:00:06.23,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}no hidden
+Dialogue: 0,0:00:06.23,0:00:06.95,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}trick
+Dialogue: 0,0:00:06.95,0:00:07.13,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}just
+Dialogue: 0,0:00:07.13,0:00:07.74,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}glass
+Dialogue: 0,0:00:07.95,0:00:08.71,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}it's 1600
+Dialogue: 0,0:00:08.71,0:00:09.89,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}years old
+Dialogue: 0,0:00:09.89,0:00:10.21,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}and for
+Dialogue: 0,0:00:10.21,0:00:10.71,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}centuries
+Dialogue: 0,0:00:10.71,0:00:11.33,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}nobody
+Dialogue: 0,0:00:11.33,0:00:12.09,Cap,,0,0,0,,{\fs132\fscx85\fscy85\t(0,90,\fscx100\fscy100)}could explain
+Dialogue: 0,0:00:12.09,0:00:12.55,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}it
+Dialogue: 0,0:00:12.55,0:00:13.01,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}then
+Dialogue: 0,0:00:13.01,0:00:13.35,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}scientists
+Dialogue: 0,0:00:13.35,0:00:13.95,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}finally
+Dialogue: 0,0:00:13.95,0:00:14.69,Cap,,0,0,0,,{\fs132\fscx85\fscy85\t(0,90,\fscx100\fscy100)}looked inside
+Dialogue: 0,0:00:14.69,0:00:15.01,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}it with
+Dialogue: 0,0:00:15.01,0:00:15.55,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}an electron
+Dialogue: 0,0:00:15.55,0:00:16.46,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}microscope
+Dialogue: 0,0:00:16.65,0:00:17.19,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}you see
+Dialogue: 0,0:00:17.19,0:00:17.53,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}the glass
+Dialogue: 0,0:00:17.53,0:00:18.17,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}is sprinkled
+Dialogue: 0,0:00:18.17,0:00:18.71,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}with gold
+Dialogue: 0,0:00:18.71,0:00:19.65,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}and silver
+Dialogue: 0,0:00:19.65,0:00:20.19,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}in specks
+Dialogue: 0,0:00:20.19,0:00:20.73,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}a thousand
+Dialogue: 0,0:00:20.73,0:00:21.13,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}times
+Dialogue: 0,0:00:21.13,0:00:21.45,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}thinner
+Dialogue: 0,0:00:21.45,0:00:22.41,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}than a hair
+Dialogue: 0,0:00:22.41,0:00:22.61,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}light
+Dialogue: 0,0:00:22.61,0:00:22.91,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}bouncing
+Dialogue: 0,0:00:22.91,0:00:23.55,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}off them
+Dialogue: 0,0:00:23.55,0:00:24.53,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}looks green
+Dialogue: 0,0:00:24.53,0:00:24.77,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}light
+Dialogue: 0,0:00:24.77,0:00:25.05,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}shining
+Dialogue: 0,0:00:25.05,0:00:25.65,Cap,,0,0,0,,{\fs127\fscx85\fscy85\t(0,90,\fscx100\fscy100)}through them
+Dialogue: 0,0:00:25.65,0:00:26.61,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}looks red
+Dialogue: 0,0:00:26.61,0:00:27.19,Cap,,0,0,0,,{\fs148\fscx85\fscy85\t(0,90,\fscx100\fscy100)}and nobody
+Dialogue: 0,0:00:27.19,0:00:27.57,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}knows
+Dialogue: 0,0:00:27.57,0:00:27.91,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}if the
+Dialogue: 0,0:00:27.91,0:00:28.17,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}romans
+Dialogue: 0,0:00:28.17,0:00:28.59,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}did it
+Dialogue: 0,0:00:28.59,0:00:29.09,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}on purpose
+Dialogue: 0,0:00:29.09,0:00:30.21,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}so 16
+Dialogue: 0,0:00:30.21,0:00:30.73,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}centuries
+Dialogue: 0,0:00:30.73,0:00:31.41,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}ago
+Dialogue: 0,0:00:31.41,0:00:31.73,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}someone
+Dialogue: 0,0:00:31.73,0:00:32.19,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}was doing
+Dialogue: 0,0:00:32.19,0:00:33.17,Cap,,0,0,0,,{\fs108\fscx85\fscy85\t(0,90,\fscx100\fscy100)}nanotechnology
+Dialogue: 0,0:00:33.17,0:00:33.99,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}and might
+Dialogue: 0,0:00:33.99,0:00:34.35,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}not have
+Dialogue: 0,0:00:34.35,0:00:35.10,Cap,,0,0,0,,{\fs144\fscx85\fscy85\t(0,90,\fscx100\fscy100)}even known
