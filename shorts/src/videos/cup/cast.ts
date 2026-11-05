@@ -4,8 +4,8 @@
 // the sun, painted crescent in the drawing); standing ones get a soft multiply contact blob. Effects are unlit cards.
 // Cards, effects and blobs live on the NOINK layer so the world ink pass never outlines their quads.
 import * as THREE from "three";
-import { Pen, bodyFront, bodySide, fxGlow, fxShadow, fxContact, INK, Outfit, Expr, FrontOpts, SideOpts } from "./toon";
-import { FPS, SHOTS, V3, smooth, clamp01, ROMAN, CUP, CUP_MID, FLAME, W } from "./story";
+import { Pen, bodyFront, bodySide, fxGlow, fxShadow, fxContact, fxBurst, INK, Outfit, Expr, FrontOpts, SideOpts, townsfolk } from "./toon";
+import { FPS, SHOTS, V3, smooth, clamp01, ROMAN, CUP, CUP_MID, FLAME, W, VCUP, PLINTH, LINEUP, SCI, SCREEN, MAKER, WCUP, BENCH, WFLAME, FURNACE, BLOW, CLUSTER } from "./story";
 import { LIGHTS } from "./lights";
 import { NOINK } from "./ink";
 import { cardShade, blobMaterial, CARD_K } from "./cardshade";
@@ -214,32 +214,45 @@ const blob = (out: Stage, x: number, y: number, z: number, sc = 1, k = 1) => {
 export type Stage = { places: Place[]; fx: FxPlace[] };
 export const CAST = {
   roman: { jacket: "#f1ebdd", pants: "#e9e1d0", boots: "#7a4f33", hat: "laurel", hair: "#3a2a22", sash: "#7a2f6e", noButtons: true, skin: "#f0c9a2" } as Outfit,
+  monk: { jacket: "#6b4a2e", pants: "#5a3d26", boots: "#3a2a20", hat: "knit", cap: "#5a3d26", dress: "#6b4a2e", noButtons: true, skin: "#f2cfaa" } as Outfit,
+  scholar: { jacket: "#3b2a5a", pants: "#2a2234", boots: INK, hat: "knit", cap: "#1d1a22", beard: "#6a4a30", noButtons: true, skin: "#ecc9a6" } as Outfit,
+  victorian: { jacket: "#2e3a4f", pants: "#2a2a30", boots: INK, hat: "tophat", moustache: "#5a3a22", glasses: true, buttons: "#c9ccd2", skin: "#f5d2b2" } as Outfit,
+  sci: (v: number): Outfit => ({ jacket: "#f4f4f1", pants: "#3a4a5e", boots: INK, hat: "hair", hair: v ? "#2a1d18" : "#b9b2a8", glasses: true, buttons: "#c9ccd2", skin: v ? "#c99067" : "#f5d2b2" }),
+  maker: { jacket: "#8a5a36", pants: "#5a4030", boots: "#3a2a20", hat: "knit", cap: "#6e6258", beard: "#4a3020", sash: "#5a3a24", noButtons: true, skin: "#e2b38a" } as Outfit,
 };
 type Who2 = { i: number; o: Outfit; okey: string };
 
 /** "never stationary": breathing bob, weight-shift sway, head tilt + bob, all seeded per character, plus line boil
- *  every 3 frames. Measured targets (user reference): heads tilt 10-15 deg on talkers, the character moves more than
- *  the frame. Returned values are added to the pose the shot asks for. */
+ *  every 3 frames (user reference: heads tilt 10-15 deg on talkers; the character moves more than the frame). */
 export const alive = (t: number, i: number, energy = 1) => {
   const ph = hh(i, 21) * 6.283, ph2 = hh(i, 22) * 6.283;
   return {
-    bob: 0.012 * energy * Math.sin(t * 2 * Math.PI * 0.9 + ph),                     // metres (card y)
-    tilt: 2.2 * energy * Math.sin(t * 2 * Math.PI * 0.45 + ph2),                    // body sway (deg)
-    head: 6 * energy * Math.sin(t * 2 * Math.PI * 0.6 + ph) + 3 * energy * Math.sin(t * 2 * Math.PI * 1.3 + ph2), // head tilt (deg)
+    bob: 0.012 * energy * Math.sin(t * 2 * Math.PI * 0.9 + ph),
+    tilt: 2.2 * energy * Math.sin(t * 2 * Math.PI * 0.45 + ph2),
+    head: 6 * energy * Math.sin(t * 2 * Math.PI * 0.6 + ph) + 3 * energy * Math.sin(t * 2 * Math.PI * 1.3 + ph2),
     boil: Math.floor(t * FPS / 3),
   };
 };
-const put = (cam: CamInfo, out: Stage, who: Who2, x: number, y: number, z: number, fo: FrontOpts, t: number, energy = 1) => {
+const put = (cam: CamInfo, out: Stage, who: Who2, x: number, y: number, z: number, fo: FrontOpts, t: number, energy = 1, opts: { blob?: boolean; scale?: number } = {}) => {
   const a = alive(t, who.i, energy);
   const fo2: FrontOpts = { blink: lidAt(t, who.i), ...fo, tilt: (fo.tilt ?? 0) + a.tilt, headTilt: (fo.headTilt ?? 0) + a.head, boil: a.boil };
-  out.places.push(person(cam, who, x, y + a.bob, z, { side: false, mirror: false }, fo2, {}, 1));
+  out.places.push(person(cam, who, x, y + a.bob, z, { side: false, mirror: false }, fo2, {}, opts.scale ?? 1));
+  if (opts.blob !== false) blob(out, x, y, z, opts.scale ?? 1);
 };
 const glow = (out: Stage, x: number, y: number, z: number, r: number, col = "255,190,110", key = "") =>
   out.fx.push({ key: `glow${col}${key}`, cw: 256, ch: 256, draw: (p) => fxGlow(p, col), x, y, z, w: r, h: r, soft: true });
+const motes = (out: Stage, t: number, c: V3, w: number, n = 18) => {
+  for (let k = 0; k < n; k++) {
+    const u = (t * 0.05 + hh(k, 3)) % 1;
+    out.fx.push({ key: "mote", cw: 64, ch: 64, draw: (p) => fxGlow(p, "255,220,170"), x: c[0] - w / 2 + w * hh(k, 1) + 0.05 * Math.sin(t * 0.7 + k), y: c[1] + 0.9 * u, z: c[2] - 0.2 + 0.9 * hh(k, 2), w: 0.018, h: 0.018, soft: true });
+  }
+};
 
-/** how red the cup is: 0 green .. 1 blood red (world.ts computes the same alignment for the shader) */
+/** how red each cup is (0 green .. 1 blood red); world.ts computes it from the real light / lens positions */
 export let CUP_RED = 0;
 export const setCupRed = (v: number) => { CUP_RED = v; };
+export let CANDLE_ON = 1;
+export const setCandle = (v: number) => { CANDLE_ON = v; };
 
 /** everything with a face (and the glows) in shot id at time t */
 export const stage = (id: number, t: number, cam: CamInfo): Stage => {
@@ -247,23 +260,67 @@ export const stage = (id: number, t: number, cam: CamInfo): Stage => {
   const s = SHOTS[id - 1], f = Math.round(t * FPS);
   LNAME = s.light;
   findSun(cam, SUN);
-  // the Roman: curious squint at the green cup, a smile on "green", wide-eyed shock when it turns red
-  const ex: Expr = f < 20 ? "stern" : f < W.turns ? "smile" : "shock";
-  const jolt = f >= 138 ? Math.exp(-(f - 138) / 6) : 0;                                // squash-and-settle jump on the reveal
-  put(cam, out, { i: 7, o: CAST.roman, okey: "roman" }, ROMAN[0], ROMAN[1] + 0.03 * jolt, ROMAN[2],
-    { mode: "stand", expr: ex, look: f < 36 ? 0 : 0, facing: 0, tilt: f >= 138 ? -5 * jolt : 0, headTilt: f >= 138 ? -8 * jolt : 0 }, t, f >= 138 ? 1.4 : 1);
-  // candle flame glow (flickers) and the cup's own glow (green, then red)
   const fl = 0.9 + 0.1 * Math.sin(t * 23) * Math.sin(t * 7.3);
-  glow(out, FLAME[0], FLAME[1] + 0.01, FLAME[2], 0.34 * fl, "255,186,96", "f");
-  const red = CUP_RED;
-  if (red > 0.02) glow(out, CUP[0], CUP_MID, CUP[2], 0.42 * (0.6 + 0.4 * red), "230,20,15", `r${Math.round(red * 10)}`);
-  if (id === 4) glow(out, ROMAN[0], 1.12, ROMAN[2] - 0.32, 1.1, "200,16,12", "spill");
-  // drifting dust motes in the candle light
-  for (let k = 0; k < 18; k++) {
-    const u = (t * 0.05 + hh(k, 3)) % 1;
-    const x = -0.6 + 1.2 * hh(k, 1) + 0.05 * Math.sin(t * 0.7 + k), y = 0.95 + 0.9 * u, z = -0.1 + 0.9 * hh(k, 2);
-    out.fx.push({ key: "mote", cw: 64, ch: 64, draw: (p) => fxGlow(p, "255,220,170"), x, y, z, w: 0.018, h: 0.018, soft: true });
+  if (s.place === "room") {
+    const roman: Who2 = { i: 7, o: CAST.roman, okey: "roman" };
+    if (id <= 4) {
+      const ex: Expr = f < 20 ? "stern" : f < W.turns ? "smile" : "shock";
+      const jolt = f >= 138 ? Math.exp(-(f - 138) / 6) : 0;
+      put(cam, out, roman, ROMAN[0], ROMAN[1] + 0.03 * jolt, ROMAN[2], { mode: "stand", expr: ex, tilt: f >= 138 ? -5 * jolt : 0, headTilt: f >= 138 ? -8 * jolt : 0 }, t, f >= 138 ? 1.4 : 1);
+    } else if (id === 5) {
+      // holds it up to his eye: no paint on it ("No paint")
+      put(cam, out, roman, ROMAN[0], ROMAN[1], ROMAN[2], { mode: "stand", expr: f < 160 ? "stern" : "nervous", pose: "cup", k: 0, look: 1, headTilt: 8 }, t, 1.2);
+    } else if (id === 6) {
+      // upside down and shaken ("no hidden trick"): nothing falls out
+      const shake = 6 * Math.sin((f - 176) * 1.6) * (f > 182 && f < 205 ? 1 : 0);
+      put(cam, out, roman, ROMAN[0], ROMAN[1], ROMAN[2], { mode: "stand", expr: f < 192 ? "stern" : "nervous", pose: "cup", k: 1, tilt: shake, headTilt: -6 }, t, 1.2);
+    } else {
+      put(cam, out, roman, ROMAN[0], ROMAN[1], ROMAN[2], { mode: "stand", expr: "smile", look: 1 }, t);
+    }
+    glow(out, FLAME[0], FLAME[1] + 0.01, FLAME[2], 0.34 * fl, "255,186,96", "f");
+    if (CUP_RED > 0.02 && id !== 5 && id !== 6) glow(out, CUP[0], CUP_MID, CUP[2], 0.42 * (0.6 + 0.4 * CUP_RED), "230,20,15", `r${Math.round(CUP_RED * 10)}`);
+    if (id === 4) glow(out, ROMAN[0], 1.12, ROMAN[2] - 0.32, 1.1, "200,16,12", "spill");
+    motes(out, t, [0, 0.95, 0.1], 1.2);
+  } else if (s.place === "vault") {
+    if (CUP_RED > 0.02) glow(out, VCUP[0], PLINTH + 0.085, VCUP[2], 0.5 * CUP_RED, "230,20,15", `r${Math.round(CUP_RED * 10)}`);
+    motes(out, t, [VCUP[0], 1.0, VCUP[2]], 2.2, 26);
+    if (id === 9) {
+      // a Roman, a monk, a Renaissance scholar, a Victorian gentleman: each tries, each shrugs in turn on "nobody"
+      const who: [Outfit, string][] = [[CAST.roman, "roman"], [CAST.monk, "monk"], [CAST.scholar, "scholar"], [CAST.victorian, "vict"]];
+      LINEUP.forEach((p, k) => {
+        const f0 = W.nobody - 4 + k * 9, sh = smooth((f - f0) / 6) * (1 - smooth((f - f0 - 30) / 8));
+        const ex: Expr = f < f0 ? (k % 2 ? "stern" : "nervous") : sh > 0.5 ? "dazed" : "nervous";
+        put(cam, out, { i: 7 + k * 13, o: who[k][0], okey: who[k][1] }, p[0], 0, p[2], { mode: "stand", expr: ex, pose: sh > 0.05 ? "shrug" : f < f0 ? "cover" : undefined, k: sh, facing: k < 2 ? -1 : 1, look: k < 2 ? -1 : 1 }, t, 1.1);
+      });
+    }
+  } else if (s.place === "lab") {
+    put(cam, out, { i: 60, o: CAST.sci(0), okey: "sci0" }, SCI[0][0], 0, SCI[0][2], { mode: "stand", expr: f < 420 ? "stern" : "shock", look: 1, facing: 1 }, t);
+    put(cam, out, { i: 61, o: CAST.sci(1), okey: "sci1" }, SCI[1][0], 0, SCI[1][2], { mode: "stand", expr: f < 400 ? "neutral" : "grin", pose: f > 395 && f < 420 ? "point" : undefined, look: -1, facing: -1 }, t);
+    if (id === 10) glow(out, SCREEN[0], SCREEN[1], SCREEN[2] - 0.05, 0.9, "170,210,255", "scr");
+  } else if (s.place === "micro") {
+    // glints on the specks (the specks themselves are 3D spheres in world.ts)
+    for (let k = 0; k < 10; k++) {
+      const u = ((t * 0.7 + hh(k, 5)) % 1);
+      if (u > 0.25) continue;
+      const q2 = Math.sin(u / 0.25 * Math.PI);
+      out.fx.push({ key: `spark${Math.round(q2 * 8)}`, cw: 500, ch: 500, draw: (p) => fxBurst(p, 0.3, "#fff6d0", 8, 20, 120 + 100 * q2), x: CLUSTER[0] + (hh(k, 6) - 0.5) * 4, y: CLUSTER[1] + (hh(k, 7) - 0.5) * 3, z: CLUSTER[2] - 3 + hh(k, 8) * 8, w: 0.25, h: 0.25 });
+    }
+  } else if (s.place === "shop") {
+    const maker: Who2 = { i: 90, o: CAST.maker, okey: "maker" };
+    if (id === 16) put(cam, out, maker, MAKER[0], 0, MAKER[2], { mode: "stand", expr: "smile", pose: "pipe", look: -1, facing: -1 }, t, 1.1);
+    else if (id === 17) {
+      const sh = smooth((f - 852) / 8);
+      put(cam, out, maker, MAKER[0], 0.02 * Math.sin(Math.min(1, (f - 852) / 10) * Math.PI), MAKER[2], { mode: "stand", expr: f < 852 ? "neutral" : "smile_closed", pose: "shrug", k: sh, headTilt: 10 * sh }, t, 1.3);
+    } else {
+      const blow = f >= BLOW - 8 && f < BLOW + 10;
+      put(cam, out, maker, MAKER[0], 0, MAKER[2], { mode: "stand", expr: blow ? "whistle" : f > BLOW + 10 ? "smile_closed" : "smile", look: 1 }, t);
+    }
+    const fur = 0.85 + 0.15 * Math.sin(t * 9) * Math.sin(t * 3.1);
+    glow(out, FURNACE[0], 0.7, FURNACE[2] - 1.0, 1.8 * fur, "255,140,40", "fur");
+    if (CANDLE_ON > 0.02) glow(out, WFLAME[0], WFLAME[1] + 0.01, WFLAME[2], 0.34 * fl * CANDLE_ON, "255,186,96", "f");
+    if (CUP_RED > 0.02) glow(out, WCUP[0], BENCH + 0.085, WCUP[2], 0.42 * (0.6 + 0.4 * CUP_RED), "230,20,15", `r${Math.round(CUP_RED * 10)}`);
+    motes(out, t, [WCUP[0] - 0.5, 0.95, 1.0], 2.0);
   }
   return out;
 };
-export { FPS };
+export { FPS, townsfolk };

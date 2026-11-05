@@ -503,7 +503,7 @@ export type FrontOpts = {
   boil?: number;
 };
 export type Pose2 = never;
-export type Pose = "up" | "jar" | "sword" | "shrug" | "quill" | "crate" | "cover" | "point" | "lantern" | "offer";
+export type Pose = "cup" | "pipe" | "up" | "jar" | "sword" | "shrug" | "quill" | "crate" | "cover" | "point" | "lantern" | "offer";
 
 const footStroke = (p: Pen, a: P2, b: P2, w: number, col: string) => {
   if (col !== INK) p.stroke([a, b], w + 3, INK);
@@ -592,6 +592,8 @@ export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
     } else if (pose) {
       arms.push({ pts: prop === "shako" ? hang(-1, 0) : hang(-1, -sw), front: false });
       if (pose === "jar") arms.push({ pts: [S1, [tcx + 1.15 * T.a + 12 * u, S1[1] - 0.25 * HH], [tcx + 1.1 * T.a + 16 * u, S1[1] - 0.72 * HH]], front: true });
+      else if (pose === "cup") arms.push({ pts: [S1, [tcx + 1.2 * T.a + 16 * u, S1[1] + 0.05 * HH], [tcx + 0.95 * T.a + 10 * u, S1[1] - 0.42 * HH]], front: true });
+      else if (pose === "pipe") arms.push({ pts: [S1, [tcx + 1.1 * T.a + 10 * u, S1[1] + 0.28 * HH], [tcx + 1.0 * T.a + 16 * u, S1[1] + 0.3 * HH]], front: true });
       else if (pose === "point") arms.push({ pts: [S1, [tcx + 1.1 * T.a + 16 * u, S1[1] - 0.1 * HH], [tcx + 1.15 * T.a + 34 * u, S1[1] - 0.32 * HH]], front: false });
       else if (pose === "cover") arms.push({ pts: [S1, [tcx + 1.2 * T.a + 14 * u, S1[1] + 0.15 * HH], [300 + 0.9 * H.a, hc + 0.1 * H.b]], front: true });
       else if (pose === "lantern") arms.push({ pts: [S1, [tcx + 1.1 * T.a + 8 * u, S1[1] + 0.3 * HH], [tcx + 1.05 * T.a + 18 * u, S1[1] + 0.42 * HH]], front: true });
@@ -680,6 +682,13 @@ export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
   if (pose) for (const a of arms) if (a.front) {
     const [hx, hy] = a.pts[2];
     if (pose === "jar") { jarAt(p, hx, hy - 34 * u, 0.42 * u); p.dot(hx, hy, 5.5 * u); }
+    else if (pose === "cup") { cupAt(p, hx, hy - 24 * u, 0.5 * u, pk > 0.5); p.dot(hx, hy, 5.5 * u); }
+    else if (pose === "pipe") {
+      const ex = hx + 120 * u, ey = hy + 70 * u;
+      p.band([[hx - 30 * u, hy - 18 * u], [ex, ey]], "#6e6a66", 5 * u, 1.6 * u, "round");
+      p.ell(ex + 10 * u, ey + 6 * u, 20 * u, 17 * u, "#ffb347", 3 * u); p.ell(ex + 6 * u, ey + 2 * u, 9 * u, 7 * u, "#fff2b0", 0);
+      p.dot(hx, hy, 5.5 * u);
+    }
     else if (pose === "lantern") { lanternAt(p, hx, hy + 22 * u, u); p.dot(hx, hy, 5.5 * u); }
     else if (pose === "offer") { jarAt(p, hx, hy - 30 * u, 0.36 * u); p.dot(hx, hy, 5.5 * u); }
     else if (pose === "quill") {
@@ -1094,4 +1103,19 @@ export const fxSmoke = (p: Pen, t: number) => {
     const a = rad(i * 60 + 20), d = 30 + 60 * t, r = (46 + 14 * (i % 2)) * (0.6 + 0.5 * t);
     p.ell(150 + d * Math.cos(a), 150 + d * 0.7 * Math.sin(a), r, r * 0.85, `rgba(236,232,226,${(0.95 * (1 - t * t)).toFixed(3)})`, 0);
   }
+};
+
+/** the cup as a held 2D prop (same jade green, vine cage, carved king): bell beaker ~ 120 x 150 units at s = 1 */
+export const cupAt = (p: Pen, x: number, y: number, s: number, inverted = false, red = false) => {
+  const k = inverted ? -1 : 1, Y = (v: number) => y + k * v * s, X = (v: number) => x + v * s;
+  const body: P2[] = [[X(-62), Y(-75)], [X(62), Y(-75)], [X(58), Y(10)], [X(40), Y(55)], [X(16), Y(62)], [X(22), Y(78)], [X(-22), Y(78)], [X(-16), Y(62)], [X(-40), Y(55)], [X(-58), Y(10)]];
+  const fill = red ? "#d4231b" : "#2f8f5a", dark = red ? "#7a0d0b" : "#145233";
+  p.poly(body, fill, 6 * s);
+  p.clip(body, () => {
+    p.stroke(curve([X(-70), Y(-20)], [X(0), Y(40)], [X(70), Y(-30)]), 9 * s, dark);
+    p.stroke(curve([X(-70), Y(30)], [X(0), Y(-40)], [X(70), Y(20)]), 9 * s, dark);
+    p.ell(X(0), Y(-30), 10 * s, 11 * s, dark, 0); p.stroke([[X(0), Y(-18)], [X(0), Y(20)]], 11 * s, dark);
+    p.stroke([[X(-34), Y(-62)], [X(-34), Y(40)]], 7 * s, "rgba(255,255,255,0.35)");
+  });
+  p.ell(X(0), Y(-75), 62 * s, 9 * s, red ? "#e9554a" : "#57b07f", 5 * s);
 };
