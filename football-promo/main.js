@@ -6,19 +6,19 @@ import * as THREE from 'three';
 // Swap colours / names / logos / event info here.
 const HOME = {
   name: 'PISAY WVC', mono: 'WVC',
-  primary: '#1546c4', dark: '#0a1f5c', secondary: '#f6c445', ink: '#ffffff',
-  logo: null, // e.g. 'assets/pisay.png' (transparent PNG works best)
+  primary: '#1f9ad6', dark: '#06111f', secondary: '#ffcf24', ink: '#ffffff', accent: '#e8322a',
+  logo: 'assets/pisay_px.png',
 };
 const AWAY = {
   name: 'PAREF WESTBRIDGE', mono: 'PW',
-  primary: '#b5162f', dark: '#4a0712', secondary: '#ffffff', ink: '#ffffff',
-  logo: null, // e.g. 'assets/westbridge.png'
+  primary: '#2b3a9c', dark: '#141c55', secondary: '#d9c66e', ink: '#ffffff', accent: '#3f9a3a',
+  logo: 'assets/westbridge_px.png',
 };
 const EVENT = {
   kicker: 'FOOTBALL  ·  MATCH DAY',
-  date: 'DATE TBA',
-  time: 'TIME TBA',
-  venue: 'VENUE TBA',
+  date: 'FRI · NOV 6',
+  time: '3:30 PM',
+  venue: 'AT PISAY WVC CAMPUS',
   tagline: 'BE THERE. BRING THE NOISE.',
 };
 
@@ -115,7 +115,7 @@ apron.rotation.x = -Math.PI / 2; apron.position.y = -.02; scene.add(apron);
 // LED boards around the pitch (scrolling text)
 const ledTex = canvasTex(2048, 128, (c, w, h) => {
   c.fillStyle = '#04060f'; c.fillRect(0, 0, w, h);
-  const items = [[HOME.name, HOME.secondary], ['MATCH DAY', '#ffffff'], [`VS ${AWAY.name}`, '#ff6b7f'], ['MATCH DAY', '#ffffff']];
+  const items = [[HOME.name, HOME.secondary], ['MATCH DAY', '#ffffff'], [`VS ${AWAY.name}`, AWAY.secondary], ['MATCH DAY', '#ffffff']];
   c.font = `900 80px ${FONT}`; c.textBaseline = 'middle';
   let x = 30; for (const [t, col] of items) { c.fillStyle = col; c.fillText(t, x, h / 2 + 4); x += c.measureText(t).width + 90; c.fillStyle = HOME.primary; c.fillRect(x - 60, 40, 30, 48); }
 });
@@ -143,7 +143,7 @@ function crowdTex(cols, seed) {
   t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
 }
 const homeCrowd = crowdTex([HOME.primary, HOME.primary, HOME.secondary, '#ffffff', HOME.primary], 7);
-const awayCrowd = crowdTex([AWAY.primary, AWAY.primary, '#ffffff', HOME.primary, AWAY.primary], 9);
+const awayCrowd = crowdTex([AWAY.primary, AWAY.accent, AWAY.secondary, '#ffffff', AWAY.primary], 9);
 function stand(len, x, z, ry, tex) {
   const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = ry; scene.add(g);
   const map = tex.clone(); map.needsUpdate = true; map.repeat.set(len / 16, 2);
@@ -238,7 +238,7 @@ ballShadow.rotation.x = -Math.PI / 2; ballShadow.position.y = .01; scene.add(bal
 // confetti (world, at the goal)
 const CONF = 420, confR = rng(42), confetti = new THREE.InstancedMesh(new THREE.PlaneGeometry(.2, .11), new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, toneMapped: false }), CONF);
 const confData = [];
-const confCols = [HOME.primary, HOME.secondary, '#ffffff', '#4f7dff'].map(c => new THREE.Color(c));
+const confCols = [HOME.primary, HOME.secondary, '#ffffff', HOME.accent].map(c => new THREE.Color(c));
 for (let i = 0; i < CONF; i++) {
   const a = confR() * Math.PI * 2, up = .5 + confR() * .9, sp = 4 + confR() * 8;
   confData.push({ v: v3(Math.cos(a) * sp * .8, up * sp, Math.abs(Math.sin(a)) * sp * .9 + 2), o: v3((confR() - .5) * 5, 1 + confR(), GOAL_Z + .5), spin: v3(confR() * 9, confR() * 9, confR() * 9), ph: confR() * 6 });
@@ -268,7 +268,7 @@ const matchDay = hudPlane(canvasTex(1024, 700, (c, w, h) => {
   italicText(c, 'MATCH', w / 2, 300, { fill: '#fff', stroke: HOME.dark, strokeW: 22, glow: HOME.primary });
   italicText(c, 'DAY', w / 2, 500, { fill: '#fff', stroke: HOME.dark, strokeW: 22, glow: HOME.primary });
   c.save(); c.transform(1, 0, -.3, 1, 0, 0);
-  c.fillStyle = HOME.primary; c.fillRect(380, 620, 300, 26); c.fillStyle = AWAY.primary; c.fillRect(690, 620, 300, 26); c.restore();
+  c.fillStyle = HOME.primary; c.fillRect(380, 620, 300, 26); c.fillStyle = AWAY.secondary; c.fillRect(690, 620, 300, 26); c.restore();
 }), 5, 5 * 700 / 1024, 20);
 
 const vsTex = canvasTex(512, 512, (c, w, h) => {
@@ -326,15 +326,19 @@ function makeCrest(team, logo) {
   const body = new THREE.Mesh(new THREE.ExtrudeGeometry(shieldShape(), { depth: .22, bevelEnabled: true, bevelThickness: .08, bevelSize: .07, bevelSegments: 3 }),
     new THREE.MeshStandardMaterial({ color: team.secondary, metalness: .55, roughness: .28 }));
   g.add(body);
-  const face = new THREE.Mesh(new THREE.PlaneGeometry(2, 2.8), new THREE.MeshStandardMaterial({
+  const face = new THREE.Mesh(new THREE.PlaneGeometry(2, 2.8), new THREE.MeshBasicMaterial({ toneMapped: false,
     map: canvasTex(512, 717, (c, w, h) => {
       const s = 512 / 2 * .86, ox = w / 2, oy = h * (1.4 / 2.8);
       shieldPath(c, ox, oy, s); c.save(); c.clip();
       const gr = c.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, team.primary); gr.addColorStop(1, team.dark);
       c.fillStyle = gr; c.fillRect(0, 0, w, h);
-      if (logo) {
-        const k = Math.min((w * .78) / logo.width, (h * .62) / logo.height);
-        c.drawImage(logo, ox - logo.width * k / 2, oy - logo.height * k / 2 - 20, logo.width * k, logo.height * k);
+      if (logo) { // pixel logo on a light field, crisp nearest-neighbour scaling
+        const lg = c.createLinearGradient(0, 0, 0, h); lg.addColorStop(0, '#ffffff'); lg.addColorStop(1, '#d9e3f2');
+        c.fillStyle = lg; c.fillRect(0, 0, w, h);
+        c.fillStyle = team.primary; for (let y = 0; y < h; y += 32) for (let x = (y / 32) % 2 * 32; x < w; x += 64) { c.globalAlpha = .07; c.fillRect(x, y, 32, 32); }
+        c.globalAlpha = 1; c.imageSmoothingEnabled = false;
+        const k = Math.min((w * .74) / logo.width, (h * .56) / logo.height);
+        c.drawImage(logo, Math.round(ox - logo.width * k / 2), Math.round(oy - logo.height * k / 2 - 30), Math.round(logo.width * k), Math.round(logo.height * k));
       } else {
         c.fillStyle = 'rgba(255,255,255,.12)'; c.save(); c.transform(1, 0, -.4, 1, 0, 0); c.fillRect(ox + 60, 0, 70, h); c.fillRect(ox + 160, 0, 26, h); c.restore();
         c.fillStyle = team.secondary; for (const dx of [-70, 0, 70]) star(c, ox + dx, oy - s * .95, dx ? 18 : 24);
@@ -344,7 +348,7 @@ function makeCrest(team, logo) {
         c.beginPath(); c.arc(ox, oy + s * .62, 12, 0, 7); c.fillStyle = team.secondary; c.fill();
       }
       c.restore();
-    }), transparent: true, metalness: .1, roughness: .5,
+    }), transparent: true,
   }));
   face.position.set(0, -.04, .32); g.add(face);
   const rib = new THREE.Mesh(new THREE.PlaneGeometry(2.7, .62), new THREE.MeshStandardMaterial({
@@ -353,7 +357,7 @@ function makeCrest(team, logo) {
       c.fillStyle = team.dark; c.beginPath(); c.moveTo(0, 40); c.lineTo(110, 40); c.lineTo(110, 190); c.lineTo(0, 190); c.lineTo(40, 115); c.closePath(); c.fill();
       c.beginPath(); c.moveTo(w, 40); c.lineTo(w - 110, 40); c.lineTo(w - 110, 190); c.lineTo(w, 190); c.lineTo(w - 40, 115); c.closePath(); c.fill();
       c.fillStyle = team.secondary; c.beginPath(); c.roundRect(70, 10, w - 140, 150, 10); c.fill();
-      c.textAlign = 'center'; c.textBaseline = 'middle'; fitFont(c, team.name, w - 200, 92); c.fillStyle = team.dark === '#4a0712' ? team.primary : team.dark;
+      c.textAlign = 'center'; c.textBaseline = 'middle'; fitFont(c, team.name, w - 200, 92); c.fillStyle = team.dark;
       c.fillText(team.name, w / 2, 90);
     }),
   }));
