@@ -1,0 +1,73 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1440
+PlayResY: 2560
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Montserrat Black,150,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,13,7,2,50,50,720,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.39,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}why do
+Dialogue: 0,0:00:00.39,0:00:01.15,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}hotel beds
+Dialogue: 0,0:00:01.15,0:00:01.99,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}feel comfy
+Dialogue: 0,0:00:01.99,0:00:02.55,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}but you
+Dialogue: 0,0:00:02.55,0:00:02.89,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}still
+Dialogue: 0,0:00:02.89,0:00:03.37,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}can't fall
+Dialogue: 0,0:00:03.37,0:00:03.98,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}asleep
+Dialogue: 0,0:00:04.21,0:00:04.87,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}you see
+Dialogue: 0,0:00:04.87,0:00:05.03,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}brown
+Dialogue: 0,0:00:05.03,0:00:05.65,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}university
+Dialogue: 0,0:00:05.65,0:00:06.33,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}scientists
+Dialogue: 0,0:00:06.33,0:00:06.77,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}watched
+Dialogue: 0,0:00:06.77,0:00:07.43,Cap,,0,0,0,,{\fs139\fscx85\fscy85\t(0,90,\fscx100\fscy100)}people sleep
+Dialogue: 0,0:00:07.43,0:00:08.33,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}in a lab
+Dialogue: 0,0:00:08.33,0:00:08.77,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}two nights
+Dialogue: 0,0:00:08.77,0:00:09.65,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}in a row
+Dialogue: 0,0:00:09.65,0:00:10.67,Cap,,0,0,0,,{\fs139\fscx85\fscy85\t(0,90,\fscx100\fscy100)}on night one
+Dialogue: 0,0:00:10.67,0:00:10.91,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}something
+Dialogue: 0,0:00:10.91,0:00:11.39,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}strange
+Dialogue: 0,0:00:11.39,0:00:12.33,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}happened
+Dialogue: 0,0:00:12.33,0:00:12.69,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}the right
+Dialogue: 0,0:00:12.69,0:00:12.95,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}half
+Dialogue: 0,0:00:12.95,0:00:13.47,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}of the brain
+Dialogue: 0,0:00:13.47,0:00:13.83,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}slept
+Dialogue: 0,0:00:13.83,0:00:14.56,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}deeply
+Dialogue: 0,0:00:14.75,0:00:15.09,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}the left
+Dialogue: 0,0:00:15.09,0:00:15.39,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}half
+Dialogue: 0,0:00:15.39,0:00:15.67,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}stayed
+Dialogue: 0,0:00:15.67,0:00:16.43,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}lighter
+Dialogue: 0,0:00:16.43,0:00:17.21,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}on guard
+Dialogue: 0,0:00:17.21,0:00:17.67,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}when odd
+Dialogue: 0,0:00:17.67,0:00:17.89,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}beeps
+Dialogue: 0,0:00:17.89,0:00:18.29,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}reached
+Dialogue: 0,0:00:18.29,0:00:18.89,Cap,,0,0,0,,{\fs128\fscx85\fscy85\t(0,90,\fscx100\fscy100)}that guarding
+Dialogue: 0,0:00:18.89,0:00:19.53,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}half
+Dialogue: 0,0:00:19.53,0:00:19.87,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}sleepers
+Dialogue: 0,0:00:19.87,0:00:20.27,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}woke up
+Dialogue: 0,0:00:20.27,0:00:20.97,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}more often
+Dialogue: 0,0:00:20.97,0:00:21.86,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}and faster
+Dialogue: 0,0:00:22.03,0:00:22.29,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}it's a
+Dialogue: 0,0:00:22.29,0:00:23.31,Cap,,0,0,0,,{\fs108\fscx85\fscy85\t(0,90,\fscx100\fscy100)}night watchman
+Dialogue: 0,0:00:23.31,0:00:23.55,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}listening
+Dialogue: 0,0:00:23.55,0:00:24.19,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}for danger
+Dialogue: 0,0:00:24.19,0:00:24.73,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}in a place
+Dialogue: 0,0:00:24.73,0:00:25.27,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}it doesn't
+Dialogue: 0,0:00:25.27,0:00:26.13,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}know yet
+Dialogue: 0,0:00:26.13,0:00:26.45,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}dolphins
+Dialogue: 0,0:00:26.45,0:00:26.89,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}and ducks
+Dialogue: 0,0:00:26.89,0:00:27.33,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}do this
+Dialogue: 0,0:00:27.33,0:00:28.31,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}every night
+Dialogue: 0,0:00:28.31,0:00:28.59,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}by your
+Dialogue: 0,0:00:28.59,0:00:29.21,Cap,,0,0,0,,{\fs135\fscx85\fscy85\t(0,90,\fscx100\fscy100)}second night
+Dialogue: 0,0:00:29.21,0:00:29.99,Cap,,0,0,0,,{\fs122\fscx85\fscy85\t(0,90,\fscx100\fscy100)}the watchman
+Dialogue: 0,0:00:29.99,0:00:31.09,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}clocks off
+Dialogue: 0,0:00:31.09,0:00:31.53,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}so it
+Dialogue: 0,0:00:31.53,0:00:32.65,Cap,,0,0,0,,{\fs141\fscx85\fscy85\t(0,90,\fscx100\fscy100)}isn't the bed
+Dialogue: 0,0:00:32.65,0:00:32.93,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}it's your
+Dialogue: 0,0:00:32.93,0:00:33.41,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}brain
+Dialogue: 0,0:00:33.41,0:00:33.97,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}guarding
+Dialogue: 0,0:00:33.97,0:00:34.52,Cap,,0,0,0,,{\fscx85\fscy85\t(0,90,\fscx100\fscy100)}you
