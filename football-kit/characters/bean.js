@@ -4,6 +4,7 @@
 //
 //   const p = makeBean({ shirt: '#d81f26', number: 7, skin: SKINS.beige, hair: 'cap', face: 'smug' });
 //   scene.add(p.root);   p.setFace('shocked');   p.pose({ armL: -2.6, armR: 2.6 });   // arms up
+//   hair: 'cap' | 'bun' | 'old' | 'ponytail' | 'none';  ponytail whip: p.pose({ tail: 1.2, tailSwing: 1.5 })
 //   makeCrowd({ rows: 8, perRow: 40, colors: ['#d81f26', '#ffffff'] })  -> InstancedMesh peg crowd
 //
 // Units: the character is ~3.0 tall, soles at y = 0. Proportions head 1 : torso 0.9 : legs 1.1.
@@ -111,19 +112,37 @@ export function makeBean({
     cap.rotation.x = -.38; headG.add(cap);
     if (hair === 'bun') { const bun = new THREE.Mesh(new THREE.SphereGeometry(.16, 16, 12), mat(hairColor)); bun.position.set(0, .5, -.25); headG.add(bun); }
   }
+  // ponytail: a cap plus a chain of tapering joints from the back of the head (whip with pose({ tail, tailSwing }))
+  const tail = [];
+  if (hair === 'ponytail') {
+    const cap = new THREE.Mesh(new THREE.SphereGeometry(.535, 48, 24, 0, Math.PI * 2, 0, Math.PI * .45), mat(hairColor, { roughness: .45 }));
+    cap.rotation.x = -.42; headG.add(cap);
+    const band = new THREE.Mesh(new THREE.TorusGeometry(.075, .025, 8, 16), mat('#222'));
+    let parent = new THREE.Group(); parent.position.set(0, .22, -.47); headG.add(parent); band.rotation.x = Math.PI / 2; parent.add(band);
+    const N = 6;
+    for (let i = 0; i < N; i++) {
+      const j = new THREE.Group(); if (i) j.position.y = -.13; parent.add(j);
+      const r = .085 * (1 - i / (N + 1)) + .02;
+      const seg = new THREE.Mesh(new THREE.SphereGeometry(r, 14, 10), mat(hairColor, { roughness: .45 })); seg.scale.set(1, 1.25, 1); seg.position.y = -.07; j.add(seg);
+      tail.push(j); parent = j;
+    }
+  }
   const setFace = (f) => { drawFace(fctx, skin, f, hair); faceTex.needsUpdate = true; };
   setFace(face);
   root.traverse(o => { if (o.isMesh) { o.castShadow = true; } });
 
   // pose: all angles in radians, applied absolutely each call
-  const pose = ({ armL = .18, armR = -.18, armLf = 0, armRf = 0, legL = 0, legR = 0, lean = 0, headTilt = 0, headTurn = 0, squash = 1, bounce = 0 } = {}) => {
+  const pose = ({ armL = .18, armR = -.18, armLf = 0, armRf = 0, legL = 0, legR = 0, lean = 0, headTilt = 0, headTurn = 0, squash = 1, bounce = 0, tail = .5, tailSwing = 0, tailCurl = .08 } = {}) => {
     arms[0].rotation.set(armLf, 0, -armL); arms[1].rotation.set(armRf, 0, -armR);
     legs[0].rotation.x = legL; legs[1].rotation.x = legR;
     body.rotation.x = lean; body.scale.set(1 / Math.sqrt(squash), squash, 1 / Math.sqrt(squash)); body.position.y = bounce;
     headG.rotation.set(0, headTurn, headTilt);
+    // tail: base lift (rad, + = up and out behind), tailSwing: sideways whip (rad, spread down the chain), tailCurl: extra bend per joint
+    tailJoints.forEach((j, i) => { j.rotation.set(i ? -tailCurl : tail, 0, i ? tailSwing * .35 : tailSwing * .6); });
   };
+  const tailJoints = tail;
   pose();
-  return { root, body, head: headG, arms, legs, setFace, pose };
+  return { root, body, head: headG, arms, legs, tail, setFace, pose };
 }
 
 // Peg-people crowd: capsule body + sphere head, InstancedMesh pairs. Returns a Group.

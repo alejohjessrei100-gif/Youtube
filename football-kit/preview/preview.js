@@ -18,13 +18,13 @@ const crowd = makeCrowd({ rows: 10, perRow: 60, colors: ['#d81f26', '#d81f26', '
 const cast = [
   { o: { number: 7, face: 'smug' }, p: {} },
   { o: { number: 5, face: 'happy', skin: SKINS.brown, hairColor: '#111' }, p: { armL: 2.6, armR: -2.6 } },
-  { o: { number: 9, face: 'shocked', skin: SKINS.tan }, p: { armL: .6, armR: -.6 } },
+  { o: { number: 9, face: 'determined', shirt: '#6cabdd', hair: 'ponytail', hairColor: '#e2c46e' }, p: { tail: 1.1, tailSwing: 1.2 }, turn: -2.2 },
   { o: { number: 1, face: 'angry', shirt: '#2fb34a', hairColor: '#111', skin: SKINS.dark }, p: { armL: .5, armR: -1.2 } },
   { o: { number: null, face: 'sad', outfit: 'suit', hair: 'old' }, p: {} },
   { o: { number: 8, face: 'crying', skin: SKINS.beige, hair: 'bun', hairColor: '#7a4b2a' }, p: { headTilt: .15 } },
 ];
 const pos = [[-2.2, 0, 1.6], [0, 0, 2.2], [2.2, 0, 1.6], [-2.6, 0, -1.6], [0, 0, -1.2], [2.6, 0, -1.6]];
-cast.forEach((c, i) => { const b = makeBean(c.o); b.pose(c.p); b.root.position.set(...pos[i]); b.root.rotation.y = -pos[i][0] * .1; scene.add(b.root); });
+cast.forEach((c, i) => { const b = makeBean(c.o); b.pose(c.p); b.root.position.set(...pos[i]); b.root.rotation.y = c.turn ?? -pos[i][0] * .1; scene.add(b.root); });
 
 const out = document.createElement('canvas'); out.width = W; out.height = H; document.body.appendChild(out);
 const x = out.getContext('2d');
