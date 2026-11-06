@@ -1,2 +1,2 @@
 { "compilerOptions": { "target": "ES2022", "module": "ESNext", "moduleResolution": "bundler", "jsx": "react-jsx", "strict": true, "skipLibCheck": true, "noEmit": true, "lib": ["ES2022", "DOM"] },
-  "include": ["src/videos/ear/**/*.ts", "src/videos/ear/**/*.tsx", "src/videos/cup/**/*.ts", "src/videos/cup/**/*.tsx", "src/videos/vasa/**/*.ts", "src/videos/vasa/**/*.tsx", "src/test/**/*.tsx"] }
+  "include": ["src/videos/ear/**/*.ts", "src/videos/ear/**/*.tsx", "src/videos/cup/**/*.ts", "src/videos/cup/**/*.tsx", "src/videos/vasa/**/*.ts", "src/videos/vasa/**/*.tsx", "src/videos/hotel/**/*.ts", "src/videos/hotel/**/*.tsx", "src/test/**/*.tsx"] }
