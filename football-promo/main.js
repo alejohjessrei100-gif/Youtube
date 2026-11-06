@@ -277,11 +277,11 @@ const vsTex = canvasTex(512, 512, (c, w, h) => {
 });
 const vs = hudPlane(vsTex, 2.1, 2.1, 30);
 
-const goalTxt = hudPlane(canvasTex(1024, 640, (c, w, h) => {
+const goalCard = team => hudPlane(canvasTex(1024, 640, (c, w, h) => {
   c.font = `900 300px ${FONT}`;
-  italicText(c, 'GOAL!', w / 2, 260, { fill: '#fff', stroke: HOME.primary, strokeW: 30, glow: HOME.secondary });
-  fitFont(c, HOME.name, 760, 110);
-  italicText(c, HOME.name, w / 2, 500, { fill: HOME.secondary, stroke: HOME.dark, strokeW: 16 });
+  italicText(c, 'GOAL!', w / 2, 260, { fill: '#fff', stroke: team.primary, strokeW: 30, glow: team.secondary });
+  fitFont(c, team.name, 900, 110);
+  italicText(c, team.name, w / 2, 500, { fill: team.secondary, stroke: team.dark, strokeW: 16 });
 }), 5, 5 * 640 / 1024, 20);
 
 // end card pieces
@@ -377,8 +377,16 @@ sparks.renderOrder = 29; sparks.frustumCulled = false; hudRoot.add(sparks);
 let crestHome, crestAway;
 
 // ---------------------------------------------------------------- timeline
-const S2 = 2.2, CLASH = 3.0, S3 = 5.0, KICK = 5.55, HIT = 6.0, S4 = 7.8;
-const BALL_SPOT = v3(0, .42, SPOT_Z), BALL_HIT = v3(2.2, 1.85, GOAL_Z - 1.2);
+const S2 = 2.2, CLASH = 2.9, S3 = 4.4, S3B = 6.1, S4 = 7.9;
+const BALL_SPOT = v3(0, .42, SPOT_Z);
+// Westbridge scores first (bottom-left), PISAY answers (top-right)
+const GOALS = [
+  { start: S3, kick: S3 + .45, hit: S3 + .9, end: S3B, side: -1, target: v3(-2.1, .75, GOAL_Z - 1.6), team: AWAY },
+  { start: S3B, kick: S3B + .45, hit: S3B + .9, end: S4, side: 1, target: v3(2.2, 1.85, GOAL_Z - 1.2), team: HOME },
+];
+const goalAt = t => t < S3B ? GOALS[0] : GOALS[1];
+let confTeam = null;
+GOALS[0].txt = goalCard(AWAY); GOALS[1].txt = goalCard(HOME);
 
 function ballDrop(t) { // free fall onto centre spot with bounces
   const g = 60, t0 = .3, h = 30; let y;
@@ -390,7 +398,7 @@ function ballDrop(t) { // free fall onto centre spot with bounces
 
 function update(t) {
   t = clamp(t, 0, DURATION - 1e-4);
-  [dim, flash, matchDay, vs, goalTxt, endKicker, endTeams, endInfo, endTag].forEach(m => { m.visible = false; m.material.opacity = 0; });
+  [dim, flash, matchDay, vs, GOALS[0].txt, GOALS[1].txt, endKicker, endTeams, endInfo, endTag].forEach(m => { m.visible = false; m.material.opacity = 0; });
   crestHome.visible = crestAway.visible = sparks.visible = false;
   hudLight.intensity = 0;
   vignette.material.opacity = .9;
@@ -444,37 +452,39 @@ function update(t) {
     }
     const [sx, sy] = shake(t, CLASH, .35); pos.x += sx; pos.y += sy;
     flashA = Math.max(t < S2 + .1 ? 1 - prog(t, S2, S2 + .1) : 0, t > CLASH ? .8 * (1 - prog(t, CLASH, CLASH + .2)) : 0);
-  } else if (t < S4) { // ---- shot 3: penalty, top corner, net bulge, confetti
+  } else if (t < S4) { // ---- shots 3a/3b: a goal for each side, net bulge, confetti
+    const G = goalAt(t), S3 = G.start, KICK = G.kick, HIT = G.hit, BALL_HIT = G.target, sd = G.side, goalTxt = G.txt;
+    if (confTeam !== G.team) { confTeam = G.team; const cc = [G.team.primary, G.team.secondary, '#ffffff', G.team.accent].map(c => new THREE.Color(c)); for (let i = 0; i < CONF; i++) confetti.setColorAt(i, cc[i % 4]); confetti.instanceColor.needsUpdate = true; }
     const pre = prog(t, S3, KICK);
     if (t < HIT + .05) {
       const k = easeInOut(prog(t, S3, HIT));
-      pos = v3(lerp(1.4, .7, k), lerp(2.3, 1.9, k), lerp(SPOT_Z + 6.5, SPOT_Z + 3.5, k));
-      look = v3(lerp(0, 1, prog(t, KICK, HIT)), lerp(1.0, 1.3, prog(t, KICK, HIT)), GOAL_Z);
+      pos = v3(sd * lerp(1.4, .7, k), lerp(2.3, 1.9, k), lerp(SPOT_Z + 6.5, SPOT_Z + 3.5, k));
+      look = v3(sd * lerp(0, 1, prog(t, KICK, HIT)), lerp(1.0, 1.3, prog(t, KICK, HIT)), GOAL_Z);
       fov = lerp(62, 54, k);
     } else { // crane round to the front-side of the goal
-      const k = easeInOut(prog(t, HIT + .05, S4));
-      pos = v3(lerp(.7, -3.5, k), lerp(1.9, 3.4, k), lerp(SPOT_Z + 3.5, SPOT_Z + 1.5, k));
-      look = v3(lerp(1, .8, k), lerp(1.3, 1.0, k), GOAL_Z);
+      const k = easeInOut(prog(t, HIT + .05, G.end));
+      pos = v3(sd * lerp(.7, -3.5, k), lerp(1.9, 3.4, k), lerp(SPOT_Z + 3.5, SPOT_Z + 1.5, k));
+      look = v3(sd * lerp(1, .8, k), lerp(1.3, 1.0, k), GOAL_Z);
       fov = lerp(54, 60, k);
     }
     // ball
     if (t < KICK) setBall(BALL_SPOT, 0);
     else if (t < HIT) {
       const k = prog(t, KICK, HIT), p = BALL_SPOT.clone().lerp(BALL_HIT, k);
-      p.y += Math.sin(k * Math.PI) * 1.1; p.x += Math.sin(k * Math.PI) * -.6; setBall(p, k * 14);
+      p.y += Math.sin(k * Math.PI) * 1.1; p.x += Math.sin(k * Math.PI) * -.6 * sd; setBall(p, k * 14);
     } else {
       const tt = t - HIT, p = BALL_HIT.clone(); p.z -= Math.min(tt, .2) * 1.5;
-      p.y = Math.max(.42, BALL_HIT.y - 5 * tt * tt); p.x -= tt * .4; setBall(p, 14 + tt * 3);
+      p.y = Math.max(.42, BALL_HIT.y - 5 * tt * tt); p.x -= tt * .4 * sd; setBall(p, 14 + tt * 3);
     }
     if (t > HIT) { // confetti
       confetti.visible = true; const tt = t - HIT, m = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), s = v3(1, 1, 1);
       confData.forEach((d, i) => {
         const drag = (1 - Math.exp(-tt * 1.6)) / 1.6;
-        const p = d.o.clone().addScaledVector(d.v, drag); p.y -= 1.6 * tt * tt * .5 + tt * .4; p.x += Math.sin(tt * 4 + d.ph) * .25;
+        const p = d.o.clone(); p.x += BALL_HIT.x * .5; p.addScaledVector(d.v, drag); p.y -= 1.6 * tt * tt * .5 + tt * .4; p.x += Math.sin(tt * 4 + d.ph) * .25;
         e.set(d.spin.x * tt + d.ph, d.spin.y * tt, d.spin.z * tt); q.setFromEuler(e); m.compose(p, q, s); confetti.setMatrixAt(i, m);
       });
       confetti.instanceMatrix.needsUpdate = true;
-      const gp = prog(t, HIT + .08, HIT + .3), go = prog(t, S4 - .35, S4);
+      const gp = prog(t, HIT + .08, HIT + .3), go = prog(t, G.end - .35, G.end);
       goalTxt.visible = true; goalTxt.material.opacity = clamp(gp * 4) * (1 - go);
       goalTxt.scale.setScalar(lerp(2.4, 1, easeOutBack(gp, 1.2)) * (1 + go * .3)); goalTxt.position.set(0, 2.4, HUD_Z);
     }
@@ -515,8 +525,8 @@ function setBall(p, spin) {
   const h = p.y - .42; ballShadow.scale.setScalar(1 + h * .08); ballShadow.material.opacity = .45 / (1 + h * .3);
 }
 function updateNet(t) {
-  const tt = t - HIT;
-  if (t < HIT || t > S4) { netBack(); return; }
+  const G = goalAt(t), HIT = G.hit, BALL_HIT = G.target, tt = t - HIT;
+  if (t < S3 || t < HIT || t > G.end) { netBack(); return; }
   const amp = 1.1 * Math.exp(-tt * 3.5) * Math.cos(tt * 14) * clamp(tt * 25);
   const cu = (BALL_HIT.x + GW) / (2 * GW), cv = BALL_HIT.y / GH;
   netBack(n => { const d = Math.hypot((n.u - cu) * 2, n.v - cv); const w = Math.exp(-d * d * 6) * Math.sin(Math.PI * n.u) * Math.sin(Math.PI * Math.min(1, n.v * 1.1)); return v3(0, 0, -amp * w); });

@@ -33,22 +33,23 @@ beat = 60 / 128
 for k in range(40):
     at = .3 + k * beat
     if at > D - .2: break
-    if 5.0 < at < 6.0: continue
+    if 4.5 < at < 5.3 or 6.2 < at < 7.0: continue
     put(kick(), at, .9)
     put(hat(), at + beat / 2, .35)
     if k % 2: put(lowpass(noise(.15), .4) * env(int(.15 * SR), .001, .04), at, .5)  # clap/snare
 # bass line on the beat
-bass = np.sin(2 * np.pi * 73.4 * t) * .18 * (np.sin(2 * np.pi * t / beat) > 0) * ((t > .3) & ~((t > 5.0) & (t < 6.0)))
+bass = np.sin(2 * np.pi * 73.4 * t) * .18 * (np.sin(2 * np.pi * t / beat) > 0) * ((t > .3) & ~(((t > 4.5) & (t < 5.3)) | ((t > 6.2) & (t < 7.0))))
 mix += lowpass(bass, .05) * 2
-for at, d, g in [(0.0, .6, .5), (2.05, .4, .8), (4.75, .45, .8), (5.4, .45, .5), (7.65, .45, .8)]: put(whoosh(d), at, g)
+for at, d, g in [(0.0, .6, .5), (2.05, .4, .8), (4.2, .4, .8), (5.9, .4, .8), (7.7, .45, .8)]: put(whoosh(d), at, g)
 put(kick(.25), 1.3, .7)                 # ball lands
-put(boom(), 3.0, 1.0)                   # crests clash
-put(kick(.2) * 1.2, 5.55, .9)           # strike
-put(boom(), 6.0, 1.1)                   # net
-r = np.arange(int(3.6 * SR)) / SR       # crowd roar
-roar = lowpass(noise(3.6), .12) * np.minimum(1, r / .25) * np.exp(-np.maximum(0, r - 1.6) / 1.2)
-put(roar, 6.0, 1.6)
-put(sting(), 7.8, 1.0)
+put(boom(), 2.9, 1.0)                   # crests clash
+r = np.arange(int(2.0 * SR)) / SR
+def roar(g, dur=2.0):
+    n = int(dur * SR); x = np.arange(n) / SR
+    return lowpass(noise(dur), .12) * np.minimum(1, x / .2) * np.exp(-np.maximum(0, x - .9) / .6) * g
+for kick_t, hit_t, g in [(4.85, 5.3, .8), (6.55, 7.0, 1.1)]:   # Westbridge goal, then PISAY goal
+    put(kick(.2) * 1.2, kick_t, .9); put(boom(), hit_t, g); put(roar(1.6 * g), hit_t)
+put(sting(), 7.9, 1.0)
 mix /= np.max(np.abs(mix)) / .89
 fade = np.minimum(1, (D - t) / .25); mix *= fade
 pcm = (np.tanh(mix * 1.1) / np.tanh(1.1) * 32000).astype('<i2')
