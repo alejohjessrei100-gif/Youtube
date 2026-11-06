@@ -6,11 +6,13 @@
   rigging, lion figurehead, flags), `world.ts` (harbour: sky, sea, quay, far shore + castle), `story.ts` (ship-local
   coords via `shipToWorld`, heel/travel in `shipPose`), `cast.ts` (sailors, crowd, gust/gull/cap fx). Composition `VasaShort`.
   Toon: new hat "brim" (1620s felt hat).
-- Hook test (0-168 f) delivered: `vasa/Vasa_hook_2K.mp4`, audio `vasa/audio/hook_audio.py`. Render:
-  `COMP=VasaShort node scripts/render.mjs out/vasa/hooktest 0 168 60 4 1.3333333333333333` (~9.5 s/frame, 4 tabs).
-- NEXT: wait for the user's verdict on the hook; then plan shots 6+ (frame 170 on): "You see" 1628 king + shipyard,
-  30 sailors running the stability test (ship rolls more each run), "sailed anyway", gust 1 / gust 2 / water through
-  open gun ports, 1300 m, top-heavy cutaway, raised 1961, the museum button.
+- DELIVERED (2026-11-06): `vasa/The_Ship_That_Lost_To_A_Breeze_2K.mp4` and `..._2K_captions.mp4` (39.0 s, 24 shots,
+  QA clean: no black / frozen / pop frames, -15 LUFS). Frames 0-159 come from the approved hook test, 160-1169 from
+  `out/vasa/final` (`render.mjs out/vasa/final 160 1169 60 4 1.3333`, ~9 s/frame). Finish: `scripts/finish_vasa.sh`
+  (joins with the concat FILTER: the hook and full-film chunks have different stream params, -c copy froze frames).
+- Captions: user style (white Montserrat Black, thick black outline); `CAP_MARGINV=950` puts them at ~57-63 % height,
+  clear of the Shorts title overlay (bottom) and the button column (right). Phrases `vasa/phrases.txt`, words `vasa/voice/words_cap.json`.
+- Audio: `vasa/audio/full_audio.py` -> mix.wav. NEXT: wait for the user's notes on the full video.
 - Whisper model: npm-pack the 4 parts into /root/whisper-small (see "Setting up"); faster-whisper here needs the audio
   passed as a 16 kHz float array (av's open() signature mismatch).
 
