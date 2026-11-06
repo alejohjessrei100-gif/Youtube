@@ -36,6 +36,8 @@ User rules that apply:
   - Put the viewer inside it ("you", or one underdog to follow); mockers get one short spoken line.
   - Escalate in threes, each beat bigger. Every sentence brings a new image and new information: no filler, no
     lecturing ("either way", "historians say" up front). Hedge disputed claims briefly, inside the story.
+  - OPENING (user rule, 2026-11-06, replaces the absurd-sentence opener for "why do we...?" videos): line 1 is a
+    relatable QUESTION the viewer has wondered about ("Why do you feel cozy when it's raining?"), then "You see,".
   - SCRIPT SHAPE (user rule, 2026-11-05, overrides the lines around it): line 1 is ONE absurd sentence, and line 2
     starts with "You see," and goes straight into the story (setting, escalation, payoff, ironic button).
   - The "You see," lead-in comes right after the hook (not late); the last line is a short ironic button that answers or echoes the first line, so

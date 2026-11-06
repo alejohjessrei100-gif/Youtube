@@ -21,3 +21,10 @@
 10. Doorways. "Walking through a door makes you forget why you came in." Radvansky 2011: the doorway closes one
    "event" in memory.
 Recommended: 2 (first night), 3 (tickle), 1 (rain, hedged).
+
+## Question openers (user rule, 2026-11-06): line 1 is the question, then "You see,"
+1. Why do you feel cozy when it's raining?  2. Why can't you sleep on your first night in a hotel?
+3. Why can't you tickle yourself?  4. Why does time slow down when something scary happens?
+5. Why does a song get stuck in your head?  6. Why do some songs give you chills?
+7. Why do you hate the sound of your own voice on a recording?  8. Why do nails on a chalkboard make you cringe?
+9. Why do you want to squeeze cute things?  10. Why do you forget what you came into a room for?
