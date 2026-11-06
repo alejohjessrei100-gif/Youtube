@@ -1,4 +1,4 @@
-# Hotel short: script v1 (100 words, ~37 s)
+# Hotel short: script v2 (102 words, ~38 s), hook B
 
 ## Facts and sources
 - Tamaki, Bang, Watanabe & Sasaki (Brown University), Current Biology 2016, "Night Watch in One Brain Hemisphere during
@@ -9,7 +9,7 @@
 - Sources: https://www.sciencedaily.com/releases/2016/04/160421133630.htm · https://neurosciencenews.com/sleep-novel-location-4097/
 
 ## Script
-Why can't you sleep on your first night in a hotel? You see, Brown University scientists watched people sleep in a lab, two nights in a row. On night one, something strange happened. The right half of the brain slept deeply. The left half stayed lighter, on guard. When odd beeps reached that guarding half, sleepers woke up more often, and faster. It's a night watchman, listening for danger in a place it doesn't know yet. Dolphins and ducks do this every night. By your second night, the watchman clocks off. So it isn't the bed. It's your brain, guarding you.
+Why do hotel beds feel comfy, but you still can't fall asleep? You see, Brown University scientists watched people sleep in a lab, two nights in a row. On night one, something strange happened. The right half of the brain slept deeply. The left half stayed lighter, on guard. When odd beeps reached that guarding half, sleepers woke up more often, and faster. It's a night watchman, listening for danger in a place it doesn't know yet. Dolphins and ducks do this every night. By your second night, the watchman clocks off. So it isn't the bed. It's your brain, guarding you.
 
 ## Retention map (estimated)
 - 0-4 s QUESTION hook. Frame 0: a guest's face wide awake in a hotel bed at night, eyes darting, a lamp glow.
@@ -22,4 +22,4 @@ Why can't you sleep on your first night in a hotel? You see, Brown University sc
 
 ## Alternative hooks
 - A: "Why do you sleep so badly on the first night of every trip?"
-- B: "Why do hotel beds feel comfy, but you still can't fall asleep?"
+- B (was the main hook): "Why can't you sleep on your first night in a hotel?"
