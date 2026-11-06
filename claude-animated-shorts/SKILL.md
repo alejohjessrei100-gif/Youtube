@@ -16,7 +16,10 @@ The style reference is a channel studied privately (`references/`: STYLE_BIBLE.m
 - Never say the channel's name in a voice-over or description.
 
 User rules that apply:
-- No captions or labels in the video.
+- Captions (user rule, 2026-11-06, replaces "no captions"): burned-in word captions, 1-2 words each, white Montserrat
+  Black with a thick black outline + soft shadow (`scripts/captions.py`). Placement: centred, baseline at ~72 % of the
+  height (`CAP_MARGINV=720` at 1440 x 2560), just above the Shorts title / channel row, as on the user's screenshot.
+  No other labels or text in the picture.
 - English only.
 - Voice: one steady tone.
 - Jokes are researched real facts.
