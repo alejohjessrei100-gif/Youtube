@@ -5,7 +5,7 @@
 // Cards, effects and blobs live on the NOINK layer so the world ink pass never outlines their quads.
 import * as THREE from "three";
 import { Pen, bodyFront, bodySide, fxGlow, fxShadow, fxContact, fxBurst, fxPuff, fxSplash, INK, Outfit, Expr, FrontOpts, SideOpts, townsfolk, SKIN } from "./toon";
-import { FPS, SHOTS, V3, smooth, clamp01, W, GUEST_LIE, GUEST_SIT, SIT_UP, PILLOWS, STANDS, BED } from "./story";
+import { FPS, SHOTS, V3, smooth, clamp01, W, GUEST_LIE, GUEST_SIT, SIT_UP, PILLOWS, STANDS, BED, SLEEPER_LIE, SLEEPER_SIT, SCIENTISTS, MONITOR, BRAIN, WAKES, BEEPS, WATCH_PATH, WATCH_SCALE, SEA_X, LAB_X } from "./story";
 import { LIGHTS } from "./lights";
 import { NOINK } from "./ink";
 import { cardShade, blobMaterial, CARD_K } from "./cardshade";
@@ -264,6 +264,42 @@ const fxZzz = (p: Pen, k: number) => {
   });
 };
 
+/** a face on a brain hemisphere (400): awake (blinking), sleep (shut eyes + nightcap), guard (wide eyes + guard cap), alarm */
+const fxBrainFace = (p: Pen, mode: string, blinkNow: boolean) => {
+  const g = p.g; g.lineCap = "round"; g.lineJoin = "round";
+  const eye = (x: number, open: number, big = 1) => {
+    if (open < 0.5) { g.strokeStyle = INK; g.lineWidth = 12; g.beginPath(); g.arc(x, 200, 30, 0.2, Math.PI - 0.2); g.stroke(); return; }
+    g.fillStyle = "#ffffff"; g.strokeStyle = INK; g.lineWidth = 10; g.beginPath(); g.ellipse(x, 190, 34 * big, 42 * big, 0, 0, 7); g.fill(); g.stroke();
+    g.fillStyle = INK; g.beginPath(); g.arc(x + 4, 196, 14 * big, 0, 7); g.fill();
+  };
+  if (mode === "sleep") { eye(130, 0); eye(270, 0); g.fillStyle = "#3f6fb5"; g.strokeStyle = INK; g.lineWidth = 10; g.beginPath(); g.moveTo(80, 120); g.quadraticCurveTo(200, 10, 330, 120); g.lineTo(80, 120); g.fill(); g.stroke(); g.fillStyle = "#f6f2ea"; g.beginPath(); g.arc(340, 70, 22, 0, 7); g.fill(); g.stroke(); g.beginPath(); g.moveTo(160, 290); g.quadraticCurveTo(200, 310, 240, 290); g.stroke(); return; }
+  const open = blinkNow ? 0 : 1, big = mode === "alarm" ? 1.35 : mode === "guard" ? 1.15 : 1;
+  eye(130, open, big); eye(270, open, big);
+  if (mode === "guard" || mode === "alarm") { g.fillStyle = "#2a3a6a"; g.strokeStyle = INK; g.lineWidth = 10; g.beginPath(); g.moveTo(80, 120); g.lineTo(320, 120); g.lineTo(300, 60); g.lineTo(100, 60); g.closePath(); g.fill(); g.stroke(); g.fillStyle = "#e2ae45"; g.beginPath(); g.arc(200, 92, 14, 0, 7); g.fill(); g.fillStyle = "#1d2440"; g.fillRect(70, 118, 260, 16); }
+  g.strokeStyle = INK; g.lineWidth = 10; g.beginPath();
+  if (mode === "alarm") { g.ellipse(200, 300, 30, 36, 0, 0, 7); g.stroke(); } else if (mode === "guard") { g.moveTo(160, 300); g.lineTo(240, 300); g.stroke(); } else { g.moveTo(160, 290); g.quadraticCurveTo(200, 315, 240, 290); g.stroke(); }
+};
+const fxBeep = (p: Pen) => { const g = p.g; g.lineCap = "round"; for (const [r, w] of [[40, 14], [80, 12], [120, 10]]) { for (const [ww, col] of [[w + 8, INK], [w, "#ffe36a"]] as [number, string][]) { g.strokeStyle = col; g.lineWidth = ww; g.beginPath(); g.arc(200, 128, r, Math.PI * 0.75, Math.PI * 1.25); g.stroke(); } } };
+const fxBang = (p: Pen) => { const g = p.g; g.fillStyle = "#ff4b3a"; g.strokeStyle = INK; g.lineWidth = 10; g.beginPath(); g.moveTo(100, 30); g.lineTo(160, 30); g.lineTo(145, 170); g.lineTo(115, 170); g.closePath(); g.fill(); g.stroke(); g.beginPath(); g.arc(130, 215, 22, 0, 7); g.fill(); g.stroke(); };
+const fxQ = (p: Pen) => { const g = p.g; g.lineCap = "round"; for (const [w, col] of [[30, INK], [18, "#ffe36a"]] as [number, string][]) { g.strokeStyle = col; g.lineWidth = w; g.beginPath(); g.arc(128, 90, 50, Math.PI * 1.1, Math.PI * 2.35); g.lineTo(128, 165); g.stroke(); g.fillStyle = col; g.beginPath(); g.arc(128, 210, w * 0.75, 0, 7); g.fill(); } };
+const fxDolphin = (p: Pen) => {
+  const g = p.g; g.lineJoin = "round"; g.fillStyle = "#7a9ec8"; g.strokeStyle = INK; g.lineWidth = 10;
+  g.beginPath(); g.moveTo(40, 170); g.quadraticCurveTo(160, 60, 330, 110); g.quadraticCurveTo(420, 130, 470, 150); g.quadraticCurveTo(400, 170, 330, 180); g.quadraticCurveTo(200, 210, 40, 170); g.fill(); g.stroke();
+  g.beginPath(); g.moveTo(220, 95); g.lineTo(250, 30); g.lineTo(285, 100); g.fill(); g.stroke();
+  g.beginPath(); g.moveTo(45, 170); g.lineTo(10, 120); g.lineTo(70, 150); g.lineTo(20, 210); g.closePath(); g.fill(); g.stroke();
+  g.fillStyle = "#ffffff"; g.beginPath(); g.arc(380, 130, 14, 0, 7); g.fill(); g.stroke(); g.fillStyle = INK; g.beginPath(); g.arc(384, 132, 6, 0, 7); g.fill();
+  g.fillStyle = "#dfe8f4"; g.beginPath(); g.moveTo(120, 185); g.quadraticCurveTo(250, 200, 400, 165); g.lineTo(330, 180); g.quadraticCurveTo(220, 205, 120, 185); g.fill();
+};
+/** a duck on the water (300 x 260); open = -1 left eye open, 1 right eye open, 0 asleep */
+const fxDuck = (p: Pen, open: number) => {
+  const g = p.g; g.lineJoin = "round"; g.strokeStyle = INK; g.lineWidth = 9;
+  g.fillStyle = "#f2e6c8"; g.beginPath(); g.ellipse(150, 170, 110, 60, 0, 0, 7); g.fill(); g.stroke();
+  g.fillStyle = "#2f8a5a"; g.beginPath(); g.arc(open >= 0 ? 210 : 90, 95, 46, 0, 7); g.fill(); g.stroke();
+  const hx = open >= 0 ? 210 : 90, bx = open >= 0 ? 1 : -1;
+  g.fillStyle = "#f2a83a"; g.beginPath(); g.moveTo(hx + bx * 38, 92); g.lineTo(hx + bx * 82, 104); g.lineTo(hx + bx * 38, 114); g.closePath(); g.fill(); g.stroke();
+  if (open) { g.fillStyle = "#ffffff"; g.beginPath(); g.arc(hx + bx * 12, 82, 13, 0, 7); g.fill(); g.stroke(); g.fillStyle = INK; g.beginPath(); g.arc(hx + bx * 15, 83, 6, 0, 7); g.fill(); }
+  else { g.beginPath(); g.arc(hx + bx * 12, 84, 11, 0.3, Math.PI - 0.3); g.stroke(); }
+};
 /** everything with a face (and the effects) in shot id at time t */
 export const stage = (id: number, t: number, cam: CamInfo): Stage => {
   const out: Stage = { places: [], fx: [] };
@@ -274,7 +310,7 @@ export const stage = (id: number, t: number, cam: CamInfo): Stage => {
   const fl = 0.97 + 0.03 * Math.sin(t * 3.1);
   // the lamps glow
   for (const [sx, sy, sz] of STANDS) glow(out, sx + (sx > 0 ? 0.08 : -0.08), sy + 0.42, sz - 0.05, 0.9 * fl, "255,196,120", "lamp");
-  if (s.place === "room") {
+  if (s.place === "room" && id <= 4) {
     if (f < SIT_UP) {
       // lying on his back, eyes wide open, darting (head on the pillow, body under the duvet)
       const look = Math.sin(t * 2.2) > 0 ? 1 : -1, ex: Expr = f < 40 ? "nervous" : "stern";
@@ -297,6 +333,65 @@ export const stage = (id: number, t: number, cam: CamInfo): Stage => {
         out.fx.push({ key: `sheep${kq}${asleep ? "z" : ""}`, cw: 400, ch: 300, draw: (p) => fxSheep(p, kq, asleep), x, y: asleep ? 0.28 : y, z, w: 0.8, h: 0.6, rot: asleep ? 0 : 0.25 * (0.5 - uu) });
         if (asleep) { const zk = Math.round(((t * 0.8) % 1) * 4) / 4; out.fx.push({ key: `zzz${zk}`, cw: 256, ch: 256, draw: (p) => fxZzz(p, zk), x: x + 0.35, y: 0.75 + 0.2 * zk, z, w: 0.5, h: 0.5 }); }
       }
+    }
+  }
+  const lab = (o: Partial<Outfit>, v: number): Outfit => ({ jacket: "#f6f6f2", pants: ["#3a4a5e", "#5a4a3a"][v], boots: INK, hat: "hair", hair: ["#2a1d18", "#b9b2a8"][v], glasses: true, buttons: "#c9ccd2", skin: ["#c99067", "#f5d2b2"][v], ...o });
+  const sleeperO: Outfit = { jacket: "#9ac8b8", pants: "#9ac8b8", boots: "#9ac8b8", hat: "eeg", skin: "#ecd0b6", noButtons: true };
+  const zz = (x: number, y: number, z: number, sz = 0.5) => { const zk = Math.round(((t * 0.8) % 1) * 4) / 4; out.fx.push({ key: `zzz${zk}`, cw: 256, ch: 256, draw: (p) => fxZzz(p, zk), x, y: y + 0.2 * zk, z, w: sz, h: sz }); };
+  if (s.place === "lab") {
+    // the sleeper: lying (eyes shut) in the lab bed; in shot 12 jolting awake twice
+    const up = id === 12 && ((f >= WAKES[0] && f < WAKES[0] + 14) || f >= WAKES[1]);
+    if (!up) { put(cam, out, { i: 20, o: sleeperO, okey: "sleeper" }, SLEEPER_LIE[0], SLEEPER_LIE[1], SLEEPER_LIE[2], { mode: "stand", expr: "smile_closed", blink: 1 }, t, 0.5, { blob: false, pitch: -Math.PI / 2 + 0.07, yaw: 0 }); if (id !== 12) zz(SLEEPER_LIE[0] + 0.3, 1.1, -2.1, 0.4); }
+    else { const w0 = f >= WAKES[1] ? WAKES[1] : WAKES[0], j = Math.exp(-(f - w0) / 4); put(cam, out, { i: 20, o: sleeperO, okey: "sleeper" }, SLEEPER_SIT[0], SLEEPER_SIT[1] + 0.12 * j, SLEEPER_SIT[2], { mode: "stand", expr: f - w0 < 10 ? "shock" : "dazed", pose: "up", k: 0.2, tilt: -6 * j }, t, 1.6, { blob: false });
+      if (f - w0 < 8) out.fx.push({ key: `burst${f - w0}`, cw: 500, ch: 500, draw: (p) => fxBurst(p, (f - w0) / 8, "#ffffff", 10, 40, 220), x: SLEEPER_SIT[0] + 0.5, y: 1.75, z: SLEEPER_SIT[2] + 0.2, w: 0.9, h: 0.9 }); }
+    // the scientists: one points at the monitor, one writes on a clipboard
+    const sc0 = SCIENTISTS[0], sc1 = SCIENTISTS[1];
+    put(cam, out, { i: 30, o: lab({}, 0), okey: "sci0" }, sc0[0], 0, sc0[2], { mode: "stand", expr: id === 12 ? "shock" : f % 90 < 45 ? "stern" : "smile", pose: "point", look: -1, facing: -1 }, t, 1.1);
+    put(cam, out, { i: 31, o: lab({}, 1), okey: "sci1" }, sc1[0], 0, sc1[2], { mode: "stand", expr: id === 12 ? "grin" : "neutral", pose: "quill", k: t, look: -1 }, t, 1.0);
+    glow(out, MONITOR[0], MONITOR[1], MONITOR[2] + 0.1, 1.0, "150,230,200", "mon");
+    if (id === 7) {
+      // through the window: the moon sets, the sun crosses, the moon again
+      const ph = clamp01((f - 252) / 34), day = Math.sin(Math.PI * ph), wx = LAB_X - 1.6 - 0.45 + 0.9 * ph;
+      out.fx.push({ key: day > 0.5 ? "sun" : "moon", cw: 256, ch: 256, draw: (p) => fxGlow(p, day > 0.5 ? "255,236,150" : "240,240,255"), x: wx, y: 1.65 + 0.35 * Math.sin(Math.PI * ((ph * 3) % 1)), z: -3.85, w: 0.35, h: 0.35, soft: true });
+    }
+  } else if (s.place === "brain") {
+    // faces on the hemispheres (the brain is seen from the front: its RIGHT half is on screen LEFT)
+    const sleepR = f >= W.right - 2, guardL = f >= W.left - 2;
+    const beepHit = BEEPS.findIndex((b0) => f >= b0 + 8 && f < b0 + 20);
+    const modeR = sleepR ? "sleep" : "awake", modeL = beepHit >= 0 ? "alarm" : guardL ? "guard" : "awake";
+    const bl = lidAt(t, 5) > 0.5;
+    out.fx.push({ key: `bf_${modeR}${bl && !sleepR ? "b" : ""}`, cw: 400, ch: 400, draw: (p) => fxBrainFace(p, modeR, bl && !sleepR), x: BRAIN[0] - 0.7, y: BRAIN[1] + 0.05, z: BRAIN[2] + 1.02, w: 0.95, h: 0.95 });
+    out.fx.push({ key: `bf_${modeL}${bl && modeL === "awake" ? "b" : ""}`, cw: 400, ch: 400, draw: (p) => fxBrainFace(p, modeL, bl && modeL === "awake"), x: BRAIN[0] + 0.7, y: BRAIN[1] + 0.05, z: BRAIN[2] + 1.02, w: 0.95, h: 0.95 });
+    if (sleepR) zz(BRAIN[0] - 1.05, BRAIN[1] + 0.9, BRAIN[2] + 0.7, 0.55);
+    // beeps: sound arcs flying in from the right ear side (screen right) to the left half
+    for (const b0 of BEEPS) { const u = (f - b0) / 10; if (u < 0 || u > 1) continue; out.fx.push({ key: "beep", cw: 256, ch: 256, draw: (p) => fxBeep(p), x: BRAIN[0] + 3.0 - 1.8 * u, y: BRAIN[1] + 0.1, z: BRAIN[2] + 0.6, w: 0.7, h: 0.7 }); }
+    if (beepHit >= 0) out.fx.push({ key: "bang", cw: 256, ch: 256, draw: (p) => fxBang(p), x: BRAIN[0] + 1.1, y: BRAIN[1] + 1.05, z: BRAIN[2] + 0.6, w: 0.5, h: 0.5 });
+    for (let k = 0; k < 22; k++) { const u = (t * 0.05 + hh(k, 31)) % 1; out.fx.push({ key: "spark", cw: 64, ch: 64, draw: (p) => fxGlow(p, "220,200,255"), x: BRAIN[0] - 4 + 8 * hh(k, 32), y: BRAIN[1] - 2 + 4.5 * hh(k, 33) + 0.3 * u, z: -2 + 3 * hh(k, 34), w: 0.06, h: 0.06, soft: true }); }
+  } else if (s.place === "room" && (id === 13 || id === 14)) {
+    // night one: he dozes lightly; the tiny night watchman patrols with a lantern
+    put(cam, out, guest, GUEST_LIE[0], GUEST_LIE[1], GUEST_LIE[2], { mode: "stand", expr: "neutral", blink: 0.5 }, t, 0.5, { blob: false, pitch: -Math.PI / 2 + 0.2, yaw: 0 });
+    const w = id === 13 ? WATCH_PATH(f) : WATCH_PATH(800), watch: Who2 = { i: 40, o: { jacket: "#2a3a6a", pants: "#2a3a6a", boots: INK, hat: "cap", cap: "#1d2440", moustache: "#5a3a22", buttons: "#e2ae45", build: "stout", skin: "#f2c9a6" }, okey: "watch" };
+    const walking = id === 13 && f < 735;
+    put(cam, out, watch, w[0], w[1], w[2], walking ? { mode: "stroll", phase: t * 1.4, expr: "stern", look: 1 } : { mode: "stand", expr: f > 750 ? "nervous" : "stern", pose: "lantern", look: 1, headTilt: 10 * Math.sin(t * 2) }, t, 1.2, { scale: WATCH_SCALE });
+    glow(out, w[0] + 0.25 * WATCH_SCALE, w[1] + 0.95 * WATCH_SCALE, w[2] + 0.05, 1.1, "255,200,110", "lant");
+    if (id === 14 && f > 745) out.fx.push({ key: "qmark", cw: 256, ch: 256, draw: (p) => fxQ(p), x: w[0] - 0.1, y: w[1] + 1.45 * WATCH_SCALE + 0.2, z: w[2], w: 0.35, h: 0.35 });
+  } else if (s.place === "sea") {
+    // a dolphin cruising with one eye open; a row of ducks, the end ones each with one eye open
+    for (let k = 0; k < 2; k++) { const x = SEA_X - 2.6 + 2.2 * k + 0.4 * t * 0.3, y = 0.15 + 0.08 * Math.sin(t * 2 + k); out.fx.push({ key: "dolphin", cw: 500, ch: 260, draw: (p) => fxDolphin(p), x, y: y + 0.25, z: -1.5 - 1.2 * k, w: 1.8, h: 0.94 }); }
+    for (let k = 0; k < 5; k++) { const end = k === 0 || k === 4, x = SEA_X - 0.95 + 0.48 * k, y = 0.18 + 0.03 * Math.sin(t * 2.4 + k); out.fx.push({ key: `duck${end ? (k ? "R" : "L") : "z"}`, cw: 300, ch: 260, draw: (p) => fxDuck(p, end ? (k ? 1 : -1) : 0), x, y: y + 0.22, z: 1.6, w: 0.55, h: 0.48 }); }
+    zz(SEA_X + 0.1, 1.1, 1.6, 0.45);
+    out.fx.push({ key: "moonpath", cw: 64, ch: 512, draw: (p) => fxGlow(p, "255,244,214"), x: SEA_X + 3, y: 0.05, z: -14, w: 2.2, h: 22, flat: true, soft: true });
+  } else if (s.place === "room") {
+    // night two (16): the watchman yawns, hangs up his lantern, heads for the door; 17: fast asleep; 18: on the nightstand
+    put(cam, out, guest, GUEST_LIE[0], GUEST_LIE[1], GUEST_LIE[2], { mode: "stand", expr: "smile_closed", blink: 1 }, t, 0.5, { blob: false, pitch: -Math.PI / 2 + 0.2, yaw: 0 });
+    zz(GUEST_LIE[0] + 0.35, 1.15, -2.3, 0.45);
+    const watch: Who2 = { i: 40, o: { jacket: "#2a3a6a", pants: "#2a3a6a", boots: INK, hat: "cap", cap: "#1d2440", moustache: "#5a3a22", buttons: "#e2ae45", build: "stout", skin: "#f2c9a6" }, okey: "watch" };
+    if (id === 16) {
+      const u = clamp01((f - 880) / 40), x = 0.9 - 1.1 * u, z = 0.6 + 2.0 * u;
+      put(cam, out, watch, x, 0, z, u > 0 && u < 1 ? { mode: "stroll", phase: t * 1.4, expr: "smile_closed", look: -1 } : { mode: "stand", expr: f < 870 ? "whistle" : "smile_closed", pose: f < 870 ? "up" : undefined, k: 0.25 }, t, 1.1, { scale: WATCH_SCALE });
+    } else if (id === 18) {
+      const [sx, sy, sz] = STANDS[0], tip = smooth((f - 990) / 8) * (1 - smooth((f - 1012) / 8));
+      put(cam, out, watch, sx - 0.18, sy, sz + 0.1, { mode: "stand", expr: f < 1000 ? "smile" : "smile_closed", pose: "up", k: 0.25 * tip, headTilt: 10 * tip, look: -1 }, t, 1.0, { scale: 0.22 });
     }
   }
   void W; void smooth; void PILLOWS; void fxBurst; void townsfolk; void clamp01;

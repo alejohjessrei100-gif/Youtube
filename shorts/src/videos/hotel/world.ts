@@ -9,7 +9,7 @@ import { LIGHTS, LOOK, LightPreset } from "./lights";
 import { TONE, CHAR, untone, twoTone } from "./shade";
 import { NOINK } from "./ink";
 import { Pool, Actor, Fx, stage } from "./cast";
-import { FPS, SHOTS, camAt, ShotDef, RX0, RX1, RZ0, RZ1, RH, BED, DUVET, PILLOWS, STANDS, MINT, WINDOW } from "./story";
+import { FPS, SHOTS, camAt, ShotDef, RX0, RX1, RZ0, RZ1, RH, BED, DUVET, PILLOWS, STANDS, MINT, WINDOW, LAB_X, LAB_BED, MONITOR, BRAIN, SEA_X, clamp01, smooth } from "./story";
 
 export const loadKit = () => Promise.resolve({} as Kit);
 
@@ -79,6 +79,8 @@ export class World {
   private fog = new THREE.Fog("#24131c", 4, 26);
   private sunCache = new Map<number, THREE.Vector3>();
   private shades: THREE.MeshBasicMaterial[] = [];
+  private labG = new THREE.Group(); private brainG = new THREE.Group(); private seaG = new THREE.Group();
+  private labWin!: THREE.MeshBasicMaterial; private eegTex!: THREE.CanvasTexture; private hemis: THREE.MeshLambertMaterial[] = [];
   private frustum = new THREE.Frustum();
   private m4 = new THREE.Matrix4(); private v = new THREE.Vector3(); private sph = new THREE.Sphere();
 
@@ -151,6 +153,101 @@ export class World {
     void r;
     b.build(R);
     R.traverse((o) => { const m = o as THREE.Mesh; if (m.isMesh && (m.material === wall || m.material === ceil || m.material === carpet)) m.castShadow = false; });
+    R.add(this.labG, this.brainG, this.seaG);
+    this.buildLab(); this.buildBrain(); this.buildSea();
+  }
+
+  // ---- the sleep lab: pale walls, tiles, a lab bed, the EEG machine + monitor, a window (night / day) ----
+  private buildLab() {
+    const G = this.labG, b = new Batch(), X = LAB_X, h = 3;
+    const wall = lam("labWall", () => ({ color: "#bcdcd8" })), floor = lam("labFloor", () => ({ map: rep(ctex("labTile", 256, 256, (g) => {
+      for (let i = 0; i < 2; i++) for (let k = 0; k < 2; k++) { g.fillStyle = (i + k) % 2 ? "#d4d8dc" : "#b8bec6"; g.fillRect(i * 128, k * 128, 128, 128); } }), 6, 6) })), ceilM = lam("labCeil", () => ({ color: "#eef2f2" }));
+    const W2 = (a: THREE.Vector3, c: THREE.Vector3) => b.add(quad(a, c, V(c.x, h, c.z), V(a.x, h, a.z)), wall);
+    W2(V(X - 4, 0, -4), V(X + 4, 0, -4)); W2(V(X + 4, 0, 4), V(X - 4, 0, 4)); W2(V(X - 4, 0, 4), V(X - 4, 0, -4)); W2(V(X + 4, 0, -4), V(X + 4, 0, 4));
+    b.add(new THREE.PlaneGeometry(8, 8).rotateX(-Math.PI / 2).translate(X, 0.001, 0), floor);
+    b.add(new THREE.PlaneGeometry(8, 8).rotateX(Math.PI / 2).translate(X, h, 0), ceilM);
+    const white = lam("labWhite", () => ({ color: "#eef0f2" })), steel = lam("labSteel", () => ({ color: "#8a929c" })), blanket = lam("labBlanket", () => ({ color: "#7fb2c8" })), dark = lam("labDark", () => ({ color: "#3a4452" }));
+    b.add(boxGeo(V(LAB_BED.x0, 0.3, LAB_BED.z0), V(LAB_BED.x1, LAB_BED.top, LAB_BED.z1)), white);
+    for (const [x, z] of [[LAB_BED.x0 + 0.05, LAB_BED.z0 + 0.05], [LAB_BED.x1 - 0.05, LAB_BED.z0 + 0.05], [LAB_BED.x0 + 0.05, LAB_BED.z1 - 0.05], [LAB_BED.x1 - 0.05, LAB_BED.z1 - 0.05]]) b.add(new THREE.CylinderGeometry(0.03, 0.03, 0.3, 8).translate(x, 0.15, z), steel);
+    b.add(boxGeo(V(LAB_BED.x0 - 0.03, LAB_BED.top, -1.85), V(LAB_BED.x1 + 0.03, LAB_BED.top + 0.2, LAB_BED.z1 + 0.05)), blanket);
+    b.add(new THREE.SphereGeometry(0.3, 18, 10).scale(1, 0.3, 0.55).translate(X, LAB_BED.top + 0.08, -2.35), white);
+    b.add(boxGeo(V(LAB_BED.x0 - 0.05, 0, -2.75), V(LAB_BED.x1 + 0.05, 1.05, -2.62)), steel);
+    // the EEG machine: a cart with dials, wires to the cap; a desk with the monitor
+    b.add(boxGeo(V(X + 0.7, 0, -2.75), V(X + 1.2, 1.05, -2.3)), dark);
+    for (let k = 0; k < 3; k++) b.add(new THREE.CylinderGeometry(0.05, 0.05, 0.03, 12).rotateX(Math.PI / 2).translate(X + 0.8 + k * 0.15, 0.85, -2.29), lam("dial", () => ({ color: "#e2b24a" })));
+    for (const [dx, dy] of [[-0.05, 0], [0.04, 0.03], [0, -0.04]]) {
+      const c = new THREE.CatmullRomCurve3([V(X + 0.1 + dx, 0.95 + dy, -2.25), V(X + 0.45, 1.25, -2.45), V(X + 0.8, 1.0, -2.45)]);
+      b.add(new THREE.TubeGeometry(c, 16, 0.012, 5, false), lam("wire", () => ({ color: "#3a3440" })));
+    }
+    b.add(boxGeo(V(MONITOR[0] - 0.7, 0.74, -2.95), V(MONITOR[0] + 0.7, 0.78, -2.25)), white);
+    for (const dx of [-0.65, 0.65]) b.add(boxGeo(V(MONITOR[0] + dx - 0.03, 0, -2.9), V(MONITOR[0] + dx + 0.03, 0.74, -2.3)), steel);
+    b.add(boxGeo(V(MONITOR[0] - 0.42, MONITOR[1] - 0.28, MONITOR[2] - 0.06), V(MONITOR[0] + 0.42, MONITOR[1] + 0.28, MONITOR[2])), dark);
+    b.add(boxGeo(V(MONITOR[0] - 0.04, 0.78, MONITOR[2] - 0.05), V(MONITOR[0] + 0.04, MONITOR[1] - 0.28, MONITOR[2] - 0.01)), dark);
+    // window frame on the back wall
+    b.add(boxGeo(V(X - 2.25, 0.95, -3.99), V(X - 0.95, 2.35, -3.93)), white);
+    b.build(G);
+    this.labWin = new THREE.MeshBasicMaterial({ color: new THREE.Color("#10204a") });
+    const win = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 1.2), this.labWin); win.position.set(X - 1.6, 1.65, -3.92); win.layers.set(NOINK); G.add(win);
+    for (const [x0, y0, x1, y1] of [[-2.2, 1.62, -1.0, 1.68], [-1.63, 1.0, -1.57, 2.3]]) b.add(boxGeo(V(X + x0, y0, -3.9), V(X + x1, y1, -3.88)), white);
+    b.build(G);
+    const cv = document.createElement("canvas"); cv.width = 512; cv.height = 320;
+    this.eegTex = new THREE.CanvasTexture(cv); this.eegTex.colorSpace = THREE.SRGBColorSpace;
+    const scr = new THREE.Mesh(new THREE.PlaneGeometry(0.78, 0.5), new THREE.MeshBasicMaterial({ map: this.eegTex, color: new THREE.Color(1.3, 1.3, 1.3) }));
+    scr.position.set(MONITOR[0], MONITOR[1], MONITOR[2] + 0.005); scr.layers.set(NOINK); G.add(scr);
+    for (const [px, pz] of [[-1.5, -1], [1.5, -1], [-1.5, 2], [1.5, 2]]) { const pn = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.5).rotateX(Math.PI / 2), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.6, 1.65, 1.7) })); pn.position.set(X + px, h - 0.01, pz); pn.layers.set(NOINK); G.add(pn); }
+    G.visible = false;
+  }
+  /** EEG traces: two hemispheres' channels; `alertLeft` makes the left-brain traces busier (night one) */
+  private drawEEG(t: number, alertLeft: number) {
+    const cv = this.eegTex.image as HTMLCanvasElement, g = cv.getContext("2d")!;
+    g.fillStyle = "#0e1a24"; g.fillRect(0, 0, 512, 320);
+    g.strokeStyle = "rgba(120,200,220,0.15)"; g.lineWidth = 1; for (let x = 0; x < 512; x += 32) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, 320); g.stroke(); }
+    const cols = ["#7fe08a", "#7fe08a", "#ffd25a", "#ffd25a"];
+    for (let k = 0; k < 4; k++) {
+      const y0 = 50 + k * 72, busy = k >= 2 ? alertLeft : 0;
+      g.strokeStyle = cols[k]; g.lineWidth = 3; g.beginPath();
+      for (let x = 0; x <= 512; x += 4) { const ph = x * 0.03 + t * 3; const a = (10 + 14 * busy) * Math.sin(ph * (1 + 2.2 * busy)) + 6 * Math.sin(ph * 3.7 + k) * (0.4 + busy); x ? g.lineTo(x, y0 + a) : g.moveTo(x, y0 + a); }
+      g.stroke();
+    }
+    this.eegTex.needsUpdate = true;
+  }
+  // ---- the brain: two hemispheres floating in a dreamy dark, a brain stem, sparkles ----
+  private buildBrain() {
+    const G = this.brainG;
+    const wr = ctex("brainWrinkle", 512, 512, (g, r) => {
+      g.fillStyle = "#f2a5b5"; g.fillRect(0, 0, 512, 512);
+      g.strokeStyle = "#c46a84"; g.lineCap = "round"; g.lineWidth = 7;
+      for (let i = 0; i < 70; i++) { let x = r() * 512, y = r() * 512; g.beginPath(); g.moveTo(x, y); for (let k = 0; k < 6; k++) { x += (r() - 0.5) * 90; y += (r() - 0.5) * 90; g.quadraticCurveTo(x + 20, y - 20, x, y); } g.stroke(); }
+    });
+    for (const s of [-1, 1]) {
+      const m = twoTone(new THREE.MeshLambertMaterial({ map: wr, emissive: new THREE.Color(0, 0, 0) }), 0.4);
+      this.hemis.push(m);
+      const geo = new THREE.SphereGeometry(1, 48, 32);
+      geo.computeVertexNormals();
+      const mesh = new THREE.Mesh(geo.scale(0.62, 0.8, 1.0).translate(BRAIN[0] + s * 0.5, BRAIN[1], BRAIN[2]), m);
+      mesh.castShadow = true; mesh.receiveShadow = true; G.add(mesh);
+    }
+    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.2, 0.9, 16).translate(BRAIN[0], BRAIN[1] - 1.0, BRAIN[2] - 0.75), lam("brainStem", () => ({ color: "#e88fa2" })));
+    G.add(stem);
+    const cb = new THREE.Mesh(new THREE.SphereGeometry(0.42, 24, 16).scale(1.3, 0.7, 0.8).translate(BRAIN[0], BRAIN[1] - 0.62, BRAIN[2] - 0.85), lam("cerebellum", () => ({ map: wr })));
+    G.add(cb);
+    G.visible = false;
+  }
+  // ---- the sea at night: dark water, a moonlit sky backdrop ----
+  private buildSea() {
+    const G = this.seaG;
+    const sea = new THREE.Mesh(new THREE.PlaneGeometry(300, 300).rotateX(-Math.PI / 2), lam("nightSea", () => ({ map: rep(ctex("nightWaves", 256, 256, (g, r) => {
+      g.fillStyle = "#16305a"; g.fillRect(0, 0, 256, 256);
+      for (let i = 0; i < 60; i++) { g.strokeStyle = `rgba(150,190,240,${0.2 + 0.3 * r()})`; g.lineWidth = 2; const x = r() * 256, y = r() * 256; g.beginPath(); g.arc(x, y, 10 + 10 * r(), 3.6, 5.8); g.stroke(); }
+    }), 60, 60) })));
+    sea.position.set(SEA_X, 0, 0); sea.receiveShadow = true; G.add(sea);
+    const sky = new THREE.Mesh(new THREE.PlaneGeometry(260, 120), new THREE.MeshBasicMaterial({ map: ctex("nightSky", 1024, 512, (g, r) => {
+      const gr = g.createLinearGradient(0, 0, 0, 512); gr.addColorStop(0, "#081030"); gr.addColorStop(1, "#2a3a74"); g.fillStyle = gr; g.fillRect(0, 0, 1024, 512);
+      for (let i = 0; i < 160; i++) { g.fillStyle = `rgba(255,255,255,${0.3 + 0.6 * r()})`; g.fillRect(r() * 1024, r() * 420, 2, 2); }
+      g.fillStyle = "#fff4d6"; g.beginPath(); g.arc(640, 150, 46, 0, 7); g.fill();
+    }), fog: false }));
+    sky.position.set(SEA_X, 40, -100); sky.layers.set(NOINK); G.add(sky);
+    G.visible = false;
   }
 
   private shotSun(id: number, s: ShotDef, L: LightPreset) {
@@ -194,6 +291,38 @@ export class World {
     scene.fog = this.fog; scene.background = untone("#140b12");
     const fl = 0.97 + 0.03 * Math.sin(t * 3.1);
     for (const m of this.shades) m.color.setRGB(2.6 * fl, 1.9 * fl, 1.1 * fl);
+    // ---- places ----
+    const pl = s.place;
+    this.labG.visible = pl === "lab"; this.brainG.visible = pl === "brain"; this.seaG.visible = pl === "sea";
+    if (pl === "lab") {
+      TONE.uLitCol.value.set(1.5, 1.48, 1.45); TONE.uShadeCol.value.set(0.46, 0.5, 0.64); TONE.uShadeLift.value.set(0.06, 0.07, 0.1);
+      CHAR.uCharTint.value.set(1.0, 0.98, 0.96);
+      untone("#d8eef0", this.fog.color); this.fog.near = 20; this.fog.far = 80; scene.background = untone("#d8eef0");
+      // the window: night, day, night (two nights in a row) during shot 7, night otherwise
+      const ph = id === 7 ? clamp01((f - 252) / 34) : 0, day = Math.sin(Math.PI * ph);
+      this.labWin.color.set(new THREE.Color("#10204a").lerp(new THREE.Color("#8fd0ff"), day)).multiplyScalar(1 + 0.3 * day);
+      this.drawEEG(t, f >= 288 ? 1 : 0.35);
+    }
+    if (pl === "brain") {
+      TONE.uLitCol.value.set(1.35, 1.05, 1.35); TONE.uShadeCol.value.set(0.3, 0.2, 0.46); TONE.uShadeLift.value.set(0.06, 0.03, 0.1);
+      scene.fog = null; scene.background = untone("#1c1236");
+      // right half (on screen left) dims as it sleeps; left half warms as it stands guard; flashes on each beep
+      const sleep = smooth((f - 372) / 14), guard = smooth((f - 444) / 14);
+      const beep = [522, 540, 556].reduce((a2, b0) => Math.max(a2, f >= b0 + 8 && f < b0 + 16 ? 1 - (f - b0 - 8) / 8 : 0), 0);
+      this.hemis[0].emissive.setRGB(0.0, 0.02 * sleep, 0.1 * sleep); this.hemis[0].color.setRGB(1 - 0.35 * sleep, 1 - 0.3 * sleep, 1);
+      this.hemis[1].emissive.setRGB(0.25 * guard + 0.6 * beep, 0.12 * guard + 0.3 * beep, 0.02 * guard); this.hemis[1].color.setRGB(1, 1, 1);
+    }
+    if (pl === "sea") {
+      TONE.uLitCol.value.set(0.8, 0.9, 1.3); TONE.uShadeCol.value.set(0.14, 0.18, 0.36); TONE.uShadeLift.value.set(0.03, 0.04, 0.1);
+      CHAR.uCharTint.value.set(0.8, 0.86, 1.0);
+      untone("#1a2a5a", this.fog.color); this.fog.near = 30; this.fog.far = 140; scene.background = untone("#0c1636");
+    }
+    if (pl === "room" && id >= 13) {
+      // the dead of night: darker; at the very end the lamps go out
+      const off = smooth((f - 1028) / 10);
+      TONE.uLitCol.value.set(1.45 * (1 - 0.55 * off), 0.98 * (1 - 0.55 * off), 0.62 * (1 - 0.5 * off)); TONE.uShadeCol.value.set(0.16, 0.16, 0.36);
+      for (const m of this.shades) m.color.setRGB(2.6 * (1 - 0.85 * off), 1.9 * (1 - 0.85 * off), 1.1 * (1 - 0.85 * off));
+    }
     // ---- cast + effects ----
     const right = V(0, 0, 0).setFromMatrixColumn(cam.matrixWorld, 0);
     const st = stage(id, t, { pos: cam.position, right, sun: sunDir });

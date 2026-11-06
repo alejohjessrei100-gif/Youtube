@@ -455,6 +455,17 @@ const hatOn = (p: Pen, o: Outfit, hp: P2[], H: Blob, cx: number, hc: number, lig
       p.poly(hair, null, ow);
       for (let i = -2; i <= 2; i++) p.arc(cx + i * 17 * u, crown + 0.2 * HH, 9 * u, 6 * u, 200, 340, 1.4 * u);
     }
+  } else if (o.hat === "eeg") {
+    // a sleep-lab EEG cap: white mesh over the crown, coloured electrodes, wires trailing back
+    const cut = crown + 0.36 * HH;
+    const top = hp.filter(([, y]) => y < cut).map(([x, y]) => [cx + (x - cx) * 1.04, hc + (y - hc) * 1.05] as P2);
+    if (top.length > 2) {
+      p.shadedFill(top, "#f2f4f6", mul("#f2f4f6", SH_FELT), light, H.a, 0.35);
+      p.poly(top, null, ow);
+      const cols = ["#e2453c", "#3f6fb5", "#f3c22c", "#2f9a5a"];
+      for (let k = 0; k < 7; k++) { const a2 = Math.PI * (0.15 + 0.7 * (k / 6)), rr = 0.82 * H.a; const [ex, ey] = R([[cx - rr * Math.cos(a2), hc - 0.6 * H.b - 0.32 * H.b * Math.sin(a2)]])[0]; p.ell(ex, ey, 5 * u, 5 * u, cols[k % 4], 1.6 * u); }
+      p.stroke([[cx + 0.7 * H.a, crown + 0.2 * HH], [cx + 1.25 * H.a, crown + 0.05 * HH], [cx + 1.6 * H.a, crown + 0.3 * HH]], 2.4 * u, "#3a3440");
+    }
   } else if (o.hat === "knit") {
     const col = o.cap ?? "#b8443a", cut = crown + 0.3 * HH;
     const top = hp.filter(([, y]) => y < cut).map(([x, y]) => [cx + (x - cx) * 1.05, hc + (y - hc) * 1.06] as P2);
@@ -740,7 +751,7 @@ export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
   p.shadedFill(hp, skin, mul(skin, SH_SKIN), light, H.a, 0.62, 0.45, 1.55);
   p.inkRing(hp, ow, thick);
   hatOn(p, o, hp, H, 300, hc, light, seed, facing, false);
-  const brim = !!o.hat && o.hat !== "hair" && o.hat !== "bonnet" && o.hat !== "cap" && o.hat !== "wig" && o.hat !== "knit" && o.hat !== "laurel" && o.hat !== "crown";
+  const brim = !!o.hat && o.hat !== "hair" && o.hat !== "bonnet" && o.hat !== "cap" && o.hat !== "wig" && o.hat !== "knit" && o.hat !== "laurel" && o.hat !== "crown" && o.hat !== "eeg";
   if (o.beard) {
     const bp: P2[] = [];
     for (let i = 0; i <= 16; i++) { const t = rad(10 + (160 * i) / 16); bp.push([300 + 0.96 * H.a * Math.cos(t), hc + 0.25 * H.b + 0.95 * H.b * Math.sin(t) + (i % 2 ? 4 * u : 0)]); }
