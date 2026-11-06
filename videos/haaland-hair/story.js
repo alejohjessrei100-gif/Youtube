@@ -13,6 +13,7 @@ import { M, camFromKeys, spline, walk, idle, clamp, lerp } from './work/vendor/m
 import { Pen, fxBurst, fxRing, fxStars, fxPuff, fxContact } from './work/vendor/toon.js';
 
 const W = 1080, H = 1920, FPS = 30, DUR = 61.0;
+const SHOW_CAPTIONS = false;   // captions removed at the user's request; caption() is kept for future videos
 const WORDS = await (await fetch('./voice/words.json')).json();
 await document.fonts.load('900 80px "Inter Display"'); await document.fonts.load('800 80px Inter');
 
@@ -246,13 +247,33 @@ function bubble(text, x, y, t, t0, t1) {
     X.beginPath(); X.roundRect(x - w / 2, y - 40, w, 74, 18); X.fill(); X.stroke(); X.beginPath(); X.moveTo(x - 14, y + 32); X.lineTo(x + 6, y + 62); X.lineTo(x + 18, y + 32); X.fill();
     drawPixelText(X, text, x, y - 12, { px: 4, color: '#111', align: 'center' }); });
 }
+// Animated captions: every word pops in (motion.js M.back overshoot), drops in with an alternating tilt, wobbles while held
+// and shrinks out just before the next word. Key words are bigger, coloured and shake.
+const EMPH = {
+  gold: ['hair', 'ponytail', 'haaland', 'erling', 'goal', 'hat-trick', 'top', 'corner', 'history', 'volley', 'scissor-kick', 'flicks', 'player', 'match'],
+  red: ['disallowed', 'crossbar', 'impossible', 'subbed', 'off', 'not', 'invited', 'foot', 'eyes', 'no'],
+  blue: ['fifty', 'zero', 'four', 'hundred', 'horsepower', 'twelve', 'one', 'expected'],
+};
+const emphOf = (w) => EMPH.gold.includes(w) ? '#ffd43b' : EMPH.red.includes(w) ? '#ff5252' : EMPH.blue.includes(w) ? '#6ec6ff' : null;
 function caption(t) {
-  const w = WORDS.find(o => t >= o.t0 && t < o.t1 + .05 && t < (WORDS[WORDS.indexOf(o) + 1]?.t0 ?? 1e9));
-  if (!w) return; const word = w.w.replace(/[.,:?!…"]/g, '').toLowerCase(); if (!word) return;
-  const k = M.back(prog(t, w.t0, w.t0 + .12), 2);
-  X.save(); X.translate(W / 2, H * .585); X.scale(.85 + .15 * k, .85 + .15 * k); X.font = '800 66px Inter'; X.textAlign = 'center'; X.textBaseline = 'middle';
-  X.shadowColor = 'rgba(0,0,0,.75)'; X.shadowBlur = 10; X.shadowOffsetY = 4; X.lineWidth = 6; X.strokeStyle = 'rgba(0,0,0,.55)'; X.strokeText(word, 0, 0);
-  X.shadowBlur = 0; X.shadowOffsetY = 0; X.fillStyle = '#fff'; X.fillText(word, 0, 0); X.restore();
+  const i = WORDS.findIndex((o, k) => t >= o.t0 && t < (WORDS[k + 1] ? Math.min(WORDS[k + 1].t0, o.t1 + .35) : o.t1 + .4));
+  if (i < 0) return; const w = WORDS[i], word = w.w.replace(/[.,:?!…"]/g, '').toLowerCase(); if (!word) return;
+  const end = WORDS[i + 1] ? Math.min(WORDS[i + 1].t0, w.t1 + .35) : w.t1 + .4;
+  const col = emphOf(word), big = col ? 1.28 : 1, side = i % 2 ? 1 : -1;
+  const kin = prog(t, w.t0, w.t0 + .2), k = M.back(kin, 2.6), out = prog(t, end - .07, end);
+  const held = t - w.t0;
+  const scale = (.35 + .65 * k) * big * (1 + .025 * Math.sin(held * 11)) * (1 - .25 * out);
+  const rot = side * (.28 * (1 - M.easeOut(kin)) + .035) + (col ? Math.sin(held * 38) * .05 * Math.exp(-held * 5) : 0);
+  const dy = -46 * (1 - M.easeOut(kin));
+  X.save(); X.globalAlpha = clamp(kin * 4) * (1 - out);
+  X.translate(W / 2, H * .585 + dy); X.rotate(rot); X.scale(scale, scale);
+  let sz = 92; X.font = `900 ${sz}px "Inter Display"`; while (X.measureText(word).width > (W - 160) / big && sz > 40) { sz -= 4; X.font = `900 ${sz}px "Inter Display"`; }
+  X.textAlign = 'center'; X.textBaseline = 'middle'; X.lineJoin = 'round';
+  for (let e = 7; e > 0; e -= 1.5) { X.fillStyle = '#111'; X.fillText(word, e * .6, e); }           // extrusion
+  X.lineWidth = 13; X.strokeStyle = '#111'; X.strokeText(word, 0, 0);
+  X.fillStyle = col || '#ffffff'; X.fillText(word, 0, 0);
+  if (kin < 1) { X.globalAlpha *= (1 - kin) * .8; X.fillStyle = '#ffffff'; X.fillText(word, 0, 0); }    // white flash on entry
+  X.restore();
 }
 // toon.txt fx on an offscreen canvas, stamped at a screen point
 const fxCan = {};
@@ -307,7 +328,7 @@ function frame(t) {
       if (!exp) {
         nameTag('SCIENTIST', PUN, t, 6.1, 12.3, .8);
         card('HAIR POWER', [{ k: 'FEET', v: '0' }, { k: 'HEAD', v: '0' }, { k: 'PONYTAIL', v: '99', vc: GOLD }, { k: 'CHANCE', v: 'IMPOSSIBLE', vc: '#ff6b6b', at: 7.2 }], W / 2, 1400, 640, t, 6.6);
-        pill('LAST PREDICTION: WRONG', W / 2, 330, t, 10.3, '#ff5a5a', '#ffb3b3');
+        pill('LAST PREDICTION: WRONG', W / 2, 1330, t, 10.3, '#ff5a5a', '#ffb3b3');
       } else {
         nameTag('EXPERT', PUN, t, 31.8, 37.6, .8); pill('(SAME GUY)', W / 2, 1330, t, 32.4, '#9fb4ff');
         card('PONYTAIL REPORT', [{ k: 'HORSEPOWER', v: '400', vc: GOLD, at: 34.2 }, { k: 'EYES', v: '0', vc: '#ff6b6b', at: 36.8 }], W / 2, 1400, 640, t, 33.2);
@@ -465,7 +486,7 @@ function frame(t) {
   // overlays: score bug, shot overlays, captions, cut flashes
   if (!(s === 3 || s === 8 || s === 9 || s === 10)) scoreBug(`MCI ${score(t)} OPP ${clock(t)}`);
   post.forEach(fn => fn());
-  caption(t);
+  if (SHOW_CAPTIONS) caption(t);
   for (const c of SH.slice(1, -1)) flash(t, c, .1, .35);
 }
 
