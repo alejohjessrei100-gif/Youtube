@@ -8,7 +8,7 @@ export const CAST = {
   /** an adult: block torso, open jacket over a shirt, swept hair, a hook nose */
   adult: {
     height: 1.74,
-    build: { torso: "block", torsoWidth: 1.02 },
+    build: { torso: "block", torsoWidth: 1.02, shoulders: 1.15 },
     look: {
       skin: SKIN.medium,
       outfit: "jacket",
@@ -37,7 +37,7 @@ export const CAST = {
   /** an elder: a pear torso, a 9° stoop, silver hair in a bun, round glasses, smile lines, an apron over a print dress */
   elder: {
     height: 1.62,
-    build: ELDER_BUILD,
+    build: { ...ELDER_BUILD, shoulders: 0.88 },
     look: {
       skin: SKIN.fair,
       outfit: "apron",

@@ -17,18 +17,19 @@
 // ------------------------------------------------------------------ head (h = 1)
 /** head half-width: the head is 0.27 h wide at the default head scale */
 export const HEAD_HW = 0.135;
-/** crown radius / hw (rounded top) */
-export const HEAD_TOP = 1.06;
-/** jaw radius / hw: a longer lower half gives the egg shape and the chin */
-export const HEAD_BOT = 1.2;
+// A SQUIRCLE head: a rounded square from the front (crown and jaw as wide as the cheeks), not an egg.
+/** crown radius / hw */
+export const HEAD_TOP = 1.1;
+/** jaw radius / hw (equal to the crown: a squircle, not an egg) */
+export const HEAD_BOT = 1.12;
 /** depth radius / hw */
 export const HEAD_DEPTH = 0.94;
-/** superellipse exponent at the crown (a touch boxier than a sphere) */
-export const HEAD_EXP_TOP = 2.35;
-/** superellipse exponent at the chin (below 2: a defined, slightly pointed chin) */
-export const HEAD_EXP_CHIN = 1.82;
-/** jaw narrowing toward the chin (fraction of the width) */
-export const JAW_TAPER = 0.22;
+/** superellipse exponent at the crown (2 = round, 4 = squircle) */
+export const HEAD_EXP_TOP = 3.8;
+/** superellipse exponent at the chin (a squared jaw) */
+export const HEAD_EXP_CHIN = 3.4;
+/** jaw narrowing toward the chin (fraction of the width; small keeps the squircle) */
+export const JAW_TAPER = 0.07;
 /** cheek fullness just below the eyes (fraction of the width) */
 export const CHEEK_FULL = 0.045;
 /** seeded hand-made wobble: amplitude ranges of the 2nd and 4th harmonics around the face outline */
@@ -54,15 +55,15 @@ export type TorsoKind = "block" | "barrel" | "pear";
  *  higher = squarer). block = broad shoulders tapering down, barrel = widest at the middle, pear = widest low. */
 export const TORSO_SHAPES: Record<TorsoKind, { profile: [number, number][]; cross: number }> = {
   block: {
-    profile: [[0, 0], [0.035, 0.66], [0.11, 0.86], [0.3, 0.88], [0.55, 0.93], [0.76, 1.0], [0.88, 0.97], [0.95, 0.74], [1, 0]],
+    profile: [[0, 0], [0.035, 0.66], [0.11, 0.86], [0.3, 0.88], [0.55, 0.93], [0.76, 1.0], [0.85, 1.0], [0.9, 0.86], [0.94, 0.68], [0.975, 0.46], [1, 0]],
     cross: 2.9,
   },
   barrel: {
-    profile: [[0, 0], [0.045, 0.6], [0.15, 0.87], [0.36, 0.99], [0.56, 1.0], [0.75, 0.93], [0.88, 0.8], [0.95, 0.6], [1, 0]],
+    profile: [[0, 0], [0.045, 0.6], [0.15, 0.87], [0.36, 0.99], [0.56, 1.0], [0.75, 0.94], [0.85, 0.9], [0.9, 0.78], [0.94, 0.63], [0.975, 0.44], [1, 0]],
     cross: 2.15,
   },
   pear: {
-    profile: [[0, 0], [0.04, 0.64], [0.13, 0.93], [0.3, 1.0], [0.5, 0.94], [0.7, 0.83], [0.85, 0.76], [0.94, 0.6], [1, 0]],
+    profile: [[0, 0], [0.04, 0.64], [0.13, 0.93], [0.3, 1.0], [0.5, 0.94], [0.7, 0.85], [0.85, 0.84], [0.9, 0.74], [0.94, 0.6], [0.975, 0.42], [1, 0]],
     cross: 2.0,
   },
 };
@@ -209,6 +210,8 @@ export type Build = {
   stoop: number;
   /** neck length multiplier */
   neck: number;
+  /** clavicle (shoulder) width multiplier on the top of the torso: men ~1.15 (wide), women ~0.85 (narrow) */
+  shoulders: number;
 };
 export const DEFAULT_BUILD: Build = {
   headScale: 1,
@@ -221,6 +224,7 @@ export const DEFAULT_BUILD: Build = {
   hand: 1,
   stoop: 0,
   neck: 1,
+  shoulders: 1,
 };
 export const buildOf = (b?: Partial<Build>): Build => ({ ...DEFAULT_BUILD, ...(b ?? {}) });
 

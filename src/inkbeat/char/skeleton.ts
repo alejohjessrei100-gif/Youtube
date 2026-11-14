@@ -2,6 +2,8 @@
 // placed by IK is exactly where the drawn hand is. All lengths are fractions of the character's height (h = 1).
 import * as THREE from "three";
 import {
+  ARM_R,
+  TORSO_DEPTH,
   ARM_PLANE_DEG,
   buildOf,
   FOREARM,
@@ -36,8 +38,8 @@ export type ArmPose = {
 };
 
 const D2R = Math.PI / 180;
-/** relaxed arms are never dead straight: the forearm bends this far forward at the elbow by default */
-export const ELBOW_FLEX = 14;
+/** default forward bend of the forearm at the elbow: 0 = arms hang straight when the character stands still */
+export const ELBOW_FLEX = 0;
 const X_AXIS = new THREE.Vector3(1, 0, 0);
 const UP = new THREE.Vector3(0, 1, 0);
 
@@ -94,24 +96,37 @@ export const layoutOf = (build?: Partial<Build>): Layout => {
   return l;
 };
 
-const torsoRadius = (y: number, y0: number, h: number, b: Build) => TORSO_R * b.torsoWidth * torsoProfileAt((y - y0) / h, b.torso);
+const torsoRadius = (y: number, y0: number, h: number, b: Build) => TORSO_R * b.torsoWidth * torsoProfileAt((y - y0) / h, b.torso, b.shoulders);
 /** torso half-width (x) at height y above the soles */
 export const torsoRadiusAt = (y: number, l: Layout) => torsoRadius(y, l.torsoY0, l.torsoH, l.b);
 
 /** shoulder, elbow and hand center of one arm in the upper-body frame (before stoop, bob, lean and yaw) */
 export const armChain = (pose: ArmPose, side: "L" | "R", l: Layout) => {
   const s = side === "L" ? -1 : 1;
-  const ang = (side === "L" ? pose.armL : pose.armR) ?? [6, 6];
+  const ang = (side === "L" ? pose.armL : pose.armR) ?? [6, 0];
   const fw = (ARM_PLANE_DEG + ((side === "L" ? pose.armLFwd : pose.armRFwd) ?? 0)) * D2R;
   const out = new THREE.Vector3(s * Math.cos(fw), 0, Math.sin(fw));
-  const r1 = ang[0] * D2R;
-  const r2 = (ang[0] + ang[1]) * D2R;
   const S = new THREE.Vector3(s * l.shoulderX, l.shoulderY, 0.004);
-  const E = S.clone().addScaledVector(out, l.upper * Math.sin(r1)).addScaledVector(UP, -l.upper * Math.cos(r1));
-  // the forearm swings forward at the elbow (about the body's x axis), shared by the drawn arm and the IK
-  const foreDir = out.clone().multiplyScalar(Math.sin(r2)).addScaledVector(UP, -Math.cos(r2)).applyAxisAngle(X_AXIS, -(pose.flex ?? ELBOW_FLEX) * D2R);
-  const H = E.clone().addScaledVector(foreDir, l.fore);
-  return { S, E, H };
+  const chain = (lift: number) => {
+    const r1 = (ang[0] + lift) * D2R;
+    const r2 = (ang[0] + lift + ang[1]) * D2R;
+    const E = S.clone().addScaledVector(out, l.upper * Math.sin(r1)).addScaledVector(UP, -l.upper * Math.cos(r1));
+    // the forearm swings forward at the elbow (about the body's x axis), shared by the drawn arm and the IK
+    const foreDir = out.clone().multiplyScalar(Math.sin(r2)).addScaledVector(UP, -Math.cos(r2)).applyAxisAngle(X_AXIS, -(pose.flex ?? ELBOW_FLEX) * D2R);
+    return { E, H: E.clone().addScaledVector(foreDir, l.fore) };
+  };
+  // a low arm swings out just enough that the elbow and hand clear the body (wide hips, a barrel belly): the arm
+  // stays straight instead of being bent around the torso. Deterministic: the first clear lift in 1° steps.
+  // > 0 when the point is outside the torso's elliptical cross-section by at least the arm radius
+  const clear = (p: THREE.Vector3) => {
+    const rx = torsoRadiusAt(p.y, l);
+    if (rx <= 0) return 1;
+    const m = ARM_R[0] * l.b.limb * 0.9;
+    return Math.hypot(p.x / (rx + m), p.z / (rx * TORSO_DEPTH * l.b.torsoDepth + m)) - 1;
+  };
+  let lift = 0;
+  if (ang[0] < 40) while (lift < 30 && Math.min(clear(chain(lift).E), clear(chain(lift).H)) < 0) lift += 1;
+  return { S, ...chain(lift) };
 };
 
 /** upper-body frame → character frame (h = 1, before yaw): stoop about the hips, bob, then lean about the feet */

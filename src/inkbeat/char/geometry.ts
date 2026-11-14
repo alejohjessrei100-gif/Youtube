@@ -356,8 +356,13 @@ export const hairHemGeo = (hair: THREE.BufferGeometry, r = 0.0036) => {
 };
 
 // ------------------------------------------------------------------ torso (lathe with a shaped cross-section)
-export const torsoProfileAt = (t: number, kind: TorsoKind) => {
+/** the clavicle width multiplier at height t: 1 through the waist, `shoulders` across the chest and clavicles */
+export const shoulderK = (t: number, shoulders = 1) => 1 + (shoulders - 1) * sstep(0.45, 0.85, t);
+export const torsoProfileAt = (t: number, kind: TorsoKind, shoulders = 1) => {
   if (t <= 0 || t >= 1) return 0;
+  return torsoProfileRaw(t, kind) * shoulderK(t, shoulders);
+};
+const torsoProfileRaw = (t: number, kind: TorsoKind) => {
   const P = TORSO_SHAPES[kind].profile;
   for (let i = 1; i < P.length; i++) {
     if (t <= P[i][0]) {
@@ -373,8 +378,8 @@ export const torsoProfileAt = (t: number, kind: TorsoKind) => {
 
 /** torso geometry for a kind and size; origin at the torso bottom (y = 0 … height) */
 const torsoCache = new Map<string, THREE.BufferGeometry>();
-export const torsoGeo = (kind: TorsoKind, width: number, depth: number, height: number) => {
-  const key = [kind, width.toFixed(3), depth.toFixed(3), height.toFixed(3)].join("|");
+export const torsoGeo = (kind: TorsoKind, width: number, depth: number, height: number, shoulders = 1) => {
+  const key = [kind, width.toFixed(3), depth.toFixed(3), height.toFixed(3), shoulders.toFixed(3)].join("|");
   const hit = torsoCache.get(key);
   if (hit) return hit;
   const H = TORSO_H * height;
@@ -382,7 +387,7 @@ export const torsoGeo = (kind: TorsoKind, width: number, depth: number, height: 
   const N = 56;
   for (let i = 0; i <= N; i++) {
     const t = (1 - Math.cos((i / N) * Math.PI)) / 2; // denser near the round ends
-    let r = torsoProfileAt(t, kind);
+    let r = torsoProfileAt(t, kind, shoulders);
     if (i === 0 || i === N) r = 0.0001;
     pts.push(new THREE.Vector2(r * TORSO_R * width, t * H));
   }
@@ -452,6 +457,25 @@ export const sphere = (() => {
   let g: THREE.SphereGeometry | null = null;
   return () => (g ??= new THREE.SphereGeometry(1, 28, 20));
 })();
+
+/** an arm with a crisp elbow: a straight upper arm (S → E) and a straight forearm (E → W) joined by an elbow ball,
+ * merged into ONE mesh so the post ink draws no ring at the joint, only the crease on the inside of the bend.
+ * rS, rE, rW: radii at the shoulder, elbow and wrist. */
+export const elbowArm = (S: THREE.Vector3, E: THREE.Vector3, W: THREE.Vector3, rS: number, rE: number, rW: number) => {
+  const line = (a: THREE.Vector3, b: THREE.Vector3) => [a, a.clone().lerp(b, 0.5), b];
+  const upper = taperTube(line(S, E), rS, rE, 14, 14, (u) => 1 + 0.06 * Math.sin(Math.min(1, u * 1.4) * Math.PI));
+  const fore = taperTube(line(E, W), rE, rW, 14, 14, (u) => 1 + 0.08 * Math.sin(Math.min(1, u * 1.6) * Math.PI) * (1 - u));
+  const ball = new THREE.SphereGeometry(rE, 16, 12);
+  ball.translate(E.x, E.y, E.z);
+  ball.deleteAttribute("uv");
+  const parts = [upper, fore, ball].map((g) => {
+    if (g.attributes.uv && g !== ball) g.deleteAttribute("uv");
+    return g.index ? g.toNonIndexed() : g;
+  });
+  const m = mergeGeometries(parts, false)!;
+  [upper, fore, ball].forEach((g) => g.dispose());
+  return m;
+};
 
 /** a smooth piecewise profile through [u, value] keys (smoothstep between keys), for limb shapes */
 export const profileOf = (keys: [number, number][]) => (u: number) => {

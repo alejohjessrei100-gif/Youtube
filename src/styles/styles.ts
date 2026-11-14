@@ -76,7 +76,7 @@ export const trioOf = (s: CharStyle): { key: string; spec: CharacterSpec }[] => 
     key: "man",
     spec: {
       height: 1.78,
-      build: s.adult,
+      build: { ...s.adult, shoulders: 1.15 }, // wide clavicles
       look: {
         skin: SKIN.medium,
         outfit: "jacket",
@@ -92,7 +92,7 @@ export const trioOf = (s: CharStyle): { key: string; spec: CharacterSpec }[] => 
     key: "woman",
     spec: {
       height: 1.66,
-      build: { ...s.adult, torso: "pear", torsoWidth: (s.adult.torsoWidth ?? 1) * 0.92 },
+      build: { ...s.adult, torso: "block", torsoWidth: (s.adult.torsoWidth ?? 1) * 0.84, shoulders: 0.92 }, // slimmer, narrower clavicles than the men
       look: {
         skin: SKIN.brown,
         outfit: "sweater",

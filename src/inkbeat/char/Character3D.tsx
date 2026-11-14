@@ -51,7 +51,7 @@ import {
   hatParts,
   hattedHairGeo,
   headGeo,
-  profileOf,
+  elbowArm,
   shoeGeo,
   taperTube,
   torsoGeo,
@@ -299,33 +299,18 @@ export const Character3D: React.FC<CharacterProps> = (props) => {
         E.z += sw * 0.45;
         H.z += sw;
       }
+      // joints pushed out of the torso, then straight bones: a crisp elbow, not a bendy curve
+      const r0 = ARM_R[0] * b.limb;
+      clearTorso(E, l, r0 * 1.1);
+      clearTorso(H, l, r0 * 1.1);
       const fore = H.clone().sub(E).normalize();
       const wrist = H.clone().addScaledVector(fore, -HAND_R * b.hand * 0.85);
-      // the sleeve starts inside the torso, level with the shoulder joint, so its full root rounds over the
-      // torso's shoulder corner (a shoulder, not an arm stuck on the side) and its open end never shows
-      const S0 = new THREE.Vector3(S.x * 0.45, S.y + 0.022, S.z); // above S: a gentle bend (a sharp one folds the tube)
-      const raw = curvePts([S0, S, E, wrist], 28);
-      const cleared = raw.map((p, i) => (i < 6 || i > raw.length - 3 ? p : clearTorso(p.clone(), l, ARM_R[0] * b.limb * 1.15) /* the shaped arm is up to 1.14x the base radius */));
-      // refit a smooth curve through every fourth cleared point, so pushing out of the torso never leaves a kink
-      const pts = curvePts(cleared.filter((_, i) => i % 4 === 0 || i === cleared.length - 1), 28);
-      // a shaped arm, not a tube: a full shoulder cap, the upper arm, a narrower elbow, the forearm, a slim wrist
-      const d0 = S0.distanceTo(S);
-      const d1 = S.distanceTo(E);
-      const d2 = E.distanceTo(wrist);
-      const uS = d0 / (d0 + d1 + d2);
-      const uE = (d0 + d1) / (d0 + d1 + d2);
-      const prof = profileOf([
-        [0, 1.16],
-        [uS, 1.14],
-        [uS + (uE - uS) * 0.32, 1.06],
-        [uE, 0.84],
-        [uE + (1 - uE) * 0.28, 1.0],
-        [1, 0.8],
-      ]);
-      const geo = taperTube(pts, ARM_R[0] * b.limb, ARM_R[1] * b.limb, 40, 14, prof);
+      // the arm hangs from the end of the clavicle slope; its top end sits inside the torso, so it never shows
+      const S0 = S.clone().addScaledVector(E.clone().sub(S).normalize(), -r0 * 0.6);
+      const geo = elbowArm(S0, E, wrist, r0 * 1.02, r0 * 0.84, ARM_R[1] * b.limb * 0.82);
       // hand roll about the forearm: relaxed hands turn palm-back so the fingers read from the front; raised hands
       // turn palm-forward (a wave)
-      const ang = (side === "L" ? pose.armL : pose.armR) ?? [6, 6];
+      const ang = (side === "L" ? pose.armL : pose.armR) ?? [6, 0];
       const raise = ang[0] + ang[1] * 0.5;
       const roll = s * (45 - 135 * sstep01(25, 75, raise)) * D2R;
       return { geo, hand: H, wrist, fore, side: s, S, roll, open: raise > 50 };
@@ -388,8 +373,7 @@ export const Character3D: React.FC<CharacterProps> = (props) => {
   // idle arm swing: the finished arm turns a little about its shoulder (no geometry rebuild); not on a holding arm,
   // so a held prop stays exactly in the hand. A pure function of t.
   const holdSide = props.hold ? (props.holdSide ?? "R") : null;
-  const swing = (side: number) =>
-    walking || props.t === undefined || (holdSide && (holdSide === "R" ? 1 : -1) === side) ? 0 : (1.3 * Math.sin(props.t * 1.1 + side * 1.7) + 0.5 * Math.sin(props.t * 0.47 + side)) * D2R;
+  const swing = (_side: number) => 0; // arms stay still when the character stands still
 
   return (
     <group position={position} rotation={[0, yaw, 0]} scale={height}>
@@ -411,7 +395,7 @@ export const Character3D: React.FC<CharacterProps> = (props) => {
           <group position={[0, l.hipY, 0]} rotation={[b.stoop * D2R, 0, 0]}>
             <group position={[0, -l.hipY, 0]}>
               <group position={[0, l.torsoY0, 0]} scale={[1 + breath * 0.004, 1 + breath * 0.007, 1 + breath * 0.006]}>
-                <Inked geo={torsoGeo(b.torso, b.torsoWidth, b.torsoDepth, b.torsoHeight)} mat={torsoMat} ink={ink("torso")} under={under("torso")} cast={cast} />
+                <Inked geo={torsoGeo(b.torso, b.torsoWidth, b.torsoDepth, b.torsoHeight, b.shoulders)} mat={torsoMat} ink={ink("torso")} under={under("torso")} cast={cast} />
               </group>
               <Neck l={l} mat={skinM} ink={ink("ear")} cast={cast} />
               {/* arms, cuffs, hands */}
