@@ -1,0 +1,127 @@
+{
+ "bpm": 55,
+ "beat": 1.0909090909090908,
+ "sentences": [
+  {
+   "i": 1,
+   "text": "He splits eighteen boys into two teams, at a summer camp in Beirut.",
+   "voice_start": 0.0,
+   "voice_end": 3.56,
+   "cut_beat": 0,
+   "words": 13
+  },
+  {
+   "i": 2,
+   "text": "Ten are Christian.",
+   "voice_start": 4.314,
+   "voice_end": 5.334,
+   "cut_beat": 4,
+   "words": 3
+  },
+  {
+   "i": 3,
+   "text": "Eight are Muslim.",
+   "voice_start": 5.454,
+   "voice_end": 6.374,
+   "cut_beat": 5,
+   "words": 3
+  },
+  {
+   "i": 4,
+   "text": "So he mixes them.",
+   "voice_start": 6.495,
+   "voice_end": 7.375,
+   "cut_beat": 6,
+   "words": 4
+  },
+  {
+   "i": 5,
+   "text": "Five Christians and four Muslims on the Red Genies.",
+   "voice_start": 7.586,
+   "voice_end": 10.226,
+   "cut_beat": 7,
+   "words": 9
+  },
+  {
+   "i": 6,
+   "text": "Five and four on the Blue Ghost.",
+   "voice_start": 10.859,
+   "voice_end": 12.579,
+   "cut_beat": 10,
+   "words": 7
+  },
+  {
+   "i": 7,
+   "text": "He's repeating an American experiment.",
+   "voice_start": 13.041,
+   "voice_end": 14.891,
+   "cut_beat": 12,
+   "words": 5
+  },
+  {
+   "i": 8,
+   "text": "In Oklahoma, researchers posing as camp staff took twenty-two boys who'd never met, split them in two, and made the teams compete.",
+   "voice_start": 15.223,
+   "voice_end": 21.903,
+   "cut_beat": 14,
+   "words": 22
+  },
+  {
+   "i": 9,
+   "text": "The boys ended up enemies.",
+   "voice_start": 22.859,
+   "voice_end": 24.429,
+   "cut_beat": 21,
+   "words": 5
+  },
+  {
+   "i": 10,
+   "text": "But these boys arrive with a label the Oklahoma boys never had.",
+   "voice_start": 25.041,
+   "voice_end": 28.221,
+   "cut_beat": 23,
+   "words": 12
+  },
+  {
+   "i": 11,
+   "text": "So which line will they fight along?",
+   "voice_start": 28.341,
+   "voice_end": 29.741,
+   "cut_beat": 26,
+   "words": 7
+  },
+  {
+   "i": 12,
+   "text": "The competitions begin.",
+   "voice_start": 30.495,
+   "voice_end": 31.705,
+   "cut_beat": 28,
+   "words": 3
+  },
+  {
+   "i": 13,
+   "text": "Fighting breaks out.",
+   "voice_start": 32.677,
+   "voice_end": 33.747,
+   "cut_beat": 30,
+   "words": 3
+  },
+  {
+   "i": 14,
+   "text": "Not Christians against Muslims.",
+   "voice_start": 33.867,
+   "voice_end": 35.287,
+   "cut_beat": 31,
+   "words": 4
+  },
+  {
+   "i": 15,
+   "text": "Red against Blue.",
+   "voice_start": 35.95,
+   "voice_end": 37.17,
+   "cut_beat": 33,
+   "words": 3
+  }
+ ],
+ "total": 37.17
+}

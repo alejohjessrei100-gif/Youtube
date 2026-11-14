@@ -1,0 +1,305 @@
+{
+ "bpm": 55,
+ "beat_seconds": 1.0909,
+ "total_beats": 35,
+ "total_seconds": 38.18,
+ "voice_end": 37.17,
+ "shots": [
+  {
+   "n": 1,
+   "b": 0,
+   "len": 2,
+   "scene": "beirut",
+   "frame": "line18",
+   "voice": "He splits eighteen boys into two teams,",
+   "cam": "Low three-quarter dolly-in along the line, 2 beats",
+   "cam_short": "DOLLY IN",
+   "pic": "Camp field. Eighteen boys stand in one long line facing camera. The researcher is in the foreground with a clipboard, pointing along the line. The number 18 is on screen from frame 0.",
+   "chips": [
+    "18 (ticks 1 to 18 on the word 'eighteen')"
+   ],
+   "sound": "55 BPM pulse starts on frame 0. Counter ticks. Camp ambience: far-off kids, cicadas.",
+   "start_s": 0.0,
+   "end_s": 2.18
+  },
+  {
+   "n": 2,
+   "b": 2,
+   "len": 2,
+   "scene": "beirut",
+   "frame": "ov_split",
+   "voice": "at a summer camp in Beirut.",
+   "cam": "Overhead crane-up with a slight rotate, 2 beats",
+   "cam_short": "CRANE UP",
+   "pic": "Field from above. The researcher drags a chalk line across the middle. The boys drift into two clumps, one each side. Beat 3 to 4 is a held beat of silence on the split.",
+   "chips": [
+    "BEIRUT (lands on beat 3, the word 'Beirut')"
+   ],
+   "sound": "Chalk-drag swish. Pulse continues. Ambience dips for the held beat.",
+   "start_s": 2.18,
+   "end_s": 4.36
+  },
+  {
+   "n": 3,
+   "b": 4,
+   "len": 2,
+   "scene": "beirut",
+   "frame": "ov_grid",
+   "voice": "Ten are Christian. Eight are Muslim.",
+   "cam": "Top-down, slow push, 2 beats",
+   "cam_short": "PUSH IN",
+   "pic": "The eighteen boys stand in a tidy grid seen from above, all in plain clothes. On beat 4, ten of them get a small floating cross badge. On beat 5, the other eight get a crescent badge. Badges are flat white discs with an ink outline.",
+   "chips": [
+    "10 + cross badge (beat 4)",
+    "8 + crescent badge (beat 5)"
+   ],
+   "sound": "One rising pluck per beat. Soft pop for each badge.",
+   "start_s": 4.36,
+   "end_s": 6.55
+  },
+  {
+   "n": 4,
+   "b": 6,
+   "len": 1,
+   "scene": "beirut",
+   "frame": "ov_shuffle",
+   "voice": "So he mixes them.",
+   "cam": "Same overhead, 1-beat push (a hit, not a move)",
+   "cam_short": "HIT",
+   "pic": "The boys swap places in curved paths, badges travelling with them. Everyone ends neutral and mixed.",
+   "chips": [],
+   "sound": "Soft whoosh on the beat.",
+   "start_s": 6.55,
+   "end_s": 7.64
+  },
+  {
+   "n": 5,
+   "b": 7,
+   "len": 3,
+   "scene": "beirut",
+   "frame": "team_red",
+   "voice": "Five Christians and four Muslims on the Red Genies.",
+   "cam": "Low dolly-in toward the red group, 3 beats",
+   "cam_short": "DOLLY IN",
+   "pic": "Nine boys in red bibs stand in two rows. Their badges show five crosses and four crescents, mixed through both rows.",
+   "chips": [
+    "RED GENIES (on the word 'Red', beat 8.7)",
+    "5 + 4"
+   ],
+   "sound": "Chime when the team name lands. Pulse continues.",
+   "start_s": 7.64,
+   "end_s": 10.91
+  },
+  {
+   "n": 6,
+   "b": 10,
+   "len": 2,
+   "scene": "beirut",
+   "frame": "team_blue",
+   "voice": "Five and four on the Blue Ghost.",
+   "cam": "Same framing mirrored, dolly-in, 2 beats",
+   "cam_short": "DOLLY IN",
+   "pic": "Nine boys in blue bibs, same layout as shot 5. Five crosses and four crescents again. The script says 'Blue Ghost' (singular), so the chip does too.",
+   "chips": [
+    "BLUE GHOST",
+    "5 + 4"
+   ],
+   "sound": "Chime, a third lower than the red one.",
+   "start_s": 10.91,
+   "end_s": 13.09
+  },
+  {
+   "n": 7,
+   "b": 12,
+   "len": 2,
+   "scene": "beirut",
+   "frame": "man_papers",
+   "voice": "He's repeating an American experiment.",
+   "cam": "Close push-in on the desk, 2 beats",
+   "cam_short": "PUSH IN",
+   "pic": "The researcher at a desk. An old typed report lies open beside an old group photo. He puts a finger on the page. The last half beat is a colour-to-sepia wipe into the flashback.",
+   "chips": [],
+   "sound": "Paper rustle. Pulse thins out as the flashback grade arrives.",
+   "start_s": 13.09,
+   "end_s": 15.27
+  },
+  {
+   "n": 8,
+   "b": 14,
+   "len": 2,
+   "scene": "okla",
+   "frame": "ok_staff",
+   "voice": "In Oklahoma, researchers posing as camp staff",
+   "cam": "Crane down from a wide of the park to three adults, 2 beats",
+   "cam_short": "CRANE DOWN",
+   "pic": "Sepia archive look. A rocky, wooded park. Three adults in matching camp polo shirts with whistles. At beat 15, an insert: one of them holds a notebook behind his back.",
+   "chips": [
+    "OKLAHOMA 1954 (on the word 'Oklahoma', beat 14.1)"
+   ],
+   "sound": "Ambience switches to dry wind and crickets, band-limited. Low thump into the flashback.",
+   "start_s": 15.27,
+   "end_s": 17.45
+  },
+  {
+   "n": 9,
+   "b": 16,
+   "len": 2,
+   "scene": "okla",
+   "frame": "ok_arrive",
+   "voice": "took twenty-two boys who'd never met,",
+   "cam": "Wide lateral dolly, 2 beats",
+   "cam_short": "DOLLY",
+   "pic": "Twenty-two boys step off a bus and stand apart in the yard, none of them near anyone, small question marks floating.",
+   "chips": [
+    "22 (ticks up as the boys step off)"
+   ],
+   "sound": "Bus door hiss. Counter ticks.",
+   "start_s": 17.45,
+   "end_s": 19.64
+  },
+  {
+   "n": 10,
+   "b": 18,
+   "len": 1,
+   "scene": "okla",
+   "frame": "ok_split",
+   "voice": "split them in two,",
+   "cam": "Overhead snap-in, 1 beat (a hit)",
+   "cam_short": "HIT",
+   "pic": "From above, a chalk line splits the boys into two groups.",
+   "chips": [],
+   "sound": "Chalk swish on the beat.",
+   "start_s": 19.64,
+   "end_s": 20.73
+  },
+  {
+   "n": 11,
+   "b": 19,
+   "len": 2,
+   "scene": "okla",
+   "frame": "ok_score",
+   "voice": "and made the teams compete.",
+   "cam": "Low wide, slow push, 2 beats",
+   "cam_short": "PUSH IN",
+   "pic": "Two teams in the distance. In front, a wooden scoreboard and a trophy cup on a table. The score ticks up.",
+   "chips": [],
+   "sound": "Scoreboard clicks. Beat 20 to 21 is a held beat of near-silence before 'The boys ended up enemies.'",
+   "start_s": 20.73,
+   "end_s": 22.91
+  },
+  {
+   "n": 12,
+   "b": 21,
+   "len": 2,
+   "scene": "okla",
+   "frame": "ok_enemies",
+   "voice": "The boys ended up enemies.",
+   "cam": "Static medium with a 2-beat push-in",
+   "cam_short": "PUSH IN",
+   "pic": "The two groups stand either side of the chalk line, arms crossed, glaring. No contact. The mood is still, not violent.",
+   "chips": [],
+   "sound": "Wind only, plus the pulse.",
+   "start_s": 22.91,
+   "end_s": 25.09
+  },
+  {
+   "n": 13,
+   "b": 23,
+   "len": 3,
+   "scene": "beirut",
+   "frame": "badge_walk",
+   "voice": "But these boys arrive with a label the Oklahoma boys never had.",
+   "cam": "Lateral dolly along the row of Beirut boys, 3 beats",
+   "cam_short": "DOLLY",
+   "pic": "Hard cut back to full colour on beat 23. The Beirut boys chat and joke in plain clothes. Cross and crescent badges float up over their heads one by one, on the word 'label'.",
+   "chips": [
+    "cross and crescent badges"
+   ],
+   "sound": "Colour returns with the pulse back at full level. Pop per badge.",
+   "start_s": 25.09,
+   "end_s": 28.36
+  },
+  {
+   "n": 14,
+   "b": 26,
+   "len": 2,
+   "scene": "beirut",
+   "frame": "two_lines",
+   "voice": "So which line will they fight along?",
+   "cam": "Overhead, slow clockwise rotate, 2 beats",
+   "cam_short": "ROTATE",
+   "pic": "From above, boys in red and blue bibs, each with a badge. Two dashed chalk lines appear: one splits red from blue, one splits crosses from crescents. A question mark floats over the middle.",
+   "chips": [
+    "?"
+   ],
+   "sound": "Two soft rising tones, one per line. Pulse continues.",
+   "start_s": 28.36,
+   "end_s": 30.55
+  },
+  {
+   "n": 15,
+   "b": 28,
+   "len": 2,
+   "scene": "beirut",
+   "frame": "rope",
+   "voice": "The competitions begin.",
+   "cam": "Low front push-in, 2 beats",
+   "cam_short": "PUSH IN",
+   "pic": "Red team on the left and blue team on the right, each holding one end of a rope pulled tight across the frame. The researcher at the edge blows a whistle. (A tug of war is an illustration of 'competitions', not a documented event.)",
+   "chips": [],
+   "sound": "Whistle on beat 28. Rope creak.",
+   "start_s": 30.55,
+   "end_s": 32.73
+  },
+  {
+   "n": 16,
+   "b": 30,
+   "len": 1,
+   "scene": "beirut",
+   "frame": "dust",
+   "voice": "Fighting breaks out.",
+   "cam": "1-beat punch-in (a hit)",
+   "cam_short": "HIT",
+   "pic": "The rope drops. Both teams charge together into one cartoon dust cloud with star bursts and a few arms and legs sticking out. No faces, no impacts.",
+   "chips": [],
+   "sound": "Thud on the beat, crowd shouts, dust whoosh.",
+   "start_s": 32.73,
+   "end_s": 33.82
+  },
+  {
+   "n": 17,
+   "b": 31,
+   "len": 2,
+   "scene": "beirut",
+   "frame": "dust_badges",
+   "voice": "Not Christians against Muslims.",
+   "cam": "Overhead slow pull-back, 2 beats",
+   "cam_short": "PULL BACK",
+   "pic": "The dust cloud from above, red on one side and blue on the other. Cross and crescent badges pop out of the dust and drift up on both sides, mixed. A dashed 'religion line' is drawn and crossed out with an X on the word 'Not'.",
+   "chips": [
+    "X over the religion line (beat 31)"
+   ],
+   "sound": "Quick drawn-line swish, then a hard X stamp.",
+   "start_s": 33.82,
+   "end_s": 36.0
+  },
+  {
+   "n": 18,
+   "b": 33,
+   "len": 2,
+   "scene": "beirut",
+   "frame": "final",
+   "voice": "Red against Blue.",
+   "cam": "Low wide push-in, 2 beats, then a hold to the end",
+   "cam_short": "PUSH IN",
+   "pic": "The dust clears. Red boys on the left and blue boys on the right, leaning toward each other across an empty strip of ground. All badges are gone. Only colour is left.",
+   "chips": [
+    "RED (beat 33)",
+    "BLUE (beat 33.5)"
+   ],
+   "sound": "Everything drops out 0.3 s before the end except the pulse. The last frame holds about one beat after the voice ends.",
+   "start_s": 36.0,
+   "end_s": 38.18
+  }
+ ]
+}
