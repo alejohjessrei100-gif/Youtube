@@ -2,7 +2,7 @@
 // in the phone's own browser (its GPU does the WebGL) with @remotion/web-renderer.
 import { Player, type PlayerRef } from "@remotion/player";
 import { renderFramesOnWeb, renderMediaOnWeb, renderStillOnWeb } from "@remotion/web-renderer";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Demo, DEMO_MOODS } from "../src/demo/Demo";
 import { DemoCast } from "../src/demo/DemoCast";
@@ -88,6 +88,10 @@ const App: React.FC = () => {
   const [scale, setScale] = useState(0.5);
   const [busy, setBusy] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [prog, setProg] = useState<{ r: number; e: number; total: number; eta: number; at: number; start: number } | null>(null);
+  const [now, setNow] = useState(Date.now());
+  const [vFrom, setVFrom] = useState(0);
+  const [vTo, setVTo] = useState<number | null>(null);
   const [result, setResult] = useState<{ url: string; blob: Blob; name: string; kind: "image" | "video" } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [saveMsg, setSaveMsg] = useState<string | null>(null);
@@ -96,6 +100,11 @@ const App: React.FC = () => {
   const player = useRef<PlayerRef>(null);
   const abort = useRef<AbortController | null>(null);
   const comp = useMemo(() => COMPS.find((c) => c.id === compId)!, [compId]);
+  useEffect(() => {
+    if (!busy) return;
+    const h = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(h);
+  }, [busy]);
 
   const composition = { id: comp.id, component: comp.component, width: comp.width, height: comp.height, fps: comp.fps, durationInFrames: comp.durationInFrames, defaultProps: comp.defaultProps };
 
@@ -120,7 +129,13 @@ const App: React.FC = () => {
         finish(await r.blob({ format: "jpeg", quality: 0.92 }), `${comp.id}-f${f}.jpg`, "image");
       } else {
         setBusy("Rendering video…");
+        const from = Math.max(0, Math.min(comp.durationInFrames - 1, vFrom));
+        const to = Math.max(from, Math.min(comp.durationInFrames - 1, vTo ?? comp.durationInFrames - 1));
+        const total = to - from + 1;
+        const start = Date.now();
+        setProg({ r: 0, e: 0, total, eta: 0, at: start, start });
         const r = await renderMediaOnWeb({
+          frameRange: [from, to],
           composition,
           inputProps: comp.defaultProps,
           scale,
@@ -129,7 +144,10 @@ const App: React.FC = () => {
           licenseKey: "free-license",
           signal: ac.signal,
           delayRenderTimeoutInMilliseconds: 240_000,
-          onProgress: (p) => setProgress(p.progress),
+          onProgress: (p) => {
+            setProgress(p.progress);
+            setProg({ r: p.renderedFrames, e: p.encodedFrames, total, eta: p.renderEstimatedTime, at: Date.now(), start });
+          },
         });
         finish(await r.getBlob(), `${comp.id}.mp4`, "video");
       }
@@ -196,6 +214,16 @@ const App: React.FC = () => {
         </select>
       </label>
 
+      {comp.durationInFrames > 1 ? (
+        <div className="field">
+          <span>Video range (frames, leave as is for the whole film)</span>
+          <div style={{ display: "flex", gap: 8 }}>
+            <input type="number" inputMode="numeric" min={0} max={comp.durationInFrames - 1} value={vFrom} disabled={!!busy} onChange={(e) => setVFrom(Number(e.target.value) || 0)} aria-label="From frame" />
+            <input type="number" inputMode="numeric" min={0} max={comp.durationInFrames - 1} value={vTo ?? comp.durationInFrames - 1} disabled={!!busy} onChange={(e) => setVTo(Number(e.target.value))} aria-label="To frame" />
+          </div>
+        </div>
+      ) : null}
+
       <div className="buttons">
         <button onClick={() => run("still")} disabled={!!busy}>Render still</button>
         <button className="primary" onClick={() => run("video")} disabled={!!busy}>Render MP4</button>
@@ -204,6 +232,13 @@ const App: React.FC = () => {
       {busy ? (
         <div className="status">
           <div>{busy} {progress > 0 ? `${Math.round(progress * 100)}%` : ""}</div>
+          {prog ? (
+            <div className="sub" role="status">
+              Frame {prog.e} of {prog.total} done · {Math.round((now - prog.start) / 1000)} s elapsed
+              {prog.eta > 0 ? ` · about ${Math.max(1, Math.round(prog.eta / 1000))} s left` : ""}
+              {now - prog.at > 45_000 ? ` · No progress for ${Math.round((now - prog.at) / 1000)} s. Frame ${prog.r} is the slow one. If this goes past 3 minutes, tap Cancel, render at Half res, and tell me this frame number.` : ""}
+            </div>
+          ) : null}
           <div className="bar"><div style={{ width: `${Math.round(progress * 100)}%` }} /></div>
           <button className="ghost" onClick={() => abort.current?.abort()}>Cancel</button>
         </div>

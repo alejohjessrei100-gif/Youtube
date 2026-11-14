@@ -9,32 +9,37 @@ import { styleOf } from "../styles/styles";
 export const RED = "#d6402f";
 export const BLUE = "#2a62d4";
 const KID = styleOf("feature").kid;
-const SKINS = [SKIN.light, SKIN.tan, SKIN.medium, SKIN.brown, SKIN.fair, SKIN.deep];
-const HAIRS = [HAIR.espresso, HAIR.black, HAIR.auburn, HAIR.honey, HAIR.black, HAIR.espresso];
-const CUTS = ["crop", "swoop", "sides", "curly", "crop", "swoop"] as const;
-const TOPS = [CLOTH.mustard, CLOTH.sage, CLOTH.cream, CLOTH.teal, CLOTH.khaki, CLOTH.rose, CLOTH.cocoa, CLOTH.horn];
-const PANTS = [CLOTH.denim, CLOTH.charcoal, CLOTH.khaki, CLOTH.cocoa];
 
-/** one boy; team "R" / "B" puts a vest in that team's colour over his own shirt */
-export const boy = (i: number, team?: "R" | "B", old = false): CharacterSpec => ({
-  height: 1.36 + 0.035 * ((i * 5) % 5),
-  build: { ...KID, shoulders: 1.0 },
-  look: {
-    skin: SKINS[(i * 5 + 1) % 6],
-    outfit: team ? "vest" : i % 3 === 1 ? "sweater" : "shirt",
-    colors: {
-      top: team === "R" ? RED : team === "B" ? BLUE : old ? (i % 2 ? CLOTH.cream : CLOTH.khaki) : TOPS[(i * 3) % 8],
-      inner: team ? CLOTH.cream : CLOTH.horn,
-      bottom: PANTS[(i * 7) % 4],
-      shoes: CLOTH.chestnut,
-      accent: CLOTH.brass,
+const TOP6 = [CLOTH.mustard, CLOTH.sage, CLOTH.cream, CLOTH.teal, CLOTH.khaki, CLOTH.rose];
+const PANTS6 = [CLOTH.denim, CLOTH.charcoal, CLOTH.khaki, CLOTH.cocoa, CLOTH.denim, CLOTH.charcoal];
+const HAIR_OF = [HAIR.espresso, HAIR.black, HAIR.auburn, HAIR.honey, HAIR.espresso, HAIR.black, HAIR.auburn, HAIR.honey, HAIR.black];
+const SKIN_OF = [SKIN.light, SKIN.tan, SKIN.medium, SKIN.brown, SKIN.fair, SKIN.deep, SKIN.medium, SKIN.light, SKIN.tan, SKIN.brown, SKIN.fair];
+const CUT_OF = ["crop", "swoop", "sides", "curly", "crop", "sides", "curly", "swoop"] as const;
+/** one boy; team "R" / "B" puts a vest in that team's colour over his own shirt. The shirt, trousers and body shape
+ *  repeat every six boys (the character texture cache holds 64, and every distinct look is a 1024 px texture), while
+ *  skin, hair and haircut vary independently so no two neighbours look alike. */
+export const boy = (i: number, team?: "R" | "B", old = false): CharacterSpec => {
+  const j = i % 6;
+  return {
+    height: 1.36 + 0.035 * ((i * 5) % 5),
+    build: { ...KID, shoulders: 1.0 },
+    look: {
+      skin: SKIN_OF[(i * 7 + (i >> 2)) % SKIN_OF.length],
+      outfit: team ? "vest" : j % 3 === 1 ? "sweater" : "shirt",
+      colors: {
+        top: team === "R" ? RED : team === "B" ? BLUE : old ? (j % 2 ? CLOTH.cream : CLOTH.khaki) : TOP6[j],
+        inner: team ? CLOTH.cream : CLOTH.horn,
+        bottom: PANTS6[j],
+        shoes: CLOTH.chestnut,
+        accent: CLOTH.brass,
+      },
+      hair: CUT_OF[(i * 3 + (i >> 1)) % CUT_OF.length],
+      hairColor: HAIR_OF[(i * 5 + (i >> 1)) % HAIR_OF.length],
+      face: { nose: "button", blush: 0.28, brow: 1.1 },
+      seed: 40 + j * 3,
     },
-    hair: CUTS[(i * 5) % 6],
-    hairColor: HAIRS[(i * 3 + 2) % 6],
-    face: { nose: "button", blush: 0.28, brow: 1.1 },
-    seed: 40 + i * 3,
-  },
-});
+  };
+};
 
 const ADULT = styleOf("feature").adult;
 /** the researcher: one unnamed man with glasses and a clipboard */

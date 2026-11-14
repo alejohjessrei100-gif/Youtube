@@ -27,6 +27,8 @@ const move = (a: Cam, b: Cam, ease: (u: number) => number = smooth) => (u: numbe
 };
 const J = (i: number, k: number) => h1(i * 7.31 + k * 3.17) - 0.5;
 const range = (n: number) => Array.from({ length: n }, (_, i) => i);
+/** pose time on threes (10 Hz): limb geometry is rebuilt only when a pose changes, so this keeps phones fast */
+const q = (t: number) => Math.round(t * 10) / 10;
 
 const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9'-]/g, "");
 /** onset (s) of the nth occurrence of a word of the voice-over (never type a time) */
@@ -81,7 +83,7 @@ const GRIM: FaceState = { eyes: "squint", mouth: "flat", brows: "angry" };
 const YELL: FaceState = { eyes: "squint", mouth: "yell", brows: "angry" };
 const BLOW: FaceState = { eyes: "open", mouth: "o", brows: "raised" };
 const crossed: BodyPose = { armL: [40, 125], armLFwd: 78, armR: [40, 125], armRFwd: 78 };
-const walking = (t: number, i: number): BodyPose => ({ walk: t * 7 + i * 0.9 });
+const walking = (t: number, i: number): BodyPose => ({ walk: q(t) * 7 + i * 0.9 });
 const yawTo = (a: V3, b: V3) => Math.atan2(b[0] - a[0], b[2] - a[2]);
 
 // ------------------------------------------------------------------ formations
@@ -204,7 +206,7 @@ const S06: Beat = {
 const S07: Beat = {
   id: 7, b: 12, len: 2, mood: "day", about: "the researcher at his desk with an old report and an old photo",
   cam: move(C([0.6, 1.4, 7.0], [0, 0.95, 11.4], 46), C([0.3, 1.3, 8.1], [-0.1, 0.9, 11.4], 44)),
-  actors: (t) => [man([0, 0, 12.3], PI, { armR: [60 + 4 * Math.sin(t * 2), 38], armRFwd: 62, armL: [10, 0] }, { face: { eyes: "open", mouth: "flat", brows: "neutral" }, hold: null })],
+  actors: (t) => [man([0, 0, 12.3], PI, { armR: [60 + 4 * Math.sin(q(t) * 2), 38], armRFwd: 62, armL: [10, 0] }, { face: { eyes: "open", mouth: "flat", brows: "neutral" }, hold: null })],
   world: () => ({ set: "office" }),
   focus: () => [0, 0.9, 11.3], blur: 1.2,
 };
@@ -214,7 +216,7 @@ const S08: Beat = {
   id: 8, b: 14, len: 2, mood: "archive", about: "three adults in matching polos; one hides a notebook behind his back",
   cam: move(C([7, 8.5, -3.5], [0, 1.4, 11], 46), C([4.4, 1.5, 5.2], [0.2, 1.2, 11], 42)),
   actors: (t) => [
-    { spec: STAFF[0], p: [-1.7, 0, 11], yaw: PI, face: SMILE, pose: { armL: [150 + 8 * Math.sin(t * 5), 20], armLFwd: 10 } },
+    { spec: STAFF[0], p: [-1.7, 0, 11], yaw: PI, face: SMILE, pose: { armL: [150 + 8 * Math.sin(q(t) * 5), 20], armLFwd: 10 } },
     { spec: STAFF[1], p: [0, 0, 11.3], yaw: PI, face: SMILE, pose: {} },
     { spec: STAFF[2], p: [1.7, 0, 11], yaw: PI - 0.5, face: SMILE, pose: { armR: [22, 10], armRFwd: -75 }, hold: "book", holdSide: "R" },
   ],
@@ -247,7 +249,7 @@ const S11: Beat = {
   id: 11, b: 19, len: 2, mood: "archive", about: "a scoreboard and a trophy; the score ticks up",
   cam: move(C([0, 0.9, 2.0], [0, 1.5, 9.5], 50), C([0, 1.0, 3.4], [0, 1.7, 9.5], 50)),
   actors: (t) => [
-    ...range(6).map((k) => ({ spec: toned(k, "#efe6d2"), p: [-4.6 + k * 0.9, 0, 16] as V3, yaw: PI, free: true, face: GRIN, pose: { armL: [150 + 10 * Math.sin(t * 6 + k), 10], armR: [150 + 10 * Math.sin(t * 6 + k + 1), 10] } as BodyPose })),
+    ...range(6).map((k) => ({ spec: toned(k, "#efe6d2"), p: [-4.6 + k * 0.9, 0, 16] as V3, yaw: PI, free: true, face: GRIN, pose: { armL: [150 + 10 * Math.sin(q(t) * 6 + k), 10], armR: [150 + 10 * Math.sin(q(t) * 6 + k + 1), 10] } as BodyPose })),
     ...range(6).map((k) => ({ spec: toned(6 + k, "#3b3d46"), p: [0.8 + k * 0.9, 0, 16.5] as V3, yaw: PI, free: true, face: NEUTRAL, pose: {} as BodyPose })),
   ],
   world: (t) => ({ set: "okla", score: t < bt(19.4) ? "0 : 0" : t < bt(20.2) ? "1 : 0" : "3 : 1" }),
@@ -277,7 +279,7 @@ const S13: Beat = {
       yaw: PI + (k % 2 ? 0.45 : -0.45) + J(k, 11) * 0.3,
       free: false,
       face: k % 3 === 1 ? GRIN : SMILE,
-      pose: (k % 4 === 2 ? { armL: [140 + 8 * Math.sin(t * 4), 10] } : {}) as BodyPose,
+      pose: (k % 4 === 2 ? { armL: [140 + 8 * Math.sin(q(t) * 4), 10] } : {}) as BodyPose,
       mark: { glyph: RELIGION(i), t0: tw("label") + 0.18 * k } as Mark,
     })),
   world: () => ({ set: "camp" }),
@@ -289,7 +291,7 @@ const S14: Beat = {
     const th = (lerp(0, 38, smooth(u)) * PI) / 180;
     return C([7 * Math.sin(th), 31, 10 - 7 * Math.cos(th)], [0, 0, 10], 31);
   },
-  actors: (t) => range(18).map((i) => ({ spec: VEST[i], p: scatter(i), yaw: PI, free: true, pose: { armL: [20 + 6 * Math.sin(t * 3 + i), 40] } as BodyPose, mark: { glyph: RELIGION(i), t0: bt(26) + 0.02 * i } as Mark })),
+  actors: (t) => range(18).map((i) => ({ spec: VEST[i], p: scatter(i), yaw: PI, free: true, pose: { armL: [20 + 6 * Math.sin(q(t) * 3 + i), 40] } as BodyPose, mark: { glyph: RELIGION(i), t0: bt(26) + 0.02 * i } as Mark })),
   world: (_t, u) => ({
     set: "camp",
     chalk: [
@@ -311,7 +313,7 @@ const ropeBoys = (t: number, k: number, spread: number, lean: number, face: Face
       yaw: red ? PI / 2 : -PI / 2,
       free: true,
       face,
-      pose: { armL: [75, 10], armLFwd: 88, armR: [75, 10], armRFwd: 88, lean: lean + 2 * Math.sin(t * 4 + j), ...(walk ? { walk: t * 8 + j } : {}) } as BodyPose,
+      pose: { armL: [75, 10], armLFwd: 88, armR: [75, 10], armRFwd: 88, lean: lean + 2 * Math.sin(q(t) * 4 + j), ...(walk ? { walk: q(t) * 8 + j } : {}) } as BodyPose,
     };
   });
 const S15: Beat = {
@@ -336,7 +338,7 @@ const S17: Beat = {
       const a = (i / 18) * 2 * PI + 0.2;
       const r = 3.0 + J(i, 13) * 0.6;
       const p: V3 = [Math.cos(a) * r, 0, 10 + Math.sin(a) * r];
-      return { spec: VEST[i], p, yaw: yawTo(p, [0, 0, 10]), free: true, face: YELL, pose: { armL: [120 + 10 * Math.sin(t * 7 + i), 20], armR: [120 + 10 * Math.sin(t * 7 + i + 2), 20], lean: 14 } as BodyPose, mark: { glyph: RELIGION(i), t0: bt(31) + 0.1 * i, rise: true } as Mark };
+      return { spec: VEST[i], p, yaw: yawTo(p, [0, 0, 10]), free: true, face: YELL, pose: { armL: [120 + 10 * Math.sin(q(t) * 7 + i), 20], armR: [120 + 10 * Math.sin(q(t) * 7 + i + 2), 20], lean: 14 } as BodyPose, mark: { glyph: RELIGION(i), t0: bt(31) + 0.1 * i, rise: true } as Mark };
     }),
   world: (_t, u) => ({ set: "camp", dust: { p: [0, 0, 10], u: 1, s: 1.3 }, chalk: [{ a: [-5.5, 0, 16], b: [5.5, 0, 4], grow: smooth(u * 3), dash: 0.7, color: "#ffd34d" }] }),
   focus: () => FIELD_C, blur: 0.4, markPx: 64,
@@ -354,7 +356,7 @@ const S18: Beat = {
         yaw: red ? PI / 2 : -PI / 2,
         free: true,
         face: YELL,
-        pose: { armL: [115 + 6 * Math.sin(t * 5 + i), 15], armLFwd: 80, armR: [115 + 6 * Math.sin(t * 5 + i + 1), 15], armRFwd: 80, lean: 16 } as BodyPose,
+        pose: { armL: [115 + 6 * Math.sin(q(t) * 5 + i), 15], armLFwd: 80, armR: [115 + 6 * Math.sin(q(t) * 5 + i + 1), 15], armRFwd: 80, lean: 16 } as BodyPose,
       };
     }),
   world: () => ({ set: "camp" }),
