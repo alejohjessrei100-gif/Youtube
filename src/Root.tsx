@@ -4,7 +4,7 @@ import { Demo, DEMO_MOODS } from "./demo/Demo";
 import { DemoCast } from "./demo/DemoCast";
 import { DemoMove, MOVE_FRAMES } from "./demo/DemoMove";
 import { SUB } from "./inkbeat/core/frame";
-import { StyleLineup, StyleTrio } from "./demo/StyleSheet";
+import { StyleCloseUp, StyleLineup, StyleTrio } from "./demo/StyleSheet";
 import { STYLES } from "./styles/styles";
 
 // DemoHero: a low hero framing with foreground props. Demo: one still. Demo-<mood>: the same frame in each act light. DemoWide: the whole set.
@@ -22,6 +22,9 @@ export const Root: React.FC = () => (
     <Composition id="StyleLineup" component={StyleLineup} durationInFrames={30} fps={30} width={1920} height={1080} defaultProps={{ mood: "day" }} />
     {STYLES.map((s) => (
       <Composition key={s.id} id={`Style-${s.id}`} component={StyleTrio} durationInFrames={30} fps={30} width={1920} height={1080} defaultProps={{ style: s.id, mood: "day" }} />
+    ))}
+    {STYLES.map((s) => (
+      <Composition key={s.id} id={`Close-${s.id}`} component={StyleCloseUp} durationInFrames={30} fps={30} width={1080} height={1920} defaultProps={{ style: s.id, mood: "day" }} />
     ))}
     <Composition id="DemoMove" component={DemoMove} durationInFrames={MOVE_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ sub: false }} />
     <Composition id="DemoMoveSub" component={DemoMove} durationInFrames={MOVE_FRAMES * SUB} fps={30 * SUB} width={1080} height={1920} defaultProps={{ sub: true }} />

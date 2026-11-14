@@ -2,7 +2,7 @@
 // numbers in family.ts; Character3D scales the root group by `height`. Head parts (head, ears, hair, hats, glasses)
 // are head-local: origin at the head's widest row, before the per-character head scale. All builders are cached.
 import * as THREE from "three";
-import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import { mergeGeometries, mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import {
   CHEEK_FULL,
   EAR,
@@ -414,8 +414,8 @@ export const torsoGeo = (kind: TorsoKind, width: number, depth: number, height: 
 };
 
 // ------------------------------------------------------------------ limbs, hands, shoes
-/** a tube along points whose radius eases from r0 to r1; uv: u along, v around */
-export const taperTube = (pts: THREE.Vector3[], r0: number, r1: number, seg = 32, radial = 14) => {
+/** a tube along points whose radius eases from r0 to r1, times an optional shape profile prof(u); uv: u along, v around */
+export const taperTube = (pts: THREE.Vector3[], r0: number, r1: number, seg = 32, radial = 14, prof?: (u: number) => number) => {
   const curve = new THREE.CatmullRomCurve3(pts, false, "centripetal");
   const frames = curve.computeFrenetFrames(seg, false);
   const pos: number[] = [];
@@ -424,7 +424,7 @@ export const taperTube = (pts: THREE.Vector3[], r0: number, r1: number, seg = 32
   for (let i = 0; i <= seg; i++) {
     const u = i / seg;
     const c = curve.getPointAt(u);
-    const r = r0 + (r1 - r0) * sstep(0, 1, u);
+    const r = (r0 + (r1 - r0) * sstep(0, 1, u)) * (prof ? prof(u) : 1);
     const n = frames.normals[i];
     const b = frames.binormals[i];
     for (let j = 0; j <= radial; j++) {
@@ -453,17 +453,62 @@ export const sphere = (() => {
   return () => (g ??= new THREE.SphereGeometry(1, 28, 20));
 })();
 
-/** a mitten hand: a slightly flattened ball (radius 1, scaled by the hand radius) */
-export const handGeo = (() => {
-  let g: THREE.BufferGeometry | null = null;
-  return () => {
-    if (g) return g;
-    const s = new THREE.SphereGeometry(1, 28, 20);
-    s.scale(0.92, 1.08, 0.82);
-    g = smoothSeams(s);
-    return g;
-  };
-})();
+/** a smooth piecewise profile through [u, value] keys (smoothstep between keys), for limb shapes */
+export const profileOf = (keys: [number, number][]) => (u: number) => {
+  if (u <= keys[0][0]) return keys[0][1];
+  for (let i = 1; i < keys.length; i++) {
+    const [u1, v1] = keys[i];
+    const [u0, v0] = keys[i - 1];
+    if (u <= u1) return v0 + (v1 - v0) * sstep(u0, u1, u);
+  }
+  return keys[keys.length - 1][1];
+};
+
+/** a hand with a palm, four rounded fingers and a thumb (radius-1 units, scaled by the hand radius). Local +y runs
+ * along the forearm toward the fingertips; the palm faces the body (-side x), the thumb points forward (+z).
+ * grip curls the fingers into a loose fist (for held props); open straightens them (a raised, waving hand).
+ * Cached per side and shape. */
+const handCache = new Map<string, THREE.BufferGeometry>();
+export const handGeo = (side: 1 | -1 = 1, grip = false, open = false) => {
+  const key = `${side}|${grip}|${open}`;
+  const hit = handCache.get(key);
+  if (hit) return hit;
+  const parts: THREE.BufferGeometry[] = [];
+  const palm = new THREE.SphereGeometry(1, 24, 18);
+  palm.scale(0.5, 0.74, 0.8);
+  palm.translate(0, -0.12, 0);
+  parts.push(palm);
+  // fingers: index (front, +z) to pinky (back); length, base z, fan (deg)
+  const F: [number, number, number][] = [
+    [0.48, 0.52, 9],
+    [0.56, 0.18, 3],
+    [0.52, -0.16, -3],
+    [0.38, -0.47, -10],
+  ];
+  const curl = (grip ? 70 : open ? 8 : 26) * D2R; // tips toward the palm side
+  for (const [len, z, fan] of F) {
+    const f = new THREE.CapsuleGeometry(0.2, len, 6, 12);
+    f.translate(0, len / 2 + 0.2, 0); // base at the origin, along +y
+    f.rotateZ(side * curl); // +y tip swings toward -side x (the palm side)
+    f.rotateX(-fan * D2R * 0.6);
+    f.translate(-side * 0.04, 0.46, z);
+    parts.push(f);
+  }
+  // thumb: from the inner front of the palm, forward and down along the fingers
+  const tl = 0.42;
+  const t = new THREE.CapsuleGeometry(0.2, tl, 6, 12);
+  t.translate(0, tl / 2 + 0.2, 0);
+  const dir = new THREE.Vector3(-side * (grip ? 0.55 : 0.3), 0.62, grip ? 0.45 : 0.72).normalize();
+  t.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir));
+  t.translate(-side * 0.22, -0.32, 0.5);
+  parts.push(t);
+  const merged = mergeGeometries(parts.map((g) => (g.index ? g.toNonIndexed() : g)), false)!;
+  parts.forEach((g) => g.dispose());
+  const g = smoothSeams(mergeVertices(merged, 1e-5));
+  merged.dispose();
+  handCache.set(key, g);
+  return g;
+};
 
 /** a cuff ring (sleeve end / pant hem): a short flared band around +y, radius 1 */
 export const cuffGeo = (() => {

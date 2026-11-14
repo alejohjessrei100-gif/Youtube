@@ -27,6 +27,8 @@ export type ArmPose = {
   /** turns the arm plane forward (+, in front of the body), degrees */
   armLFwd?: number;
   armRFwd?: number;
+  /** natural forward bend of the forearm at the elbow, degrees (default ELBOW_FLEX; 0 = a straight, stiff arm) */
+  flex?: number;
   /** whole-body lean about the feet, degrees (+ = forward) */
   lean?: number;
   /** body bob in 1/430 h steps (small hops, nods of the body) */
@@ -34,6 +36,8 @@ export type ArmPose = {
 };
 
 const D2R = Math.PI / 180;
+/** relaxed arms are never dead straight: the forearm bends this far forward at the elbow by default */
+export const ELBOW_FLEX = 14;
 const X_AXIS = new THREE.Vector3(1, 0, 0);
 const UP = new THREE.Vector3(0, 1, 0);
 
@@ -104,7 +108,9 @@ export const armChain = (pose: ArmPose, side: "L" | "R", l: Layout) => {
   const r2 = (ang[0] + ang[1]) * D2R;
   const S = new THREE.Vector3(s * l.shoulderX, l.shoulderY, 0.004);
   const E = S.clone().addScaledVector(out, l.upper * Math.sin(r1)).addScaledVector(UP, -l.upper * Math.cos(r1));
-  const H = E.clone().addScaledVector(out, l.fore * Math.sin(r2)).addScaledVector(UP, -l.fore * Math.cos(r2));
+  // the forearm swings forward at the elbow (about the body's x axis), shared by the drawn arm and the IK
+  const foreDir = out.clone().multiplyScalar(Math.sin(r2)).addScaledVector(UP, -Math.cos(r2)).applyAxisAngle(X_AXIS, -(pose.flex ?? ELBOW_FLEX) * D2R);
+  const H = E.clone().addScaledVector(foreDir, l.fore);
   return { S, E, H };
 };
 

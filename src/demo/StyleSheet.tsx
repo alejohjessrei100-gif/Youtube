@@ -112,3 +112,30 @@ export const StyleTrio: React.FC<{ style: string; mood?: string }> = ({ style, m
     </AbsoluteFill>
   );
 };
+
+/** a medium close-up of the man and the woman in one style: arms, hands and shoulders big enough to judge */
+export const StyleCloseUp: React.FC<{ style: string; mood?: string }> = ({ style, mood = "day" }) => {
+  const ready = useFonts();
+  const f = useCurrentFrame();
+  if (!ready) return <AbsoluteFill style={{ background: BG }} />;
+  const s = styleOf(style);
+  const t = 1.2 + f / 30;
+  const m = moodOf(mood);
+  const [man, woman] = trioOf(s);
+  const cam = aim([0.25, 1.15, 3.1], [0, 1.05, 0], 34, 0.5);
+  const pm: V3 = [-0.42, 0, 0];
+  const pw: V3 = [0.42, 0, 0.05];
+  return (
+    <AbsoluteFill style={{ background: BG }}>
+      <View mood={m} cam={cam} t={t} focus={[0, 1.2, 0]} blur={0.6} width={1080} height={1920}>
+        <Floor w={10} />
+        <Character3D {...man.spec} position={pm} yaw={0.35} t={t} face={{ eyes: "open", mouth: "smile", brows: "raised", blink: false }} pose={{ armL: [6, 6], armR: [62, 70], armRFwd: 28 }} faceCamera={cam.pos} />
+        <Character3D {...woman.spec} position={pw} yaw={-0.35} t={t + 1} face={{ eyes: "open", mouth: "smile", brows: "neutral", blink: false }} pose={{ armL: [5, 6], armR: [5, 6] }} faceCamera={cam.pos} />
+        <CastLight at={headOf(pm, man.spec.height, man.spec.build)} cam={cam.pos} mood={m} />
+      </View>
+      <div style={{ ...labelStyle, left: "50%", top: 60 }}>
+        <div style={{ fontSize: 64 }}>{s.name}</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
