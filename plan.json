@@ -1,0 +1,98 @@
+{
+ "fps": 30,
+ "duration_s": 34.03,
+ "shots": [
+  {
+   "id": "S01",
+   "t": 0.0,
+   "mood": "cold",
+   "note": "HOOK: wide on the cold island, both wrecks in frame (one each end); push in on the Grafton hull and its 1864 board within 2 s",
+   "end": 5.57
+  },
+  {
+   "id": "S02",
+   "t": 5.57,
+   "mood": "cold",
+   "note": "crane from one camp across the island ridge to the other: they can't see each other",
+   "end": 7.91
+  },
+  {
+   "id": "S03",
+   "t": 7.91,
+   "mood": "lamp",
+   "note": "Grafton camp: heroLow on five men raising a hut; on 'took turns cooking' a pot over a fire, a bowl handed across; 5 MEN on the hut door",
+   "end": 12.48
+  },
+  {
+   "id": "S04",
+   "t": 12.48,
+   "mood": "night",
+   "note": "a painted 40 KM signpost on the ridge, then down to the Invercauld surf: men crawl ashore, then scatter, each alone ('every man for himself')",
+   "end": 18.38
+  },
+  {
+   "id": "S05",
+   "t": 18.38,
+   "mood": "dusk",
+   "note": "back at the Grafton: the crew building a small boat on the beach (medium, hands working)",
+   "end": 21.58
+  },
+  {
+   "id": "S06",
+   "t": 21.58,
+   "mood": "day",
+   "note": "three men push the boat off into big grey waves; wide, the boat small against the ocean",
+   "end": 24.49
+  },
+  {
+   "id": "S07",
+   "t": 24.49,
+   "mood": "golden",
+   "note": "'All five lived': the five together on the beach, close group shot",
+   "end": 25.9
+  },
+  {
+   "id": "S08",
+   "t": 25.9,
+   "mood": "night",
+   "note": "'only three survived': three figures far apart on a dark shore; slow, still framing",
+   "end": 28.31
+  },
+  {
+   "id": "S09",
+   "t": 28.31,
+   "mood": "cold",
+   "note": "'Same island. Same cold. Same storms.': three beats, each a crane higher over the island, both camps in frame",
+   "end": 31.33
+  },
+  {
+   "id": "S10",
+   "t": 31.33,
+   "mood": "golden",
+   "note": "PAYOFF: settle on the Grafton hut's lit window as the five share a meal; slow push, ends 0.6 s after 'other.'",
+   "end": 34.03
+  }
+ ],
+ "accent_words": [
+  "difference",
+  "five",
+  "three"
+ ],
+ "tags": [
+  {
+   "text": "1864",
+   "t": 0.13,
+   "note": "painted on a broken hull board of the Grafton wreck, unlit"
+  },
+  {
+   "text": "5 MEN",
+   "t": 8.74,
+   "note": "painted on the Grafton hut door"
+  },
+  {
+   "text": "40 KM",
+   "t": 12.48,
+   "note": "a painted signpost on the ridge between the two camps"
+  }
+ ]
+}

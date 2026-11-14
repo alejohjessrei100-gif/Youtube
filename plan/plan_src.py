@@ -26,16 +26,26 @@ LEAD = 2  # captions appear 2 frames before the word (applied by makeChunks in c
 # section 1); change setups only where the picture must change (a new subject, a reaction, the payoff).
 SHOTS = [
     # id,     anchor (turn, word, nth), mood,   lens note
-    ("S01", (1, "first", 1), "day", "medium, hero 3/4, face at ~38% of the height"),
-    ("S02", (1, "then", 1), "dusk", "wide establishing, the key object in frame"),
-    ("S03", (2, "finally", 1), "golden", "close-up payoff"),
+    # warm light = the Grafton camp (teamwork); cold / night = the Invercauld camp; golden = the payoff
+    ("S01", (1, "In", 1), "cold", "HOOK: wide on the cold island, both wrecks in frame (one each end); push in on the Grafton hull and its 1864 board within 2 s"),
+    ("S02", (1, "Neither", 1), "cold", "crane from one camp across the island ridge to the other: they can't see each other"),
+    ("S03", (1, "On", 2), "lamp", "Grafton camp: heroLow on five men raising a hut; on 'took turns cooking' a pot over a fire, a bowl handed across; 5 MEN on the hut door"),
+    ("S04", (1, "Forty", 1), "night", "a painted 40 KM signpost on the ridge, then down to the Invercauld surf: men crawl ashore, then scatter, each alone ('every man for himself')"),
+    ("S05", (1, "After", 1), "dusk", "back at the Grafton: the crew building a small boat on the beach (medium, hands working)"),
+    ("S06", (1, "three", 1), "day", "three men push the boat off into big grey waves; wide, the boat small against the ocean"),
+    ("S07", (1, "All", 1), "golden", "'All five lived': the five together on the beach, close group shot"),
+    ("S08", (1, "From", 2), "night", "'only three survived': three figures far apart on a dark shore; slow, still framing"),
+    ("S09", (1, "Same", 2), "cold", "'Same island. Same cold. Same storms.': three beats, each a crane higher over the island, both camps in frame"),
+    ("S10", (1, "biggest", 1), "golden", "PAYOFF: settle on the Grafton hut's lit window as the five share a meal; slow push, ends 0.6 s after 'other.'"),
 ]
 # Optional: key words for an accent color (captions are all white by default); at most one per sentence.
-ACCENT = {(1, "first"), (2, "finally")}
+ACCENT = {(1, "five"), (1, "three"), (1, "difference?")}
 # Painted tags: only the story's key facts, on the key object, about one per 15 s. Never on everything.
 TAGS = [
     # (turn, word, text, on-object note)
-    (1, "first", "OPEN", "painted on the key object"),
+    (1, "1864,", "1864", "painted on a broken hull board of the Grafton wreck, unlit"),
+    (1, "five", "5 MEN", "painted on the Grafton hut door"),
+    (1, "Forty", "40 KM", "a painted signpost on the ridge between the two camps"),
 ]
 
 
