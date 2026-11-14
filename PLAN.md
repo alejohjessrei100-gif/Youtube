@@ -12,8 +12,8 @@ Length 34.0 s (voice 33.4 s + 0.6 s tail). Every time below comes from a word of
 | S06 | 21.6–24.5 s | day | three of them sailed it across the open ocean to bring help. | three men push the boat off into big grey waves; wide, the boat small against the ocean |
 | S07 | 24.5–25.9 s | golden | All five lived. | 'All five lived': the five together on the beach, close group shot |
 | S08 | 25.9–28.3 s | night | From the Invercauld, only three survived. | 'only three survived': three figures far apart on a dark shore; slow, still framing |
-| S09 | 28.3–31.3 s | cold | Same island. Same cold. Same storms. The | 'Same island. Same cold. Same storms.': three beats, each a crane higher over the island, both camps in frame |
-| S10 | 31.3–34.0 s | golden | biggest difference? How they treated each other. | PAYOFF: settle on the Grafton hut's lit window as the five share a meal; slow push, ends 0.6 s after 'other.' |
+| S09 | 28.3–31.3 s | cold | Same island. Same cold. Same storms. | 'Same island. Same cold. Same storms.': three beats, each a crane higher over the island, both camps in frame |
+| S10 | 31.3–34.0 s | golden | The biggest difference? How they treated each other. | PAYOFF: settle on the Grafton hut's lit window as the five share a meal; slow push, ends 0.6 s after 'other.' |
 
 ## Light follows the story
 - **Warm (lamp, golden)** = the Grafton camp: fire, teamwork, the payoff.

@@ -36,7 +36,7 @@ SHOTS = [
     ("S07", (1, "All", 1), "golden", "'All five lived': the five together on the beach, close group shot"),
     ("S08", (1, "From", 2), "night", "'only three survived': three figures far apart on a dark shore; slow, still framing"),
     ("S09", (1, "Same", 2), "cold", "'Same island. Same cold. Same storms.': three beats, each a crane higher over the island, both camps in frame"),
-    ("S10", (1, "biggest", 1), "golden", "PAYOFF: settle on the Grafton hut's lit window as the five share a meal; slow push, ends 0.6 s after 'other.'"),
+    ("S10", (1, "The", 8), "golden", "PAYOFF: settle on the Grafton hut's lit window as the five share a meal; slow push, ends 0.6 s after 'other.'"),
 ]
 # Optional: key words for an accent color (captions are all white by default); at most one per sentence.
 ACCENT = {(1, "five"), (1, "three"), (1, "difference?")}
