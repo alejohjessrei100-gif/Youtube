@@ -1,37 +1,32 @@
-# Short: "Back to the volcano" (Tristan da Cunha, 1961–63)
+# Short: "Same island" (the Grafton and the Invercauld, Auckland Islands, 1864)
 
-106 words, about 35–42 s depending on the voice (about 38 s at a brisk Shorts pace). Read `script.txt` exactly as
-written; captions follow the words.
+100 words, about 34–40 s depending on the voice. Read `script.txt` exactly as written; captions follow the words.
 
 ## Facts behind each line
 | Line | Fact | Source |
 |---|---|---|
-| 1961, volcano behind the village | The October 1961 eruption opened next to Edinburgh of the Seven Seas, the island's only settlement; Tristan is called the most remote inhabited island | [History Today](https://www.historytoday.com/archive/evacuation-tristan-da-cunha) |
-| Lava buried the fish factory | The eruption destroyed the crawfish cannery; a 1962 Royal Society expedition found it gone | [History Today](https://www.historytoday.com/node/52365), [Royal Society](https://royalsociety.org/blog/2021/08/volcanic-venture) |
-| All 264 people, to England | The whole population (264 in most sources; some say 261–262) was evacuated and housed at the former RAF Calshot, Hampshire | [Calshot (Wikipedia)](https://en.wikipedia.org/wiki/Calshot), [NFHWA](https://nfhwa.org/raf-calshot-tristan-da-cunha-evacuees/) |
-| Ten thousand kilometres | A rounded figure for the distance from Tristan to southern England (roughly 9,500–10,000 km) | approximate |
-| Jobs, kids in English schools | Islanders found jobs; 18 children went to Hardley Secondary and 22 to Blackfield Primary | [NFHWA](https://nfhwa.org/raf-calshot-tristan-da-cunha-evacuees/) |
-| Secret ballot, 148 to 5 | Adult islanders voted 148 to 5 to return (Time); sources differ on whether the ballot was in late 1962 or 1963, so the script gives no date for it | [Time](https://content.time.com/time/magazine/article/0,9171,872948,00.html), [Hansard, Feb 1963](https://api.parliament.uk/historic-hansard/written_answers/1963/feb/12/refugees-return) |
-| Coldest winter in 200 years | The "Big Freeze" of 1962–63, England's coldest winter since 1740; it ended before they sailed in 1963 | widely documented (not re-checked in this search) |
-| 1963, sailed back | An advance party went back in April 1963; some 200 people followed in November | [History Today](https://www.historytoday.com/archive/evacuation-tristan-da-cunha) |
-| Harbour named Calshot | Tristan's harbour is Calshot Harbour (newspaper report on the new harbour, 1967) | [Papers Past, 1967](https://paperspast.natlib.govt.nz/newspapers/CHP19670311.2.54) |
+| 1864, same island, months apart | The Grafton was wrecked at Auckland Island on 3 January 1864; the Invercauld hit its northwestern tip on 11 May 1864 | [Grafton (Wikipedia)](https://en.wikipedia.org/wiki/Grafton_(ship)), [Invercauld (Wikipedia)](https://en.wikipedia.org/wiki/Invercauld_(ship)) |
+| Neither knew the other was there; 40 km apart | The two groups were at different ends of the main island and never met; about 40 km apart | [Explorersweb](https://explorersweb.com/auckland-island-castaways-contrast-in-survival/), [NZ Geographic](https://www.nzgeo.com/stories/a-tale-of-two-shipwrecks/) |
+| Five men, a hut, taking turns cooking | The Grafton's crew of five built a hut (Epigwaitt); the captain's diary describes a rota of cooking a week each | [DOC: Grafton wreck and Epigwaitt](https://www.doc.govt.nz/parks-and-recreation/places-to-go/southland/places/subantarctic-islands/auckland-islands/heritage-sites/grafton-wreck-and-epigwaitt/), [NZETC (Raynal)](https://nzetc.victoria.ac.nz/tm/scholarly/tei-RayWrec-t1-back-d8-d3.html) |
+| Nineteen men crawled ashore | 19 of the Invercauld's 25 crew got ashore | [Invercauld (Wikipedia)](https://en.wikipedia.org/wiki/Invercauld_(ship)) |
+| "Every man for himself" | Accounts contrast the Grafton's teamwork with the Invercauld group's breakdown (including cannibalism, which the Short does not show) | [Explorersweb](https://explorersweb.com/auckland-island-castaways-contrast-in-survival/), [Yacht.de](https://www.yacht.de/en/special/distress-at-sea/history-shipwreck-of-two-crews-with-different-outcomes-team-play-on-one-side-cannibalism-on-the-other/) |
+| 19 months, their own boat, three sailed for help; all five lived | After 19 months three sailed a boat they had built to Stewart Island; the other two were rescued | [Grafton (Wikipedia)](https://en.wikipedia.org/wiki/Grafton_(ship)) |
+| Only three survived | 3 of the Invercauld's men survived and were rescued about a year later | [Invercauld (Wikipedia)](https://en.wikipedia.org/wiki/Invercauld_(ship)) |
 
-"Buses, television" is illustrative of modern English life in Hampshire, not a quoted list.
+The closing line is the Short's own reading of the story. Historians also point to other differences: the Grafton
+had a sheltered harbour and salvaged supplies from its wreck, while the Invercauld broke up fast.
 
 ## Picture and light per act (the plan will anchor these to the words)
-1. **Hook (0–4 s):** cottage roofs, a glowing vent right behind them; the volcano is on screen in the first 2 s.
-   Light: a cool morning turning orange-red. Tag painted on a cottage sign: **1961**.
-2. **The factory (4–6 s):** lava creeping over a small fish-cannery shed. Light: red glow, smoke.
-3. **The leaving (6–11 s):** families with bundles walk down to boats; a ship on the horizon. Light: smoky dusk.
-   Tag on a crate: **264**.
-4. **England (11–17 s):** a red-brick close, a bus, a TV glowing in a window, kids with school satchels. Light: grey
-   day. Tag on a road sign: **10,000 KM**.
-5. **The ballot (17–23 s):** a hall, a ballot box, hands dropping folded papers; a chalkboard tally. Light: cold
-   interior, one warm lamp. Tag on the chalkboard: **148 – 5**.
-6. **Winter and return (23–30 s):** snow piled on the close; then a boat crossing a calm sea toward the island.
-   Light: cold blue, then dawn.
-7. **Payoff (30–38 s):** islanders rebuilding beside the ruined factory, the volcano calm behind the village; a
-   harbour sign being painted, **CALSHOT**. Light: golden. Slow pull-out on the last word.
+1. **Hook (0–4 s):** a wide, cold island with two wrecks at opposite ends, a split framing (camera crane from one to
+   the other). Light: grey storm. Tag painted on a broken hull board: **1864**.
+2. **The Grafton (4–11 s):** five men raising a hut, a pot over a fire, one hands a bowl to another. Light: overcast
+   but with a warm fire glow. Tag on the hut door: **5 MEN**.
+3. **The Invercauld (11–17 s):** men dragging themselves out of the surf, then scattering, each alone. Light: cold,
+   blue, wind. Tag on a sea chest: **19 MEN**. A painted signpost: **40 KM**.
+4. **The boat (17–25 s):** the Grafton crew building a small boat; three push off into big waves. Light: dawn,
+   cold-to-warm.
+5. **The count (25–30 s):** "All five lived": five figures together on a beach; "only three": three figures far apart.
+6. **Payoff (30–38 s):** the camera pulls up over the whole island, both camps in frame, then settles on the Grafton
+   hut's lit window. Light: golden.
 
-Characters: islander families (a man, a woman, a kid, an elder) from our cast family. They're invented people, not
-likenesses of real islanders.
+Characters: sailors from our cast family. They're invented people, not likenesses of the real crews. Nothing graphic.
