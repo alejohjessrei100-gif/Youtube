@@ -27,3 +27,11 @@ Rules:
 | 15 | Red against Blue. | 3 | 1 |
 
 Estimated total: 31 beats = 35.8 s at 52 BPM.
+
+## Measured with the real voice (ElevenLabs "Mark", sped to 1.15x)
+
+- Voice file: `4-psychology-beirut-voice_1.15x.mp3`, 34.80 s (the original at 1.0x is 39.97 s). Pitch is kept (ffmpeg `atempo=1.15`).
+- Word and sentence times from forced alignment: `4-psychology-beirut-timings.json`. Speech runs 0.00 s to 34.63 s. The alignment is automatic, so treat any single time as good to about 0.1 s.
+- The estimate above (35.8 s) was close to the real 34.8 s.
+- BPM check (sentence starts against the beat grid, best phase for each BPM). Nothing in 50 to 55 BPM lines up by itself: the best is 55 BPM with an average miss of 0.19 s (worst 0.37 s), against about 0.27 s for a random guess. 52 BPM averages about 0.22 s.
+- So the beat grid will not come from the voice. The plan is to pick the BPM (50 to 55), then shift the pauses between sentences by up to about 0.3 s so every sentence starts on a beat. That adds roughly 2 to 4 s in total, which makes the Short about 37 to 39 s.
