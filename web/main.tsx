@@ -45,15 +45,32 @@ const SCALES = [
   { v: 1, label: "Full res 1080p" },
 ];
 
-const save = async (blob: Blob, name: string) => {
+type ClaudeRuntime = { use: (name: string) => Promise<{ save: (r: { filename: string; data: Blob }) => Promise<{ status: string }> } | null> };
+/** save a rendered file: the platform's `downloads` capability first (the page is sandboxed, so a plain download is
+ * blocked), then the share sheet, then a plain link. Returns a message for the viewer. */
+const save = async (blob: Blob, name: string): Promise<string> => {
+  const claude = (window as unknown as { claude?: ClaudeRuntime }).claude;
+  const dl = claude ? await claude.use("downloads").catch(() => null) : null;
+  if (dl) {
+    try {
+      const r = await dl.save({ filename: name, data: blob });
+      return r.status === "saved" ? `Saved ${name}.` : `Sent ${name}.`;
+    } catch (e) {
+      const code = (e as { code?: string } | null)?.code;
+      if (code === "declined") return "Save cancelled. Tap Save again when you're ready.";
+      if (code === "rate_limited") return "A save prompt is already open. Answer it, or wait a moment and tap Save again.";
+      if (code === "too_large") return "That file is too big to save here. Render at half resolution and save that.";
+      /* any other code: try the fallbacks below */
+    }
+  }
   const file = new File([blob], name, { type: blob.type });
   const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
   if (nav.canShare?.({ files: [file] })) {
     try {
       await nav.share({ files: [file] });
-      return;
+      return `Shared ${name}.`;
     } catch {
-      /* cancelled: fall back to a download */
+      /* cancelled or blocked: fall back to a link */
     }
   }
   const a = document.createElement("a");
@@ -61,6 +78,7 @@ const save = async (blob: Blob, name: string) => {
   a.download = name;
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 60_000);
+  return dl ? "Tried a plain download too." : "Saving is not available in this view. Open the artifact in claude.ai (not a preview), or press and hold the video to save it.";
 };
 
 const App: React.FC = () => {
@@ -70,6 +88,7 @@ const App: React.FC = () => {
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<{ url: string; blob: Blob; name: string; kind: "image" | "video" } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [saveMsg, setSaveMsg] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
   const [frame, setFrame] = useState(0);
   const player = useRef<PlayerRef>(null);
@@ -80,6 +99,7 @@ const App: React.FC = () => {
 
   const finish = (blob: Blob, name: string, kind: "image" | "video") => {
     if (result) URL.revokeObjectURL(result.url);
+    setSaveMsg(null);
     setResult({ url: URL.createObjectURL(blob), blob, name, kind });
   };
 
@@ -191,7 +211,8 @@ const App: React.FC = () => {
       {result ? (
         <div className="result">
           {result.kind === "image" ? <img src={result.url} alt="Rendered still" /> : <video src={result.url} controls playsInline loop />}
-          <button className="primary" onClick={() => save(result.blob, result.name)}>Save {result.name}</button>
+          <button className="primary" onClick={async () => { setSaveMsg("Waiting for your confirmation…"); setSaveMsg(await save(result.blob, result.name)); }}>Save {result.name}</button>
+          {saveMsg ? <p className="sub" role="status">{saveMsg}</p> : null}
         </div>
       ) : null}
 
