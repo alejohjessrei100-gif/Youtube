@@ -6,8 +6,8 @@ import { CLOTH } from "./family";
 import { Inked } from "./Inked";
 import { charMat } from "./material";
 
-export type HandPropKind = "mug" | "key" | "book" | "phone";
-export const HAND_PROPS: HandPropKind[] = ["mug", "key", "book", "phone"];
+export type HandPropKind = "mug" | "key" | "book" | "phone" | "clipboard";
+export const HAND_PROPS: HandPropKind[] = ["mug", "key", "book", "phone", "clipboard"];
 
 const rounded = (w: number, h: number, d: number, r: number) => {
   const s = new THREE.Shape();
@@ -62,7 +62,13 @@ const G = () => {
   const cam = new THREE.CylinderGeometry(0.0035, 0.0035, 0.002, 12);
   cam.rotateX(Math.PI / 2);
   cam.translate(0.01, 0.034, -0.0055);
-  geos = { bow, shaft, bit1, bit2, mug, stripe, drink, handle, cover, pages, band, phone, screen, cam };
+  // clipboard: a board, a sheet of paper on it, a steel clip at the top
+  const board = rounded(0.095, 0.135, 0.008, 0.005);
+  const sheet = new THREE.BoxGeometry(0.082, 0.112, 0.0016);
+  sheet.translate(0, -0.006, 0.0052);
+  const clip = new THREE.BoxGeometry(0.04, 0.016, 0.01);
+  clip.translate(0, 0.064, 0.007);
+  geos = { bow, shaft, bit1, bit2, mug, stripe, drink, handle, cover, pages, band, phone, screen, cam, board, sheet, clip };
   return geos;
 };
 
@@ -103,6 +109,14 @@ export const HandProp: React.FC<{ kind: HandPropKind }> = ({ kind }) => {
           <Inked geo={g.phone} mat={charMat(CLOTH.graphite, { spec: 0.6, gloss: 0.4 })} ink={0.004} />
           <Inked geo={g.screen} mat={charMat("#1f3b5c", { spec: 0.8, gloss: 0.6, emissive: "#163049" })} ink={0} />
           <Inked geo={g.cam} mat={charMat("#101218", { spec: 1 })} ink={0} />
+        </group>
+      );
+    case "clipboard":
+      return (
+        <group position={[0, 0.045, 0.03]} rotation={[0.3, 0, 0]}>
+          <Inked geo={g.board} mat={charMat(CLOTH.khaki, { spec: 0.2 })} ink={0.0045} />
+          <Inked geo={g.sheet} mat={charMat("#f6f1e4", { spec: 0.05 })} ink={0} />
+          <Inked geo={g.clip} mat={charMat(CLOTH.brass, { spec: 0.9, gloss: 0.5 })} ink={0.0032} />
         </group>
       );
     default:
