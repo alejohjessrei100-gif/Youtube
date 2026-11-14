@@ -9,7 +9,6 @@ import { DemoCast } from "../src/demo/DemoCast";
 import { DemoMove, MOVE_FRAMES } from "../src/demo/DemoMove";
 import { StyleCloseUp, StyleLineup, StyleTrio } from "../src/demo/StyleSheet";
 import { STYLES } from "../src/styles/styles";
-import { CrewSheet, LOOK_IDS, LookDevFrame } from "../src/island/LookDev";
 import { SAME_ISLAND_FRAMES, SameIsland } from "../src/island/SameIsland";
 
 // staticFile() (fonts) resolves against this folder, wherever the page is hosted.
@@ -28,8 +27,6 @@ type Comp = {
 
 const COMPS: Comp[] = [
   { id: "SameIsland", label: "Same island (final, 34 s)", component: SameIsland, width: 1080, height: 1920, fps: 30, durationInFrames: SAME_ISLAND_FRAMES, defaultProps: {} },
-  ...LOOK_IDS.map((id) => ({ id: `Look-${id}`, label: `Look-dev ${id} ("Same island")`, component: LookDevFrame, width: 1080, height: 1920, fps: 30, durationInFrames: 30, defaultProps: { shot: id } })),
-  { id: "LookCrew", label: "Look-dev: the two crews", component: CrewSheet, width: 1920, height: 1080, fps: 30, durationInFrames: 30, defaultProps: {} },
   { id: "StyleLineup", label: "Character styles: all 5 side by side", component: StyleLineup, width: 1920, height: 1080, fps: 30, durationInFrames: 30, defaultProps: { mood: "day" } },
   ...STYLES.map((s) => ({ id: `Close-${s.id}`, label: `Close-up: ${s.name}`, component: StyleCloseUp, width: 1080, height: 1920, fps: 30, durationInFrames: 30, defaultProps: { style: s.id, mood: "day" } })),
   ...STYLES.map((s) => ({ id: `Style-${s.id}`, label: `Style: ${s.name} (${s.heads})`, component: StyleTrio, width: 1920, height: 1080, fps: 30, durationInFrames: 30, defaultProps: { style: s.id, mood: "day" } })),

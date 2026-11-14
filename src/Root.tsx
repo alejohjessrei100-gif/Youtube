@@ -6,7 +6,6 @@ import { DemoMove, MOVE_FRAMES } from "./demo/DemoMove";
 import { SUB } from "./inkbeat/core/frame";
 import { StyleCloseUp, StyleLineup, StyleTrio } from "./demo/StyleSheet";
 import { STYLES } from "./styles/styles";
-import { CrewSheet, LOOK_IDS, LookDevFrame } from "./island/LookDev";
 import { SAME_ISLAND_FRAMES, SameIsland } from "./island/SameIsland";
 
 // DemoHero: a low hero framing with foreground props. Demo: one still. Demo-<mood>: the same frame in each act light. DemoWide: the whole set.
@@ -29,10 +28,6 @@ export const Root: React.FC = () => (
     {STYLES.map((s) => (
       <Composition key={s.id} id={`Close-${s.id}`} component={StyleCloseUp} durationInFrames={30} fps={30} width={1080} height={1920} defaultProps={{ style: s.id, mood: "day" }} />
     ))}
-    {LOOK_IDS.map((id) => (
-      <Composition key={id} id={`Look-${id}`} component={LookDevFrame} durationInFrames={30} fps={30} width={1080} height={1920} defaultProps={{ shot: id }} />
-    ))}
-    <Composition id="LookCrew" component={CrewSheet} durationInFrames={30} fps={30} width={1920} height={1080} />
     <Composition id="DemoMove" component={DemoMove} durationInFrames={MOVE_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ sub: false }} />
     <Composition id="DemoMoveSub" component={DemoMove} durationInFrames={MOVE_FRAMES * SUB} fps={30 * SUB} width={1080} height={1920} defaultProps={{ sub: true }} />
   </>

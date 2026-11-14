@@ -6,70 +6,91 @@
    "id": "S01",
    "t": 0.0,
    "mood": "cold",
-   "note": "HOOK: wide on the cold island, both wrecks in frame (one each end); push in on the Grafton hull and its 1864 board within 2 s",
+   "note": "HOOK: the 1864 board on the beach with the wrecked Grafton behind it; a slow push-in",
    "end": 5.57
   },
   {
    "id": "S02",
    "t": 5.57,
    "mood": "cold",
-   "note": "crane from one camp across the island ridge to the other: they can't see each other",
+   "note": "the whole island from above its west end: the Grafton camp below, the ridge, the other wreck far away",
    "end": 7.91
   },
   {
    "id": "S03",
    "t": 7.91,
    "mood": "golden",
-   "note": "Grafton camp: heroLow on five men raising a hut; on 'took turns cooking' a pot over a fire, a bowl handed across; 5 MEN on the hut door",
+   "note": "a tracking shot along the Grafton camp: sawing, hammering, the 5 MEN door, the cooking, the fire",
    "end": 12.48
   },
   {
    "id": "S04",
    "t": 12.48,
    "mood": "night",
-   "note": "a painted 40 KM signpost on the ridge, then down to the Invercauld surf: men crawl ashore, then scatter, each alone ('every man for himself')",
+   "note": "the 40 KM sign, face-on and unobstructed; a slow push-in",
+   "end": 13.79
+  },
+  {
+   "id": "S04B",
+   "t": 13.79,
+   "mood": "night",
+   "note": "the Invercauld men come out of the surf toward us, then turn away from each other",
    "end": 18.38
   },
   {
    "id": "S05",
    "t": 18.38,
    "mood": "dusk",
-   "note": "back at the Grafton: the crew building a small boat on the beach (medium, hands working)",
+   "note": "the Grafton crew builds the boat on the beach; a slow arc around the bow",
    "end": 21.58
   },
   {
    "id": "S06",
    "t": 21.58,
    "mood": "day",
-   "note": "three men push the boat off into big grey waves; wide, the boat small against the ocean",
+   "note": "three men sail for help; a follow-cam keeps the boat in frame on the swell",
    "end": 24.49
   },
   {
    "id": "S07",
    "t": 24.49,
    "mood": "golden",
-   "note": "'All five lived': the five together on the beach, close group shot",
+   "note": "'All five lived': the five together on the beach, cheering",
    "end": 25.9
   },
   {
    "id": "S08",
    "t": 25.9,
    "mood": "night",
-   "note": "'only three survived': three figures far apart on a dark shore; slow, still framing",
+   "note": "'only three survived': three men standing apart on the dark shore; a slow pull-back",
    "end": 28.31
   },
   {
    "id": "S09",
    "t": 28.31,
    "mood": "cold",
-   "note": "'Same island. Same cold. Same storms.': three beats, each a crane higher over the island, both camps in frame",
+   "note": "'Same island.': the Grafton five standing on their beach",
+   "end": 29.18
+  },
+  {
+   "id": "S09B",
+   "t": 29.18,
+   "mood": "cold",
+   "note": "'Same cold.': the Invercauld three on theirs, the same framing",
+   "end": 30.04
+  },
+  {
+   "id": "S09C",
+   "t": 30.04,
+   "mood": "cold",
+   "note": "'Same storms.': the wrecked Grafton in the swell (a bookend of the hook)",
    "end": 31.26
   },
   {
    "id": "S10",
    "t": 31.26,
    "mood": "golden",
-   "note": "PAYOFF: settle on the Grafton hut's lit window as the five share a meal; slow push, ends 0.6 s after 'other.'",
+   "note": "PAYOFF: the five around their fire in front of the hut; a slow push-in",
    "end": 34.03
   }
  ],

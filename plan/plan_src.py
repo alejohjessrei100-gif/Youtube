@@ -27,16 +27,19 @@ LEAD = 2  # captions appear 2 frames before the word (applied by makeChunks in c
 SHOTS = [
     # id,     anchor (turn, word, nth), mood,   lens note
     # warm light = the Grafton camp (teamwork); cold / night = the Invercauld camp; golden = the payoff
-    ("S01", (1, "In", 1), "cold", "HOOK: wide on the cold island, both wrecks in frame (one each end); push in on the Grafton hull and its 1864 board within 2 s"),
-    ("S02", (1, "Neither", 1), "cold", "crane from one camp across the island ridge to the other: they can't see each other"),
-    ("S03", (1, "On", 2), "golden", "Grafton camp: heroLow on five men raising a hut; on 'took turns cooking' a pot over a fire, a bowl handed across; 5 MEN on the hut door"),
-    ("S04", (1, "Forty", 1), "night", "a painted 40 KM signpost on the ridge, then down to the Invercauld surf: men crawl ashore, then scatter, each alone ('every man for himself')"),
-    ("S05", (1, "After", 1), "dusk", "back at the Grafton: the crew building a small boat on the beach (medium, hands working)"),
-    ("S06", (1, "three", 1), "day", "three men push the boat off into big grey waves; wide, the boat small against the ocean"),
-    ("S07", (1, "All", 1), "golden", "'All five lived': the five together on the beach, close group shot"),
-    ("S08", (1, "From", 2), "night", "'only three survived': three figures far apart on a dark shore; slow, still framing"),
-    ("S09", (1, "Same", 2), "cold", "'Same island. Same cold. Same storms.': three beats, each a crane higher over the island, both camps in frame"),
-    ("S10", (1, "The", 8), "golden", "PAYOFF: settle on the Grafton hut's lit window as the five share a meal; slow push, ends 0.6 s after 'other.'"),
+    ("S01", (1, "In", 1), "cold", "HOOK: the 1864 board on the beach with the wrecked Grafton behind it; a slow push-in"),
+    ("S02", (1, "Neither", 1), "cold", "the whole island from above its west end: the Grafton camp below, the ridge, the other wreck far away"),
+    ("S03", (1, "On", 2), "golden", "a tracking shot along the Grafton camp: sawing, hammering, the 5 MEN door, the cooking, the fire"),
+    ("S04", (1, "Forty", 1), "night", "the 40 KM sign, face-on and unobstructed; a slow push-in"),
+    ("S04B", (1, "nineteen", 1), "night", "the Invercauld men come out of the surf toward us, then turn away from each other"),
+    ("S05", (1, "After", 1), "dusk", "the Grafton crew builds the boat on the beach; a slow arc around the bow"),
+    ("S06", (1, "three", 1), "day", "three men sail for help; a follow-cam keeps the boat in frame on the swell"),
+    ("S07", (1, "All", 1), "golden", "'All five lived': the five together on the beach, cheering"),
+    ("S08", (1, "From", 2), "night", "'only three survived': three men standing apart on the dark shore; a slow pull-back"),
+    ("S09", (1, "Same", 2), "cold", "'Same island.': the Grafton five standing on their beach"),
+    ("S09B", (1, "Same", 3), "cold", "'Same cold.': the Invercauld three on theirs, the same framing"),
+    ("S09C", (1, "Same", 4), "cold", "'Same storms.': the wrecked Grafton in the swell (a bookend of the hook)"),
+    ("S10", (1, "The", 8), "golden", "PAYOFF: the five around their fire in front of the hut; a slow push-in"),
 ]
 # Optional: key words for an accent color (captions are all white by default); at most one per sentence.
 ACCENT = {(1, "five"), (1, "three"), (1, "difference?")}
