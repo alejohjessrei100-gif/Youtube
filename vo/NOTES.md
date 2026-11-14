@@ -1,6 +1,6 @@
 # Short: "Back to the volcano" (Tristan da Cunha, 1961–63)
 
-About 63 words, about 22 s at a brisk Shorts pace. Read `script.txt` exactly as written; captions follow the words.
+58 words, about 21 s at a brisk Shorts pace. Read `script.txt` exactly as written; captions follow the words.
 
 ## Facts behind each line
 | Line | Fact | Source |
