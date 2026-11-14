@@ -213,7 +213,7 @@ th { font-family: var(--mono); font-size: 10px; text-transform: uppercase; lette
     return o;
   };
   var cross = function (x, y, s) { s = s || 1; return circ(x, y, 5.5 * s, "#fff", INK) + rect(x - 0.9 * s, y - 3.4 * s, 1.8 * s, 6.8 * s, INK) + rect(x - 2.5 * s, y - 1.6 * s, 5 * s, 1.8 * s, INK); };
-  var crescent = function (x, y, s) { s = s || 1; return circ(x, y, 5.5 * s, "#fff", INK) + '<path transform="translate(' + x + " " + y + ") scale(" + s + ')" d="M1.2 -3.6 A3.6 3.6 0 1 0 1.2 3.6 A2.8 2.8 0 1 1 1.2 -3.6Z" fill="' + INK + '"/>'; };
+  var crescent = function (x, y, s) { s = s || 1; return circ(x, y, 5.5 * s, "#fff", INK) + circ(x - 0.5 * s, y, 3.5 * s, INK) + circ(x + 1.0 * s, y - 0.4 * s, 2.9 * s, "#fff"); };
   var badge = function (k, x, y, s) { return k === "c" ? cross(x, y, s) : crescent(x, y, s); };
   var dot = function (x, y, c, r, i) { return circ(x, y, r || 5, c, INK); };
   var camlabel = function (s) { return rect(0, 300, 180, 20, "rgba(10,14,20,0.82)") + text(90, 313, s, 9, "#fff"); };

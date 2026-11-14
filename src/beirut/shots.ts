@@ -129,7 +129,7 @@ const S01: Beat = {
   id: 1, b: 0, len: 2, mood: "day", about: "hook: eighteen boys in a line, one man pointing",
   cam: move(C([2.9, 1.4, -1.2], [-0.6, 1.0, 9.5], 52), C([2.4, 1.35, 0.1], [-0.6, 1.0, 9.5], 52)),
   actors: (t) => [
-    mkMan([1.0, 0, 0.9], 0, { armR: [85, 4], armRFwd: 88 }),
+    mkMan([1.3, 0, 2.4], 0, { armR: [85, 4], armRFwd: 88 }),
     ...range(18).map((i) => ({ spec: PLAIN[i], p: LINE(i), yaw: PI / 2, free: true, face: i % 4 === 0 ? SMILE : NEUTRAL, pose: {} as BodyPose })),
   ],
   world: () => ({ set: "camp" }),
@@ -192,14 +192,14 @@ const S05: Beat = {
   cam: move(C([0, 0.85, 1.4], [0, 1.15, 10.6], 50), C([0, 0.95, 3.0], [0, 1.2, 10.6], 50)),
   actors: (t) => team("R", t),
   world: () => ({ set: "camp" }),
-  focus: () => [0, 1.2, 10.6], blur: 1.1, markPx: 84,
+  focus: () => [0, 1.2, 10.6], blur: 1.1, markPx: 68,
 };
 const S06: Beat = {
   id: 6, b: 10, len: 2, mood: "day", about: "the Blue Ghost, same layout, mirrored move",
   cam: move(C([0.9, 0.9, 3.0], [0, 1.2, 10.6], 50), C([-0.2, 0.9, 1.6], [0, 1.2, 10.6], 50)),
   actors: (t) => team("B", t),
   world: () => ({ set: "camp" }),
-  focus: () => [0, 1.2, 10.6], blur: 1.1, markPx: 84,
+  focus: () => [0, 1.2, 10.6], blur: 1.1, markPx: 68,
 };
 const S07: Beat = {
   id: 7, b: 12, len: 2, mood: "day", about: "the researcher at his desk with an old report and an old photo",
@@ -269,7 +269,7 @@ const S12: Beat = {
 // ---- back in Beirut
 const S13: Beat = {
   id: 13, b: 23, len: 3, mood: "day", about: "the Beirut boys, relaxed; badges float up over their heads",
-  cam: move(C([-3.0, 1.15, 3.2], [-1.6, 1.25, 9.8], 50), C([3.0, 1.15, 3.2], [1.6, 1.25, 9.8], 50)),
+  cam: move(C([-2.6, 1.2, 2.0], [-1.4, 1.25, 9.8], 56), C([2.6, 1.2, 2.0], [1.4, 1.25, 9.8], 56)),
   actors: (t) =>
     [1, 4, 6, 9, 11, 13, 15, 17].map((i, k) => ({
       spec: PLAIN[i],
@@ -281,7 +281,7 @@ const S13: Beat = {
       mark: { glyph: RELIGION(i), t0: tw("label") + 0.18 * k } as Mark,
     })),
   world: () => ({ set: "camp" }),
-  focus: () => [0, 1.2, 9.6], blur: 1.1, markPx: 88,
+  focus: () => [0, 1.2, 9.6], blur: 1.1, markPx: 80,
 };
 const S14: Beat = {
   id: 14, b: 26, len: 2, mood: "day", about: "overhead, turning: a team line and a religion line",
@@ -294,7 +294,7 @@ const S14: Beat = {
     set: "camp",
     chalk: [
       { a: [0, 0, 3], b: [0, 0, 17], grow: smooth(u * 2.2), dash: 0.7 },
-      { a: [-4.5, 0, 15.5], b: [4.5, 0, 4.5], grow: smooth((u - 0.3) * 2.2), dash: 0.7 },
+      { a: [-4.5, 0, 15.5], b: [4.5, 0, 4.5], grow: smooth((u - 0.3) * 2.2), dash: 0.7, color: "#ffd34d" },
     ],
   }),
   focus: () => FIELD_C, blur: 0.4, markPx: 62,
@@ -325,7 +325,7 @@ const S16: Beat = {
   id: 16, b: 30, len: 1, mood: "day", about: "the rope drops and both teams charge into a dust cloud",
   cam: move(C([0, 1.2, -2.0], [0, 1.2, 10], 55), C([0, 1.3, 2.0], [0, 1.3, 10], 50), punch),
   actors: (t, u) => ropeBoys(t, 0, smooth(u / 0.7), 16, YELL, true),
-  world: (_t, u) => ({ set: "camp", dust: { p: [0, 0, 10], u: smooth((u - 0.15) / 0.7), s: 1.5 } }),
+  world: (_t, u) => ({ set: "camp", dust: { p: [0, 0, 10], u: smooth((u - 0.15) / 0.7), s: 1.25 } }),
   focus: () => [0, 1.3, 10], blur: 0.8,
 };
 const S17: Beat = {
@@ -338,19 +338,19 @@ const S17: Beat = {
       const p: V3 = [Math.cos(a) * r, 0, 10 + Math.sin(a) * r];
       return { spec: VEST[i], p, yaw: yawTo(p, [0, 0, 10]), free: true, face: YELL, pose: { armL: [120 + 10 * Math.sin(t * 7 + i), 20], armR: [120 + 10 * Math.sin(t * 7 + i + 2), 20], lean: 14 } as BodyPose, mark: { glyph: RELIGION(i), t0: bt(31) + 0.1 * i, rise: true } as Mark };
     }),
-  world: (_t, u) => ({ set: "camp", dust: { p: [0, 0, 10], u: 1, s: 1.5 }, chalk: [{ a: [-5.5, 0, 16], b: [5.5, 0, 4], grow: smooth(u * 3), dash: 0.7 }] }),
+  world: (_t, u) => ({ set: "camp", dust: { p: [0, 0, 10], u: 1, s: 1.3 }, chalk: [{ a: [-5.5, 0, 16], b: [5.5, 0, 4], grow: smooth(u * 3), dash: 0.7, color: "#ffd34d" }] }),
   focus: () => FIELD_C, blur: 0.4, markPx: 64,
 };
 const S18: Beat = {
   id: 18, b: 33, len: 2, mood: "day", about: "the last image: red against blue, nothing else",
-  cam: move(C([0, 1.05, -3.2], [0, 1.2, 10], 58), C([0, 1.15, -0.8], [0, 1.2, 10], 58)),
+  cam: move(C([0, 1.05, -1.6], [0, 1.2, 10], 56), C([0, 1.15, 1.6], [0, 1.2, 10], 54)),
   actors: (t) =>
     range(18).map((i) => {
       const red = i < 9;
       const k = i % 9;
       return {
         spec: VEST[i],
-        p: [(red ? -1 : 1) * (1.7 + (k % 3) * 0.85), 0, 9.2 + Math.floor(k / 3) * 1.0] as V3,
+        p: [(red ? -1 : 1) * (1.0 + (k % 3) * 0.62), 0, 9.2 + Math.floor(k / 3) * 1.0] as V3,
         yaw: red ? PI / 2 : -PI / 2,
         free: true,
         face: YELL,

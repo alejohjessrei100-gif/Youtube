@@ -11,7 +11,7 @@ export type SetId = "camp" | "okla" | "office";
 export type World = {
   set: SetId;
   /** chalk lines on the ground: a to b, grown 0..1 from a, optionally dashed */
-  chalk?: { a: V3; b: V3; grow: number; dash?: number }[];
+  chalk?: { a: V3; b: V3; grow: number; dash?: number; color?: string }[];
   /** the tug-of-war rope between two points (hand height) */
   rope?: { a: V3; b: V3 } | null;
   /** the dust cloud of the fight: centre, growth 0..1, scale */
@@ -59,7 +59,7 @@ const Oak: React.FC<{ p: V3; s?: number; c?: string }> = ({ p, s = 1, c = "#4f8a
 const Hill: React.FC<{ p: V3; s: V3; c: string }> = ({ p, s, c }) => <M g={sphG(1, 14)} c={c} p={p} s={s} cast={false} recv={false} />;
 
 /** a chalk line: unlit white boxes lying on the ground, optionally dashed */
-export const Chalk: React.FC<{ a: V3; b: V3; grow: number; dash?: number }> = ({ a, b, grow, dash }) => {
+export const Chalk: React.FC<{ a: V3; b: V3; grow: number; dash?: number; color?: string }> = ({ a, b, grow, dash, color = "#fbfbf6" }) => {
   const L = Math.hypot(b[0] - a[0], b[2] - a[2]) * Math.max(0, Math.min(1, grow));
   if (L < 0.05) return null;
   const yaw = Math.atan2(b[0] - a[0], b[2] - a[2]);
@@ -74,8 +74,8 @@ export const Chalk: React.FC<{ a: V3; b: V3; grow: number; dash?: number }> = ({
         const m = (s0 + s1) / 2;
         return (
           <mesh key={i} position={[a[0] + dx * m, 0.045, a[2] + dz * m]} rotation={[0, yaw, 0]} userData={{ outline: false }}>
-            <boxGeometry args={[0.16, 0.02, s1 - s0]} />
-            <meshBasicMaterial color="#fbfbf6" toneMapped={false} />
+            <boxGeometry args={[dash ? 0.26 : 0.16, 0.02, s1 - s0]} />
+            <meshBasicMaterial color={color} toneMapped={false} />
           </mesh>
         );
       })}
@@ -96,16 +96,16 @@ export const Dust: React.FC<{ p: V3; u: number; s: number }> = ({ p, u, s }) => 
   const k = Math.min(1, u * 1.6);
   return (
     <group position={p}>
-      {Array.from({ length: 16 }, (_, i) => {
+      {Array.from({ length: 13 }, (_, i) => {
         const a = i * 2.399;
-        const r = (0.35 + 1.1 * h1(i * 3.7)) * s * k;
-        const R = (0.5 + 1.3 * h1(i * 1.9 + 4)) * s * k;
-        return <Lobe key={i} p={[Math.cos(a) * R, 0.5 + 1.1 * h1(i * 5.3) * k * s, Math.sin(a) * R]} s={[r, r * 0.8, r]} c={i % 3 === 0 ? "#d9ceb8" : "#f1eadb"} />;
+        const r = (0.55 + 0.5 * h1(i * 3.7)) * s * k;
+        const R = (0.15 + 0.85 * h1(i * 1.9 + 4)) * s * k;
+        return <M key={i} g={sphG(1, 10)} c={i % 3 === 0 ? "#e2d8c2" : "#f3ede0"} p={[Math.cos(a) * R, 0.55 + 0.9 * h1(i * 5.3) * k * s, Math.sin(a) * R]} s={[r, r * 0.85, r]} cast={false} recv={false} />;
       })}
       {Array.from({ length: 7 }, (_, i) => {
         const a = i * 0.9 + 0.4;
-        const R = (1.4 + 0.5 * (i % 3)) * s * Math.min(1, u * 2);
-        return <Lobe key={`s${i}`} p={[Math.cos(a) * R, 1.4 + 0.5 * (i % 2), Math.sin(a) * R]} s={0.13 * s} c="#ffd34d" />;
+        const R = (1.5 + 0.5 * (i % 3)) * s * Math.min(1, u * 2);
+        return <Lobe key={`s${i}`} p={[Math.cos(a) * R, 1.5 + 0.5 * (i % 2), Math.sin(a) * R]} s={0.14 * s} c="#ffd34d" />;
       })}
     </group>
   );

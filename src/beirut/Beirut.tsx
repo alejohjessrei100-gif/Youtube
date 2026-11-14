@@ -52,7 +52,10 @@ const Disc: React.FC<{ glyph: Mark["glyph"]; px: number }> = ({ glyph, px }) => 
         <rect x="-4.8" y="-3.2" width="9.6" height="3" fill={INK} />
       </>
     ) : glyph === "m" ? (
-      <path d="M1.6 -6.6 A6.6 6.6 0 1 0 1.6 6.6 A5.2 5.2 0 1 1 1.6 -6.6Z" fill={INK} />
+      <>
+        <circle cx="-0.8" cy="0" r="6.6" fill={INK} />
+        <circle cx="1.9" cy="-0.6" r="5.5" fill="#fff" />
+      </>
     ) : (
       <text x="0" y="5.6" textAnchor="middle" fontFamily="Poppins" fontWeight={800} fontSize="16" fill={INK}>
         ?
