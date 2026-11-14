@@ -7,6 +7,8 @@ import { createRoot } from "react-dom/client";
 import { Demo, DEMO_MOODS } from "../src/demo/Demo";
 import { DemoCast } from "../src/demo/DemoCast";
 import { DemoMove, MOVE_FRAMES } from "../src/demo/DemoMove";
+import { StyleLineup, StyleTrio } from "../src/demo/StyleSheet";
+import { STYLES } from "../src/styles/styles";
 
 // staticFile() (fonts) resolves against this folder, wherever the page is hosted.
 (window as unknown as { remotion_staticBase: string }).remotion_staticBase = new URL(".", location.href).pathname.replace(/\/$/, "");
@@ -23,6 +25,8 @@ type Comp = {
 };
 
 const COMPS: Comp[] = [
+  { id: "StyleLineup", label: "Character styles: all 5 side by side", component: StyleLineup, width: 1920, height: 1080, fps: 30, durationInFrames: 30, defaultProps: { mood: "day" } },
+  ...STYLES.map((s) => ({ id: `Style-${s.id}`, label: `Style: ${s.name} (${s.heads})`, component: StyleTrio, width: 1920, height: 1080, fps: 30, durationInFrames: 30, defaultProps: { style: s.id, mood: "day" } })),
   { id: "Demo", label: "Demo (day)", component: Demo, width: 1080, height: 1920, fps: 30, durationInFrames: 30, defaultProps: { mood: "day", wide: false } },
   { id: "DemoHero", label: "Demo hero (dusk)", component: Demo, width: 1080, height: 1920, fps: 30, durationInFrames: 30, defaultProps: { mood: "dusk", wide: false, hero: true } },
   { id: "DemoCast", label: "Cast sheet", component: DemoCast, width: 1920, height: 1080, fps: 30, durationInFrames: 30, defaultProps: { mood: "day" } },

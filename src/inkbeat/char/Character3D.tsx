@@ -224,7 +224,8 @@ export const Character3D: React.FC<CharacterProps> = (props) => {
   const style: FaceStyle = { ...DEFAULT_FACE_STYLE, ...(look.face ?? {}) };
   const cast = props.castShadow ?? true;
   const hs = b.headScale;
-  const W = INK_K * HEAD_HW * 2; // ink hull base width
+  // ink hull base width; thinner on small heads (realistic proportions) so the ink never outweighs the face
+  const W = INK_K * HEAD_HW * 2 * Math.min(1, Math.sqrt(hs));
   const ink = (part: keyof typeof INK_PARTS, k = 1) => INK_PARTS[part][0] * W * k;
   const under = (part: keyof typeof INK_PARTS) => INK_PARTS[part][1];
 
