@@ -96,15 +96,23 @@ export const Dust: React.FC<{ p: V3; u: number; s: number }> = ({ p, u, s }) => 
   const k = Math.min(1, u * 1.6);
   return (
     <group position={p}>
-      {Array.from({ length: 13 }, (_, i) => {
+      {/* a bumpy cartoon cloud: many puffs of different sizes in a flattened ring and a core */}
+      {Array.from({ length: 24 }, (_, i) => {
         const a = i * 2.399;
-        const r = (0.55 + 0.5 * h1(i * 3.7)) * s * k;
-        const R = (0.15 + 0.85 * h1(i * 1.9 + 4)) * s * k;
-        return <M key={i} g={sphG(1, 10)} c={i % 3 === 0 ? "#e2d8c2" : "#f3ede0"} p={[Math.cos(a) * R, 0.55 + 0.9 * h1(i * 5.3) * k * s, Math.sin(a) * R]} s={[r, r * 0.85, r]} cast={false} recv={false} />;
+        const ring = i < 14;
+        const R = (ring ? 0.95 + 0.35 * h1(i * 1.9 + 4) : 0.35 * h1(i * 2.3)) * s * k;
+        const r = (ring ? 0.34 + 0.28 * h1(i * 3.7) : 0.6 + 0.2 * h1(i * 3.1)) * s * k;
+        return <M key={i} g={sphG(1, 10)} c={i % 3 === 0 ? "#e2d8c2" : "#f5efe2"} p={[Math.cos(a) * R * 1.35, 0.5 + (ring ? 0.2 + 0.7 * h1(i * 5.3) : 0.9) * k * s, Math.sin(a) * R * 0.8]} s={[r, r * 0.9, r]} cast={false} recv={false} />;
+      })}
+      {/* arms and legs poking out of the cloud, red and blue */}
+      {Array.from({ length: 8 }, (_, i) => {
+        const a = i * 0.785 + 0.3;
+        const R = 1.5 * s * k;
+        return <M key={`l${i}`} g={cylG(0.09, 0.08, 0.7, 8)} c={i % 2 ? "#2a62d4" : "#d6402f"} p={[Math.cos(a) * R * 1.35, 0.6 + 0.7 * h1(i * 6.1), Math.sin(a) * R * 0.8]} r={[0, 0, Math.cos(a) * 1.0 + (i % 2 ? 0.5 : -0.5)]} cast={false} recv={false} />;
       })}
       {Array.from({ length: 7 }, (_, i) => {
         const a = i * 0.9 + 0.4;
-        const R = (1.5 + 0.5 * (i % 3)) * s * Math.min(1, u * 2);
+        const R = (1.8 + 0.5 * (i % 3)) * s * Math.min(1, u * 2);
         return <Lobe key={`s${i}`} p={[Math.cos(a) * R, 1.5 + 0.5 * (i % 2), Math.sin(a) * R]} s={0.14 * s} c="#ffd34d" />;
       })}
     </group>

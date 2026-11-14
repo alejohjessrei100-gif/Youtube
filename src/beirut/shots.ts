@@ -129,7 +129,7 @@ const S01: Beat = {
   id: 1, b: 0, len: 2, mood: "day", about: "hook: eighteen boys in a line, one man pointing",
   cam: move(C([2.9, 1.4, -1.2], [-0.6, 1.0, 9.5], 52), C([2.4, 1.35, 0.1], [-0.6, 1.0, 9.5], 52)),
   actors: (t) => [
-    mkMan([1.3, 0, 2.4], 0, { armR: [85, 4], armRFwd: 88 }),
+    mkMan([1.5, 0, 4.4], 0, { armR: [85, 4], armRFwd: 88 }),
     ...range(18).map((i) => ({ spec: PLAIN[i], p: LINE(i), yaw: PI / 2, free: true, face: i % 4 === 0 ? SMILE : NEUTRAL, pose: {} as BodyPose })),
   ],
   world: () => ({ set: "camp" }),
