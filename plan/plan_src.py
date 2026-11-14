@@ -29,7 +29,7 @@ SHOTS = [
     # warm light = the Grafton camp (teamwork); cold / night = the Invercauld camp; golden = the payoff
     ("S01", (1, "In", 1), "cold", "HOOK: wide on the cold island, both wrecks in frame (one each end); push in on the Grafton hull and its 1864 board within 2 s"),
     ("S02", (1, "Neither", 1), "cold", "crane from one camp across the island ridge to the other: they can't see each other"),
-    ("S03", (1, "On", 2), "lamp", "Grafton camp: heroLow on five men raising a hut; on 'took turns cooking' a pot over a fire, a bowl handed across; 5 MEN on the hut door"),
+    ("S03", (1, "On", 2), "golden", "Grafton camp: heroLow on five men raising a hut; on 'took turns cooking' a pot over a fire, a bowl handed across; 5 MEN on the hut door"),
     ("S04", (1, "Forty", 1), "night", "a painted 40 KM signpost on the ridge, then down to the Invercauld surf: men crawl ashore, then scatter, each alone ('every man for himself')"),
     ("S05", (1, "After", 1), "dusk", "back at the Grafton: the crew building a small boat on the beach (medium, hands working)"),
     ("S06", (1, "three", 1), "day", "three men push the boat off into big grey waves; wide, the boat small against the ocean"),

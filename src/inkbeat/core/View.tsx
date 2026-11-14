@@ -57,6 +57,8 @@ export type ViewProps = {
   blur?: number;
   /** extra exposure (stops) */
   exposure?: number;
+  /** fog density multiplier (aerial and very wide shots: 0.1–0.3, or the far set drowns in haze) */
+  fogK?: number;
   /** draw the sky dome (exteriors) */
   sky?: boolean;
   width?: number;
@@ -65,7 +67,7 @@ export type ViewProps = {
   style?: React.CSSProperties;
 };
 
-export const View: React.FC<ViewProps> = ({ mood: m, cam, t, focus, blur = 1.4, exposure = 0, sky = true, width = 1080, height = 1920, children, style }) => {
+export const View: React.FC<ViewProps> = ({ mood: m, cam, t, focus, blur = 1.4, exposure = 0, fogK = 1, sky = true, width = 1080, height = 1920, children, style }) => {
   const mood = typeof m === "string" ? moodOf(m) : m;
   const L = shotLight(mood, cam);
   const fd = Math.max(0.2, new THREE.Vector3(...cam.pos).distanceTo(new THREE.Vector3(...(focus ?? cam.look))));
@@ -81,7 +83,7 @@ export const View: React.FC<ViewProps> = ({ mood: m, cam, t, focus, blur = 1.4, 
   return (
     <ThreeCanvas width={width} height={height} shadows flat gl={{ preserveDrawingBuffer: true }} style={{ position: "absolute", inset: 0, ...style }}>
       <CamSet cam={cam} far={600} />
-      <LookLights look={L.look} center={L.center} extent={L.extent} fog />
+      <LookLights look={fogK === 1 ? L.look : { ...L.look, fog: { ...L.look.fog, density: L.look.fog.density * fogK } }} center={L.center} extent={L.extent} fog />
       <ToonSync look={L.look} />
       <CamFill cam={cam} color={mood.camFill.color} intensity={mood.camFill.intensity} />
       {sky ? <LookSky look={L.look} t={t} cloudSeed={3} /> : null}
