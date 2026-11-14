@@ -36,9 +36,24 @@ export const GRAFTON_CREW: CharacterSpec[] = [
   },
 ];
 
-const COLD = { top: CLOTH.graphite, inner: CLOTH.khaki, bottom: CLOTH.charcoal, shoes: CLOTH.chestnut, accent: CLOTH.horn };
-export const INVER_CREW: CharacterSpec[] = [
-  { height: 1.78, build: BUILD, look: { skin: SKIN.light, outfit: "jacket", colors: COLD, hair: "crop", hairColor: HAIR.espresso, beard: true, face: { blush: 0.05, brow: 1.2 }, seed: 21 } },
-  { height: 1.72, build: BUILD, look: { skin: SKIN.medium, outfit: "sweater", colors: { ...COLD, top: CLOTH.denim }, hair: "swoop", hairColor: HAIR.black, face: { blush: 0.05, brow: 1.2 }, seed: 23 } },
-  { height: 1.75, build: BUILD, look: { skin: SKIN.fair, outfit: "shirt", colors: { ...COLD, top: CLOTH.khaki }, hair: "sides", hairColor: HAIR.honey, mustache: true, face: { blush: 0.05, brow: 1.2 }, seed: 27 } },
-];
+// the Invercauld's people: nineteen reached the ledge. Cold, faded, soaked colors; varied builds, hair and skin.
+const COLD_TOPS = [CLOTH.graphite, CLOTH.denim, CLOTH.khaki, CLOTH.charcoal, CLOTH.cocoa];
+const SKINS = [SKIN.light, SKIN.medium, SKIN.fair, SKIN.tan, SKIN.brown];
+const HAIRS = [HAIR.espresso, HAIR.black, HAIR.honey, HAIR.auburn, HAIR.silver];
+const OUTFITS = ["jacket", "sweater", "shirt", "vest"] as const;
+const CUTS = ["crop", "swoop", "sides", "curly"] as const;
+export const INVER_CREW: CharacterSpec[] = Array.from({ length: 19 }, (_, i) => ({
+  height: 1.68 + 0.04 * ((i * 7) % 5),
+  build: { ...BUILD, torso: i % 4 === 1 ? ("barrel" as const) : ("block" as const) },
+  look: {
+    skin: SKINS[i % 5],
+    outfit: OUTFITS[i % 4],
+    colors: { top: COLD_TOPS[(i * 3) % 5], inner: CLOTH.khaki, bottom: i % 2 ? CLOTH.charcoal : CLOTH.graphite, shoes: CLOTH.chestnut, accent: CLOTH.horn },
+    hair: CUTS[(i * 3) % 4],
+    hairColor: HAIRS[(i * 2) % 5],
+    beard: i % 3 === 0,
+    mustache: i % 5 === 2,
+    face: { blush: 0.04, brow: 1.2 },
+    seed: 21 + i * 3,
+  },
+}));

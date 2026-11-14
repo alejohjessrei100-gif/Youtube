@@ -3,94 +3,206 @@
  "duration_s": 34.03,
  "shots": [
   {
-   "id": "S01",
+   "id": "B01",
    "t": 0.0,
-   "mood": "cold",
-   "note": "HOOK: the 1864 board on the beach with the wrecked Grafton behind it; a slow push-in",
+   "mood": "storm",
+   "note": "HOOK: a gale at night; from the wave tops, the schooner heels toward the shore as lightning strikes",
+   "end": 1.48
+  },
+  {
+   "id": "B02",
+   "t": 1.48,
+   "mood": "storm",
+   "note": "close-up on deck: a sailor's face as he sees the rocks",
+   "end": 1.94
+  },
+  {
+   "id": "B03",
+   "t": 1.94,
+   "mood": "storm",
+   "note": "IMPACT: the schooner grounds, shudders, her foremast goes over in the spray",
+   "end": 2.84
+  },
+  {
+   "id": "B04",
+   "t": 2.84,
+   "mood": "storm",
+   "note": "the big Invercauld breaking up under a wall of cliffs; tilt up the cliff as a mast falls",
+   "end": 4.28
+  },
+  {
+   "id": "B05",
+   "t": 4.28,
+   "mood": "day",
+   "note": "the chart: one island, two crosses at opposite ends",
    "end": 5.57
   },
   {
-   "id": "S02",
+   "id": "B06",
    "t": 5.57,
-   "mood": "cold",
-   "note": "the whole island from above its west end: the Grafton camp below, the ridge, the other wreck far away",
+   "mood": "overcast",
+   "note": "grey dawn: a Grafton man looks up at the wall of forest; crane over his shoulder",
+   "end": 6.51
+  },
+  {
+   "id": "B07",
+   "t": 6.51,
+   "mood": "overcast",
+   "note": "the match: an Invercauld man under the cliffs; tilt up 36 m of basalt",
    "end": 7.91
   },
   {
-   "id": "S03",
+   "id": "B08",
    "t": 7.91,
-   "mood": "golden",
-   "note": "a tracking shot along the Grafton camp: sawing, hammering, the 5 MEN door, the cooking, the fire",
+   "mood": "overcast",
+   "note": "five men carry one spar up the beach; the camera backs away ahead of them",
+   "end": 9.3
+  },
+  {
+   "id": "B09",
+   "t": 9.3,
+   "mood": "overcast",
+   "note": "the hut goes up (time-lapse) while they hammer and bring thatch",
+   "end": 10.08
+  },
+  {
+   "id": "B10",
+   "t": 10.08,
+   "mood": "dusk",
+   "note": "one stirs the pot and hands a mug across the fire",
+   "end": 10.92
+  },
+  {
+   "id": "B11",
+   "t": 10.92,
+   "mood": "dusk",
+   "note": "all five round the fire in front of the finished hut; a slow arc",
    "end": 12.48
   },
   {
-   "id": "S04",
+   "id": "B12",
    "t": 12.48,
-   "mood": "night",
-   "note": "the 40 KM sign, face-on and unobstructed; a slow push-in",
+   "mood": "day",
+   "note": "the chart: the camera flies the 40 km north from one cross to the other",
    "end": 13.79
   },
   {
-   "id": "S04B",
+   "id": "B13",
    "t": 13.79,
-   "mood": "night",
-   "note": "the Invercauld men come out of the surf toward us, then turn away from each other",
+   "mood": "overcast",
+   "note": "nineteen men on the ledge under the cliffs; drift in from the surf",
+   "end": 15.27
+  },
+  {
+   "id": "B14",
+   "t": 15.27,
+   "mood": "overcast",
+   "note": "at rock level, a man drags himself out of the foam toward us",
+   "end": 16.31
+  },
+  {
+   "id": "B15",
+   "t": 16.31,
+   "mood": "overcast",
+   "note": "one reaches up for help; the other turns his back and walks away",
+   "end": 17.34
+  },
+  {
+   "id": "B16",
+   "t": 17.34,
+   "mood": "overcast",
+   "note": "straight down from the cliff top: nineteen figures drift apart",
    "end": 18.38
   },
   {
-   "id": "S05",
+   "id": "B17",
    "t": 18.38,
-   "mood": "dusk",
-   "note": "the Grafton crew builds the boat on the beach; a slow arc around the bow",
-   "end": 21.58
+   "mood": "overcast",
+   "note": "a man cuts a notch into the tally post; push-in on the marks",
+   "end": 19.56
   },
   {
-   "id": "S06",
-   "t": 21.58,
-   "mood": "day",
-   "note": "three men sail for help; a follow-cam keeps the boat in frame on the swell",
+   "id": "B18",
+   "t": 19.56,
+   "mood": "break",
+   "note": "hammer on the gunwale, close",
+   "end": 20.57
+  },
+  {
+   "id": "B19",
+   "t": 20.57,
+   "mood": "break",
+   "note": "the camera rises: the finished boat with all five around her",
+   "end": 21.44
+  },
+  {
+   "id": "B20",
+   "t": 21.44,
+   "mood": "break",
+   "note": "over the shoulders of the two who stay, the boat stands out with three aboard",
+   "end": 22.93
+  },
+  {
+   "id": "B21",
+   "t": 22.93,
+   "mood": "storm",
+   "note": "the boat, tiny on a mountain of grey water; the camera comes down to her",
    "end": 24.49
   },
   {
-   "id": "S07",
+   "id": "B22",
    "t": 24.49,
-   "mood": "golden",
-   "note": "'All five lived': the five together on the beach, cheering",
+   "mood": "break",
+   "note": "the camera tracks close along five faces; five gold figures count up",
    "end": 25.9
   },
   {
-   "id": "S08",
+   "id": "B23",
    "t": 25.9,
-   "mood": "night",
-   "note": "'only three survived': three men standing apart on the dark shore; a slow pull-back",
+   "mood": "overcast",
+   "note": "nineteen stand on the ledge; nineteen figures on screen",
+   "end": 26.89
+  },
+  {
+   "id": "B24",
+   "t": 26.89,
+   "mood": "overcast",
+   "note": "three men on an empty ledge; the count drops to three",
    "end": 28.31
   },
   {
-   "id": "S09",
+   "id": "B25",
    "t": 28.31,
-   "mood": "cold",
-   "note": "'Same island.': the Grafton five standing on their beach",
+   "mood": "day",
+   "note": "the whole chart, both crosses and the route",
    "end": 29.18
   },
   {
-   "id": "S09B",
+   "id": "B26",
    "t": 29.18,
-   "mood": "cold",
-   "note": "'Same cold.': the Invercauld three on theirs, the same framing",
+   "mood": "storm",
+   "note": "one survivor alone in the dark, arms round himself, shaking",
    "end": 30.04
   },
   {
-   "id": "S09C",
+   "id": "B27",
    "t": 30.04,
-   "mood": "cold",
-   "note": "'Same storms.': the wrecked Grafton in the swell (a bookend of the hook)",
+   "mood": "storm",
+   "note": "a sea bursts against the ledge and the cliff in a lightning flash",
    "end": 31.26
   },
   {
-   "id": "S10",
+   "id": "B28",
    "t": 31.26,
-   "mood": "golden",
-   "note": "PAYOFF: the five around their fire in front of the hut; a slow push-in",
+   "mood": "fire",
+   "note": "out of the dark, the one warm place: five men round a fire",
+   "end": 32.36
+  },
+  {
+   "id": "B29",
+   "t": 32.36,
+   "mood": "fire",
+   "note": "close: one man puts a hot mug into another's hands; push-in to the end",
    "end": 34.03
   }
  ],
@@ -101,19 +213,19 @@
  ],
  "tags": [
   {
-   "text": "1864",
-   "t": 0.13,
-   "note": "painted on a broken hull board of the Grafton wreck, unlit"
-  },
-  {
-   "text": "5 MEN",
-   "t": 8.74,
-   "note": "painted on the Grafton hut door"
-  },
-  {
    "text": "40 KM",
    "t": 12.48,
-   "note": "a painted signpost on the ridge between the two camps"
+   "note": "on the chart, along the route between the two crosses"
+  },
+  {
+   "text": "5 / 5",
+   "t": 24.49,
+   "note": "five gold figures on screen"
+  },
+  {
+   "text": "3 / 19",
+   "t": 26.89,
+   "note": "nineteen figures on screen, sixteen go dark"
   }
  ]
 }

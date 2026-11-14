@@ -25,30 +25,46 @@ LEAD = 2  # captions appear 2 frames before the word (applied by makeChunks in c
 # A shot is a setup (a set, a mood, a lens). Inside it the beat rig moves the camera about once a second (SKILL.md
 # section 1); change setups only where the picture must change (a new subject, a reaction, the payoff).
 SHOTS = [
-    # id,     anchor (turn, word, nth), mood,   lens note
-    # warm light = the Grafton camp (teamwork); cold / night = the Invercauld camp; golden = the payoff
-    ("S01", (1, "In", 1), "cold", "HOOK: the 1864 board on the beach with the wrecked Grafton behind it; a slow push-in"),
-    ("S02", (1, "Neither", 1), "cold", "the whole island from above its west end: the Grafton camp below, the ridge, the other wreck far away"),
-    ("S03", (1, "On", 2), "golden", "a tracking shot along the Grafton camp: sawing, hammering, the 5 MEN door, the cooking, the fire"),
-    ("S04", (1, "Forty", 1), "night", "the 40 KM sign, face-on and unobstructed; a slow push-in"),
-    ("S04B", (1, "nineteen", 1), "night", "the Invercauld men come out of the surf toward us, then turn away from each other"),
-    ("S05", (1, "After", 1), "dusk", "the Grafton crew builds the boat on the beach; a slow arc around the bow"),
-    ("S06", (1, "three", 1), "day", "three men sail for help; a follow-cam keeps the boat in frame on the swell"),
-    ("S07", (1, "All", 1), "golden", "'All five lived': the five together on the beach, cheering"),
-    ("S08", (1, "From", 2), "night", "'only three survived': three men standing apart on the dark shore; a slow pull-back"),
-    ("S09", (1, "Same", 2), "cold", "'Same island.': the Grafton five standing on their beach"),
-    ("S09B", (1, "Same", 3), "cold", "'Same cold.': the Invercauld three on theirs, the same framing"),
-    ("S09C", (1, "Same", 4), "cold", "'Same storms.': the wrecked Grafton in the swell (a bookend of the hook)"),
-    ("S10", (1, "The", 8), "golden", "PAYOFF: the five around their fire in front of the hut; a slow push-in"),
+    # id, anchor (turn, word, nth), mood, picture. About one beat a second (60 BPM), every cut on a word.
+    ("B01", (1, "In", 1), "storm", "HOOK: a gale at night; from the wave tops, the schooner heels toward the shore as lightning strikes"),
+    ("B02", (1, "two", 1), "storm", "close-up on deck: a sailor's face as he sees the rocks"),
+    ("B03", (1, "wrecked", 1), "storm", "IMPACT: the schooner grounds, shudders, her foremast goes over in the spray"),
+    ("B04", (1, "cold", 1), "storm", "the big Invercauld breaking up under a wall of cliffs; tilt up the cliff as a mast falls"),
+    ("B05", (1, "just", 1), "day", "the chart: one island, two crosses at opposite ends"),
+    ("B06", (1, "Neither", 1), "overcast", "grey dawn: a Grafton man looks up at the wall of forest; crane over his shoulder"),
+    ("B07", (1, "knew", 1), "overcast", "the match: an Invercauld man under the cliffs; tilt up 36 m of basalt"),
+    ("B08", (1, "On", 2), "overcast", "five men carry one spar up the beach; the camera backs away ahead of them"),
+    ("B09", (1, "built", 1), "overcast", "the hut goes up (time-lapse) while they hammer and bring thatch"),
+    ("B10", (1, "took", 1), "dusk", "one stirs the pot and hands a mug across the fire"),
+    ("B11", (1, "and", 1), "dusk", "all five round the fire in front of the finished hut; a slow arc"),
+    ("B12", (1, "Forty", 1), "day", "the chart: the camera flies the 40 km north from one cross to the other"),
+    ("B13", (1, "nineteen", 1), "overcast", "nineteen men on the ledge under the cliffs; drift in from the surf"),
+    ("B14", (1, "crawled", 1), "overcast", "at rock level, a man drags himself out of the foam toward us"),
+    ("B15", (1, "and", 2), "overcast", "one reaches up for help; the other turns his back and walks away"),
+    ("B16", (1, "himself", 1), "overcast", "straight down from the cliff top: nineteen figures drift apart"),
+    ("B17", (1, "After", 1), "overcast", "a man cuts a notch into the tally post; push-in on the marks"),
+    ("B18", (1, "the", 5), "break", "hammer on the gunwale, close"),
+    ("B19", (1, "their", 1), "break", "the camera rises: the finished boat with all five around her"),
+    ("B20", (1, "and", 3), "break", "over the shoulders of the two who stay, the boat stands out with three aboard"),
+    ("B21", (1, "open", 1), "storm", "the boat, tiny on a mountain of grey water; the camera comes down to her"),
+    ("B22", (1, "All", 1), "break", "the camera tracks close along five faces; five gold figures count up"),
+    ("B23", (1, "From", 2), "overcast", "nineteen stand on the ledge; nineteen figures on screen"),
+    ("B24", (1, "only", 1), "overcast", "three men on an empty ledge; the count drops to three"),
+    ("B25", (1, "Same", 2), "day", "the whole chart, both crosses and the route"),
+    ("B26", (1, "Same", 3), "storm", "one survivor alone in the dark, arms round himself, shaking"),
+    ("B27", (1, "Same", 4), "storm", "a sea bursts against the ledge and the cliff in a lightning flash"),
+    ("B28", (1, "The", 8), "fire", "out of the dark, the one warm place: five men round a fire"),
+    ("B29", (1, "How", 1), "fire", "close: one man puts a hot mug into another's hands; push-in to the end"),
 ]
 # Optional: key words for an accent color (captions are all white by default); at most one per sentence.
 ACCENT = {(1, "five"), (1, "three"), (1, "difference?")}
 # Painted tags: only the story's key facts, on the key object, about one per 15 s. Never on everything.
 TAGS = [
-    # (turn, word, text, on-object note)
-    (1, "1864,", "1864", "painted on a broken hull board of the Grafton wreck, unlit"),
-    (1, "five", "5 MEN", "painted on the Grafton hut door"),
-    (1, "Forty", "40 KM", "a painted signpost on the ridge between the two camps"),
+    # (turn, word, text, where). Nothing is painted on the world any more (no invented signs): facts live on the chart
+    # and in the on-screen count.
+    (1, "Forty", "40 KM", "on the chart, along the route between the two crosses"),
+    (1, "All", "5 / 5", "five gold figures on screen"),
+    (1, "only", "3 / 19", "nineteen figures on screen, sixteen go dark"),
 ]
 
 
@@ -105,7 +121,7 @@ def main(p, out):
         shots.append({"id": sid, "t": round(t0, 3), "mood": mood, "note": note})
     for a, b in zip(shots, shots[1:] + [{"t": total}]):
         a["end"] = round(b["t"], 3)
-        if a["end"] - a["t"] < 1.5:
+        if a["end"] - a["t"] < 0.4:
             print(f"WARN {a['id']} is only {a['end'] - a['t']:.2f} s")
     for tn, wd in ACCENT:
         find(words, tn, wd)  # every accent word must exist

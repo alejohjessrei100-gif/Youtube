@@ -16,7 +16,7 @@ export type MoodPreset = LookPreset & {
 };
 
 type Sky = LookPreset["sky"];
-const sky = (top: string, mid: string, bottom: string, o: Partial<Sky> = {}): Sky => ({
+export const sky = (top: string, mid: string, bottom: string, o: Partial<Sky> = {}): Sky => ({
   top, mid, bottom, cloudColor: mid, cloudLit: "#fff4e4", clouds: 0.3, stars: 0, rays: 0, horizon: 0.16, brush: 0.05,
   sun: { dir: [-0.6, 0.12, -1], color: "#ffd9a0", size: 7 }, sunOn: 0, moon: { dir: [-0.4, 0.45, -1], color: "#e6eaff", size: 4 }, moonOn: 0, ...o,
 });
