@@ -37,3 +37,11 @@ man known to swim). Show Tongan swimmers, not a default outsider protagonist. Th
 Tin Can Mail: the biggest results are about 9K views, mostly stamp-collecting and Tongan cultural channels, no mass
 animated versions. The popular stories (the Baltimore fire hoses, Poon Lim, Eyam, the Great Seal bug, the Gimli Glider,
 Lake Peigneur, Tristan da Cunha) each have many near-identical recent videos.
+
+## v2 (after reading real transcripts of the reference channel)
+`script_v2.txt` rewrites the story as a scene with a protagonist and a withheld "why". Corrections to v1:
+- **v1 had the order wrong:** it put the 1931 shark death before the stamp. The stamp (1928-29) and the cruise-ship
+  boom came first, then the 1931 death and the canoe order (Greene Foundation). v2 follows the real order.
+- v2 invents no dialogue. The "he" is an unnamed swimmer; the trader is unnamed on screen (Walter Quensell).
+- The mailman/swimmer detail (siren, long pole, lantern, fires) comes from Savage and Greene. The pole (fau) detail is
+  from one source.
