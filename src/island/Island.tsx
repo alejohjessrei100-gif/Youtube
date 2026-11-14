@@ -30,7 +30,7 @@ const seaGeo = (() => {
   return () => (g ??= new THREE.PlaneGeometry(600, 600, 160, 160).rotateX(-Math.PI / 2) as THREE.PlaneGeometry);
 })();
 const seaH = (x: number, z: number, t: number, k: number) =>
-  k * (0.16 * Math.sin(x * 0.21 + t * 0.9) + 0.12 * Math.sin(z * 0.33 - t * 1.1 + x * 0.05) + 0.06 * Math.sin((x + z) * 0.7 + t * 1.7));
+  k * (0.3 * Math.sin(x * 0.21 + t * 0.9) + 0.24 * Math.sin(z * 0.33 - t * 1.1 + x * 0.05) + 0.1 * Math.sin((x + z) * 0.7 + t * 1.7));
 /** the sea; swell k (1 calm, 2.5 stormy). The geometry is rewritten from t each frame (a pure function of t). */
 export const Sea: React.FC<{ t: number; k?: number; color?: string }> = ({ t, k = 1, color = "#245a72" }) => {
   const g = seaGeo();
@@ -223,8 +223,109 @@ export const Signpost: React.FC<{ p: V3; yaw?: number; text: string }> = ({ p, y
   </group>
 );
 
+// ------------------------------------------------------------------ set dressing (>= 12 props in every framing)
+const Crate: React.FC<{ p: V3; s?: number; yaw?: number }> = ({ p, s = 0.65, yaw = 0 }) => (
+  <group position={p} rotation={[0, yaw, 0]}>
+    <M g={boxG(s, s, s)} c="#8c6a45" tex="planks" p={[0, s / 2, 0]} />
+    <M g={boxG(s * 1.02, s * 0.12, s * 1.02)} c="#6b4a32" tex="wood" p={[0, s * 0.82, 0]} />
+  </group>
+);
+const Barrel: React.FC<{ p: V3; tip?: boolean; yaw?: number }> = ({ p, tip = false, yaw = 0 }) => (
+  <group position={p} rotation={[0, yaw, tip ? Math.PI / 2 : 0]}>
+    <M g={cylG(0.36, 0.36, 0.95, 16)} c="#7a5536" tex="wood" p={[0, tip ? 0 : 0.48, 0]} />
+    <M g={torG(0.37, 0.025)} c="#3c3a40" tex="metal" p={[0, tip ? 0.25 : 0.73, 0]} r={[Math.PI / 2, 0, 0]} />
+    <M g={torG(0.37, 0.025)} c="#3c3a40" tex="metal" p={[0, tip ? -0.25 : 0.23, 0]} r={[Math.PI / 2, 0, 0]} />
+  </group>
+);
+const Log: React.FC<{ p: V3; len?: number; yaw?: number; r?: number }> = ({ p, len = 2.2, yaw = 0, r = 0.14 }) => (
+  <M g={cylG(r, r * 1.1, len, 10)} c="#8f7a62" tex="wood" p={[p[0], p[1] + r, p[2]]} r={[0, yaw, Math.PI / 2]} />
+);
+/** a drying line between two poles with a sealskin and a shirt hanging on it */
+const DryingLine: React.FC<{ p: V3; yaw?: number; t: number }> = ({ p, yaw = 0, t }) => {
+  const sway = 0.08 * Math.sin(t * 1.4);
+  return (
+    <group position={p} rotation={[0, yaw, 0]}>
+      <M g={cylG(0.05, 0.06, 2.1, 8)} c="#6b4a32" tex="wood" p={[-1.6, 1.05, 0]} />
+      <M g={cylG(0.05, 0.06, 2.1, 8)} c="#6b4a32" tex="wood" p={[1.6, 1.05, 0]} />
+      <M g={cylG(0.012, 0.012, 3.2, 6)} c="#d8cdb4" p={[0, 1.95, 0]} r={[0, 0, Math.PI / 2]} />
+      <group position={[-0.6, 1.95, 0]} rotation={[sway, 0, 0]}>
+        <M g={sphG(1, 14)} c="#6e5640" tex="fabric" p={[0, -0.45, 0]} s={[0.42, 0.45, 0.05]} />
+      </group>
+      <group position={[0.65, 1.95, 0]} rotation={[sway * 1.3, 0, 0]}>
+        <M g={boxG(0.6, 0.7, 0.03)} c="#c9b98f" tex="fabric" p={[0, -0.37, 0]} />
+      </group>
+    </group>
+  );
+};
+/** a heap of fishing net */
+const Net: React.FC<{ p: V3; s?: number }> = ({ p, s = 1 }) => (
+  <group position={p} scale={s}>
+    <M g={sphG(1, 14)} c="#7d7356" tex="fabric" p={[0, 0.12, 0]} s={[0.7, 0.18, 0.55]} />
+    <M g={torG(0.35, 0.05)} c="#a08a5a" tex="fabric" p={[0.2, 0.25, 0.1]} r={[Math.PI / 2, 0, 0.3]} />
+  </group>
+);
+const Oar: React.FC<{ p: V3; yaw?: number; lean?: number }> = ({ p, yaw = 0, lean = 0.3 }) => (
+  <group position={p} rotation={[0, yaw, lean]}>
+    <M g={cylG(0.035, 0.035, 2.4, 8)} c="#9a7550" tex="wood" p={[0, 1.2, 0]} />
+    <M g={boxG(0.16, 0.6, 0.03)} c="#9a7550" tex="planks" p={[0, 0.3, 0]} />
+  </group>
+);
+/** the Grafton camp's clutter: salvaged gear around the hut and fire */
+export const GraftonProps: React.FC<{ t: number }> = ({ t }) => {
+  const [x, , z] = GRAFTON;
+  const G = (dx: number, dz: number): V3 => [x + dx, groundAt(x + dx, z + dz), z + dz];
+  return (
+    <>
+      <Crate p={G(-3.4, 2.4)} yaw={0.3} />
+      <Crate p={G(-3.9, 3.2)} s={0.5} yaw={-0.4} />
+      <Barrel p={G(3.2, 1.8)} />
+      <Barrel p={G(-2.2, 5.6)} tip yaw={0.8} />
+      <Log p={G(1.6, 5.2)} yaw={0.3} />
+      <Log p={G(5.2, 5.0)} yaw={-1.0} len={1.8} />
+      <DryingLine p={G(-5.6, 5.4)} yaw={0.35} t={t} />
+      <Net p={G(1.0, 7.2)} />
+      <Oar p={G(2.7, 1.9)} yaw={0.2} lean={0.25} />
+      <Oar p={G(2.9, 1.9)} yaw={-0.1} lean={0.32} />
+      <M g={cylG(0.22, 0.18, 0.32, 12)} c="#5a5d63" tex="metal" p={G(4.6, 3.4)} />
+      <Rock p={G(-1.4, 8.8)} s={0.45} />
+      <Rock p={G(7.4, 3.2)} s={0.6} yaw={1} />
+    </>
+  );
+};
+/** debris washed up on the Invercauld shore */
+export const InverDebris: React.FC = () => {
+  const G = (x: number, z: number): V3 => [x, groundAt(x, z), z];
+  return (
+    <>
+      <Barrel p={G(26.5, 11.6)} tip yaw={0.4} />
+      <Barrel p={G(35.4, 12.2)} tip yaw={-0.9} />
+      <Crate p={G(28.8, 9.6)} yaw={0.7} s={0.55} />
+      <Log p={G(33.0, 10.4)} yaw={0.5} len={2.8} r={0.12} />
+      <Log p={G(24.5, 9.0)} yaw={-0.4} len={1.6} r={0.1} />
+      <M g={boxG(2.0, 0.06, 0.25)} c="#6b5844" tex="planks" p={G(30.2, 11.2)} r={[0, 0.9, 0]} />
+      <M g={boxG(1.6, 0.06, 0.22)} c="#6b5844" tex="planks" p={G(36.8, 10.0)} r={[0, -0.3, 0]} />
+      <M g={sphG(1, 12)} c="#cfc6b0" tex="fabric" p={G(32.4, 9.2)} s={[1.1, 0.12, 0.8]} />
+      <Rock p={G(23.0, 10.4)} s={0.7} />
+      <Rock p={G(38.6, 11.0)} s={0.9} yaw={2} />
+      <Tussock p={G(27.6, 7.0)} />
+      <Tussock p={G(34.6, 7.4)} s={1.2} />
+    </>
+  );
+};
+
 /** the whole world: land, sea, both wrecks and both camps. Pass which details the shot needs. */
-export const World: React.FC<{ t: number; swell?: number; hutLit?: number; boat?: "none" | "building" | "beach" | "afloat"; boatT?: number }> = ({ t, swell = 1, hutLit = 1, boat = "building", boatT = 0 }) => (
+export const World: React.FC<{
+  t: number;
+  swell?: number;
+  hutLit?: number;
+  boat?: "none" | "building" | "beach" | "afloat";
+  /** look-dev: seconds of sailing; the final uses boatAt */
+  boatT?: number;
+  /** 0..1 while building */
+  boatBuilt?: number;
+  /** where the afloat boat is (world x, z) */
+  boatAt?: { x: number; z: number };
+}> = ({ t, swell = 1, hutLit = 1, boat = "building", boatT = 0, boatBuilt = 0.6, boatAt }) => (
   <>
     <Sea t={t} k={swell} />
     <Land />
@@ -238,12 +339,14 @@ export const World: React.FC<{ t: number; swell?: number; hutLit?: number; boat?
     </group>
     <Hut p={GRAFTON} yaw={0.15} lit={hutLit} tag="5 MEN" t={t} />
     <Campfire p={[GRAFTON[0] + 3.4, LAND, GRAFTON[2] + 4.0]} t={t} />
-    {boat === "building" ? <Boat p={[GRAFTON[0] + 6.5, LAND, GRAFTON[2] + 7]} yaw={0.4} built={0.6} /> : null}
+    <GraftonProps t={t} />
+    {boat === "building" ? <Boat p={[GRAFTON[0] + 6.5, LAND, GRAFTON[2] + 7]} yaw={0.4} built={boatBuilt} /> : null}
     {boat === "beach" ? <Boat p={[GRAFTON[0] + 5, LAND - 0.2, GRAFTON[2] + 11.5]} yaw={1.2} built={1} /> : null}
-    {boat === "afloat" ? <Boat p={[GRAFTON[0] + 4 + boatT * 2, 0.1, GRAFTON[2] + 22 + boatT * 3]} yaw={1.4} built={1} afloat t={t} /> : null}
+    {boat === "afloat" ? <Boat p={boatAt ? [boatAt.x, 0.1, boatAt.z] : [GRAFTON[0] + 4 + boatT * 2, 0.1, GRAFTON[2] + 22 + boatT * 3]} yaw={1.4} built={1} afloat t={t} /> : null}
     <Foam p={[-28, 0.02, 18.2]} w={30} t={t} />
     {/* the Invercauld shore */}
     <Wreck p={[34, -0.4, 19]} yaw={-0.4} heel={-30} broken />
+    <InverDebris />
     <Foam p={[30, 0.02, 18.4]} w={34} t={t} seed={3} />
     <Foam p={[31, 0.02, 21]} w={26} t={t + 1.3} seed={5} />
     {/* the ridge signpost, pointing east */}

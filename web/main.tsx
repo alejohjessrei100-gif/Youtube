@@ -1,7 +1,7 @@
 // Phone studio: preview every composition with the Remotion Player and render stills / MP4s
 // in the phone's own browser (its GPU does the WebGL) with @remotion/web-renderer.
 import { Player, type PlayerRef } from "@remotion/player";
-import { renderMediaOnWeb, renderStillOnWeb } from "@remotion/web-renderer";
+import { renderFramesOnWeb, renderMediaOnWeb, renderStillOnWeb } from "@remotion/web-renderer";
 import React, { useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Demo, DEMO_MOODS } from "../src/demo/Demo";
@@ -10,6 +10,7 @@ import { DemoMove, MOVE_FRAMES } from "../src/demo/DemoMove";
 import { StyleCloseUp, StyleLineup, StyleTrio } from "../src/demo/StyleSheet";
 import { STYLES } from "../src/styles/styles";
 import { CrewSheet, LOOK_IDS, LookDevFrame } from "../src/island/LookDev";
+import { SAME_ISLAND_FRAMES, SameIsland } from "../src/island/SameIsland";
 
 // staticFile() (fonts) resolves against this folder, wherever the page is hosted.
 (window as unknown as { remotion_staticBase: string }).remotion_staticBase = new URL(".", location.href).pathname.replace(/\/$/, "");
@@ -26,6 +27,7 @@ type Comp = {
 };
 
 const COMPS: Comp[] = [
+  { id: "SameIsland", label: "Same island (final, 34 s)", component: SameIsland, width: 1080, height: 1920, fps: 30, durationInFrames: SAME_ISLAND_FRAMES, defaultProps: {} },
   ...LOOK_IDS.map((id) => ({ id: `Look-${id}`, label: `Look-dev ${id} ("Same island")`, component: LookDevFrame, width: 1080, height: 1920, fps: 30, durationInFrames: 30, defaultProps: { shot: id } })),
   { id: "LookCrew", label: "Look-dev: the two crews", component: CrewSheet, width: 1920, height: 1080, fps: 30, durationInFrames: 30, defaultProps: {} },
   { id: "StyleLineup", label: "Character styles: all 5 side by side", component: StyleLineup, width: 1920, height: 1080, fps: 30, durationInFrames: 30, defaultProps: { mood: "day" } },
@@ -199,6 +201,26 @@ const App: React.FC = () => {
       <footer>Built with Remotion (free license for individuals and companies of up to 3 people).</footer>
     </div>
   );
+};
+
+// QA hook: render several frames of one composition in one pass (used by the contact-sheet check)
+(window as unknown as { __qaFrames: unknown }).__qaFrames = async (id: string, frames: number[], scale = 0.25) => {
+  const c = COMPS.find((x) => x.id === id)!;
+  const res = await renderFramesOnWeb({ composition: { id: c.id, component: c.component, width: c.width, height: c.height, fps: c.fps, durationInFrames: c.durationInFrames, defaultProps: c.defaultProps }, inputProps: c.defaultProps, frames, scale, licenseKey: "free-license", delayRenderTimeoutInMilliseconds: 240_000 });
+  const out: string[] = [];
+  for (const r of res) {
+    const b = await r.blob({ format: "jpeg", quality: 0.85 });
+    out.push(await new Promise<string>((ok) => { const fr = new FileReader(); fr.onload = () => ok(fr.result as string); fr.readAsDataURL(b); }));
+  }
+  return out;
+};
+
+// QA hook: a short MP4 of a frame range (checks that video and audio both make it into the file)
+(window as unknown as { __qaMedia: unknown }).__qaMedia = async (id: string, from: number, to: number, scale = 0.25) => {
+  const c = COMPS.find((x) => x.id === id)!;
+  const r = await renderMediaOnWeb({ composition: { id: c.id, component: c.component, width: c.width, height: c.height, fps: c.fps, durationInFrames: c.durationInFrames, defaultProps: c.defaultProps }, inputProps: c.defaultProps, frameRange: [from, to], scale, container: "mp4", licenseKey: "free-license", delayRenderTimeoutInMilliseconds: 240_000 });
+  const b = await r.getBlob();
+  return await new Promise<string>((ok) => { const fr = new FileReader(); fr.onload = () => ok(fr.result as string); fr.readAsDataURL(b); });
 };
 
 createRoot(document.getElementById("root")!).render(<App />);

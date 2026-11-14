@@ -6,6 +6,7 @@
   "dependencies": {
     "@react-three/fiber": "9.8.2",
     "@remotion/cli": "4.0.540",
+    "@remotion/media": "4.0.540",
     "@remotion/player": "4.0.540",
     "@remotion/three": "4.0.540",
     "@remotion/web-renderer": "4.0.540",
@@ -27,6 +28,6 @@
     "bundle": "remotion bundle src/index.ts --out-dir=build",
     "still": "remotion still src/index.ts Demo out/demo.jpg --gl=angle --timeout=240000",
     "typecheck": "tsc --noEmit",
-    "web:build": "esbuild web/main.tsx --bundle --minify --format=iife --target=es2020 --outfile=web/dist/app.js --define:process.env.NODE_ENV=\\\"production\\\" && cp web/index.html web/dist/ && mkdir -p web/dist/fonts && cp public/fonts/*.ttf web/dist/fonts/"
+    "web:build": "esbuild web/main.tsx --bundle --minify --format=iife --target=es2020 --outfile=web/dist/app.js --define:process.env.NODE_ENV=\\\"production\\\" && cp web/index.html web/dist/ && mkdir -p web/dist/fonts && cp public/fonts/*.ttf web/dist/fonts/ && mkdir -p web/dist/audio && cp public/audio/*.mp3 web/dist/audio/"
   }
 }
