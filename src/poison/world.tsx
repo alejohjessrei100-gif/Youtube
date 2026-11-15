@@ -132,7 +132,8 @@ export const WorldView: React.FC<{ w: World; t: number }> = ({ w, t }) => (
         ) : (
           <M g={cylG(0.06, 0.09, 0.14, 16)} c="#c9a24a" p={[1.4, 0.89, 1.2]} />
         )}
-        {w.stoneOnFloor ? <M g={sphG(0.07, 16)} c="#6c7a4a" p={[0.2, 0.06, 0.6]} s={[1.2, 0.8, 1]} /> : null}
+        {w.stoneOnFloor ? <M g={sphG(0.07, 16)} c="#7a8a4a" e="#3a4a1a" ei={0.4} p={[0.85, 0.06, 0.75]} s={[1.2, 0.8, 1]} /> : null}
+        {w.tipped ? <pointLight position={[1.0, 1.4, 0.3]} color="#ffb060" intensity={6} distance={4} decay={2} /> : null}
         <group position={[2.8, 2.0, 3.3]}>
           <M g={cylG(0.05, 0.05, 0.4, 8)} c="#4a3220" />
           <Flame p={[0, 0.22, 0]} s={0.22} t={t} />
