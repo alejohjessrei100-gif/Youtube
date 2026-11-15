@@ -28,7 +28,7 @@ def bp(x, lo, hi, o=2): return sosfilt(butter(o, [lo, min(hi, SR * 0.45)], "band
 def noise(n, seed): return np.random.default_rng(seed).standard_normal(n)
 def tt(n): return np.arange(n) / SR
 def env(n, a=0.005, r=0.05):
-    e = np.ones(n); na, nr = int(a * SR), int(r * SR)
+    e = np.ones(n); na, nr = min(n, int(a * SR)), min(n, int(r * SR))
     if na: e[:na] = np.linspace(0, 1, na)
     if nr: e[-nr:] *= np.linspace(1, 0, nr)
     return e
