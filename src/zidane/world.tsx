@@ -13,6 +13,8 @@ export type World = {
   ring?: { p: V3; u: number } | null;
   /** small dark bits: a headset, an earpiece */
   bits?: { p: V3; s: number }[];
+  /** a red card standing in the world (in a pocket) */
+  card?: V3 | null;
 };
 
 const HALF_L = 52.5;
@@ -156,6 +158,7 @@ export const WorldView: React.FC<{ w: World }> = ({ w }) => (
         <meshBasicMaterial color="#15161c" />
       </mesh>
     ))}
+    {w.card ? <M g={boxG(0.075, 0.11, 0.006)} c="#e0241c" p={w.card} r={[0.12, 0, 0.1]} cast={false} /> : null}
     {w.ring && w.ring.u > 0 && w.ring.u < 1 ? (
       <mesh position={w.ring.p} userData={{ outline: false }}>
         <torusGeometry args={[0.15 + 0.6 * w.ring.u, 0.03 * (1 - w.ring.u) + 0.005, 8, 40]} />
