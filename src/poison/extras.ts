@@ -15,9 +15,9 @@ export const EXTRAS: Record<string, Actor[]> = {
     { spec: servant(51, SKIN.medium, CLOTH.sage, "bob"), p: [-2.0, 0, 2.5], yaw: PI + 0.4, face: { eyes: "open", mouth: "smile" }, hold: "goblet", pose: { armR: [40, 90], armRFwd: 70 } },
     { spec: servant(53, SKIN.light, CLOTH.mustard, "curly"), p: [2.1, 0, 2.6], yaw: PI - 0.5, face: { eyes: "half", mouth: "flat" }, pose: { armL: [30, 100], armLFwd: 80, armR: [30, 100], armRFwd: 80 } },
   ],
-  roman: [{ spec: servant(57, SKIN.tan, "#e9e1cc", "crop"), p: [-2.2, 0, 2.6], yaw: PI + 0.3, face: { eyes: "open", mouth: "smile" }, hold: "goblet", pose: { armR: [50, 80], armRFwd: 60 } }],
+  roman: [{ spec: servant(57, SKIN.tan, "#e9e1cc", "crop"), p: [-2.0, 0, 2.15], yaw: PI + 0.3, face: { eyes: "open", mouth: "smile" }, hold: "goblet", pose: { armR: [50, 80], armRFwd: 60 } }],
   throne: [
-    { spec: GUARD, p: [-2.0, 0, 2.0], yaw: PI, face: { eyes: "squint", mouth: "flat", brows: "angry" } },
-    { spec: { ...GUARD, look: { ...GUARD.look, skin: SKIN.fair, seed: 61 } }, p: [2.0, 0, 2.0], yaw: PI, face: { eyes: "squint", mouth: "flat", brows: "angry" } },
+    { spec: GUARD, p: [-1.4, 0, 1.9], yaw: PI, face: { eyes: "squint", mouth: "flat", brows: "angry" } },
+    { spec: { ...GUARD, look: { ...GUARD.look, skin: SKIN.fair, seed: 61 } }, p: [1.4, 0, 1.9], yaw: PI, face: { eyes: "squint", mouth: "flat", brows: "angry" } },
   ],
 };
