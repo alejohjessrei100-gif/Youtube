@@ -175,8 +175,8 @@ const Fresco: React.FC<{ p: V3; c: string }> = ({ p, c }) => (
   <group position={p}>
     <M g={boxG(1.6, 1.1, 0.04)} c="#a2382e" />
     <M g={boxG(1.4, 0.9, 0.05)} c={c} p={[0, 0, -0.01]} />
-    <M g={sphG(0.18, 10)} c="#4f8a3a" p={[-0.35, -0.1, -0.04]} s={[1, 1, 0.2]} />
-    <M g={sphG(0.12, 10)} c="#e8c25a" p={[0.4, 0.2, -0.04]} s={[1, 1, 0.2]} />
+    <M g={boxG(0.5, 0.12, 0.02)} c="#4f8a3a" p={[-0.3, -0.2, -0.04]} />
+    <M g={boxG(0.3, 0.3, 0.02)} c="#e8c25a" p={[0.35, 0.15, -0.04]} />
   </group>
 );
 const Chest: React.FC<{ p: V3; open?: boolean }> = ({ p, open }) => (
@@ -228,7 +228,7 @@ const BarWindow: React.FC<{ p: V3 }> = ({ p }) => (
   </group>
 );
 /** floating dust in the light: tiny unlit motes drifting slowly */
-const Dust: React.FC<{ t: number; c?: string; n?: number }> = ({ t, c = "#ffe8c0", n = 40 }) => (
+export const Dust: React.FC<{ t: number; c?: string; n?: number }> = ({ t, c = "#ffe8c0", n = 40 }) => (
   <group>
     {Array.from({ length: n }, (_, k) => {
       const x = Math.sin(k * 12.9898) * 2.6 + Math.sin(t * 0.3 + k) * 0.15;
@@ -248,7 +248,7 @@ export const WorldView: React.FC<{ w: World; t: number }> = ({ w, t }) => (
         <Plate p={[0, 0.82, 0.45]} />
         <Plate p={[-1.3, 0.82, 0.45]} food="#7a9a3a" />
         <Plate p={[1.3, 0.82, 0.45]} food="#b23a2a" />
-        {[-1.8, -0.7, 0.7, 1.8].map((x) => <Candle key={x} p={[x, 0.82, 0.75]} t={t} />)}
+        {[-1.9, 1.9].map((x) => <Candle key={x} p={[x, 0.82, 0.75]} t={t} />)}
         <Banner p={[-2.2, 3.2, 3.4]} c="#8e1f2e" />
         <Banner p={[2.2, 3.2, 3.4]} c="#8e1f2e" />
         <M g={boxG(1.1, 1.6, 0.6)} c="#8e1f2e" tex="fabric" p={[0, 0.8, 1.55]} />
@@ -265,7 +265,6 @@ export const WorldView: React.FC<{ w: World; t: number }> = ({ w, t }) => (
         <WallTorch p={[-1.4, 2.3, 3.42]} t={t} />
         <WallTorch p={[1.4, 2.3, 3.42]} t={t} />
         <Chandelier p={[0, 3.3, 0.8]} t={t} />
-        <Dust t={t} />
       </group>
     ) : null}
     {w.set === "roman" ? (
@@ -288,7 +287,6 @@ export const WorldView: React.FC<{ w: World; t: number }> = ({ w, t }) => (
         <Fresco p={[0.0, 2.6, 3.42]} c="#d8b880" />
         <M g={boxG(1.2, 3.6, 0.06)} c="#8a2a3a" tex="fabric" p={[-1.1, 2.2, 3.35]} />
         <M g={boxG(1.2, 3.6, 0.06)} c="#8a2a3a" tex="fabric" p={[1.1, 2.2, 3.35]} />
-        <Dust t={t} c="#fff4d8" />
       </group>
     ) : null}
     {w.set === "throne" ? (
@@ -303,9 +301,8 @@ export const WorldView: React.FC<{ w: World; t: number }> = ({ w, t }) => (
         <Pillar p={[2.0, 0, 2.5]} />
         <Banner p={[-1.2, 3.4, 3.4]} c="#1f4a7a" />
         <Banner p={[1.2, 3.4, 3.4]} c="#1f4a7a" />
-        <Brazier p={[-1.4, 0, 0.9]} t={t} />
-        <Brazier p={[1.4, 0, 0.9]} t={t} />
-        <Dust t={t} c="#c8d4ff" />
+        <Brazier p={[-2.4, 0, 1.6]} t={t} />
+        <Brazier p={[2.4, 0, 1.6]} t={t} />
       </group>
     ) : null}
     {w.set === "vault" ? (
@@ -322,7 +319,6 @@ export const WorldView: React.FC<{ w: World; t: number }> = ({ w, t }) => (
         <Shelf p={[0, 0, 3.3]} />
         {[-2.6, 2.6].map((x) => <WallTorch key={x} p={[x, 2.2, 3.42]} t={t} />)}
         {Array.from({ length: 8 }, (_, k) => <Lobe key={k} p={[Math.cos(k * 0.8 + t * 1.2) * 0.35, 1.22 + Math.sin(t * 2 + k) * 0.18, 1.2 + Math.sin(k * 0.8 + t * 1.2) * 0.35]} s={0.02} c="#d8ff9a" />)}
-        <Dust t={t} c="#d8ffb0" n={30} />
       </group>
     ) : null}
     {w.set === "dungeon" ? (
@@ -347,7 +343,6 @@ export const WorldView: React.FC<{ w: World; t: number }> = ({ w, t }) => (
         <Straw p={[-2.2, 0, 1.8]} />
         <BarWindow p={[-2.6, 2.8, 3.42]} />
         <M g={boxG(3, 0.1, 0.1)} c="#2a2a30" p={[0, 4.0, 3.4]} />
-        <Dust t={t} c="#ffd0a0" />
         <group position={[2.8, 2.0, 3.3]}>
           <M g={cylG(0.05, 0.05, 0.4, 8)} c="#4a3220" />
           <Flame p={[0, 0.22, 0]} s={0.22} t={t} />

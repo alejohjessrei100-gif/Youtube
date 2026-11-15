@@ -38,23 +38,32 @@ def main():
     # the music stops dead for the ending, then the room breathes
     mus *= np.clip((st(17) - t) / 0.05, 0, 1)
     fx = np.zeros(N)
-    L = lambda pk, c: c / (np.abs(c).max() + 1e-9) * 0.7 * A.db(pk)
-    P = lambda c, at, pk: A.place(fx, L(pk, c), at, 0)
-    for i in range(2, 18): P(A.whoosh(0.35, 400, 3000, 60 + i), st(i) - 0.15, -26)       # soft swish into every cut
-    P(A.rustle(0.4, 3), st(2) + 0.1, -18)                                           # the bite
-    for k in range(4): P(A.tick(500 + 40 * k, 0.06), st(3) + 0.25 + k * 0.28, -24)   # chewing
-    P(A.ping(880, 0.4), st(3) + 0.1, -18); P(A.ping(660, 0.5), st(4) + 1.2, -18)
-    P(A.ping(1046, 0.3), st(5) + 0.4, -18)
-    P(A.impact(0.5, 120), st(7) + 0.7, -16)                                         # allegedly
-    P(A.ping(220, 0.6), st(8) + 0.05, -14); P(A.ping(208, 0.8), st(8) + 0.35, -14)  # sad trombone-ish fall
-    P(A.ping(523, 0.4), st(9) + 0.3, -18)
-    for k in range(10): P(A.tick(1400 + 30 * k, 0.05), st(11) + 0.1 + k * 0.18, -26)  # day counter
-    n = int(0.5 * SR); gulp = A.lp(A.noise(n, 7), 400) * np.exp(-A.tt(n) * 8)
-    P(gulp, st(11) + 0.6, -16)
-    P(A.stamp(9), st(12) + 0.05, -14)                                               # bold
-    P(A.ping(1318, 1.2), st(13) + 0.9, -16); P(A.ping(1975, 1.2), st(13) + 1.0, -22)  # magic stone shimmer
-    P(A.ping(660, 0.3), st(16) + 0.05, -16); P(A.ping(990, 0.4), st(16) + 0.15, -16)  # yay
-    P(A.impact(1.2, 70), st(17), -12)                                               # seven hours later
+    # recorded CC0 one-shots (OpenGameArt: Kenney Interface Sounds, 100 CC0 SFX, RPG Sound Pack), see out/sfx
+    def S(name):
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(ROOT / "out/sfx" / name), "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"], capture_output=True, check=True).stdout
+        x = np.frombuffer(raw, dtype=np.float32).astype(np.float64)
+        return x / (np.abs(x).max() + 1e-9)
+    P = lambda name, at, pk: A.place(fx, S(name) * 0.7 * A.db(pk), at, 0)
+    for i in (2, 4, 9, 13, 15, 17): P("cloth.wav", st(i) - 0.12, -24)          # soft cloth swish on the bigger scene changes
+    P("dishes_01.ogg", 0.4, -24)                                              # the feast
+    P("bite-small.wav", st(2) + 0.15, -10)                                   # the taster bites the king's food
+    for k, n in enumerate(["bite-small2.wav", "bite-small3.wav", "bite-small2.wav"]): P(n, st(3) + 0.2 + k * 0.38, -16)  # chewing
+    P("pluck_001.ogg", st(3) + 0.1, -14)                                      # FOOD TASTER
+    P("bell_01.ogg", st(4) + 1.2, -16)                                        # PRAEGUSTATOR
+    P("plop_01.ogg", st(5) + 0.4, -14)                                        # "guy who goes first"
+    P("select_003.ogg", st(6) + 0.1, -16); P("select_003.ogg", st(6) + 1.0, -18)
+    P("scratch_001.ogg", st(7) + 0.65, -10); P("hit_02.ogg", st(7) + 0.7, -16)  # ALLEGEDLY: record scratch
+    P("error_003.ogg", st(8) + 0.1, -12)                                      # great hire
+    P("question_001.ogg", st(9) + 0.3, -14)
+    P("gong_01.ogg", st(10) + 0.1, -18)                                       # MITHRIDATES
+    for k in range(9): P("tick_001.ogg", st(11) + 0.1 + k * 0.2, -22)         # the day counter
+    P("bottle.wav", st(11) + 0.45, -14); P("bubble.wav", st(11) + 0.75, -16); P("burp.wav", st(11) + 1.5, -18)  # sip, gulp
+    P("wooden_01.ogg", st(12) + 0.05, -12)                                    # Bold.
+    P("coin.wav", st(13) + 0.1, -20); P("magic1.wav", st(13) + 0.8, -12)      # treasure, the magic stone
+    P("paper_01.ogg", st(14) + 0.3, -16)                                      # Paré, notebook
+    P("chainmail1.wav", st(15) + 0.2, -18)                                    # the guard
+    P("confirmation_002.ogg", st(16) + 0.05, -12); P("spell.wav", st(16) + 0.1, -20)  # he got the stone
+    P("slam_02.ogg", st(17), -12); P("glass_02.ogg", st(17) + 0.4, -18)       # seven hours later
     room = A.lp(A.noise(N, 4), 500) * np.clip((t - st(15)) / 0.2, 0, 1)
     room = room / (A.rms(room) + 1e-9) * srms * A.db(-30)
     fx *= A.db(-3.5) ** np.clip(duck * 1.3, 0, 1)

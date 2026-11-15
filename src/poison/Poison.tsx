@@ -10,7 +10,9 @@ import { CastLight } from "../inkbeat/core/castLight";
 import { useFonts } from "../inkbeat/core/frame";
 import { moodOf } from "../inkbeat/core/moods";
 import { View } from "../inkbeat/core/View";
-import { CHIPS, shotAt } from "./shots";
+import { CHIPS, beatTime, shotAt } from "./shots";
+import { SHOT_BEATS } from "./timing.gen";
+import type { Pose as BodyPose } from "../inkbeat/char/Character3D";
 import type { Chip } from "./shots";
 import { DURATION, FPS, SECONDS, WORDS } from "./timing.gen";
 import { WorldView } from "./world";
@@ -35,6 +37,38 @@ const ChipView: React.FC<{ c: Chip; t: number }> = ({ c, t }) => {
   return <div style={{ ...base, fontSize: size, color: c.fg, background: c.bg, border: `${Math.max(5, size * 0.07)}px solid ${INK}`, borderRadius: 999, padding: `${size * 0.16}px ${size * 0.42}px`, boxShadow: "0 10px 22px rgba(0,0,0,0.3)" }}>{text}</div>;
 };
 
+const shotStart = (t: number) => {
+  let a = 0;
+  for (const [b] of SHOT_BEATS) if (beatTime(b) <= t) a = beatTime(b);
+  return a;
+};
+const qt = (t: number) => Math.round(t * 12) / 12;
+const ease = (u: number) => {
+  const x = clamp(u);
+  return 1 - Math.pow(1 - x, 3);
+};
+/** bring a still pose to life: ease the arms in from rest over 0.35 s at each cut, then add breathing bob, a slow
+ *  sway of the head and a small rhythmic pump in raised arms. Sampled at 12 Hz so limb geometry is rebuilt sparingly. */
+const alive = (p: BodyPose, t: number, since: number, k: number): BodyPose => {
+  const e = ease(since / 0.35);
+  const tq = qt(t);
+  const arm = (a: [number, number] | undefined, ph: number): [number, number] => {
+    const base = a ?? [6, 0];
+    const tgt: [number, number] = [6 + (base[0] - 6) * e, base[1] * e];
+    const lift = base[0] > 40 ? 5 * Math.sin(tq * 5 + ph) : 2 * Math.sin(tq * 2 + ph);
+    return [tgt[0] + lift, tgt[1] + (base[0] > 40 ? 4 * Math.sin(tq * 5 + ph + 1) : 0)];
+  };
+  return {
+    ...p,
+    armL: arm(p.armL, k),
+    armR: arm(p.armR, k + 2),
+    headTilt: (p.headTilt ?? 0) + 4 * Math.sin(tq * 1.6 + k),
+    headYaw: (p.headYaw ?? 0) + 5 * Math.sin(tq * 1.1 + k * 2),
+    bob: (p.bob ?? 0) + 2 * Math.sin(tq * 3.2 + k),
+    lean: (p.lean ?? 0) * e + 1.5 * Math.sin(tq * 1.3 + k),
+  };
+};
+
 export const Poison: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
   const ready = useFonts();
   const f = useCurrentFrame();
@@ -42,7 +76,8 @@ export const Poison: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
   if (!ready) return <AbsoluteFill style={{ background: "#07080f" }} />;
   const { shot, u } = shotAt(t);
   const cam = shot.cam(u);
-  const actors = [...shot.actors(t, u), ...(EXTRAS[shot.world(t, u).set] ?? [])];
+  const since = t - shotStart(t);
+  const actors = [...shot.actors(t, u), ...(EXTRAS[shot.world(t, u).set] ?? [])].map((a, k) => ({ ...a, pose: alive(a.pose ?? {}, t, since, k) }));
   const lead = actors[0];
   const m = moodOf(shot.mood);
   return (
