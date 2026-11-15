@@ -11,6 +11,7 @@ import { StyleCloseUp, StyleLineup, StyleTrio } from "../src/demo/StyleSheet";
 import { STYLES } from "../src/styles/styles";
 import { FILM_FRAMES, Film } from "../src/film/Film";
 import { BEIRUT_FRAMES, Beirut } from "../src/beirut/Beirut";
+import { ZIDANE_FRAMES, Zidane } from "../src/zidane/Zidane";
 
 // staticFile() (fonts) resolves against this folder, wherever the page is hosted.
 (window as unknown as { remotion_staticBase: string }).remotion_staticBase = new URL(".", location.href).pathname.replace(/\/$/, "");
@@ -27,6 +28,7 @@ type Comp = {
 };
 
 const COMPS: Comp[] = [
+  { id: "ZidaneRedCard", label: "Zidane red card (football, 30 s)", component: Zidane, width: 1080, height: 1920, fps: 30, durationInFrames: ZIDANE_FRAMES, defaultProps: {} },
   { id: "BeirutCamp", label: "Beirut camp (script 4, 38 s)", component: Beirut, width: 1080, height: 1920, fps: 30, durationInFrames: BEIRUT_FRAMES, defaultProps: {} },
   { id: "SameIsland", label: "Same island (final, 34 s)", component: Film, width: 1080, height: 1920, fps: 30, durationInFrames: FILM_FRAMES, defaultProps: {} },
   { id: "StyleLineup", label: "Character styles: all 5 side by side", component: StyleLineup, width: 1920, height: 1080, fps: 30, durationInFrames: 30, defaultProps: { mood: "day" } },

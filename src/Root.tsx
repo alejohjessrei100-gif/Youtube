@@ -8,12 +8,14 @@ import { StyleCloseUp, StyleLineup, StyleTrio } from "./demo/StyleSheet";
 import { STYLES } from "./styles/styles";
 import { FILM_FRAMES, Film } from "./film/Film";
 import { BEIRUT_FRAMES, Beirut } from "./beirut/Beirut";
+import { ZIDANE_FRAMES, Zidane } from "./zidane/Zidane";
 
 // DemoHero: a low hero framing with foreground props. Demo: one still. Demo-<mood>: the same frame in each act light. DemoWide: the whole set.
 // DemoCast: the three example characters in a row (a landscape family sheet).
 // DemoMove: a 3 s beat-rig move (sharp). DemoMoveSub: the same at SUB × fps for motion blur (average with ffmpeg tmix).
 export const Root: React.FC = () => (
   <>
+    <Composition id="ZidaneRedCard" component={Zidane} durationInFrames={ZIDANE_FRAMES} fps={30} width={1080} height={1920} />
     <Composition id="BeirutCamp" component={Beirut} durationInFrames={BEIRUT_FRAMES} fps={30} width={1080} height={1920} />
     <Composition id="SameIsland" component={Film} durationInFrames={FILM_FRAMES} fps={30} width={1080} height={1920} />
     <Composition id="Demo" component={Demo} durationInFrames={30} fps={30} width={1080} height={1920} defaultProps={{ mood: "day", wide: false }} />

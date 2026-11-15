@@ -6,8 +6,8 @@ import { CLOTH } from "./family";
 import { Inked } from "./Inked";
 import { charMat } from "./material";
 
-export type HandPropKind = "mug" | "key" | "book" | "phone" | "clipboard";
-export const HAND_PROPS: HandPropKind[] = ["mug", "key", "book", "phone", "clipboard"];
+export type HandPropKind = "mug" | "key" | "book" | "phone" | "clipboard" | "card";
+export const HAND_PROPS: HandPropKind[] = ["mug", "key", "book", "phone", "clipboard", "card"];
 
 const rounded = (w: number, h: number, d: number, r: number) => {
   const s = new THREE.Shape();
@@ -68,7 +68,8 @@ const G = () => {
   sheet.translate(0, -0.006, 0.0052);
   const clip = new THREE.BoxGeometry(0.04, 0.016, 0.01);
   clip.translate(0, 0.064, 0.007);
-  geos = { bow, shaft, bit1, bit2, mug, stripe, drink, handle, cover, pages, band, phone, screen, cam, board, sheet, clip };
+  const card = rounded(0.058, 0.084, 0.004, 0.004);
+  geos = { card, bow, shaft, bit1, bit2, mug, stripe, drink, handle, cover, pages, band, phone, screen, cam, board, sheet, clip };
   return geos;
 };
 
@@ -109,6 +110,12 @@ export const HandProp: React.FC<{ kind: HandPropKind }> = ({ kind }) => {
           <Inked geo={g.phone} mat={charMat(CLOTH.graphite, { spec: 0.6, gloss: 0.4 })} ink={0.004} />
           <Inked geo={g.screen} mat={charMat("#1f3b5c", { spec: 0.8, gloss: 0.6, emissive: "#163049" })} ink={0} />
           <Inked geo={g.cam} mat={charMat("#101218", { spec: 1 })} ink={0} />
+        </group>
+      );
+    case "card":
+      return (
+        <group position={[0, 0.07, 0.02]}>
+          <Inked geo={g.card} mat={charMat("#e0241c", { spec: 0.3 })} ink={0.0035} />
         </group>
       );
     case "clipboard":
