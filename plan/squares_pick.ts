@@ -3,7 +3,7 @@
 import { drama, simulate } from "../src/squares/sim";
 import { TEAMS } from "../src/squares/teams";
 const N = Number(process.argv[2] ?? 2000);
-const fs = [2.45, 2.55, 2.65];
+const fs = [2.0, 2.15, 2.3];
 const res: { seed: number; fsp: number; d: ReturnType<typeof drama>; win: string }[] = [];
 for (let s = 1; s <= N; s++) for (const f of fs) {
   const r = simulate(s, 30, f);

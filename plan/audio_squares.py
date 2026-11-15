@@ -2,7 +2,7 @@
 a rising flood rumble, and one-shots at every bounce, peg, elimination, lead change and the goal, all timed from the
 simulation's own events (out/squares_events.json, made by plan/squares_events.ts). Deterministic.
     python plan/audio_squares.py  ->  out/audio/premaster_squares.wav, then plan/master_squares.sh"""
-import json, sys, wave
+import json, subprocess, sys, wave
 from pathlib import Path
 import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -11,7 +11,9 @@ import audio_beirut as A
 ROOT = Path(__file__).resolve().parent.parent
 SR = A.SR
 d = json.loads((ROOT / "out/squares_events.json").read_text())
-INTRO, SLOW, OUTRO = 1.6, 0.4, 3.2
+VO_LEN = 1.7
+CD = VO_LEN + 0.1
+INTRO, SLOW, OUTRO = CD + 1.6, 0.4, 3.2
 FIN = d["finishT"]; S0 = FIN - 1.1; S1 = FIN + 0.5
 TOTAL = INTRO + S0 + (S1 - S0) / SLOW + OUTRO + 0.4
 N = int(TOTAL * SR)
@@ -50,8 +52,11 @@ def main():
     fx = np.zeros(N); t = tt(N)
     L = lambda pk, c: c / (np.abs(c).max() + 1e-9) * 0.7 * A.db(pk)
     P = lambda c, at, pk: A.place(fx, L(pk, c), at, 0)
-    for k in range(3): P(A.ping(660, 0.3), 0.4 * k, -10)
-    P(A.ping(1320, 0.4), 1.2, -8); P(A.whistle(0.5), 1.2, -10)
+    for k in range(3): P(A.ping(660, 0.3), CD + 0.4 * k, -10)
+    P(A.ping(1320, 0.4), CD + 1.2, -8); P(A.whistle(0.5), CD + 1.2, -10)
+    vo = subprocess.run(["ffmpeg", "-v", "error", "-i", str(ROOT / "next/squares-vo-retro.wav"), "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"], capture_output=True, check=True).stdout
+    vo = np.frombuffer(vo, dtype=np.float32).astype(np.float64)
+    A.place(fx, vo / (np.abs(vo).max() + 1e-9) * 0.85, 0.1, 0)
     last = {}
     for e in d["events"]:
         at = film(e["t"]); k = e["kind"]; i = e["i"]

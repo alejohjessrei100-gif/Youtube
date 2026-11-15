@@ -4,17 +4,20 @@ import { Audio } from "@remotion/media";
 import React from "react";
 import { AbsoluteFill, staticFile, useCurrentFrame } from "remotion";
 import { useFonts } from "../inkbeat/core/frame";
-import { CELL, COLS, FROM_START, MAP, PEG_R, ROWS, goalDist } from "./course";
+import { CELL, COLS, FROM_START, MAP, ROWS, SPINNERS, SPIN_HALF, goalDist, pegR } from "./course";
 import { FLOOD_START, SIZE, simulate } from "./sim";
 import type { Racer } from "./sim";
 import { TEAMS } from "./teams";
 import type { Team } from "./teams";
 
-export const SEED = 525;
-export const FLOOD_SPEED = 2.55;
+export const SEED = 280;
+export const FLOOD_SPEED = 2.0;
 const RUN = simulate(SEED, 30, FLOOD_SPEED);
 const FPS = 30;
-const INTRO = 1.6; // 3, 2, 1, GO
+/** the voice-over line plays first, then 3, 2, 1, GO (1.6 s) */
+export const VO_LEN = 1.7;
+const CD = VO_LEN + 0.1; // countdown start
+const INTRO = CD + 1.6;
 const SLOW = 0.4; // photo-finish slow motion
 const S0 = RUN.finishT - 1.1; // sim time where slow motion starts
 const S1 = RUN.finishT + 0.5;
@@ -106,15 +109,44 @@ const Maze: React.FC = () => {
 const Pegs: React.FC<{ t: number }> = ({ t }) => (
   <g>
     {MAP.map((row, r) =>
-      row.split("").map((ch, c) =>
-        ch === "o" ? (
-          <g key={`p${c}-${r}`} transform={`translate(${px(c + 0.5)} ${py(r + 0.5)}) rotate(${(t * 90 + c * 40) % 360})`}>
-            <circle r={PEG_R * CELL} fill="#ff7a2e" stroke={INK} strokeWidth={4} />
-            <rect x={-3} y={-PEG_R * CELL + 3} width={6} height={PEG_R * CELL * 2 - 6} fill="#ffd2a8" rx={3} />
-          </g>
-        ) : null,
-      ),
+      row.split("").map((ch, c) => {
+        if (ch === "o")
+          return (
+            <g key={`p${c}-${r}`} transform={`translate(${px(c + 0.5)} ${py(r + 0.5)}) rotate(${(t * 90 + c * 40) % 360})`}>
+              <circle r={pegR(c, r) * CELL} fill="#ff7a2e" stroke={INK} strokeWidth={4} />
+              <rect x={-3} y={-pegR(c, r) * CELL + 3} width={6} height={pegR(c, r) * CELL * 2 - 6} fill="#ffd2a8" rx={3} />
+            </g>
+          );
+        if (ch === "B") {
+          const R = pegR(c, r) * CELL;
+          const pulse = 1 + 0.06 * Math.sin(t * 8 + c);
+          return (
+            <g key={`b${c}-${r}`} transform={`translate(${px(c + 0.5)} ${py(r + 0.5)}) scale(${pulse})`}>
+              <circle r={R} fill="#ff3d8b" stroke={INK} strokeWidth={4} />
+              <circle r={R * 0.62} fill="#ffd1e4" stroke={INK} strokeWidth={3} />
+              <circle r={R * 0.25} fill="#ff3d8b" />
+            </g>
+          );
+        }
+        return null;
+      }),
     )}
+  </g>
+);
+const Spinners: React.FC<{ s: number }> = ({ s }) => (
+  <g>
+    {SPINNERS.map((sp, k) => {
+      const ang = ((sp.a0 + sp.w * s) * 180) / Math.PI;
+      const L = sp.len * CELL;
+      const W = SPIN_HALF * 2 * CELL + 6;
+      return (
+        <g key={k} transform={`translate(${px(sp.x)} ${py(sp.y)}) rotate(${ang})`}>
+          <rect x={-L / 2} y={-W / 2} width={L} height={W} rx={W / 2} fill="#ffcf2e" stroke={INK} strokeWidth={4} />
+          {[-0.3, 0, 0.3].map((u) => <rect key={u} x={u * L - 4} y={-W / 2 + 2} width={8} height={W - 4} fill="#1d1f2c" opacity={0.75} />)}
+          <circle r={9} fill="#ffffff" stroke={INK} strokeWidth={3} />
+        </g>
+      );
+    })}
   </g>
 );
 const Goal: React.FC = () => {
@@ -182,7 +214,7 @@ const Square: React.FC<{ i: number; r: Racer; s: number; trail: Racer[] }> = ({ 
 const Sparks: React.FC<{ s: number; rs: Racer[] }> = ({ s, rs }) => (
   <g>
     {RUN.events
-      .filter((e) => (e.kind === "peg" || e.kind === "wall" || e.kind === "hit") && s - e.t >= 0 && s - e.t < 0.32)
+      .filter((e) => (e.kind === "peg" || e.kind === "wall" || e.kind === "hit" || e.kind === "spin") && s - e.t >= 0 && s - e.t < 0.32)
       .slice(-24)
       .map((e, k) => {
         const p = at(e.t)[e.i];
@@ -316,6 +348,7 @@ export const SquareRace: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
           <Flood front={front} t={t} />
           <Goal />
           <Pegs t={s} />
+          <Spinners s={s} />
           <Sparks s={s} rs={rs} />
           {shown.map((r, i) => (r.done && s - (r.fin ?? 0) > 0.25 ? null : <Square key={i} i={i} r={r} s={s} trail={trails[i]} />))}
         </g>
@@ -352,8 +385,9 @@ export const SquareRace: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
       {slow && !won ? <Big text="PHOTO FINISH" y={1160} size={88} t0={INTRO + S0} t={INTRO + s} fill="#ffd34d" /> : null}
       {intro ? (
         <>
-          <Big text="PICK YOUR TEAM" y={700} size={86} t0={0} t={t + 0.3} fill="#ffd34d" />
-          <Big text={t < 0.4 ? "3" : t < 0.8 ? "2" : t < 1.2 ? "1" : "GO!"} y={1020} size={240} t0={Math.floor(t / 0.4) * 0.4} t={t} />
+          <Big text="WHO WILL WIN?" y={640} size={92} t0={0} t={t + 0.3} fill="#ffd34d" />
+          <Big text="COMMENT BELOW 👇" y={760} size={70} t0={0.5} t={t} />
+          {t >= CD ? <Big text={t < CD + 0.4 ? "3" : t < CD + 0.8 ? "2" : t < CD + 1.2 ? "1" : "GO!"} y={1080} size={240} t0={CD + Math.floor((t - CD) / 0.4) * 0.4} t={t} /> : null}
         </>
       ) : null}
       {won ? (

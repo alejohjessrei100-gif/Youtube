@@ -1,12 +1,13 @@
 // The race simulation: deterministic (seeded) 2D physics at 120 steps/s. Squares steer gently along the BFS flow field
 // toward the goal, bounce off walls, pegs and each other, and a flood rises from the start along the same grid,
 // eliminating anyone it reaches. Positions are in cells. Everything is precomputed once per seed.
-import { COLS, FROM_START, MAP, PEG_R, ROWS, START_CELLS, TO_GOAL, goalDist, isPeg, isWall } from "./course";
+import { COLS, FROM_START, MAP, ROWS, SPINNERS, SPIN_HALF, TO_GOAL, goalDist, isBumper, isPeg, isWall, pegR } from "./course";
 import { TEAMS } from "./teams";
 
 export const STEP = 1 / 120;
 export const SIZE = 0.78; // square side, cells
 const H = SIZE / 2;
+void COLS; void ROWS;
 
 const rng = (seed: number) => () => {
   seed |= 0;
@@ -17,7 +18,7 @@ const rng = (seed: number) => () => {
 };
 
 export type Racer = { x: number; y: number; vx: number; vy: number; alive: boolean; done: boolean; squash: number; out?: number; fin?: number };
-export type Ev = { t: number; kind: "wall" | "peg" | "hit" | "out" | "finish" | "lead"; i: number; v: number };
+export type Ev = { t: number; kind: "wall" | "peg" | "hit" | "out" | "finish" | "lead" | "spin"; i: number; v: number };
 export type Run = { seed: number; frames: Racer[][]; events: Ev[]; flood: number[]; winner: number; finishT: number; order: number[] };
 
 const flowDir = (x: number, y: number): [number, number] => {
@@ -51,10 +52,10 @@ export const simulate = (seed: number, fps = 30, floodSpeed = 2.55): Run => {
   const n = TEAMS.length;
   const speed = TEAMS.map(() => 3.15 + R() * 0.55);
   const wob = TEAMS.map(() => 0.6 + R() * 0.8);
-  const spots = [...START_CELLS].sort(() => R() - 0.5);
+  // a neat 4 x 2 grid on the start pad, everyone pointing up
   const rs: Racer[] = TEAMS.map((_, i) => {
-    const a = R() * Math.PI * 2;
-    return { x: spots[i][0] + 0.5, y: spots[i][1] + 0.5, vx: Math.cos(a), vy: Math.sin(a), alive: true, done: false, squash: 0 };
+    const a = -Math.PI / 2 + (R() - 0.5) * 1.2;
+    return { x: 2.6 + 1.6 * (i % 4), y: 19.5 + Math.floor(i / 4), vx: Math.cos(a), vy: Math.sin(a), alive: true, done: false, squash: 0 };
   });
   const frames: Racer[][] = [];
   const flood: number[] = [];
@@ -111,7 +112,7 @@ export const simulate = (seed: number, fps = 30, floodSpeed = 2.55): Run => {
         const dx = nx - px;
         const dy = ny - py;
         const d = Math.hypot(dx, dy);
-        const lim = PEG_R + H * 1.1;
+        const lim = pegR(c + dc, rr + dr) + H * 1.1;
         if (d < lim && d > 1e-6) {
           const ux = dx / d;
           const uy = dy / d;
@@ -120,6 +121,10 @@ export const simulate = (seed: number, fps = 30, floodSpeed = 2.55): Run => {
             vx -= 2 * dot * ux;
             vy -= 2 * dot * uy;
             r.squash = 1;
+            if (isBumper(c + dc, rr + dr)) {
+              vx *= 1.6;
+              vy *= 1.6;
+            }
             events.push({ t, kind: "peg", i, v: -dot });
           }
           nx = px + ux * lim;
@@ -127,6 +132,38 @@ export const simulate = (seed: number, fps = 30, floodSpeed = 2.55): Run => {
           if (hitsWall(nx, ny)) {
             nx = r.x;
             ny = r.y;
+          }
+        }
+      }
+      for (const sp of SPINNERS) {
+        const ang = sp.a0 + sp.w * t;
+        const ux = Math.cos(ang);
+        const uy = Math.sin(ang);
+        const along = Math.max(-sp.len / 2, Math.min(sp.len / 2, (nx - sp.x) * ux + (ny - sp.y) * uy));
+        const qx = sp.x + ux * along;
+        const qy = sp.y + uy * along;
+        const dx = nx - qx;
+        const dy = ny - qy;
+        const d = Math.hypot(dx, dy);
+        const lim = SPIN_HALF + H;
+        if (d < lim && d > 1e-6) {
+          const nxn = dx / d;
+          const nyn = dy / d;
+          // the bar's own speed at the contact point pushes the square away
+          const bvx = -sp.w * along * uy;
+          const bvy = sp.w * along * ux;
+          const rel = (vx - bvx) * nxn + (vy - bvy) * nyn;
+          if (rel < 0) {
+            vx -= 2 * rel * nxn;
+            vy -= 2 * rel * nyn;
+            r.squash = 1;
+            events.push({ t, kind: "spin", i, v: -rel });
+          }
+          const tx = qx + nxn * lim;
+          const ty = qy + nyn * lim;
+          if (!hitsWall(tx, ty)) {
+            nx = tx;
+            ny = ty;
           }
         }
       }
