@@ -14,6 +14,7 @@ import { CHIPS, shotAt } from "./shots";
 import type { Chip } from "./shots";
 import { DURATION, FPS, SECONDS, WORDS } from "./timing.gen";
 import { WorldView } from "./world";
+import { EXTRAS } from "./extras";
 import type { HeadProp } from "./world";
 import "./moods";
 
@@ -41,7 +42,7 @@ export const Poison: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
   if (!ready) return <AbsoluteFill style={{ background: "#07080f" }} />;
   const { shot, u } = shotAt(t);
   const cam = shot.cam(u);
-  const actors = shot.actors(t, u);
+  const actors = [...shot.actors(t, u), ...(EXTRAS[shot.world(t, u).set] ?? [])];
   const lead = actors[0];
   const m = moodOf(shot.mood);
   return (
