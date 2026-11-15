@@ -1,0 +1,536 @@
+{
+ "words": [
+  {
+   "w": "it's",
+   "start": 0.0,
+   "end": 0.2
+  },
+  {
+   "w": "the",
+   "start": 0.2,
+   "end": 0.29
+  },
+  {
+   "w": "last",
+   "start": 0.29,
+   "end": 0.68
+  },
+  {
+   "w": "match",
+   "start": 0.68,
+   "end": 0.95
+  },
+  {
+   "w": "of",
+   "start": 0.95,
+   "end": 1.04
+  },
+  {
+   "w": "zinedine",
+   "start": 1.04,
+   "end": 1.47
+  },
+  {
+   "w": "zidane's",
+   "start": 1.47,
+   "end": 1.85
+  },
+  {
+   "w": "career",
+   "start": 1.85,
+   "end": 2.33
+  },
+  {
+   "w": "and",
+   "start": 2.55,
+   "end": 2.65
+  },
+  {
+   "w": "he's",
+   "start": 2.65,
+   "end": 2.82
+  },
+  {
+   "w": "about",
+   "start": 2.82,
+   "end": 3.1
+  },
+  {
+   "w": "to",
+   "start": 3.1,
+   "end": 3.2
+  },
+  {
+   "w": "be",
+   "start": 3.2,
+   "end": 3.28
+  },
+  {
+   "w": "sent",
+   "start": 3.28,
+   "end": 3.61
+  },
+  {
+   "w": "off",
+   "start": 3.61,
+   "end": 3.92
+  },
+  {
+   "w": "the",
+   "start": 4.3,
+   "end": 4.37
+  },
+  {
+   "w": "one",
+   "start": 4.37,
+   "end": 4.66
+  },
+  {
+   "w": "hundred",
+   "start": 4.66,
+   "end": 5.08
+  },
+  {
+   "w": "eighth",
+   "start": 5.08,
+   "end": 5.34
+  },
+  {
+   "w": "minute",
+   "start": 5.34,
+   "end": 5.64
+  },
+  {
+   "w": "of",
+   "start": 5.64,
+   "end": 5.75
+  },
+  {
+   "w": "a",
+   "start": 5.75,
+   "end": 5.78
+  },
+  {
+   "w": "world",
+   "start": 5.78,
+   "end": 6.11
+  },
+  {
+   "w": "cup",
+   "start": 6.11,
+   "end": 6.3
+  },
+  {
+   "w": "final",
+   "start": 6.3,
+   "end": 6.71
+  },
+  {
+   "w": "he",
+   "start": 7.16,
+   "end": 7.25
+  },
+  {
+   "w": "turns",
+   "start": 7.25,
+   "end": 7.56
+  },
+  {
+   "w": "around",
+   "start": 7.56,
+   "end": 7.91
+  },
+  {
+   "w": "and",
+   "start": 7.91,
+   "end": 8.11
+  },
+  {
+   "w": "headbutts",
+   "start": 8.11,
+   "end": 8.68
+  },
+  {
+   "w": "marco",
+   "start": 8.68,
+   "end": 8.93
+  },
+  {
+   "w": "materazzi",
+   "start": 8.93,
+   "end": 9.49
+  },
+  {
+   "w": "in",
+   "start": 9.49,
+   "end": 9.59
+  },
+  {
+   "w": "the",
+   "start": 9.59,
+   "end": 9.65
+  },
+  {
+   "w": "chest",
+   "start": 9.65,
+   "end": 10.16
+  },
+  {
+   "w": "materazzi",
+   "start": 10.54,
+   "end": 11.08
+  },
+  {
+   "w": "drops",
+   "start": 11.08,
+   "end": 11.62
+  },
+  {
+   "w": "but",
+   "start": 12.04,
+   "end": 12.15
+  },
+  {
+   "w": "the",
+   "start": 12.15,
+   "end": 12.22
+  },
+  {
+   "w": "referee",
+   "start": 12.22,
+   "end": 12.6
+  },
+  {
+   "w": "didn't",
+   "start": 12.6,
+   "end": 12.84
+  },
+  {
+   "w": "see",
+   "start": 12.84,
+   "end": 13.09
+  },
+  {
+   "w": "it",
+   "start": 13.09,
+   "end": 13.32
+  },
+  {
+   "w": "neither",
+   "start": 13.51,
+   "end": 13.81
+  },
+  {
+   "w": "did",
+   "start": 13.81,
+   "end": 13.96
+  },
+  {
+   "w": "his",
+   "start": 13.96,
+   "end": 14.12
+  },
+  {
+   "w": "assistants",
+   "start": 14.12,
+   "end": 14.76
+  },
+  {
+   "w": "so",
+   "start": 15.12,
+   "end": 15.25
+  },
+  {
+   "w": "how",
+   "start": 15.25,
+   "end": 15.43
+  },
+  {
+   "w": "does",
+   "start": 15.43,
+   "end": 15.59
+  },
+  {
+   "w": "a",
+   "start": 15.59,
+   "end": 15.63
+  },
+  {
+   "w": "red",
+   "start": 15.63,
+   "end": 15.9
+  },
+  {
+   "w": "card",
+   "start": 15.9,
+   "end": 16.16
+  },
+  {
+   "w": "happen",
+   "start": 16.16,
+   "end": 16.62
+  },
+  {
+   "w": "the",
+   "start": 17.1,
+   "end": 17.16
+  },
+  {
+   "w": "referee",
+   "start": 17.16,
+   "end": 17.53
+  },
+  {
+   "w": "calls",
+   "start": 17.53,
+   "end": 17.84
+  },
+  {
+   "w": "the",
+   "start": 17.84,
+   "end": 17.9
+  },
+  {
+   "w": "fourth",
+   "start": 17.9,
+   "end": 18.2
+  },
+  {
+   "w": "official",
+   "start": 18.2,
+   "end": 18.56
+  },
+  {
+   "w": "on",
+   "start": 18.56,
+   "end": 18.66
+  },
+  {
+   "w": "his",
+   "start": 18.66,
+   "end": 18.8
+  },
+  {
+   "w": "headset",
+   "start": 18.8,
+   "end": 19.3
+  },
+  {
+   "w": "and",
+   "start": 19.3,
+   "end": 19.47
+  },
+  {
+   "w": "he",
+   "start": 19.47,
+   "end": 19.55
+  },
+  {
+   "w": "confirms",
+   "start": 19.55,
+   "end": 20.04
+  },
+  {
+   "w": "it",
+   "start": 20.04,
+   "end": 20.2
+  },
+  {
+   "w": "red",
+   "start": 20.55,
+   "end": 20.77
+  },
+  {
+   "w": "card",
+   "start": 20.77,
+   "end": 21.19
+  },
+  {
+   "w": "one",
+   "start": 21.31,
+   "end": 21.54
+  },
+  {
+   "w": "hundred",
+   "start": 21.54,
+   "end": 21.87
+  },
+  {
+   "w": "tenth",
+   "start": 21.87,
+   "end": 22.2
+  },
+  {
+   "w": "minute",
+   "start": 22.2,
+   "end": 22.58
+  },
+  {
+   "w": "italy",
+   "start": 22.94,
+   "end": 23.25
+  },
+  {
+   "w": "win",
+   "start": 23.25,
+   "end": 23.53
+  },
+  {
+   "w": "on",
+   "start": 23.53,
+   "end": 23.71
+  },
+  {
+   "w": "penalties",
+   "start": 23.71,
+   "end": 24.31
+  },
+  {
+   "w": "and",
+   "start": 24.69,
+   "end": 24.81
+  },
+  {
+   "w": "the",
+   "start": 24.81,
+   "end": 24.87
+  },
+  {
+   "w": "next",
+   "start": 24.87,
+   "end": 25.11
+  },
+  {
+   "w": "day",
+   "start": 25.11,
+   "end": 25.38
+  },
+  {
+   "w": "zidane",
+   "start": 25.64,
+   "end": 26.0
+  },
+  {
+   "w": "is",
+   "start": 26.0,
+   "end": 26.1
+  },
+  {
+   "w": "still",
+   "start": 26.1,
+   "end": 26.47
+  },
+  {
+   "w": "handed",
+   "start": 26.47,
+   "end": 26.81
+  },
+  {
+   "w": "the",
+   "start": 26.81,
+   "end": 26.87
+  },
+  {
+   "w": "golden",
+   "start": 26.87,
+   "end": 27.27
+  },
+  {
+   "w": "ball",
+   "start": 27.27,
+   "end": 27.57
+  },
+  {
+   "w": "as",
+   "start": 27.57,
+   "end": 27.7
+  },
+  {
+   "w": "the",
+   "start": 27.7,
+   "end": 27.79
+  },
+  {
+   "w": "best",
+   "start": 27.79,
+   "end": 28.15
+  },
+  {
+   "w": "player",
+   "start": 28.15,
+   "end": 28.44
+  },
+  {
+   "w": "of",
+   "start": 28.44,
+   "end": 28.5
+  },
+  {
+   "w": "the",
+   "start": 28.5,
+   "end": 28.58
+  },
+  {
+   "w": "tournament",
+   "start": 28.58,
+   "end": 29.12
+  }
+ ],
+ "sentences": [
+  {
+   "text": "It's the last match of Zinedine Zidane's career, and he's about to be sent off.",
+   "start": 0.0,
+   "end": 3.92
+  },
+  {
+   "text": "The 108th minute of a World Cup final.",
+   "start": 4.3,
+   "end": 6.71
+  },
+  {
+   "text": "He turns around and headbutts Marco Materazzi in the chest.",
+   "start": 7.16,
+   "end": 10.16
+  },
+  {
+   "text": "Materazzi drops.",
+   "start": 10.54,
+   "end": 11.62
+  },
+  {
+   "text": "But the referee didn't see it.",
+   "start": 12.04,
+   "end": 13.32
+  },
+  {
+   "text": "Neither did his assistants.",
+   "start": 13.51,
+   "end": 14.76
+  },
+  {
+   "text": "So how does a red card happen?",
+   "start": 15.12,
+   "end": 16.62
+  },
+  {
+   "text": "The referee calls the fourth official on his headset, and he confirms it.",
+   "start": 17.1,
+   "end": 20.2
+  },
+  {
+   "text": "Red card, 110th minute.",
+   "start": 20.55,
+   "end": 22.58
+  },
+  {
+   "text": "Italy win on penalties.",
+   "start": 22.94,
+   "end": 24.31
+  },
+  {
+   "text": "And the next day, Zidane is still handed the Golden Ball as the best player of the tournament.",
+   "start": 24.69,
+   "end": 29.12
+  }
+ ]
+}
