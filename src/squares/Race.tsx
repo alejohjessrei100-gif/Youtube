@@ -10,8 +10,8 @@ import type { Racer } from "./sim";
 import { TEAMS } from "./teams";
 import type { Team } from "./teams";
 
-export const SEED = 1477;
-export const FLOOD_SPEED = 2.65;
+export const SEED = 525;
+export const FLOOD_SPEED = 2.55;
 const RUN = simulate(SEED, 30, FLOOD_SPEED);
 const FPS = 30;
 const INTRO = 1.6; // 3, 2, 1, GO
@@ -129,7 +129,6 @@ const Goal: React.FC = () => {
       {Array.from({ length: 5 }, (_, k) => <line key={`m${k}`} x1={x} y1={y + (k * h) / 4} x2={x + w} y2={y + (k * h) / 4} stroke="#b9c3d3" strokeWidth={2} />)}
       <rect x={x - 3} y={y - 3} width={w + 6} height={h + 6} fill="none" stroke="#ffffff" strokeWidth={8} />
       <rect x={x - 3} y={y - 3} width={w + 6} height={h + 6} fill="none" stroke={INK} strokeWidth={3} />
-      <text x={x + w / 2} y={y + h + 34} textAnchor="middle" fontFamily="Poppins" fontWeight={800} fontSize={26} fill="#1d2b70">GOAL</text>
     </g>
   );
 };
@@ -171,12 +170,11 @@ const Square: React.FC<{ i: number; r: Racer; s: number; trail: Racer[] }> = ({ 
       <g transform={`translate(${px(r.x)} ${py(r.y)}) scale(${scale * (1 + sq)} ${scale * (1 - sq)}) translate(${-w / 2} ${-w / 2})`}>
         <rect x={-2} y={-2} width={w + 4} height={w + 4} rx={w * 0.18} fill={INK} />
         <Flag team={team} w={w} h={w} id={`fl${i}`} />
-        <circle cx={w * 0.32} cy={w * 0.42} r={4.6} fill="#fff" stroke={INK} strokeWidth={1.4} />
-        <circle cx={w * 0.68} cy={w * 0.42} r={4.6} fill="#fff" stroke={INK} strokeWidth={1.4} />
-        <circle cx={w * 0.32 + ex * 0.6} cy={w * 0.42 + ey * 0.6} r={2.2} fill={INK} />
-        <circle cx={w * 0.68 + ex * 0.6} cy={w * 0.42 + ey * 0.6} r={2.2} fill={INK} />
+        <circle cx={w * 0.32} cy={w * 0.42} r={6} fill="#fff" stroke={INK} strokeWidth={1.4} />
+        <circle cx={w * 0.68} cy={w * 0.42} r={6} fill="#fff" stroke={INK} strokeWidth={1.4} />
+        <circle cx={w * 0.32 + ex * 0.6} cy={w * 0.42 + ey * 0.6} r={3} fill={INK} />
+        <circle cx={w * 0.68 + ex * 0.6} cy={w * 0.42 + ey * 0.6} r={3} fill={INK} />
       </g>
-      <text x={px(r.x)} y={py(r.y) - w / 2 - 6} textAnchor="middle" fontFamily="Poppins" fontWeight={800} fontSize={15} fill={INK} stroke="#fff" strokeWidth={4} paintOrder="stroke">{team.code}</text>
     </g>
   );
 };
@@ -216,13 +214,18 @@ const standing = (rs: Racer[]) =>
     .sort((a, b) => a.key - b.key)
     .map((o) => o.i);
 
-const Board: React.FC<{ s: number; t: number }> = ({ s, t }) => {
-  // rank smoothed over the last few frames so tiles glide instead of jumping
+const BW = 124;
+/** rank smoothed over the last few frames so tiles glide instead of jumping; returns each team's tile x */
+const tileX = (s: number) => {
   const avg = TEAMS.map(() => 0);
   const K = 6;
   for (let k = 0; k < K; k++) standing(at(Math.max(0, s - k * 0.05))).forEach((i, rank) => (avg[i] += rank / K));
+  return { avg, x: avg.map((a) => 540 - (BW * 8) / 2 + a * BW + 8) };
+};
+const Board: React.FC<{ s: number; t: number }> = ({ s, t }) => {
+  const { avg } = tileX(s);
   const rs = at(s);
-  const W = 124;
+  const W = BW;
   return (
     <g>
       {TEAMS.map((team, i) => {
@@ -235,8 +238,6 @@ const Board: React.FC<{ s: number; t: number }> = ({ s, t }) => {
             <g transform="translate(6 6)">
               <Flag team={team} w={W - 22} h={52} id={`bf${i}`} />
             </g>
-            <text x={(W - 16) / 2} y={98} textAnchor="middle" fontFamily="Poppins" fontWeight={800} fontSize={22} fill="#ffffff" stroke={INK} strokeWidth={6} paintOrder="stroke">{team.code}</text>
-            {out ? <text x={(W - 16) / 2} y={50} textAnchor="middle" fontFamily="Poppins" fontWeight={900} fontSize={54} fill="#ff3b30" stroke={INK} strokeWidth={5} paintOrder="stroke">✕</text> : null}
           </g>
         );
       })}
@@ -244,15 +245,17 @@ const Board: React.FC<{ s: number; t: number }> = ({ s, t }) => {
   );
 };
 
-const Big: React.FC<{ text: string; y: number; size: number; t0: number; t: number; fill?: string }> = ({ text, y, size, t0, t, fill = "#ffffff" }) => {
-  const e = clamp((t - t0) / 0.22);
-  if (t < t0) return null;
+/** HTML text (SVG text cannot reach the loaded web fonts in the renderer): centred at x, baseline-ish at y */
+const Txt: React.FC<{ text: string; x?: number; y: number; size: number; fill?: string; stroke?: number; t0?: number; t?: number; weight?: number }> = ({ text, x = 540, y, size, fill = "#ffffff", stroke, t0, t, weight = 800 }) => {
+  const e = t0 === undefined || t === undefined ? 1 : clamp((t - t0) / 0.22);
+  if (t0 !== undefined && t !== undefined && t < t0) return null;
   return (
-    <text x={540} y={y} textAnchor="middle" fontFamily="Poppins" fontWeight={800} fontSize={size} fill={fill} stroke={INK} strokeWidth={size * 0.12} paintOrder="stroke" transform={`translate(540 ${y}) scale(${back(e)}) translate(-540 ${-y})`}>
+    <div style={{ position: "absolute", left: x, top: y - size * 0.78, transform: `translateX(-50%) scale(${back(e)})`, transformOrigin: "50% 60%", fontFamily: "Poppins", fontWeight: weight, fontSize: size, lineHeight: 1, color: fill, whiteSpace: "nowrap", WebkitTextStroke: `${stroke ?? size * 0.12}px ${INK}`, paintOrder: "stroke fill" }}>
       {text}
-    </text>
+    </div>
   );
 };
+const Big: React.FC<{ text: string; y: number; size: number; t0: number; t: number; fill?: string }> = (p) => <Txt {...p} />;
 
 const Confetti: React.FC<{ t: number; t0: number; team: Team }> = ({ t, t0, team }) => {
   if (t < t0) return null;
@@ -306,7 +309,6 @@ export const SquareRace: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
           </pattern>
         </defs>
         <rect width={1080} height={1920} fill="url(#chk)" />
-        <text x={540} y={150} textAnchor="middle" fontFamily="Poppins" fontWeight={800} fontSize={84} fill="#ffffff" stroke={INK} strokeWidth={12} paintOrder="stroke">WHO WINS THE CUP?</text>
         <Board s={s} t={t} />
         <g transform={`translate(${shake * Math.sin(t * 90)} ${shake * Math.cos(t * 77)})`}>
           <rect x={X0 - 12} y={Y0 - 12} width={COLS * CELL + 24} height={ROWS * CELL + 24} rx={20} fill={INK} />
@@ -317,30 +319,50 @@ export const SquareRace: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
           <Sparks s={s} rs={rs} />
           {shown.map((r, i) => (r.done && s - (r.fin ?? 0) > 0.25 ? null : <Square key={i} i={i} r={r} s={s} trail={trails[i]} />))}
         </g>
-        {/* bottom strip: who is left, and the ticker */}
-        <text x={540} y={1548} textAnchor="middle" fontFamily="Poppins" fontWeight={800} fontSize={54} fill="#ffffff" stroke={INK} strokeWidth={9} paintOrder="stroke">{won ? "" : `${alive} LEFT`}</text>
-        {ticker && !won ? <Big text={ticker.text} y={1630} size={52} t0={INTRO + ticker.t0} t={INTRO + s} fill={ticker.color} /> : null}
-        {slow && !won ? <Big text="PHOTO FINISH" y={1160} size={88} t0={INTRO + S0} t={INTRO + s} fill="#ffd34d" /> : null}
-        {intro ? (
-          <>
-            <Big text="PICK YOUR TEAM" y={700} size={86} t0={0} t={t + 0.3} fill="#ffd34d" />
-            <Big text={t < 0.4 ? "3" : t < 0.8 ? "2" : t < 1.2 ? "1" : "GO!"} y={1020} size={240} t0={Math.floor(t / 0.4) * 0.4} t={t} />
-          </>
-        ) : null}
         {won ? (
           <>
             <rect x={0} y={0} width={1080} height={1920} fill="#000" opacity={Math.min(0.45, (t - FINISH_FILM) * 1.2)} />
             <Confetti t={t} t0={FINISH_FILM} team={winner} />
-            <Big text="GOAL!" y={760} size={210} t0={FINISH_FILM} t={t} fill="#ffd34d" />
             <g transform={`translate(${540 - 160} ${860}) scale(${back((t - FINISH_FILM - 0.25) / 0.3)})`} style={{ transformOrigin: "160px 100px" }}>
               <rect x={-8} y={-8} width={336} height={216} rx={26} fill={INK} />
               <Flag team={winner} w={320} h={200} id="win" />
             </g>
-            <Big text={`${winner.name.toUpperCase()} WINS`} y={1170} size={96} t0={FINISH_FILM + 0.45} t={t} />
-            <Big text="DID YOU PICK RIGHT? 👇" y={1290} size={52} t0={FINISH_FILM + 1.0} t={t} fill="#ffd34d" />
           </>
         ) : null}
       </svg>
+      <Txt text="WHO WINS THE CUP?" y={150} size={84} />
+      <Txt text="GOAL" x={px(17)} y={py(2) + 30} size={26} fill="#1d2b70" stroke={0} />
+      {TEAMS.map((team, i) => {
+        const r = shown[i];
+        if (r.done && s - (r.fin ?? 0) > 0.25) return null;
+        if (!r.alive && r.out !== undefined && s - r.out > 0.3) return null;
+        return <Txt key={`c${i}`} text={team.code} x={px(r.x)} y={py(r.y) - (SIZE * CELL) / 2 - 8} size={18} fill={INK} stroke={0} />;
+      })}
+      {(() => {
+        const { x } = tileX(s);
+        return TEAMS.map((team, i) => (
+          <React.Fragment key={`b${i}`}>
+            <Txt text={team.code} x={x[i] + (BW - 16) / 2} y={333} size={22} stroke={5} />
+            {!rs[i].alive ? <Txt text="✕" x={x[i] + (BW - 16) / 2} y={290} size={54} fill="#ff3b30" stroke={5} /> : null}
+          </React.Fragment>
+        ));
+      })()}
+      {won ? null : <Txt text={`${alive} LEFT`} y={1548} size={54} />}
+      {ticker && !won ? <Big text={ticker.text} y={1630} size={52} t0={INTRO + ticker.t0} t={INTRO + s} fill={ticker.color} /> : null}
+      {slow && !won ? <Big text="PHOTO FINISH" y={1160} size={88} t0={INTRO + S0} t={INTRO + s} fill="#ffd34d" /> : null}
+      {intro ? (
+        <>
+          <Big text="PICK YOUR TEAM" y={700} size={86} t0={0} t={t + 0.3} fill="#ffd34d" />
+          <Big text={t < 0.4 ? "3" : t < 0.8 ? "2" : t < 1.2 ? "1" : "GO!"} y={1020} size={240} t0={Math.floor(t / 0.4) * 0.4} t={t} />
+        </>
+      ) : null}
+      {won ? (
+        <>
+          <Big text="GOAL!" y={760} size={210} t0={FINISH_FILM} t={t} fill="#ffd34d" />
+          <Big text={`${winner.name.toUpperCase()} WINS`} y={1170} size={96} t0={FINISH_FILM + 0.45} t={t} />
+          <Big text="DID YOU PICK RIGHT?" y={1290} size={56} t0={FINISH_FILM + 1.0} t={t} fill="#ffd34d" />
+        </>
+      ) : null}
       {audio ? <Audio src={staticFile("audio/square-race-mix.mp3")} /> : null}
     </AbsoluteFill>
   );

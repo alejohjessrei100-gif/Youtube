@@ -5,7 +5,7 @@ import { COLS, FROM_START, MAP, PEG_R, ROWS, START_CELLS, TO_GOAL, goalDist, isP
 import { TEAMS } from "./teams";
 
 export const STEP = 1 / 120;
-export const SIZE = 0.62; // square side, cells
+export const SIZE = 0.78; // square side, cells
 const H = SIZE / 2;
 
 const rng = (seed: number) => () => {
