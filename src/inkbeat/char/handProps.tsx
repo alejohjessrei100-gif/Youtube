@@ -6,8 +6,8 @@ import { CLOTH } from "./family";
 import { Inked } from "./Inked";
 import { charMat } from "./material";
 
-export type HandPropKind = "mug" | "key" | "book" | "phone" | "clipboard" | "card";
-export const HAND_PROPS: HandPropKind[] = ["mug", "key", "book", "phone", "clipboard", "card"];
+export type HandPropKind = "mug" | "key" | "book" | "phone" | "clipboard" | "card" | "goblet" | "vial" | "stone";
+export const HAND_PROPS: HandPropKind[] = ["mug", "key", "book", "phone", "clipboard", "card", "goblet", "vial", "stone"];
 
 const rounded = (w: number, h: number, d: number, r: number) => {
   const s = new THREE.Shape();
@@ -69,7 +69,13 @@ const G = () => {
   const clip = new THREE.BoxGeometry(0.04, 0.016, 0.01);
   clip.translate(0, 0.064, 0.007);
   const card = rounded(0.058, 0.084, 0.004, 0.004);
-  geos = { card, bow, shaft, bit1, bit2, mug, stripe, drink, handle, cover, pages, band, phone, screen, cam, board, sheet, clip };
+  const cupBowl = cyl(0.026, 0.044, 0.06, 0.03, 24);
+  const cupStem = cyl(0.007, 0.007, 0.05, -0.02, 10);
+  const cupFoot = cyl(0.028, 0.028, 0.008, -0.028, 20);
+  const vialBody = cyl(0.016, 0.016, 0.06, -0.02, 16);
+  const vialNeck = cyl(0.007, 0.007, 0.02, 0.04, 10);
+  const stoneG = new THREE.SphereGeometry(0.03, 16, 12);
+  geos = { card, cupBowl, cupStem, cupFoot, vialBody, vialNeck, stoneG, bow, shaft, bit1, bit2, mug, stripe, drink, handle, cover, pages, band, phone, screen, cam, board, sheet, clip };
   return geos;
 };
 
@@ -110,6 +116,27 @@ export const HandProp: React.FC<{ kind: HandPropKind }> = ({ kind }) => {
           <Inked geo={g.phone} mat={charMat(CLOTH.graphite, { spec: 0.6, gloss: 0.4 })} ink={0.004} />
           <Inked geo={g.screen} mat={charMat("#1f3b5c", { spec: 0.8, gloss: 0.6, emissive: "#163049" })} ink={0} />
           <Inked geo={g.cam} mat={charMat("#101218", { spec: 1 })} ink={0} />
+        </group>
+      );
+    case "goblet":
+      return (
+        <group position={[0, 0.02, 0.03]}>
+          <Inked geo={g.cupBowl} mat={charMat(CLOTH.brass, { spec: 0.9, gloss: 0.5 })} ink={0.004} />
+          <Inked geo={g.cupStem} mat={charMat(CLOTH.brass, { spec: 0.9 })} ink={0.003} />
+          <Inked geo={g.cupFoot} mat={charMat(CLOTH.brass, { spec: 0.9 })} ink={0.003} />
+        </group>
+      );
+    case "vial":
+      return (
+        <group position={[0, 0.02, 0.025]}>
+          <Inked geo={g.vialBody} mat={charMat("#5fd36a", { spec: 0.8, gloss: 0.6, emissive: "#1f6a26" })} ink={0.003} />
+          <Inked geo={g.vialNeck} mat={charMat("#cfd8d0", { spec: 0.6 })} ink={0.0025} />
+        </group>
+      );
+    case "stone":
+      return (
+        <group position={[0, 0.035, 0.03]} scale={[1.2, 0.9, 1]}>
+          <Inked geo={g.stoneG} mat={charMat("#6c7a4a", { spec: 0.4, gloss: 0.3 })} ink={0.0035} />
         </group>
       );
     case "card":
