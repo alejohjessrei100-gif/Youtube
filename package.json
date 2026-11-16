@@ -27,6 +27,7 @@
     "studio": "remotion studio src/index.ts",
     "bundle": "remotion bundle src/index.ts --out-dir=build",
     "still": "remotion still src/index.ts Demo out/demo.jpg --gl=angle --timeout=240000",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "web:build": "esbuild web/main.tsx --bundle --minify --format=iife --target=es2020 --outfile=web/dist/app.js --define:process.env.NODE_ENV=\\\"production\\\" && cp web/index.html web/dist/ && mkdir -p web/dist/fonts web/dist/audio && cp public/fonts/*.ttf web/dist/fonts/ && cp public/audio/agloe-mix.mp3 web/dist/audio/"
   }
 }

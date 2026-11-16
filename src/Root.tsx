@@ -6,12 +6,15 @@ import { DemoMove, MOVE_FRAMES } from "./demo/DemoMove";
 import { SUB } from "./inkbeat/core/frame";
 import { StyleCloseUp, StyleLineup, StyleTrio } from "./demo/StyleSheet";
 import { STYLES } from "./styles/styles";
+import { Agloe, AGLOE_FRAMES } from "./agloe/Agloe";
 
 // DemoHero: a low hero framing with foreground props. Demo: one still. Demo-<mood>: the same frame in each act light. DemoWide: the whole set.
 // DemoCast: the three example characters in a row (a landscape family sheet).
 // DemoMove: a 3 s beat-rig move (sharp). DemoMoveSub: the same at SUB × fps for motion blur (average with ffmpeg tmix).
 export const Root: React.FC = () => (
   <>
+    <Composition id="Agloe" component={Agloe} durationInFrames={AGLOE_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ sub: false, audio: true }} />
+    <Composition id="AgloeSub" component={Agloe} durationInFrames={AGLOE_FRAMES * SUB} fps={30 * SUB} width={1080} height={1920} defaultProps={{ sub: true, audio: false }} />
     <Composition id="Demo" component={Demo} durationInFrames={30} fps={30} width={1080} height={1920} defaultProps={{ mood: "day", wide: false }} />
     <Composition id="DemoHero" component={Demo} durationInFrames={30} fps={30} width={1080} height={1920} defaultProps={{ mood: "dusk", wide: false, hero: true }} />
     <Composition id="DemoWide" component={Demo} durationInFrames={30} fps={30} width={1080} height={1920} defaultProps={{ mood: "day", wide: true }} />
