@@ -1,4 +1,4 @@
-// render frames through the phone page (same code path as the phone) and save them as JPEGs
+// usage: COMP=<id> node tools/t/websheet.js OUTDIR SCALE frame...  render frames through the phone page (same code path as the phone) and save them as JPEGs
 const { chromium } = require('playwright');
 const fs = require('fs');
 const [out, scale, ...frames] = process.argv.slice(2);
@@ -11,7 +11,7 @@ const [out, scale, ...frames] = process.argv.slice(2);
   fs.mkdirSync(out, { recursive: true });
   for (let i = 0; i < frames.length; i += 6) {
     const chunk = frames.slice(i, i + 6).map(Number);
-    const imgs = await p.evaluate(([c, s]) => window.__qaFrames('Agloe', c, s), [chunk, Number(scale)]);
+    const imgs = await p.evaluate(([id, c, s]) => window.__qaFrames(id, c, s), [process.env.COMP || 'Agloe', chunk, Number(scale)]);
     imgs.forEach((d, k) => fs.writeFileSync(`${out}/f${String(chunk[k]).padStart(4, '0')}.jpg`, Buffer.from(d.split(',')[1], 'base64')));
     console.log('done', chunk.join(','));
   }

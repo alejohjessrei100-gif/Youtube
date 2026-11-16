@@ -12,7 +12,10 @@ const geoCache = new Map<string, THREE.BufferGeometry>();
 const geo = (key: string, make: () => THREE.BufferGeometry) => {
   let g = geoCache.get(key);
   if (!g) {
-    if (geoCache.size > 300) geoCache.clear();
+    if (geoCache.size > 300) {
+      geoCache.forEach((x) => x.dispose()); // free the GPU copies too (a cleared map alone leaks them)
+      geoCache.clear();
+    }
     g = make();
     geoCache.set(key, g);
   }
@@ -37,7 +40,10 @@ export const coreMat = (col: string, k: number, op = 1) => {
   const key = `${col}|${k.toFixed(2)}|${op.toFixed(2)}`;
   let m = coreCache.get(key);
   if (!m) {
-    if (coreCache.size > 200) coreCache.clear();
+    if (coreCache.size > 200) {
+      coreCache.forEach((x) => x.dispose());
+      coreCache.clear();
+    }
     const c = new THREE.Color(col).multiplyScalar(k);
     m = new THREE.MeshBasicMaterial({ color: c, toneMapped: false, transparent: op < 1, opacity: op, depthWrite: op >= 1 });
     coreCache.set(key, m);
@@ -50,7 +56,10 @@ const texCache = new Map<string, THREE.CanvasTexture>();
 export const canvasTex = (key: string, w: number, h: number, draw: (g: CanvasRenderingContext2D, w: number, h: number) => void) => {
   let t = texCache.get(key);
   if (!t) {
-    if (texCache.size > 120) texCache.clear();
+    if (texCache.size > 120) {
+      texCache.forEach((x) => x.dispose());
+      texCache.clear();
+    }
     const c = document.createElement("canvas");
     c.width = w;
     c.height = h;
@@ -68,7 +77,10 @@ export const Label: React.FC<{ text: string; p: V3; r?: V3; w: number; h: number
   const key = `${text}|${fg}|${bg}|${w}|${h}|${font}|${stamp ? 1 : 0}`;
   let m = labelMats.get(key);
   if (!m) {
-    if (labelMats.size > 80) labelMats.clear();
+    if (labelMats.size > 80) {
+      labelMats.forEach((x) => x.dispose());
+      labelMats.clear();
+    }
     const W = 1024;
     const H = Math.max(64, Math.round((W * h) / w));
     const tex = canvasTex(`L${key}`, W, H, (g) => {
