@@ -26,11 +26,13 @@ export const useFonts = () => {
   const { delayRender, continueRender } = useDelayRender();
   const [h] = useState(() => delayRender("fonts"));
   React.useEffect(() => {
-    loadFonts().then(() => {
-      setReady(true);
-      continueRender(h);
-    });
-  }, [h]); // eslint-disable-line react-hooks/exhaustive-deps -- continue exactly once
+    loadFonts().then(() => setReady(true));
+  }, []);
+  // release the render only after React has drawn the frame with the fonts (releasing in the same tick as
+  // setReady let the renderer capture the not-ready placeholder: a dark first frame when the fonts were cached)
+  React.useEffect(() => {
+    if (ready) continueRender(h);
+  }, [ready, h]); // eslint-disable-line react-hooks/exhaustive-deps -- continue exactly once
   return ready;
 };
 

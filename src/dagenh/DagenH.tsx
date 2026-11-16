@@ -11,7 +11,7 @@ import { subFrame, useFonts } from "../inkbeat/core/frame";
 import { moodOf } from "../inkbeat/core/moods";
 import { withShake } from "../inkbeat/core/rig";
 import { View } from "../inkbeat/core/View";
-import { camAt, setupAt } from "./shots";
+import { camAt, setupAt, STAMP_AT } from "./shots";
 import { Border, ChartRoom, Country, StampRoom, Street, VoteHall } from "./world";
 import { DURATION, FPS, SECONDS, WORDS } from "./words.gen";
 
@@ -50,7 +50,7 @@ export const DagenH: React.FC<{ sub?: boolean; audio?: boolean }> = ({ sub = fal
       <View mood={m} cam={cam} t={t} focus={s.focus} blur={s.blur} sky={!!s.sky} fogK={outdoor ? 0.5 : 1}>
         {s.set === "street" ? <Street s={{ cars: w.cars ?? [], minutes: w.minutes ?? 50, lamps: w.lamps }} /> : null}
         {s.set === "vote" ? <VoteHall count={w.count ?? 0} ballot={w.ballot} /> : null}
-        {s.set === "stamp" ? <StampRoom stamped={w.stamped ?? 0} stampY={w.stampY ?? 0.9} stampAt={[0.15, 0, 0.18]} /> : null}
+        {s.set === "stamp" ? <StampRoom stamped={w.stamped ?? 0} stampY={w.stampY ?? 0.9} stampAt={STAMP_AT} /> : null}
         {s.set === "border" ? <Border cars={w.cars ?? []} /> : null}
         {s.set === "country" ? <Country cars={w.cars ?? []} /> : null}
         {s.set === "chart" ? <ChartRoom fall={w.fall ?? 0} reveal={w.reveal ?? 1} /> : null}

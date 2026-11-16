@@ -155,13 +155,13 @@ const ballotAt = (t: number): V3 | null => {
   if (u >= 1) return null;
   return [lerp(h[0], SLOT[0], u), lerp(h[1] + 0.08, SLOT[1] - 0.06, u * u), lerp(h[2], SLOT[2], u)];
 };
-const OFF_P: V3 = [0.0, 0, -0.78];
-const STAMP_AT: V3 = [STAMP_PAPER[0], 0, STAMP_PAPER[2] + 0.13];
+const OFF_P: V3 = [0.0, 0, -0.66];
+export const STAMP_AT: V3 = [STAMP_PAPER[0], 0, STAMP_PAPER[2] - 0.08];
 const stampY = (t: number) => {
   const up = smooth((t - T.the_gov) / 0.3);
   const down = clamp((t - (T.anyway - 0.08)) / 0.08);
   const lift = smooth((t - T.anyway - 0.35) / 0.3);
-  return lerp(lerp(0.9, 1.2, up), 0.818, down) + 0.25 * lift;
+  return lerp(lerp(0.88, 1.02, up), 0.818, down) + 0.12 * lift;
 };
 const officialPose = (t: number): BodyPose => {
   const target: V3 = [STAMP_AT[0], stampY(t) + 0.16, STAMP_AT[2]];
@@ -236,7 +236,7 @@ export const SETUPS: Setup[] = [
   // 7. About eighty-three percent said no: the NEJ bar climbs
   {
     id: 7, t0: T.about, mood: "cold", set: "vote", focus: [1.9, 1.8, -2.4], blur: 1.4,
-    keys: [{ at: T.about, cam: C([0.4, 1.9, 0.9], [1.8, 1.8, -2.3], 46) }, { at: T.no - 0.04, cam: C([0.8, 1.9, 0.0], [1.7, 1.85, -2.3], 46), dur: 0.22 }],
+    keys: [{ at: T.about, cam: C([0.4, 1.9, 0.9], [1.8, 1.8, -2.3], 46) }, { at: T.no - 0.04, cam: C([0.75, 2.05, 0.15], [1.7, 2.1, -2.3], 46), dur: 0.22 }],
     actors: () => [{ spec: VOTER, p: [-0.6, 0, -0.9], yaw: 0.9, face: SMUG, pose: { armL: [40, 90], armLFwd: -20, armR: [40, 90], armRFwd: -20 } }],
     world: (t) => ({ count: smooth((t - W("eighty-three")) / 1.0) }),
     shake: [T.no],

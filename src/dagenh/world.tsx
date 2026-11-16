@@ -232,7 +232,7 @@ export const VoteHall: React.FC<{ count: number; ballot?: V3 | null }> = ({ coun
       <group position={[-2.3, 2.35, -2.88]}>
         <M g={boxG(1.2, 0.76, 0.02)} c="#1f5ab0" tex="fabric" />
         <M g={boxG(1.2, 0.14, 0.024)} c="#ffd21a" />
-        <M g={boxG(0.14, 0.76, 0.024)} c="#ffd21a" p={[-0.2, 0, 0]} />
+        <M g={boxG(0.14, 0.76, 0.024)} c="#ffd21a" p={[-0.2, 0, 0.008]} />
       </group>
       <group position={[0, 2.75, -2.88]}>
         <M g={boxG(1.5, 0.6, 0.03)} c="#f4ecd8" tex="paper" />
@@ -264,10 +264,10 @@ export const VoteHall: React.FC<{ count: number; ballot?: V3 | null }> = ({ coun
         ))}
         <Label text="NEJ" p={[-0.45, 2.75, 0.04]} w={0.7} h={0.3} fg="#f4ead6" bg="none" font={0.9} />
         <Label text="JA" p={[0.45, 2.75, 0.04]} w={0.7} h={0.3} fg="#f4ead6" bg="none" font={0.9} />
-        <mesh geometry={boxG(0.56, 1.5 * clamp(count), 0.02)} material={coreMat("#e8402e", 1)} position={[-0.45, 0.95 + 0.75 * clamp(count), 0.04]} />
-        <mesh geometry={boxG(0.56, (1.5 * 16 / 83) * clamp(count), 0.02)} material={coreMat("#4aa04a", 1)} position={[0.45, 0.95 + (0.75 * 16 / 83) * clamp(count), 0.04]} />
-        {count > 0 ? <Label text={`${nej}%`} p={[-0.45, 0.98 + 1.5 * clamp(count) + 0.18, 0.045]} w={0.62} h={0.26} fg="#ffffff" bg="none" font={0.9} /> : null}
-        {count > 0 ? <Label text={`${ja}%`} p={[0.45, 0.98 + (1.5 * 16 / 83) * clamp(count) + 0.18, 0.045]} w={0.62} h={0.26} fg="#ffffff" bg="none" font={0.9} /> : null}
+        <mesh geometry={boxG(0.56, 1.25 * clamp(count), 0.02)} material={coreMat("#e8402e", 1)} position={[-0.45, 0.95 + 0.625 * clamp(count), 0.04]} />
+        <mesh geometry={boxG(0.56, (1.25 * 16 / 83) * clamp(count), 0.02)} material={coreMat("#4aa04a", 1)} position={[0.45, 0.95 + (0.625 * 16 / 83) * clamp(count), 0.04]} />
+        {count > 0 ? <Label text={`${nej}%`} p={[-0.45, 0.98 + 1.25 * clamp(count) + 0.18, 0.045]} w={0.62} h={0.26} fg="#ffffff" bg="none" font={0.9} /> : null}
+        {count > 0 ? <Label text={`${ja}%`} p={[0.45, 0.98 + (1.25 * 16 / 83) * clamp(count) + 0.18, 0.045]} w={0.62} h={0.26} fg="#ffffff" bg="none" font={0.9} /> : null}
       </group>
       <group position={[-2.6, 0, 1.0]}>
         <M g={cylG(0.25, 0.2, 0.5, 14)} c="#a85a3a" tex="brick" p={[0, 0.25, 0]} />
@@ -293,7 +293,7 @@ export const StampRoom: React.FC<{ stamped: number; stampY: number; stampAt: V3 
       <group position={[0.48, 2.25, 0]}>
         <M g={boxG(0.9, 0.58, 0.02)} c="#1f5ab0" tex="fabric" />
         <M g={boxG(0.9, 0.1, 0.024)} c="#ffd21a" />
-        <M g={boxG(0.1, 0.58, 0.024)} c="#ffd21a" p={[-0.15, 0, 0]} />
+        <M g={boxG(0.1, 0.58, 0.024)} c="#ffd21a" p={[-0.15, 0, 0.008]} />
       </group>
     </group>
     <group position={[0.6, 2.3, -2.68]}>
@@ -317,7 +317,7 @@ export const StampRoom: React.FC<{ stamped: number; stampY: number; stampAt: V3 
       <M key={i} g={boxG(0.3 - (i % 2) * 0.08, 0.002, 0.014)} c="#7a7a82" p={[STAMP_PAPER[0], STAMP_PAPER[1] + 0.003, STAMP_PAPER[2] - 0.1 + i * 0.045]} />
     ))}
     {stamped > 0 ? (
-      <group position={[STAMP_PAPER[0], STAMP_PAPER[1] + 0.004, STAMP_PAPER[2] + 0.13]} rotation={[-PI / 2, 0, 0.12]} scale={0.9 + 0.1 * pop(stamped)}>
+      <group position={[STAMP_PAPER[0], STAMP_PAPER[1] + 0.004, STAMP_PAPER[2] - 0.08]} rotation={[-PI / 2, 0, 0.12]} scale={0.9 + 0.1 * pop(stamped)}>
         <Label text="HÖGERTRAFIK" p={[0, 0, 0]} w={0.36} h={0.11} fg="#c8241c" bg="none" font={0.8} stamp />
       </group>
     ) : null}
