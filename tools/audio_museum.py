@@ -11,7 +11,7 @@ from scipy.signal import butter, sosfilt
 
 ROOT = Path(__file__).resolve().parent.parent
 SR = 48000
-TOTAL = 38.8
+TOTAL = 35.4
 N = int(TOTAL * SR)
 E = json.loads((ROOT / "out/museum/events.json").read_text())
 CUTS = E["cuts"] + [TOTAL]
@@ -160,7 +160,7 @@ fx += alarm / (np.abs(alarm).max() + 1e-9) * VPEAK * db(-15)
 P("slam_02.ogg", E["broken"] - 0.2, 6)
 S(click(1), E["broken"] - 0.1, 10)
 S(click(2), E["broken"], 10)
-for seg, seed0 in ((E["dSteps"][0], 10), (E["dSteps"][1], 30), (E["mSteps"][0], 50), (E["mSteps"][1], 70)):
+for seg, seed0 in ((E["dSteps"][0], 10), (E["dSteps"][1], 20), (E["dSteps"][2], 30), (E["mSteps"][0], 50), (E["mSteps"][1], 70)):
     tt0, tt1 = seg["t0"], seg["t1"]
     n = max(2, int((tt1 - tt0) / 0.32))
     for i in range(n):

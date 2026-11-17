@@ -37,7 +37,7 @@ export const SIG: V3 = [PAINT[0] + PW * 0.33, PAINT[1] - PH * 0.42, PAINT[2] + 0
 export const DOOR_Z = 2.6;
 export const DOOR_W = 1.2;
 /** the tally of break-ins, on the wall beside the door (inside) */
-export const TALLY: V3 = [GX - 0.03, 1.45, DOOR_Z - DOOR_W - 0.75];
+export const TALLY: V3 = [GX - 0.03, 1.28, DOOR_Z - DOOR_W - 0.55];
 export const BENCH: V3 = [0, 0, -2.6];
 export const CAMERA_AT: V3 = [GX - 0.35, GH - 0.45, GZ - 0.45];
 
@@ -335,20 +335,37 @@ export const Gallery: React.FC<{ s: GalleryState }> = ({ s }) => {
         <planeGeometry args={[GX * 2, GZ * 2]} />
       </mesh>
       {[
-        [0, GH / 2, -GZ, GX * 2, GH, 0],
-        [0, GH / 2, GZ, GX * 2, GH, PI],
-        [-GX, GH / 2, 0, GZ * 2, GH, PI / 2],
-        [GX, GH / 2, 0, GZ * 2, GH, -PI / 2],
-      ].map(([x, y, z, w, h, ry], i) => (
-        <group key={i} position={[x, y, z]} rotation={[0, ry, 0]}>
-          <M g={boxG(w, h, 0.1)} c="#2f5a5a" tex="plaster" ts={0.8} p={[0, 0, -0.05]} recv />
-          <M g={boxG(w, 1.05, 0.06)} c="#6a4428" tex="wood" p={[0, -h / 2 + 0.52, 0.02]} />
-          <M g={boxG(w, 0.06, 0.1)} c="#8a6038" tex="wood" p={[0, -h / 2 + 1.05, 0.04]} />
-          <M g={boxG(w, 0.16, 0.1)} c="#2a1a12" tex="wood" p={[0, -h / 2 + 0.08, 0.04]} />
-          <M g={boxG(w, 0.22, 0.16)} c="#e8dcc0" tex="plaster" p={[0, h / 2 - 0.11, 0.06]} />
-          {Array.from({ length: Math.floor(w / 1.3) }, (_, k) => (
-            <M key={k} g={boxG(0.9, 0.62, 0.02)} c="#5a3a22" tex="wood" p={[-w / 2 + 0.65 + k * 1.3 + (w % 1.3) / 2, -h / 2 + 0.54, 0.055]} />
-          ))}
+        [0, GH / 2, -GZ, GX * 2, GH, 0, [[-GX, GX]]],
+        [0, GH / 2, GZ, GX * 2, GH, PI, [[-GX, GX]]],
+        [-GX, GH / 2, 0, GZ * 2, GH, PI / 2, [[-GZ, GZ]]],
+        // the right wall (local x = world z) is built in two runs with a real doorway cut between them
+        [GX, GH / 2, 0, GZ * 2, GH, -PI / 2, [[-GZ, DOOR_Z - DOOR_W], [DOOR_Z, GZ]]],
+      ].map(([x, y, z, w, h, ry, runs], i) => (
+        <group key={i} position={[x as number, y as number, z as number]} rotation={[0, ry as number, 0]}>
+          {(runs as number[][]).map(([a0, a1], j) => {
+            const rw = a1 - a0;
+            const c = (a0 + a1) / 2;
+            const H = h as number;
+            return (
+              <group key={j} position={[c, 0, 0]}>
+                <M g={boxG(rw, H, 0.1)} c="#2f5a5a" tex="plaster" ts={0.8} p={[0, 0, -0.05]} recv />
+                <M g={boxG(rw, 1.05, 0.06)} c="#6a4428" tex="wood" p={[0, -H / 2 + 0.52, 0.02]} />
+                <M g={boxG(rw, 0.06, 0.1)} c="#8a6038" tex="wood" p={[0, -H / 2 + 1.05, 0.04]} />
+                <M g={boxG(rw, 0.16, 0.1)} c="#2a1a12" tex="wood" p={[0, -H / 2 + 0.08, 0.04]} />
+                <M g={boxG(rw, 0.22, 0.16)} c="#e8dcc0" tex="plaster" p={[0, H / 2 - 0.11, 0.06]} />
+                {Array.from({ length: Math.floor(rw / 1.3) }, (_, k) => (
+                  <M key={k} g={boxG(0.9, 0.62, 0.02)} c="#5a3a22" tex="wood" p={[-rw / 2 + 0.65 + k * 1.3 + (rw % 1.3) / 2, -H / 2 + 0.54, 0.055]} />
+                ))}
+              </group>
+            );
+          })}
+          {i === 3 ? (
+            // the wall above the doorway, and the crown molding running across it
+            <group position={[DOOR_Z - DOOR_W / 2, 0, 0]}>
+              <M g={boxG(DOOR_W, (h as number) - 2.3, 0.1)} c="#2f5a5a" tex="plaster" ts={0.8} p={[0, (2.3 + (h as number)) / 2 - (h as number) / 2, -0.05]} recv />
+              <M g={boxG(DOOR_W, 0.22, 0.16)} c="#e8dcc0" tex="plaster" p={[0, (h as number) / 2 - 0.11, 0.06]} />
+            </group>
+          ) : null}
         </group>
       ))}
       <M g={boxG(GX * 2, 0.12, GZ * 2)} c="#d8d0c0" tex="plaster" p={[0, GH + 0.06, 0]} />
@@ -416,7 +433,15 @@ export const Gallery: React.FC<{ s: GalleryState }> = ({ s }) => {
         <Label text="EXIT" p={[0, 0, 0.03]} w={0.4} h={0.12} bg="none" fg="#f4fff4" font={0.85} />
       </group>
       {/* the side service door: a dark opening, a door hinged at its far edge, the tally of break-ins beside it */}
-      <M g={boxG(0.2, 2.25, DOOR_W)} c="#0a0c14" p={[GX + 0.02, 1.12, DOOR_Z - DOOR_W / 2]} />
+      {/* behind the door: a dark service corridor the guards come up (a real space, not a black slab) */}
+      <group position={[GX + 2.0, 0, DOOR_Z - DOOR_W / 2]}>
+        <M g={boxG(4.0, 0.06, DOOR_W + 0.4)} c="#2a2c30" tex="stone" p={[0, -0.03, 0]} />
+        <M g={boxG(4.0, 2.6, 0.1)} c="#2e3236" tex="plaster" p={[0, 1.3, -(DOOR_W + 0.4) / 2]} />
+        <M g={boxG(4.0, 2.6, 0.1)} c="#2e3236" tex="plaster" p={[0, 1.3, (DOOR_W + 0.4) / 2]} />
+        <M g={boxG(4.0, 0.1, DOOR_W + 0.5)} c="#24262a" p={[0, 2.6, 0]} />
+        <M g={boxG(0.1, 2.6, DOOR_W + 0.4)} c="#1c1e22" tex="plaster" p={[2.0, 1.3, 0]} />
+        <M g={boxG(0.06, 0.12, 0.4)} c="#3a3e44" tex="metal" p={[1.0, 2.45, 0]} />
+      </group>
       <group position={[GX - 0.06, 0, DOOR_Z]} rotation={[0, doorA, 0]}>
         <M g={boxG(0.06, 2.2, DOOR_W)} c="#5a6a72" tex="metal" p={[0, 1.1, -DOOR_W / 2]} />
         <M g={boxG(0.08, 0.06, 0.3)} c="#c8c8d0" tex="metal" p={[-0.05, 1.0, -DOOR_W + 0.2]} />
@@ -427,7 +452,7 @@ export const Gallery: React.FC<{ s: GalleryState }> = ({ s }) => {
       ))}
       <M g={boxG(0.12, 0.12, DOOR_W + 0.3)} c="#e8dcc0" tex="wood" p={[GX - 0.04, 2.33, DOOR_Z - DOOR_W / 2]} />
       <mesh position={TALLY} rotation={[0, -PI / 2, 0]} material={tallyMat(Math.round(s.tally))} userData={{ outline: false }}>
-        <planeGeometry args={[0.8, 0.4]} />
+        <planeGeometry args={[0.76, 0.34]} />
       </mesh>
       {/* the alarm: a red beacon over the door, and its strobe */}
       <group position={[GX - 0.15, 2.6, DOOR_Z + 0.4]}>

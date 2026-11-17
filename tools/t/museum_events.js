@@ -12576,7 +12576,7 @@ var PH = 1.36;
 var SIG = [PAINT[0] + PW * 0.33, PAINT[1] - PH * 0.42, PAINT[2] + 0.03];
 var DOOR_Z = 2.6;
 var DOOR_W = 1.2;
-var TALLY = [GX - 0.03, 1.45, DOOR_Z - DOOR_W - 0.75];
+var TALLY = [GX - 0.03, 1.28, DOOR_Z - DOOR_W - 0.55];
 var CAMERA_AT = [GX - 0.35, GH - 0.45, GZ - 0.45];
 var strokes = (g, seed, n, x0, y0, w, h, cols, len = 26, wid = 7) => {
   for (let i = 0; i < n; i++) {
@@ -12639,9 +12639,9 @@ var STUDIO_DOOR = [STUDIO[0] + 2.9, 0, STUDIO[2] + 1.2];
 var TICKET = [LOBBY[0] + 0.6, 0, LOBBY[2] - 1.4];
 
 // src/museum/words.gen.ts
-var WORDS = [["A", 0, 0.11], ["museum", 0.11, 0.6], ["got", 0.6, 0.82], ["broken", 0.82, 1.18], ["into", 1.18, 1.55], ["eleven", 1.55, 2.22], ["times,", 2.22, 2.96], ["and", 2.96, 3.28], ["nothing", 3.28, 3.67], ["was", 3.67, 3.92], ["ever", 3.92, 4.22], ["stolen.", 4.22, 4.9], ["Every", 5.32, 5.6], ["time,", 5.6, 6.06], ["guards", 6.29, 6.63], ["found", 6.63, 6.94], ["one", 6.94, 7.29], ["painting", 7.29, 7.79], ["hanging", 7.79, 8.19], ["slightly", 8.19, 8.74], ["crooked.", 8.74, 9.31], ["A", 9.81, 9.89], ["girl", 9.89, 10.35], ["in", 10.35, 10.5], ["a", 10.5, 10.57], ["yellow", 10.57, 10.93], ["dress.", 10.93, 11.52], ["The", 12.01, 12.11], ["cameras", 12.11, 12.52], ["showed", 12.52, 12.77], ["a", 12.77, 12.81], ["man", 12.81, 13.16], ["in", 13.16, 13.27], ["a", 13.27, 13.31], ["hoodie,", 13.31, 13.88], ["just", 13.99, 14.35], ["standing", 14.35, 14.86], ["in", 14.86, 14.95], ["front", 14.95, 15.21], ["of", 15.21, 15.31], ["it,", 15.31, 15.45], ["for", 15.67, 15.92], ["an", 15.92, 16.11], ["hour.", 16.11, 16.61], ["Then", 17.13, 17.28], ["he'd", 17.28, 17.41], ["leave.", 17.41, 17.81], ["The", 18.4, 18.49], ["twelfth", 18.49, 18.88], ["time,", 18.88, 19.31], ["they", 19.48, 19.59], ["caught", 19.59, 19.91], ["him.", 19.91, 20.04], ["He", 20.52, 20.62], ["was", 20.62, 20.88], ["eighty-one.", 20.88, 21.54], ["He", 22.11, 22.2], ["didn't", 22.2, 22.46], ["run.", 22.46, 22.84], ["He", 23.18, 23.27], ["just", 23.27, 23.55], ["pointed", 23.55, 23.95], ["at", 23.95, 24.08], ["the", 24.08, 24.15], ["signature", 24.15, 24.69], ["in", 24.69, 24.77], ["the", 24.77, 24.84], ["corner.", 24.84, 25.37], ["It", 25.79, 25.9], ["was", 25.9, 26.06], ["his.", 26.06, 26.58], ["He", 27, 27.14], ["painted", 27.14, 27.49], ["his", 27.49, 27.64], ["wife", 27.64, 27.96], ["at", 27.96, 28.1], ["twenty", 28.1, 28.6], ["and", 28.6, 28.76], ["sold", 28.76, 29.1], ["it", 29.1, 29.19], ["for", 29.19, 29.32], ["rent", 29.32, 29.57], ["money.", 29.57, 29.96], ["She", 30.44, 30.58], ["passed", 30.58, 30.99], ["last", 30.99, 31.25], ["spring,", 31.25, 31.88], ["and", 31.88, 32.17], ["he", 32.17, 32.32], ["couldn't", 32.32, 32.59], ["afford", 32.59, 32.89], ["a", 32.89, 32.95], ["ticket", 32.95, 33.27], ["to", 33.27, 33.36], ["see", 33.36, 33.65], ["her.", 33.65, 34.02], ["The", 34.42, 34.48], ["museum", 34.48, 34.92], ["didn't", 34.92, 35.15], ["press", 35.15, 35.41], ["charges.", 35.41, 36.05], ["They", 36.39, 36.51], ["gave", 36.51, 36.73], ["him", 36.73, 36.84], ["a", 36.84, 36.88], ["key.", 36.88, 37.34]];
+var WORDS = [["A", 0, 0.1], ["museum", 0.1, 0.55], ["got", 0.55, 0.74], ["broken", 0.74, 1.08], ["into", 1.08, 1.42], ["eleven", 1.42, 2.01], ["times,", 2.01, 2.69], ["and", 2.69, 2.98], ["nothing", 2.98, 3.32], ["was", 3.32, 3.56], ["ever", 3.56, 3.84], ["stolen.", 3.84, 4.43], ["Every", 4.84, 5.1], ["time,", 5.1, 5.51], ["guards", 5.72, 6.04], ["found", 6.04, 6.27], ["one", 6.27, 6.63], ["painting", 6.63, 7.09], ["hanging", 7.09, 7.45], ["slightly", 7.45, 7.95], ["crooked.", 7.95, 8.47], ["A", 8.9, 8.98], ["girl", 8.98, 9.41], ["in", 9.41, 9.55], ["a", 9.55, 9.63], ["yellow", 9.63, 9.94], ["dress.", 9.94, 10.49], ["The", 10.92, 11.01], ["cameras", 11.01, 11.39], ["showed", 11.39, 11.62], ["a", 11.62, 11.66], ["man", 11.66, 11.97], ["in", 11.97, 12.06], ["a", 12.06, 12.11], ["hoodie,", 12.11, 12.63], ["just", 12.73, 13.05], ["standing", 13.05, 13.51], ["in", 13.51, 13.6], ["front", 13.6, 13.84], ["of", 13.84, 13.93], ["it,", 13.93, 14.11], ["for", 14.24, 14.47], ["an", 14.47, 14.63], ["hour.", 14.63, 15.11], ["Then", 15.56, 15.71], ["he'd", 15.71, 15.83], ["leave.", 15.83, 16.15], ["The", 16.72, 16.81], ["twelfth", 16.81, 17.18], ["time,", 17.18, 17.58], ["they", 17.7, 17.81], ["caught", 17.81, 18.11], ["him.", 18.11, 18.21], ["He", 18.65, 18.74], ["was", 18.74, 18.98], ["eighty-one.", 18.98, 19.65], ["He", 20.09, 20.18], ["didn't", 20.18, 20.42], ["run.", 20.42, 20.76], ["He", 21.07, 21.15], ["just", 21.15, 21.41], ["pointed", 21.41, 21.78], ["at", 21.78, 21.89], ["the", 21.89, 21.96], ["signature", 21.96, 22.45], ["in", 22.45, 22.51], ["the", 22.51, 22.58], ["corner.", 22.58, 23.04], ["It", 23.45, 23.55], ["was", 23.55, 23.7], ["his.", 23.7, 24.17], ["He", 24.56, 24.67], ["painted", 24.67, 24.98], ["his", 24.98, 25.14], ["wife", 25.14, 25.43], ["at", 25.43, 25.54], ["twenty", 25.54, 26], ["and", 26, 26.15], ["sold", 26.15, 26.46], ["it", 26.46, 26.55], ["for", 26.55, 26.68], ["rent", 26.68, 26.89], ["money.", 26.89, 27.25], ["She", 27.66, 27.79], ["passed", 27.79, 28.18], ["last", 28.18, 28.42], ["spring,", 28.42, 28.94], ["and", 28.99, 29.25], ["he", 29.25, 29.37], ["couldn't", 29.37, 29.63], ["afford", 29.63, 29.91], ["a", 29.91, 29.96], ["ticket", 29.96, 30.25], ["to", 30.25, 30.34], ["see", 30.34, 30.6], ["her.", 30.6, 30.79], ["The", 31.28, 31.35], ["museum", 31.35, 31.75], ["didn't", 31.75, 31.96], ["press", 31.96, 32.2], ["charges.", 32.2, 32.78], ["They", 33.07, 33.19], ["gave", 33.19, 33.39], ["him", 33.39, 33.5], ["a", 33.5, 33.54], ["key.", 33.54, 33.93]];
 var FPS = 30;
-var SECONDS = 38.8;
+var SECONDS = 35.4;
 var DURATION = Math.round(SECONDS * FPS);
 
 // src/museum/shots.ts
@@ -12762,12 +12762,13 @@ var torchArm = (spec, p, yaw, to, lean = 0) => {
   const tgt = [sh[0] + d[0] / L * 0.55, sh[1] + d[1] / L * 0.55, sh[2] + d[2] / L * 0.55];
   return ik(spec, p, yaw, "R", tgt, lean);
 };
+var D_DOOR = { t0: T.broken - 0.1, t1: T.broken + 0.5, from: [6.6, 0, 2], to: [4.55, 0, 1.95] };
 var D_IN = [
-  { t0: T.broken - 0.15, t1: T.eleven - 0.05, from: [6.4, 0, 1.9], to: [4.45, 0, 0.6] },
-  { t0: T.every + 0.05, t1: T.slightly - 0.1, from: [4.45, 0, 0.6], to: [0.62, 0, -5.3] }
+  { t0: T.broken + 0.5, t1: T.eleven - 0.05, from: [4.55, 0, 1.95], to: [4.5, 0, 0.1] },
+  { t0: T.every + 0.05, t1: T.slightly - 0.1, from: [4.5, 0, 0.05], to: [0.62, 0, -5.3] }
 ];
 var M_IN = [
-  { t0: T.broken, t1: T.eleven + 0.25, from: [6.6, 0, 2.3], to: [3.4, 0, 2.35] },
+  { t0: T.broken + 0.2, t1: T.eleven + 0.35, from: [7.4, 0, 2], to: [3.4, 0, 2.3] },
   { t0: T.every + 0.25, t1: T.crooked + 0.05, from: [3.4, 0, 2.35], to: [-0.75, 0, -4.6] },
   { t0: T.crooked + 0.55, t1: T.yellow + 0.1, from: [-0.75, 0, -4.6], to: [-1.05, 0, -4.2] }
 ];
@@ -12779,10 +12780,11 @@ var sweep = (t) => {
 };
 var tiltAt = (t, base) => base * (1 - smooth((t - T.crooked - 0.1) / 0.35));
 var dolores1 = (t) => {
-  const w = walkAt([D_IN[0], D_IN[1], D_BACK], [6.4, 0, 1.9], t, DOLORES.height);
+  const w = walkAt([D_DOOR, D_IN[0], D_IN[1], D_BACK], [6.6, 0, 2], t, DOLORES.height);
   const p = w.p;
   let yaw = -PI2 / 2 - 0.15;
-  if (t > D_IN[0].t1 - 0.2) yaw = lerp2(-PI2 / 2, PI2 / 2, smooth((t - D_IN[0].t1 + 0.2) / 0.3));
+  if (t > D_DOOR.t1 - 0.15) yaw = lerp2(-PI2 / 2, -PI2, smooth((t - D_DOOR.t1 + 0.15) / 0.25));
+  if (t > D_IN[0].t1 - 0.2) yaw = lerp2(-PI2, -1.5 * PI2, smooth((t - D_IN[0].t1 + 0.2) / 0.3));
   if (t > T.nothing - 0.1) yaw = lerp2(PI2 / 2, yawTo(D_IN[1].from, D_IN[1].to), smooth((t - T.nothing + 0.1) / 0.35));
   if (t > D_IN[1].t1 - 0.1) yaw = PI2;
   if (t > D_BACK.t0) yaw = lerp2(PI2, PI2 - 0.3, smooth((t - D_BACK.t0) / 0.4));
@@ -12794,8 +12796,10 @@ var dolores1 = (t) => {
   pose = { ...pose, armR: ta.arm, armRFwd: ta.fwd };
   if (mark > 0) {
     const sw = Math.sin(clamp3((t - T.eleven - 0.05) / 0.35) * PI2) * 0.12;
-    const k = ik(DOLORES, p, yaw, "L", add(TALLY, [-0.12, 0.12 - sw, -0.25 + sw]), 4);
-    pose = { ...pose, armL: mixArm([18, 10], k.arm, mark), armLFwd: lerp2(10, k.fwd, mark) };
+    const k = ik(DOLORES, p, yaw, "R", add(TALLY, [-0.1, 0.12 - sw, 0.25 - sw]), 4);
+    void k;
+    const kL = ik(DOLORES, p, yaw, "L", add(TALLY, [-0.1, 0.12 - sw, 0.25 - sw]), 4);
+    pose = { ...pose, armL: mixArm([18, 10], kL.arm, mark), armLFwd: lerp2(10, kL.fwd, mark) };
   }
   const fix = window01(t, T.crooked - 0.25, T.crooked + 0.5, 0.25, 0.25);
   if (fix > 0) {
@@ -12810,7 +12814,7 @@ var dolores1 = (t) => {
   return { actor: OFF(DOLORES, p, yaw, pose, face), torch: hand(DOLORES, p, yaw, pose, "R"), torchTo, marker: mark > 0.2 ? hand(DOLORES, p, yaw, pose, "L") : void 0 };
 };
 var marcus1 = (t) => {
-  const w = walkAt(M_IN, [6.6, 0, 2.3], t, MARCUS.height);
+  const w = walkAt(M_IN, [7.4, 0, 2], t, MARCUS.height);
   const p = w.p;
   let yaw = -PI2 / 2;
   if (t > M_IN[0].t1 - 0.2) yaw = lerp2(-PI2 / 2, -PI2 / 2 - 0.5, smooth((t - M_IN[0].t1 + 0.2) / 0.3));
@@ -12837,8 +12841,8 @@ var S1 = {
     keyed([
       [0, C([3.5, 1.45, 4.1], [5.15, 1.25, 2], 50)],
       [T.broken + 0.5, C([2, 1.6, 4.9], [4.6, 1.35, 1.9], 54), "out"],
-      [T.eleven + 0.1, C([3.95, 1.7, -0.6], [5.1, 1.45, 0.85], 46), "inout"],
-      [T.times + 0.35, C([3.9, 1.7, -0.55], [5.1, 1.45, 0.85], 46)],
+      [T.eleven + 0.1, C([3.75, 1.55, 1.75], [5, 1.3, 0.8], 44), "inout"],
+      [T.nothing - 0.12, C([3.8, 1.55, 1.65], [5, 1.3, 0.8], 44)],
       [T.nothing + 0.45, C([2.6, 1.75, 3.2], [-GX, 2, 0.2], 58), "inout"],
       [T.stolen - 0.2, C([1.55, 1.6, 0.85], [3, 1.6, 2], 50), "inout"],
       [T.every + 0.1, C([2.4, 1.7, 2.6], [1.8, 1.5, 0.8], 54), "inout"],
@@ -13057,7 +13061,7 @@ var S6 = {
     keyed([
       [T.she - 0.02, C([H_L[0] + 0.7, 1.22, H_L[2] - 1.25], [H_L[0] + 0.1, 1.25, H_L[2] - 0.3], 40)],
       [T.spring + 0.3, C([H_L[0] + 0.75, 1.25, H_L[2] - 1.35], [H_L[0] + 0.05, 1.35, H_L[2] - 0.25], 42)],
-      [T.couldnt + 0.1, C([H_L[0] + 1.6, 1.75, H_L[2] - 0.3], [TICKET[0], 2.3, TICKET[2] - 0.9], 46), "inout"],
+      [T.couldnt + 0.1, C([H_L[0] + 1.9, 2.05, H_L[2] - 0.2], [TICKET[0], 2.35, TICKET[2] - 0.9], 46), "inout"],
       [T.ticket, C([H_L[0] + 0.45, 1.75, H_L[2] + 1.15], [TICKET[0], 2.55, TICKET[2] - 0.9], 46), "inout"],
       [T.see + 0.6, C([H_L[0] + 0.55, 1.55, H_L[2] + 1.55], [H_L[0], 1.4, H_L[2]], 44), "inout"]
     ]),
@@ -13145,7 +13149,7 @@ var SCENES = [S1, S2, S3, S4, S5, S6, S7];
 var MUSEUM_EVENTS = () => ({
   ...T,
   cuts: SCENES.map((s) => s.t0),
-  dSteps: [D_IN[0], D_IN[1], D_BACK],
+  dSteps: [D_DOOR, D_IN[0], D_IN[1], D_BACK],
   mSteps: M_IN,
   ropeZ: ROPE_Z,
   doorZ: DOOR_Z

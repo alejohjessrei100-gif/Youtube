@@ -133,12 +133,14 @@ const torchArm = (spec: CharacterSpec, p: V3, yaw: number, to: V3, lean = 0) => 
 };
 
 // ================================================================== 1. the gallery: break-in #11, the crooked painting
+// in through the doorway first (the opening is z 1.4 to 2.6 at x = GX), THEN along the wall to the tally
+const D_DOOR: WalkSeg = { t0: T.broken - 0.1, t1: T.broken + 0.5, from: [6.6, 0, 2.0], to: [4.55, 0, 1.95] };
 const D_IN: WalkSeg[] = [
-  { t0: T.broken - 0.15, t1: T.eleven - 0.05, from: [6.4, 0, 1.9], to: [4.5, 0, 0.05] },
+  { t0: T.broken + 0.5, t1: T.eleven - 0.05, from: [4.55, 0, 1.95], to: [4.5, 0, 0.1] },
   { t0: T.every + 0.05, t1: T.slightly - 0.1, from: [4.5, 0, 0.05], to: [0.62, 0, -5.3] },
 ];
 const M_IN: WalkSeg[] = [
-  { t0: T.broken, t1: T.eleven + 0.25, from: [6.6, 0, 2.3], to: [3.4, 0, 2.35] },
+  { t0: T.broken + 0.2, t1: T.eleven + 0.35, from: [7.4, 0, 2.0], to: [3.4, 0, 2.3] },
   { t0: T.every + 0.25, t1: T.crooked + 0.05, from: [3.4, 0, 2.35], to: [-0.75, 0, -4.6] },
   { t0: T.crooked + 0.55, t1: T.yellow + 0.1, from: [-0.75, 0, -4.6], to: [-1.05, 0, -4.2] },
 ];
@@ -151,10 +153,11 @@ const sweep = (t: number): V3 => {
 };
 const tiltAt = (t: number, base: number) => base * (1 - smooth((t - T.crooked - 0.1) / 0.35));
 const dolores1 = (t: number) => {
-  const w = walkAt([D_IN[0], D_IN[1], D_BACK], [6.4, 0, 1.9], t, DOLORES.height);
+  const w = walkAt([D_DOOR, D_IN[0], D_IN[1], D_BACK], [6.6, 0, 2.0], t, DOLORES.height);
   const p = w.p;
   let yaw = -PI / 2 - 0.15;
-  if (t > D_IN[0].t1 - 0.2) yaw = lerp(-PI / 2, PI / 2, smooth((t - D_IN[0].t1 + 0.2) / 0.3));
+  if (t > D_DOOR.t1 - 0.15) yaw = lerp(-PI / 2, -PI, smooth((t - D_DOOR.t1 + 0.15) / 0.25));
+  if (t > D_IN[0].t1 - 0.2) yaw = lerp(-PI, -1.5 * PI, smooth((t - D_IN[0].t1 + 0.2) / 0.3));
   if (t > T.nothing - 0.1) yaw = lerp(PI / 2, yawTo(D_IN[1].from, D_IN[1].to), smooth((t - T.nothing + 0.1) / 0.35));
   if (t > D_IN[1].t1 - 0.1) yaw = PI;
   if (t > D_BACK.t0) yaw = lerp(PI, PI - 0.3, smooth((t - D_BACK.t0) / 0.4));
@@ -190,7 +193,7 @@ const dolores1 = (t: number) => {
   return { actor: OFF(DOLORES, p, yaw, pose, face), torch: hand(DOLORES, p, yaw, pose, "R"), torchTo, marker: mark > 0.2 ? hand(DOLORES, p, yaw, pose, "L") : undefined };
 };
 const marcus1 = (t: number) => {
-  const w = walkAt(M_IN, [6.6, 0, 2.3], t, MARCUS.height);
+  const w = walkAt(M_IN, [7.4, 0, 2.0], t, MARCUS.height);
   const p = w.p;
   let yaw = -PI / 2;
   if (t > M_IN[0].t1 - 0.2) yaw = lerp(-PI / 2, -PI / 2 - 0.5, smooth((t - M_IN[0].t1 + 0.2) / 0.3));
@@ -217,8 +220,8 @@ const S1: Scene = {
     keyed([
       [0, C([3.5, 1.45, 4.1], [5.15, 1.25, 2.0], 50)],
       [T.broken + 0.5, C([2.0, 1.6, 4.9], [4.6, 1.35, 1.9], 54), "out"],
-      [T.eleven + 0.1, C([3.8, 1.65, 1.6], [5.0, 1.42, 0.55], 46), "inout"],
-      [T.times + 0.35, C([3.85, 1.65, 1.5], [5.0, 1.42, 0.55], 46)],
+      [T.eleven + 0.1, C([3.75, 1.55, 1.75], [5.0, 1.3, 0.8], 44), "inout"],
+      [T.nothing - 0.12, C([3.8, 1.55, 1.65], [5.0, 1.3, 0.8], 44)],
       [T.nothing + 0.45, C([2.6, 1.75, 3.2], [-GX, 2.0, 0.2], 58), "inout"],
       [T.stolen - 0.2, C([1.55, 1.6, 0.85], [3.0, 1.6, 2.0], 50), "inout"],
       [T.every + 0.1, C([2.4, 1.7, 2.6], [1.8, 1.5, 0.8], 54), "inout"],
@@ -437,7 +440,7 @@ const S6: Scene = {
     keyed([
       [T.she - 0.02, C([H_L[0] + 0.7, 1.22, H_L[2] - 1.25], [H_L[0] + 0.1, 1.25, H_L[2] - 0.3], 40)],
       [T.spring + 0.3, C([H_L[0] + 0.75, 1.25, H_L[2] - 1.35], [H_L[0] + 0.05, 1.35, H_L[2] - 0.25], 42)],
-      [T.couldnt + 0.1, C([H_L[0] + 1.6, 1.75, H_L[2] - 0.3], [TICKET[0], 2.3, TICKET[2] - 0.9], 46), "inout"],
+      [T.couldnt + 0.1, C([H_L[0] + 1.9, 2.05, H_L[2] - 0.2], [TICKET[0], 2.35, TICKET[2] - 0.9], 46), "inout"],
       [T.ticket, C([H_L[0] + 0.45, 1.75, H_L[2] + 1.15], [TICKET[0], 2.55, TICKET[2] - 0.9], 46), "inout"],
       [T.see + 0.6, C([H_L[0] + 0.55, 1.55, H_L[2] + 1.55], [H_L[0], 1.4, H_L[2]], 44), "inout"],
     ]),
@@ -532,7 +535,7 @@ export const sceneAt = (t: number) => {
 export const MUSEUM_EVENTS = () => ({
   ...T,
   cuts: SCENES.map((s) => s.t0),
-  dSteps: [D_IN[0], D_IN[1], D_BACK],
+  dSteps: [D_DOOR, D_IN[0], D_IN[1], D_BACK],
   mSteps: M_IN,
   ropeZ: ROPE_Z,
   doorZ: DOOR_Z,
