@@ -3,6 +3,7 @@ entirely from code, rendered as one 1080x1920 still in EEVEE and in Cycles for a
     blender -b -P gallery_test.py -- <engine: eevee|cycles> <out.png> <painting.png>
 Blender is Z-up: a three.js point (x, y, z) is (x, -z, y) here."""
 import math
+import os
 import sys
 
 import bpy
@@ -202,7 +203,7 @@ part(sph, "hairback", 0, 1.58, -0.12, (0.15, 0.08, 0.1), M["hair"])
 for sx in (-1, 1):
     part(sph, f"eyew{sx}", sx * 0.06, 1.65, 0.168, (0.035, 0.012, 0.042), M["white"])
     part(sph, f"pupil{sx}", sx * 0.06, 1.645, 0.178, (0.017, 0.006, 0.02), M["black"])
-    part(tor, f"lens{sx}", sx * 0.06, 1.65, 0.185, (1, 1, 1), M["glass"], major_radius=0.045, minor_radius=0.005, rotation=(math.pi / 2, 0, 0))
+    part(tor, f"lens{sx}", sx * 0.06, 1.65, 0.185, (1, 1, 1), M["glass"], major_radius=0.045, minor_radius=0.005).rotation_euler = (math.pi / 2, 0, 0)
     part(sph, f"brow{sx}", sx * 0.062, 1.715, 0.17, (0.035, 0.008, 0.01), M["hair"])
 part(cyl, "bridge", 0, 1.655, 0.186, (0.003, 0.003, 0.02), M["glass"], vertices=6).rotation_euler = (0, math.pi / 2, 0)
 part(sph, "nose", 0, 1.6, 0.18, (0.022, 0.03, 0.02), M["skin"])
@@ -280,6 +281,11 @@ else:
     for attr, val in (("taa_render_samples", 64), ("use_raytracing", True), ("use_shadows", True), ("use_gtao", True), ("use_bloom", True), ("use_soft_shadows", True)):
         if hasattr(ee, attr):
             setattr(ee, attr, val)
+if os.environ.get("PREVIEW"):  # a quick low-res CPU check before spending GPU time
+    r.resolution_percentage = 30
+    if ENGINE == "cycles":
+        sc.cycles.device = "CPU"
+        sc.cycles.samples = 24
 print("engine:", r.engine, "->", OUT)
 bpy.ops.render.render(write_still=True)
 print("done", OUT)
