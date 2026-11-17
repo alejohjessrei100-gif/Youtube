@@ -88,6 +88,8 @@ export type Look = {
   face?: Partial<FaceStyle>;
   /** head shape variant (any integer); default derived from the look */
   seed?: number;
+  /** a skirt (dress) from the waist to below the knee, in this color */
+  skirt?: string;
 };
 
 export type FaceState = {
@@ -372,7 +374,7 @@ export const Character3D: React.FC<CharacterProps> = (props) => {
   const parts = hatParts(hat, seed);
   const hatColor = capLum(look.hatColor ?? HAT_COLORS[hat] ?? CLOTH.charcoal, HAT_MAX_L);
   const hatBand = look.hatBand ?? (hat === "beanie" ? CLOTH.cream : hat === "sunhat" ? CLOTH.rose : shade(hatColor, 0.6));
-  const hairG = hair === "none" ? null : hat !== "none" ? hattedHairGeo(hat, hair, seed) : hairGeo(hair, seed);
+  const hairG = hair === "none" ? null : hat !== "none" && hat !== "hoodDown" ? hattedHairGeo(hat, hair, seed) : hairGeo(hair, seed);
   const hairHem = hairG && hat !== "none" ? hairHemGeo(hairG) : null;
   const bun = hair === "bun" && hat === "none" ? bunGeo(seed) : null;
   const ears = (look.ears ?? true) && !(hair === "bob" && hat === "none");
@@ -412,6 +414,9 @@ export const Character3D: React.FC<CharacterProps> = (props) => {
                 <Inked geo={torsoGeo(b.torso, b.torsoWidth, b.torsoDepth, b.torsoHeight, b.shoulders)} mat={torsoMat} ink={ink("torso")} under={under("torso")} cast={cast} />
               </group>
               <Neck l={l} mat={skinM} ink={ink("ear")} cast={cast} />
+              {look.skirt ? (
+                <Inked geo={skirtGeo(TORSO_R * b.torsoWidth, l.hipY)} mat={charMat(look.skirt, { spec: LIGHT.clothSpec, map: clothTexture("shirt", { ...colors, top: look.skirt }, seed + 7) })} ink={ink("torso")} under={under("torso")} cast={cast} />
+              ) : null}
               {/* arms, cuffs, hands */}
               {[limbs.aL, limbs.aR].map((a, i) => (
                 <group key={i} position={a.S} rotation={[swing(a.side), 0, 0]}>
@@ -466,6 +471,32 @@ export const Character3D: React.FC<CharacterProps> = (props) => {
 };
 
 // ------------------------------------------------------------------ neck
+const skirtCache = new Map<string, THREE.BufferGeometry>();
+/** a flared skirt: a lathe from just above the hips to below the knee, with soft folds */
+const skirtGeo = (r: number, hipY: number) => {
+  const key = r.toFixed(4) + "|" + hipY.toFixed(4);
+  const hit = skirtCache.get(key);
+  if (hit) return hit;
+  const top = hipY + 0.07;
+  const bottom = hipY * 0.38;
+  const pts: THREE.Vector2[] = [];
+  for (let i = 0; i <= 12; i++) {
+    const u = i / 12;
+    pts.push(new THREE.Vector2(r * (0.98 + 0.55 * Math.pow(u, 1.3)), top + (bottom - top) * u));
+  }
+  const g = new THREE.LatheGeometry(pts, 48);
+  const p = g.attributes.position as THREE.BufferAttribute;
+  for (let i = 0; i < p.count; i++) {
+    const x = p.getX(i), y = p.getY(i), z = p.getZ(i);
+    const a = Math.atan2(x, z);
+    const u = (top - y) / (top - bottom);
+    const k = 1 + 0.06 * u * Math.sin(a * 9);
+    p.setXYZ(i, x * k, y, z * k * 0.92);
+  }
+  g.computeVertexNormals();
+  skirtCache.set(key, g);
+  return g;
+};
 const neckCache = new Map<string, THREE.BufferGeometry>();
 const Neck: React.FC<{ l: Layout; mat: THREE.Material; ink: number; cast: boolean }> = ({ l, mat, ink, cast }) => {
   const r = NECK_R * Math.sqrt(l.b.headScale) * (0.85 + 0.15 * l.b.torsoWidth);

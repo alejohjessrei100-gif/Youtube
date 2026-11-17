@@ -14,12 +14,14 @@ import { MeatShower, MEAT_FRAMES } from "./meat/MeatShower";
 import { DirectorLab, DIR_FRAMES } from "./directorlab/DirectorLab";
 import { HatLab } from "./hatlab/HatLab";
 import { GullShort, GULL_FRAMES } from "./gull/Gull";
+import { MuseumShort, MUSEUM_FRAMES } from "./museum/Museum";
 
 // DemoHero: a low hero framing with foreground props. Demo: one still. Demo-<mood>: the same frame in each act light. DemoWide: the whole set.
 // DemoCast: the three example characters in a row (a landscape family sheet).
 // DemoMove: a 3 s beat-rig move (sharp). DemoMoveSub: the same at SUB × fps for motion blur (average with ffmpeg tmix).
 export const Root: React.FC = () => (
   <>
+    <Composition id="Museum" component={MuseumShort} durationInFrames={MUSEUM_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: true }} />
     <Composition id="Gull" component={GullShort} durationInFrames={GULL_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: true }} />
     <Composition id="HatLab" component={HatLab} durationInFrames={6} fps={30} width={1600} height={900} />
     <Composition id="DirectorLab" component={DirectorLab} durationInFrames={DIR_FRAMES} fps={30} width={1080} height={1920} />

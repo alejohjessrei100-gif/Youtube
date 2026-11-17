@@ -303,7 +303,7 @@ export const bunGeo = (seed: number) => {
 };
 
 /** polar angle (deg from the top) where hair starts under each hat, just above the band's lower edge */
-const HAT_HAIR_A0: Record<string, number> = { cap: 66, flat: 54, beanie: 74, sunhat: 60 };
+const HAT_HAIR_A0: Record<string, number> = { cap: 66, flat: 54, beanie: 74, sunhat: 60, hood: 72 };
 /** hair under a hat: temples, over the ears, around the back to a soft nape; an ink line along its front edge and hem */
 export const hattedHairGeo = (hat: string, kind: HairKind, seed: number) => {
   const key = "hatted|" + hat + "|" + kind + "|" + seed;
@@ -759,6 +759,25 @@ export const hatParts = (hat: string, seed: number): HatPart[] => {
       parts.push({ geo: capGeo({ seed, a0: () => 0, a1: () => A1, thick: (s2) => 0.09 + 0.14 * (1 - s2) * (1 - s2), nt: 96, na: 26 }), color: "hat", spec: 0.08, hull: true, cast: true, tex: "weave" });
       parts.push({ geo: capGeo({ seed, a0: () => A1 - 12 * D2R, a1: () => A1 - 1 * D2R, thick: () => 0.105, nt: 96, na: 4 }), color: "band", spec: 0.25, hull: true });
       parts.push({ geo: brimGeo(seed, A1 + 1 * D2R, 0.09, R * 0.92, 0.22, R * 0.05), color: "hat", spec: 0.05, hull: true, cast: true, tex: "weave", rim: 0 });
+      break;
+    }
+    case "hood": {
+      // a hoodie hood up: roomy fabric over the crown, framing the face at the front and falling to the nape at the back
+      const a1 = (th: number) => {
+        const f = fromFront(th);
+        return (48 + 74 * sstep(0.25, 1.5, f) + 34 * sstep(1.6, 2.9, f)) * D2R;
+      };
+      parts.push({ geo: capGeo({ seed, a0: () => 0, a1, thick: (s2, th) => 0.15 + 0.06 * (1 - s2) + 0.04 * sstep(1.5, 2.8, fromFront(th)) * s2, nt: 96, na: 28 }), color: "hat", spec: 0.06, hull: true, cast: true, tex: "rib" });
+      parts.push({ geo: capGeo({ seed, a0: (th) => a1(th) - 7 * D2R, a1: (th) => a1(th), thick: () => 0.2, nt: 96, na: 5 }), color: "hat", spec: 0.05, hull: true });
+      break;
+    }
+    case "hoodDown": {
+      // a hood pushed back: fabric bunched behind the neck
+      const t0 = 1.9;
+      parts.push({
+        geo: capGeo({ seed, t0, t1: Math.PI * 2 - t0, a0: () => 118 * D2R, a1: () => 168 * D2R, thick: (s2, th) => 0.18 + 0.2 * Math.sin(Math.PI * s2) * sstep(1.9, 2.6, fromFront(th)), nt: 60, na: 16 }),
+        color: "hat", spec: 0.05, hull: true, cast: true, tex: "rib",
+      });
       break;
     }
     default:
