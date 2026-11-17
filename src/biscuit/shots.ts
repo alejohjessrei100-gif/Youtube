@@ -350,8 +350,9 @@ const sceneC = {
       [T.saw + 0.1, C([2.9, 1.55, 12.4], [2.1, 1.4, 14.9], 46), "inout"],
       [T.old, C([MAILBOX[0] + 0.9, 1.25, 11.5], [MAILBOX[0] + 3.5, 0.7, CZ], 44), "inout"],
       [T.walking + 0.2, C([MAILBOX[0] + 2.4, 1.25, 11.2], [MAILBOX[0] + 2.0, 0.65, CZ], 44), "inout"],
-      [T.bumping, C([MAILBOX[0] - 0.28, 0.9, 12.6], [MAILBOX[0] + 0.92, 0.75, CZ], 42), "inout"],
-      [T.biscuit3, C([MAILBOX[0] - 0.28, 0.9, 12.6], [MAILBOX[0] + 0.97, 0.8, CZ], 42)],
+      // the bump: the mailbox (left) and his face (right) both in frame
+      [T.bumping, C([MAILBOX[0] - 0.75, 0.95, 12.3], [MAILBOX[0] + 0.45, 0.75, CZ], 46), "inout"],
+      [T.biscuit3, C([MAILBOX[0] - 0.75, 0.95, 12.3], [MAILBOX[0] + 0.5, 0.8, CZ], 46)],
       [T.lost + 0.4, C([MAILBOX[0] + 1.12, 1.3, 11.6], [MAILBOX[0] + 1.02, 0.85, 14.5], 46), "inout"],
       [T.fourteen + 0.2, C([MAILBOX[0] + 1.77, 1.0, 12.45], [MAILBOX[0] + 1.32, 0.88, 13.77], 46), "inout"],
       [T.still, C([MAILBOX[0] + 1.74, 1.0, 12.45], [MAILBOX[0] + 1.32, 0.88, 13.77], 46)],

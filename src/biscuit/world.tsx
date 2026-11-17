@@ -414,9 +414,6 @@ export const Dog: React.FC<{ d: DogState }> = ({ d }) => {
             {/* body */}
             <M g={sphG(1, 20)} c={GOLD} p={[0, 0.58 + breath, 0.02]} s={[0.25, 0.25 + breath, 0.48]} />
             <M g={sphG(1, 16)} c={CREAM} p={[0, 0.52, 0.32]} s={[0.2, 0.22, 0.2]} />
-            {/* the red collar and its tag */}
-            <M g={torG(0.15, 0.025)} c="#c8282e" p={[0, 0.78, 0.46]} r={[PI / 2 - 0.5, 0, 0]} />
-            <M g={cylG(0.035, 0.035, 0.01, 12)} c="#e8c040" tex="metal" p={[0, 0.66, 0.6]} r={[PI / 2 - 0.3, 0, 0]} />
             {/* front legs */}
             {[-1, 1].map((sd, k) => (
               <group key={`f${sd}`} position={[sd * 0.13, 0.52, 0.32]} rotation={[legSwing(k), 0, 0]}>
@@ -444,6 +441,9 @@ export const Dog: React.FC<{ d: DogState }> = ({ d }) => {
         {/* the head: skull, a grey muzzle, black nose, cloudy blind eyes, floppy ears */}
         <group position={[0, 0.86 + 0.18 * sit, 0.5 - 0.08 * sit]} rotation={[d.headNod - 0.35 * d.bonk, d.headYaw, d.headTilt]}>
           <M g={sphG(1, 18)} c={GOLD} p={[0, 0.03, 0]} s={[0.17, 0.16, 0.18]} />
+          {/* the red collar and its tag, around the neck just behind the head (it moves with the head, never floats) */}
+          <M g={torG(0.13, 0.024)} c="#c8282e" p={[0, -0.13, -0.08]} r={[PI / 2 + 0.35, 0, 0]} />
+          <M g={cylG(0.035, 0.035, 0.01, 12)} c="#e8c040" tex="metal" p={[0, -0.26, -0.02]} r={[PI / 2 - 0.2, 0, 0]} />
           <M g={sphG(1, 14)} c={GREY} p={[0, -0.04, 0.17]} s={[0.1, 0.085, 0.13]} />
           <M g={sphG(0.04, 10)} c="#141014" p={[0, -0.01, 0.3]} s={[1.2, 0.8, 0.8]} />
           {d.mouth > 0.05 ? (
