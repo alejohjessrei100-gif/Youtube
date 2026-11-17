@@ -12,7 +12,7 @@ import type { FaceStyle } from "./family";
 const SIZE = 1024;
 const PX = SIZE / (2 * FACE_SPAN); // px per hw
 
-export type Brows = "none" | "angry" | "worried" | "raised" | "neutral";
+export type Brows = "none" | "angry" | "worried" | "raised" | "neutral" | "high" | "furious";
 export type FaceSpec = {
   eyes?: Eyes;
   mouth?: Mouth;
@@ -162,6 +162,48 @@ const drawEye = (ctx: Ctx, s: -1 | 1, eyes: Eyes, look: number, blink: boolean, 
       taper(ctx, [cx - 0.08, EYE_Y + 0.105], [cx, EYE_Y + 0.085], [cx + 0.08, EYE_Y + 0.105], 0.022, 0.008, shade(INK, 1.0));
       return;
     }
+    case "huge": {
+      // the shock take: big whites, pinpoint pupils, the lid line far above
+      ellipse(ctx, cx, EYE_Y - 0.03, 0.165, 0.205, FACE_COLORS.sclera, INK, 0.03);
+      ellipse(ctx, cx + lx * 1.4, EYE_Y - 0.01, 0.034, 0.042, INK);
+      ellipse(ctx, cx + lx * 1.4 + 0.012, EYE_Y - 0.024, 0.011, 0.011, FACE_COLORS.glint);
+      lid(ctx, cx, s, EYE_Y - 0.27, style, 0, 0.04);
+      return;
+    }
+    case "glare": {
+      // narrowed flat lids, a small hard pupil: suspicion, contempt
+      const cut = EYE_Y - 0.035;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(X(cx - 0.16), Y(cut), 0.32 * PX, 0.075 * PX);
+      ctx.clip();
+      ellipse(ctx, cx, EYE_Y + 0.0, 0.14, 0.11, FACE_COLORS.sclera);
+      ellipse(ctx, cx + lx * 1.2, EYE_Y + 0.0, 0.045, 0.06, INK);
+      ctx.restore();
+      taper(ctx, [cx - 0.15, cut + 0.004], [cx, cut - 0.004], [cx + 0.15, cut + 0.004], 0.064, 0.04);
+      taper(ctx, [cx - 0.12, cut + 0.08], [cx, cut + 0.088], [cx + 0.12, cut + 0.08], 0.03, 0.014);
+      return;
+    }
+    case "sparkle": {
+      // delight: big glossy irises with star glints
+      iris(ctx, cx + lx, EYE_Y - 0.005, IRIS.rx * 1.3, IRIS.ry * 1.25, style.eyeColor);
+      for (const [dx, dy, r] of [[0.03, -0.05, 0.03], [-0.035, 0.03, 0.018]] as const) {
+        ctx.save();
+        ctx.translate(X(cx + lx + dx), Y(EYE_Y + dy));
+        ctx.fillStyle = FACE_COLORS.glint;
+        ctx.beginPath();
+        for (let k = 0; k < 8; k++) {
+          const a = (k / 8) * Math.PI * 2;
+          const rr = (k % 2 ? r * 0.35 : r) * PX;
+          ctx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+      lid(ctx, cx, s, top - 0.02, style);
+      return;
+    }
     default: {
       // open: an oval iris with a highlight under a curved upper lid line
       iris(ctx, cx + lx, EYE_Y, IRIS.rx, IRIS.ry, style.eyeColor);
@@ -173,7 +215,7 @@ const drawEye = (ctx: Ctx, s: -1 | 1, eyes: Eyes, look: number, blink: boolean, 
 const drawBrow = (ctx: Ctx, s: -1 | 1, brows: Brows, eyes: Eyes, style: FaceStyle, color: string) => {
   if (brows === "none") return;
   const cx = s * (EYE_X + 0.015);
-  const by = EYE_Y - BROW_UP - (eyes === "wide" ? 0.06 : 0);
+  const by = EYE_Y - BROW_UP - (eyes === "wide" ? 0.06 : eyes === "huge" ? 0.1 : 0);
   const inner = cx - s * 0.13;
   const outer = cx + s * 0.17;
   let yi = by + 0.01;
@@ -191,6 +233,15 @@ const drawBrow = (ctx: Ctx, s: -1 | 1, brows: Brows, eyes: Eyes, style: FaceStyl
     yi = by - 0.06;
     yo = by - 0.03;
     arch = -0.11;
+  } else if (brows === "high") {
+    // flown off the face: the big surprised take
+    yi = by - 0.17;
+    yo = by - 0.13;
+    arch = -0.13;
+  } else if (brows === "furious") {
+    yi = by + 0.14;
+    yo = by - 0.07;
+    arch = 0.01;
   }
   const w = 0.072 * style.brow;
   // blunt, full inner end, pointed outer end; a thin darker edge underneath gives the brow volume
@@ -362,6 +413,90 @@ const drawMouth = (ctx: Ctx, m: Mouth, skin: string) => {
         0.034,
       );
       lowerLip(ctx, skin, MY + 0.3, 0.09);
+      return;
+    case "scream":
+      mouthPath(
+        ctx,
+        (c) => {
+          c.moveTo(X(-0.26), Y(MY - 0.12));
+          c.quadraticCurveTo(X(0), Y(MY - 0.19), X(0.26), Y(MY - 0.12));
+          c.bezierCurveTo(X(0.29), Y(MY + 0.16), X(0.15), Y(MY + 0.36), X(0), Y(MY + 0.36));
+          c.bezierCurveTo(X(-0.15), Y(MY + 0.36), X(-0.29), Y(MY + 0.16), X(-0.26), Y(MY - 0.12));
+        },
+        (c) => {
+          ellipse(c, 0, MY + 0.12, 0.1, 0.08, "rgba(40,8,18,0.55)");
+          tongue(c, 0.02, MY + 0.34, 0.16, 0.09);
+          teeth(c, -0.22, 0.22, MY - 0.22, 0.11);
+          teeth(c, -0.18, 0.18, MY + 0.3, 0.06);
+        },
+        0.036,
+      );
+      lowerLip(ctx, skin, MY + 0.41, 0.1);
+      return;
+    case "gasp":
+      mouthPath(
+        ctx,
+        (c) => c.ellipse(X(0), Y(MY + 0.05), 0.085 * PX, 0.15 * PX, 0, 0, Math.PI * 2),
+        (c) => tongue(c, 0, MY + 0.17, 0.065, 0.045),
+        0.03,
+      );
+      lowerLip(ctx, skin, MY + 0.23, 0.06);
+      return;
+    case "grimace":
+      // clenched teeth, corners pulled down and out
+      mouthPath(
+        ctx,
+        (c) => {
+          c.moveTo(X(-0.26), Y(MY + 0.02));
+          c.lineTo(X(-0.2), Y(MY - 0.06));
+          c.lineTo(X(0.2), Y(MY - 0.06));
+          c.lineTo(X(0.26), Y(MY + 0.02));
+          c.lineTo(X(0.2), Y(MY + 0.09));
+          c.lineTo(X(-0.2), Y(MY + 0.09));
+          c.closePath();
+        },
+        (c) => {
+          teeth(c, -0.3, 0.3, MY - 0.07, 0.17);
+          c.fillStyle = INK;
+          c.fillRect(X(-0.3), Y(MY + 0.012), 0.6 * PX, 0.012 * PX);
+          for (const x of [-0.12, -0.04, 0.04, 0.12]) c.fillRect(X(x), Y(MY - 0.06), 0.008 * PX, 0.15 * PX);
+        },
+        0.032,
+      );
+      return;
+    case "beam":
+      // a huge open smile, cheeks pushed up
+      mouthPath(
+        ctx,
+        (c) => {
+          c.moveTo(X(-0.31), Y(MY - 0.1));
+          c.quadraticCurveTo(X(0), Y(MY - 0.04), X(0.31), Y(MY - 0.1));
+          c.bezierCurveTo(X(0.27), Y(MY + 0.18), X(0.13), Y(MY + 0.27), X(0), Y(MY + 0.27));
+          c.bezierCurveTo(X(-0.13), Y(MY + 0.27), X(-0.27), Y(MY + 0.18), X(-0.31), Y(MY - 0.1));
+        },
+        (c) => {
+          tongue(c, 0, MY + 0.25, 0.15, 0.07);
+          teeth(c, -0.3, 0.3, MY - 0.2, 0.15);
+        },
+        0.034,
+      );
+      for (const s2 of [-1, 1]) taper(ctx, [s2 * 0.34, MY - 0.15], [s2 * 0.33, MY - 0.1], [s2 * 0.29, MY - 0.07], 0.024, 0.01);
+      lowerLip(ctx, skin, MY + 0.32, 0.1);
+      return;
+    case "wavy":
+      // a nervous wobbly line
+      ctx.beginPath();
+      for (let k = 0; k <= 24; k++) {
+        const x = -0.17 + (0.34 * k) / 24;
+        const y = MY + 0.02 * Math.sin(k * 0.95);
+        if (k === 0) ctx.moveTo(X(x), Y(y));
+        else ctx.lineTo(X(x), Y(y));
+      }
+      ctx.strokeStyle = INK;
+      ctx.lineWidth = 0.034 * PX;
+      ctx.lineCap = "round";
+      ctx.stroke();
+      lowerLip(ctx, skin, MY + 0.06, 0.06);
       return;
     default:
       // flat: a calm line, a slight dip at the center

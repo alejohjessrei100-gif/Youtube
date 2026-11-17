@@ -11,12 +11,14 @@ import { DagenH, DAGENH_FRAMES } from "./dagenh/DagenH";
 import { Peigneur, PEIGNEUR_FRAMES } from "./peigneur/Peigneur";
 import { ActLab, ACT_FRAMES } from "./actlab/ActLab";
 import { MeatShower, MEAT_FRAMES } from "./meat/MeatShower";
+import { DirectorLab, DIR_FRAMES } from "./directorlab/DirectorLab";
 
 // DemoHero: a low hero framing with foreground props. Demo: one still. Demo-<mood>: the same frame in each act light. DemoWide: the whole set.
 // DemoCast: the three example characters in a row (a landscape family sheet).
 // DemoMove: a 3 s beat-rig move (sharp). DemoMoveSub: the same at SUB × fps for motion blur (average with ffmpeg tmix).
 export const Root: React.FC = () => (
   <>
+    <Composition id="DirectorLab" component={DirectorLab} durationInFrames={DIR_FRAMES} fps={30} width={1080} height={1920} />
     <Composition id="MeatShower" component={MeatShower} durationInFrames={MEAT_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: true }} />
     <Composition id="ActLab" component={ActLab} durationInFrames={ACT_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: true }} />
     <Composition id="Peigneur" component={Peigneur} durationInFrames={PEIGNEUR_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ sub: false, audio: true }} />

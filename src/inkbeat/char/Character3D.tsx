@@ -93,7 +93,7 @@ export type Look = {
 export type FaceState = {
   eyes?: Eyes;
   mouth?: Mouth;
-  brows?: "none" | "neutral" | "angry" | "worried" | "raised";
+  brows?: "none" | "neutral" | "angry" | "worried" | "raised" | "high" | "furious";
   /** -1..1: the eyes look sideways */
   look?: number;
   /** force a blink (otherwise blinks come from `t`) */
@@ -111,6 +111,8 @@ export type Pose = ArmPose & {
   headTilt?: number;
   headNod?: number;
   headYaw?: number;
+  /** cartoon take: stretch (> 1) or squash (< 1) the head about the chin, volume kept */
+  headStretch?: number;
 };
 
 /** a reusable character definition (see cast.ts) */
@@ -418,7 +420,7 @@ export const Character3D: React.FC<CharacterProps> = (props) => {
               ) : null}
               {/* head: pivots at the chin */}
               <group position={[0, l.chinY + breath * 0.0012, 0]} rotation={[0, headYaw, 0]}>
-                <group rotation={[headNod * D2R, 0, -headTilt * D2R]}>
+                <group rotation={[headNod * D2R, 0, -headTilt * D2R]} scale={[1 / Math.sqrt(pose.headStretch ?? 1), pose.headStretch ?? 1, 1 / Math.sqrt(pose.headStretch ?? 1)]}>
                   <group position={[0, HEAD_BOT * HEAD_HW * hs, 0]} scale={hs}>
                     <Inked geo={head} mat={headMat} ink={ink("head") / hs} under={under("head")} cast={cast} />
                     {ears
