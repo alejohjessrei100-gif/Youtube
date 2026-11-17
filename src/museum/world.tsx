@@ -37,7 +37,7 @@ export const SIG: V3 = [PAINT[0] + PW * 0.33, PAINT[1] - PH * 0.42, PAINT[2] + 0
 export const DOOR_Z = 2.6;
 export const DOOR_W = 1.2;
 /** the tally of break-ins, on the wall beside the door (inside) */
-export const TALLY: V3 = [GX - 0.03, 1.45, DOOR_Z - 1.05];
+export const TALLY: V3 = [GX - 0.03, 1.45, DOOR_Z - DOOR_W - 0.75];
 export const BENCH: V3 = [0, 0, -2.6];
 export const CAMERA_AT: V3 = [GX - 0.35, GH - 0.45, GZ - 0.45];
 
@@ -739,7 +739,7 @@ export const Flashlight: React.FC<{ p: V3; to: V3; on: number }> = ({ p, to, on 
       <group position={p} rotation={[pitch, yaw, 0]} rotation-order="YXZ">
         <M g={cylG(0.028, 0.022, 0.2, 10)} c="#1e2028" tex="metal" r={[PI / 2, 0, 0]} />
         <mesh geometry={sphG(0.025, 8)} material={coreMat("#fff4d0", on > 0.5 ? 1.3 : 0.5)} position={[0, 0, 0.1]} />
-        {on > 0.01 ? <mesh geometry={coneG(0.5, bl, 20)} material={coreMat("#fff2c8", 1, 0.06 * on)} position={[0, 0, 0.1 + bl / 2]} rotation={[-PI / 2, 0, 0]} userData={{ outline: false }} /> : null}
+        {on > 0.01 ? <mesh geometry={coneG(0.5, bl, 20)} material={coreMat("#fff2c8", 1, 0.035 * on)} position={[0, 0, 0.1 + bl / 2]} rotation={[-PI / 2, 0, 0]} userData={{ outline: false }} /> : null}
       </group>
       <spotLight ref={ref} position={p} color="#fff0d0" intensity={on * 11} distance={14} angle={0.32} penumbra={0.6} decay={1.5} />
     </group>

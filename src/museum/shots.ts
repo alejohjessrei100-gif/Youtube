@@ -134,8 +134,8 @@ const torchArm = (spec: CharacterSpec, p: V3, yaw: number, to: V3, lean = 0) => 
 
 // ================================================================== 1. the gallery: break-in #11, the crooked painting
 const D_IN: WalkSeg[] = [
-  { t0: T.broken - 0.15, t1: T.eleven - 0.05, from: [6.4, 0, 1.9], to: [4.45, 0, 1.45] },
-  { t0: T.every + 0.05, t1: T.slightly - 0.1, from: [4.45, 0, 1.45], to: [0.62, 0, -5.3] },
+  { t0: T.broken - 0.15, t1: T.eleven - 0.05, from: [6.4, 0, 1.9], to: [4.5, 0, 0.05] },
+  { t0: T.every + 0.05, t1: T.slightly - 0.1, from: [4.5, 0, 0.05], to: [0.62, 0, -5.3] },
 ];
 const M_IN: WalkSeg[] = [
   { t0: T.broken, t1: T.eleven + 0.25, from: [6.6, 0, 2.3], to: [3.4, 0, 2.35] },
@@ -167,8 +167,10 @@ const dolores1 = (t: number) => {
   pose = { ...pose, armR: ta.arm, armRFwd: ta.fwd };
   if (mark > 0) {
     const sw = Math.sin(clamp((t - T.eleven - 0.05) / 0.35) * PI) * 0.12;
-    const k = ik(DOLORES, p, yaw, "L", add(TALLY, [-0.12, 0.12 - sw, -0.25 + sw]), 4);
-    pose = { ...pose, armL: mixArm([18, 10], k.arm, mark), armLFwd: lerp(10, k.fwd, mark) };
+    const k = ik(DOLORES, p, yaw, "R", add(TALLY, [-0.1, 0.12 - sw, 0.25 - sw]), 4);
+    void k;
+    const kL = ik(DOLORES, p, yaw, "L", add(TALLY, [-0.1, 0.12 - sw, 0.25 - sw]), 4);
+    pose = { ...pose, armL: mixArm([18, 10], kL.arm, mark), armLFwd: lerp(10, kL.fwd, mark) };
   }
   const fix = window01(t, T.crooked - 0.25, T.crooked + 0.5, 0.25, 0.25);
   if (fix > 0) {
@@ -215,8 +217,8 @@ const S1: Scene = {
     keyed([
       [0, C([3.5, 1.45, 4.1], [5.15, 1.25, 2.0], 50)],
       [T.broken + 0.5, C([2.0, 1.6, 4.9], [4.6, 1.35, 1.9], 54), "out"],
-      [T.eleven + 0.1, C([4.15, 1.7, -0.05], [5.1, 1.45, 1.6], 46), "inout"],
-      [T.times + 0.35, C([4.1, 1.7, 0.0], [5.1, 1.45, 1.6], 46)],
+      [T.eleven + 0.1, C([3.8, 1.65, 1.6], [5.0, 1.42, 0.55], 46), "inout"],
+      [T.times + 0.35, C([3.85, 1.65, 1.5], [5.0, 1.42, 0.55], 46)],
       [T.nothing + 0.45, C([2.6, 1.75, 3.2], [-GX, 2.0, 0.2], 58), "inout"],
       [T.stolen - 0.2, C([1.55, 1.6, 0.85], [3.0, 1.6, 2.0], 50), "inout"],
       [T.every + 0.1, C([2.4, 1.7, 2.6], [1.8, 1.5, 0.8], 54), "inout"],

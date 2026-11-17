@@ -11,7 +11,7 @@ from scipy.signal import butter, sosfilt
 
 ROOT = Path(__file__).resolve().parent.parent
 SR = 48000
-TOTAL = 28.6
+TOTAL = 38.8
 N = int(TOTAL * SR)
 E = json.loads((ROOT / "out/museum/events.json").read_text())
 CUTS = E["cuts"] + [TOTAL]
