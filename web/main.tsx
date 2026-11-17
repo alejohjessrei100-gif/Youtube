@@ -11,6 +11,7 @@ import { StyleCloseUp, StyleLineup, StyleTrio } from "../src/demo/StyleSheet";
 import { STYLES } from "../src/styles/styles";
 import { AGLOE_FRAMES, Agloe } from "../src/agloe/Agloe";
 import { DAGENH_FRAMES, DagenH } from "../src/dagenh/DagenH";
+import { PEIGNEUR_FRAMES, Peigneur } from "../src/peigneur/Peigneur";
 
 // staticFile() (fonts) resolves against this folder, wherever the page is hosted.
 (window as unknown as { remotion_staticBase: string }).remotion_staticBase = new URL(".", location.href).pathname.replace(/\/$/, "");
@@ -27,6 +28,7 @@ type Comp = {
 };
 
 const COMPS: Comp[] = [
+  { id: "Peigneur", label: "Lake Peigneur: the lake that drained (30 s)", component: Peigneur, width: 1080, height: 1920, fps: 30, durationInFrames: PEIGNEUR_FRAMES, defaultProps: { sub: false, audio: true } },
   { id: "DagenH", label: "Dagen H: Sweden switches sides (33 s)", component: DagenH, width: 1080, height: 1920, fps: 30, durationInFrames: DAGENH_FRAMES, defaultProps: { sub: false, audio: true } },
   { id: "Agloe", label: "Agloe: the fake town (34 s)", component: Agloe, width: 1080, height: 1920, fps: 30, durationInFrames: AGLOE_FRAMES, defaultProps: { sub: false, audio: true } },
   { id: "StyleLineup", label: "Character styles: all 5 side by side", component: StyleLineup, width: 1920, height: 1080, fps: 30, durationInFrames: 30, defaultProps: { mood: "day" } },

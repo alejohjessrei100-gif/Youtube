@@ -3,7 +3,7 @@ usage: python tools/align_vo.py voice.wav script.txt out.json   -> [[word, start
 import json, re, subprocess, sys
 from pocketsphinx import Decoder
 wav, txt, out = sys.argv[1:4]
-SPOKEN = {"1930s": "nineteen thirties", "1967": "nineteen sixty seven", "eighty-three": "eighty three", "right-hand": "right hand"}
+SPOKEN = {"1980": "nineteen eighty", "fourteen-inch": "fourteen inch", "backwards": "backwards", "1930s": "nineteen thirties", "1967": "nineteen sixty seven", "eighty-three": "eighty three", "right-hand": "right hand"}
 EXTRA = {"agloe": "AE G L OW", "mcnally": "M AH K N AE L IY", "mapmaker": "M AE P M EY K ER", "partner's": "P AA R T N ER Z", "neighbours": "N EY B ER Z"}
 script = open(txt).read().split()
 words, owner = [], []
