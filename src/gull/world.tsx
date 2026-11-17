@@ -171,7 +171,7 @@ const Cottage: React.FC = () => (
 const Band: React.FC<{ y0: number; y1: number; c: string }> = ({ y0, y1, c }) => {
   const r0 = TOWER_R0 + (TOWER_R1 - TOWER_R0) * (y0 / DECK_Y);
   const r1 = TOWER_R0 + (TOWER_R1 - TOWER_R0) * (y1 / DECK_Y);
-  return <M g={cylG(r1, r0, y1 - y0, 40)} c={c} tex="plaster" p={[0, (y0 + y1) / 2, 0]} />;
+  return <M g={cylG(r1, r0, y1 - y0, 40)} c={c} tex="plaster" p={[0, (y0 + y1) / 2, 0]} recv={false} />;
 };
 export type LampState = { on: number; beam: number; t: number; lever: number; feathers?: boolean; lockNew?: number; doorOpen?: number; crumbs?: boolean };
 export const Lighthouse: React.FC<{ s: LampState }> = ({ s }) => {
@@ -256,14 +256,24 @@ export const Lighthouse: React.FC<{ s: LampState }> = ({ s }) => {
         </group>
         <mesh geometry={sphG(0.025, 8)} material={coreMat(s.on > 0.5 ? "#7aff7a" : "#ff4a3a", 0.9)} position={[0.11, 0.38, 0.14]} />
         {s.feathers
-          ? [0, 1, 2, 3].map((i) => (
-              <group key={i} position={[-0.25 + i * 0.16, 0.012, 0.28 + (i % 2) * 0.1]} rotation={[0, i * 1.3, 0]}>
-                <M g={boxG(0.035, 0.008, 0.16)} c="#f4f4f0" p={[0, 0, 0]} r={[0, 0, 0.1]} cast={false} />
-                <M g={boxG(0.005, 0.01, 0.16)} c="#b8b8c0" p={[0, 0.005, 0]} cast={false} />
+          ? [
+              [-0.42, 0.065, 0.3, 0.4, 0],
+              [-0.2, 0.065, 0.5, 1.9, 0],
+              [0.05, 0.065, 0.38, 3.1, 1],
+              [0.3, 0.065, 0.55, 0.9, 0],
+              [0.45, 0.065, 0.25, 2.5, 1],
+              [-0.05, 0.065, 0.72, 4.2, 0],
+              [0.0, 0.43, 0.02, 1.2, 0],
+            ].map(([x, y, z, a, grey], i) => (
+              <group key={i} position={[x, y, z]} rotation={[0, a, 0.15 * Math.sin(i * 2.3)]}>
+                {/* a vane (soft ellipsoid) with a dark tip and a quill */}
+                <M g={sphG(1, 12)} c={grey ? "#b8bcc8" : "#fbfbf6"} p={[0, 0.012, 0]} s={[0.055, 0.012, 0.16]} cast={false} />
+                <M g={sphG(1, 10)} c="#2a2a30" p={[0, 0.014, 0.12]} s={[0.035, 0.01, 0.05]} cast={false} />
+                <M g={cylG(0.006, 0.004, 0.36, 5)} c="#d8d4c8" p={[0, 0.02, -0.02]} r={[PI / 2, 0, 0]} cast={false} />
               </group>
             ))
           : null}
-        {s.crumbs ? [0, 1, 2, 3, 4].map((i) => <M key={i} g={sphG(0.015, 6)} c="#c8945a" p={[-0.1 + i * 0.05, 0.012, 0.42]} cast={false} />) : null}
+        {s.crumbs ? [0, 1, 2, 3, 4].map((i) => <M key={i} g={sphG(0.015, 6)} c="#c8945a" p={[-0.1 + i * 0.05, 0.075, 0.42]} cast={false} />) : null}
       </group>
       {/* the keeper's things: a chair, a logbook on a shelf, a thermos, an oilcan, a brass clock */}
       <group position={[-2.3, DECK_Y, -2.4]} rotation={[0, 0.8, 0]}>
@@ -344,8 +354,55 @@ export const Stairwell: React.FC<{ t: number; lantern?: V3 | null }> = ({ lanter
 );
 
 // ------------------------------------------------------------------ Walt's porch in town (its own set)
+/** Walt's rocking chair on the porch: where it stands, which way it faces (toward the far lighthouse), how it rocks */
+export const CHAIR: V3 = [-2.0, 0.29, 0.1];
+export const FAR_LIGHT: V3 = [70, -6, 95];
+export const CHAIR_YAW = Math.atan2(FAR_LIGHT[0] - CHAIR[0], FAR_LIGHT[2] - CHAIR[2]);
+export const rockAt = (t: number) => 0.075 * Math.sin(t * 2.1);
+const RockingChair: React.FC<{ rock: number }> = ({ rock }) => (
+  <group position={CHAIR} rotation={[0, CHAIR_YAW, 0]}>
+    <group rotation={[rock, 0, 0]}>
+      {/* rockers: two long arcs touching the deck under the seat */}
+      {[-1, 1].map((sd) => (
+        <M key={`r${sd}`} g={torG(1.1, 0.03, 0.95)} c="#6a4430" tex="wood" p={[sd * 0.25, 1.1, 0.05]} r={[0, PI / 2, PI + PI / 2 - 0.475]} />
+      ))}
+      {/* legs, seat, arms, back with spindles, a knitted blanket over the back */}
+      {[[-0.24, -0.2], [0.24, -0.2], [-0.24, 0.24], [0.24, 0.24]].map(([x, z], i) => (
+        <M key={`l${i}`} g={cylG(0.025, 0.03, 0.36, 8)} c="#7a5038" tex="wood" p={[x, 0.2, z]} />
+      ))}
+      <M g={boxG(0.56, 0.06, 0.52)} c="#8a5a3e" tex="wood" p={[0, 0.38, 0.02]} />
+      <M g={boxG(0.5, 0.05, 0.46)} c="#a83a32" tex="fabric" p={[0, 0.42, 0.04]} />
+      {[-1, 1].map((sd) => (
+        <group key={`a${sd}`}>
+          <M g={boxG(0.06, 0.04, 0.5)} c="#8a5a3e" tex="wood" p={[sd * 0.3, 0.64, 0.02]} />
+          <M g={cylG(0.02, 0.02, 0.26, 6)} c="#7a5038" tex="wood" p={[sd * 0.3, 0.52, 0.2]} />
+        </group>
+      ))}
+      <group position={[0, 0.4, -0.24]} rotation={[-0.2, 0, 0]}>
+        {[-1, 1].map((sd) => (
+          <M key={`p${sd}`} g={cylG(0.03, 0.03, 0.95, 8)} c="#7a5038" tex="wood" p={[sd * 0.26, 0.47, 0]} />
+        ))}
+        {[-0.15, -0.05, 0.05, 0.15].map((x) => (
+          <M key={x} g={cylG(0.015, 0.015, 0.7, 6)} c="#8a5a3e" tex="wood" p={[x, 0.45, 0]} />
+        ))}
+        <M g={boxG(0.6, 0.1, 0.05)} c="#8a5a3e" tex="wood" p={[0, 0.92, 0]} />
+        <M g={boxG(0.5, 0.42, 0.03)} c="#c8a050" tex="fabric" p={[0.04, 0.68, -0.04]} r={[0, 0, 0.06]} />
+      </group>
+    </group>
+  </group>
+);
 export const Porch: React.FC<{ t: number; beamAngle: number }> = ({ t, beamAngle }) => (
   <group>
+    <RockingChair rock={rockAt(t)} />
+    {/* a side table with a mug and a pair of binoculars */}
+    <group position={[-1.2, 0.29, 0.55]}>
+      <M g={cylG(0.22, 0.22, 0.04, 16)} c="#7a5038" tex="wood" p={[0, 0.5, 0]} />
+      <M g={cylG(0.03, 0.04, 0.5, 8)} c="#5a3a28" tex="wood" p={[0, 0.25, 0]} />
+      <M g={cylG(0.05, 0.045, 0.1, 12)} c="#e8e0d4" p={[0.08, 0.57, 0.02]} />
+      {[-1, 1].map((sd) => (
+        <M key={sd} g={cylG(0.03, 0.035, 0.12, 10)} c="#2a2c34" tex="metal" p={[-0.07 + sd * 0.035, 0.555, -0.04]} r={[PI / 2, 0, 0]} />
+      ))}
+    </group>
     <M g={boxG(200, 0.2, 200)} c="#3a4a3a" tex="grass" p={[0, -0.1, 0]} cast={false} />
     {/* his house: siding, a window glowing, the porch deck, posts, roof, a hanging lamp */}
     <M g={boxG(7, 3.4, 0.3)} c="#5a7a8a" tex="planks" ts={0.7} p={[0, 1.9, -1.8]} />
@@ -392,7 +449,7 @@ export const Porch: React.FC<{ t: number; beamAngle: number }> = ({ t, beamAngle
     {Array.from({ length: 30 }, (_, i) => (
       <M key={i} g={boxG(0.08, 0.8, 0.05)} c="#e8e4dc" tex="wood" p={[-7.5 + i * 0.5, 0.4, 2.6]} />
     ))}
-    <group position={[22, -6, -120]} scale={1.0}>
+    <group position={FAR_LIGHT} scale={1.0}>
       <M g={sphG(40, 24)} c="#2a3448" p={[0, -32, 0]} s={[2, 1, 1]} cast={false} />
       <group position={[0, 6, 0]}>
         <M g={cylG(2.6, 3.4, 16, 20)} c="#d8d0c8" tex="plaster" p={[0, 8, 0]} cast={false} />

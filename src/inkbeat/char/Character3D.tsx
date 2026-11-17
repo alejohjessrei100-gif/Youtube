@@ -113,6 +113,9 @@ export type Pose = ArmPose & {
   headYaw?: number;
   /** cartoon take: stretch (> 1) or squash (< 1) the head about the chin, volume kept */
   headStretch?: number;
+  /** 0..1 sitting: thighs come forward level with the hips, shins hang to the floor, the body lowers onto a seat
+   *  (the seat top sits about `sitHeight(height)` above the soles) */
+  sit?: number;
 };
 
 /** a reusable character definition (see cast.ts) */
@@ -291,7 +294,7 @@ export const Character3D: React.FC<CharacterProps> = (props) => {
   // ---------------------------------------------------------------- limbs (rebuilt when the pose changes)
   const armL = pose.armL;
   const armR = pose.armR;
-  const limbKey = [JSON.stringify(b), armL, armR, pose.armLFwd ?? 0, pose.armRFwd ?? 0, walking ? ph.toFixed(3) : "-"].join("|");
+  const limbKey = [JSON.stringify(b), armL, armR, pose.armLFwd ?? 0, pose.armRFwd ?? 0, walking ? ph.toFixed(3) : "-", (pose.sit ?? 0).toFixed(3)].join("|");
   const limbs = useMemo(() => {
     const arm = (side: "L" | "R") => {
       const s = side === "L" ? -1 : 1;
@@ -325,6 +328,14 @@ export const Character3D: React.FC<CharacterProps> = (props) => {
       const hip = new THREE.Vector3(hx, l.hipY, 0);
       const ankle = new THREE.Vector3(fx, ANKLE_Y + lift, sw);
       const knee = new THREE.Vector3((hx + fx) / 2, (l.hipY + ankle.y) / 2 + lift * 0.3, sw * 0.45 + 0.008 + lift * 0.6);
+      const st = Math.max(0, Math.min(1, pose.sit ?? 0));
+      if (st > 0) {
+        // seated: the body drops by `thigh`, so the shin (hip height minus the drop) still reaches the floor
+        const thigh = (l.hipY - ANKLE_Y) * 0.5;
+        const drop = thigh * st;
+        knee.lerp(new THREE.Vector3(hx * 1.15, l.hipY + 0.005, thigh * 0.95), st);
+        ankle.set(fx * 1.1, ANKLE_Y + drop, ankle.z + (thigh * 0.9 - ankle.z) * st);
+      }
       const pts = curvePts([hip, knee, ankle], 30);
       const r = LEG_R.map((x) => x * b.limb) as [number, number];
       return { geo: taperTube(pts, r[0], r[1], 34, 16), ankle, lift, r1: r[1], dir: ankle.clone().sub(knee).normalize() };
@@ -380,13 +391,14 @@ export const Character3D: React.FC<CharacterProps> = (props) => {
   return (
     <group position={position} rotation={[0, yaw, 0]} scale={height}>
       <ContactShadow w={TORSO_R * 2 * b.torsoWidth * CONTACT.size} />
+      <group position={[0, -(l.hipY - ANKLE_Y) * 0.5 * Math.max(0, Math.min(1, pose.sit ?? 0)), 0]}>
       <group rotation={[lean, 0, 0]}>
         {/* legs, pant hems and shoes */}
         {[limbs.lL, limbs.lR].map((g, i) => (
           <group key={i}>
             <Inked geo={g.geo} mat={legMat} ink={ink("limb")} under={under("limb")} cast={cast} />
             <Inked geo={cuffGeo()} mat={hemMat} ink={ink("limb", 0.6)} under={0.2} cast={cast} position={g.ankle.clone().addScaledVector(g.dir, -g.r1 * 0.6)} quaternion={quatAlong(g.dir)} scale={[g.r1 * 1.12, g.r1 * 0.9, g.r1 * 1.12]} />
-            <group position={[g.ankle.x, g.lift, g.ankle.z]} rotation={[-g.lift * 3, 0, 0]}>
+            <group position={[g.ankle.x, g.lift + g.ankle.y - ANKLE_Y, g.ankle.z]} rotation={[-g.lift * 3, 0, 0]}>
               <Inked geo={shoes.upper} mat={shoeMat} ink={ink("shoe")} under={under("shoe")} cast={cast} />
               <Inked geo={shoes.sole} mat={soleMat} ink={ink("shoe", 0.7)} under={0.1} cast={cast} />
             </group>
@@ -447,6 +459,7 @@ export const Character3D: React.FC<CharacterProps> = (props) => {
             </group>
           </group>
         </group>
+      </group>
       </group>
     </group>
   );

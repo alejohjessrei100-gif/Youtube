@@ -290,13 +290,17 @@ mus *= np.clip((CUTS[6] + 0.05 - t_all) / 0.2, 0, 1)
 mem = loop(CUTS[6], CUTS[7], 104, PROG[1:] + PROG[:1], -18) * gate(CUTS[6], CUTS[7], 0.2)
 fin = loop(CUTS[7], TOTAL, 132, PROG, -19) * gate(CUTS[7], TOTAL, 0.25)
 mus = mus + mem + fin
-mus *= db(-3) ** np.clip(duck * 1.3, 0, 1)
+mus *= db(-6) ** np.clip(duck * 1.3, 0, 1)
 
 fx *= db(-3) ** np.clip(duck * 1.3, 0, 1)
-bed *= db(6)
-mus *= db(-2)
+bed *= db(4)
+fx *= db(-4)
+mus *= db(-8)
 out = (v + fx + bed + mus) * np.clip((TOTAL - t_all) / 0.5, 0, 1)
 with wave.open(str(ROOT / "out/next/premaster.wav"), "wb") as f:
     f.setnchannels(1); f.setsampwidth(2); f.setframerate(SR)
     f.writeframes((np.clip(out, -1, 1) * 32767).astype(np.int16).tobytes())
 print("ok", round(len(out) / SR, 2), "s; peak", round(float(np.abs(out).max()), 3))
+if __name__ == "__main__":
+    rms = lambda a: 20 * np.log10(np.sqrt(np.mean(a.astype(float) ** 2)) + 1e-9)
+    print("stem RMS dB  voice %.1f  fx %.1f  bed %.1f  music %.1f" % (rms(v), rms(fx), rms(bed), rms(mus)))

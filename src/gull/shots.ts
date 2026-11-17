@@ -11,7 +11,7 @@ import { handWorld, solveArm } from "../inkbeat/core/ik";
 import type { Cam } from "../inkbeat/core/rig";
 import type { V3 } from "../inkbeat/types";
 import { OFF1, OFF2, WALT } from "./cast";
-import { COTTAGE, DECK_Y, LR, RAIL_R, RAIL_Y, stairAt, SWITCH } from "./world";
+import { CHAIR, CHAIR_YAW, COTTAGE, DECK_Y, LR, RAIL_R, RAIL_Y, rockAt, stairAt, SWITCH } from "./world";
 import type { GullFace, GullState, LampState } from "./world";
 import { SECONDS, WORDS } from "./words.gen";
 
@@ -142,12 +142,26 @@ const S1: Scene = {
 };
 
 // ================================================================== 2. Walt on his porch in town, watching the beam
-const W_PORCH: V3 = [-2.6, 0.29, 0.3];
+const W_PORCH: V3 = CHAIR;
+const wFwd: V3 = [Math.sin(CHAIR_YAW), 0, Math.cos(CHAIR_YAW)];
+const wSide: V3 = [Math.cos(CHAIR_YAW), 0, -Math.sin(CHAIR_YAW)];
+const fromWalt = (fwd: number, side: number, y: number): V3 => [CHAIR[0] + wFwd[0] * fwd + wSide[0] * side, y, CHAIR[2] + wFwd[2] * fwd + wSide[2] * side];
+const W_HEAD: V3 = [CHAIR[0], 1.38, CHAIR[2]];
 const S2: Scene = {
   id: 2, t0: T.old - 0.12, mood: "night", set: "porch", sky: true, blur: 1.4,
-  cam: keyed([[T.old - 0.12, C([1.9, 1.55, 3.8], [-2.6, 1.15, 0.2], 40)], [T.coast, C([1.0, 1.45, 2.9], [-2.6, 1.2, 0.2], 38), "inout"]]),
-  actors: (t) => [{ spec: WALT, p: W_PORCH, yaw: -0.75, face: t < T.town - 0.2 ? F("half", "smile", "worried") : F("half", "wavy", "worried"), pose: { lean: -12 + 4 * Math.sin(q(t) * 2.2), armL: [30, 80], armLFwd: 60, armR: [40, 95], armRFwd: 70, headYaw: -22, headNod: -6 } }],
-  focus: () => [-2.6, 1.2, 0.3],
+  // over his shoulder at the far lighthouse, then around to his face as he rocks and watches it
+  cam: keyed([
+    [T.old - 0.12, C(fromWalt(-1.05, -0.55, 1.6), fromWalt(2.6, 0.35, 1.5), 44)],
+    [T.walt1, C(fromWalt(0.7, -1.6, 1.35), add(W_HEAD, [0, -0.2, 0]), 42), "inout"],
+    [T.town, C(fromWalt(1.0, -0.3, 1.3), add(W_HEAD, [0, -0.08, 0]), 52), "inout"],
+    [T.coast, C(fromWalt(0.92, -0.28, 1.3), add(W_HEAD, [0, -0.06, 0]), 50), "out"],
+  ]),
+  actors: (t) => [{
+    spec: WALT, p: W_PORCH, yaw: CHAIR_YAW,
+    face: t < T.town - 0.2 ? F("half", "smile", "worried") : F("half", "wavy", "worried"),
+    pose: { sit: 1, lean: -8 + (rockAt(t) * 180) / PI, armL: [18, 12], armLFwd: 70, armR: [18, 12], armRFwd: 70, headNod: -4, headTilt: 6 * Math.sin(t * 0.9) },
+  }],
+  focus: () => W_HEAD,
 };
 
 // ================================================================== 3. the coast guard, by day: wiring, "fine", a new lock
