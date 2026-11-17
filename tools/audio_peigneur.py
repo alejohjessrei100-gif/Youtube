@@ -66,11 +66,11 @@ t_all = tt(N)
 
 def level(clip, under=8.0):
     """a one-shot: peak `under` dB below the voice peak, and its loudest 100 ms at least 6 dB under the speech RMS"""
-    c = clip / (np.abs(clip).max() + 1e-9) * VPEAK * db(-under)
+    c = clip / (np.abs(clip).max() + 1e-9) * VPEAK * db(-(under - 5))  # 5 dB hotter: phone speakers buried the quieter mix
     w = int(0.1 * SR)
     if len(c) > w:
         loud = max(rms(c[i: i + w]) for i in range(0, len(c) - w, w // 4))
-        cap = SRMS * db(-6)
+        cap = SRMS * db(0)
         if loud > cap:
             c *= cap / loud
     return c
@@ -259,6 +259,8 @@ back = back / (rms(back[back != 0]) + 1e-9) * SRMS * db(-19) * db(-3) ** np.clip
 mus += back
 
 fx *= db(-3) ** np.clip(duck * 1.3, 0, 1)
+bed *= db(10)  # ambience was ~24 dB under the voice: inaudible on phones
+mus *= db(5)
 out = (v + fx + bed + mus) * np.clip((TOTAL - t_all) / 0.6, 0, 1)
 with wave.open(str(ROOT / "out/peig/premaster.wav"), "wb") as f:
     f.setnchannels(1); f.setsampwidth(2); f.setframerate(SR)
