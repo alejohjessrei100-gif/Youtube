@@ -628,6 +628,60 @@ export const billGeo = (y: number, len: number, rx: number, rz: number, droop: n
   return g;
 };
 
+/** a brim that follows the head outline: its inner edge sits on the head surface at polar angle `a`, puffed by
+ * `lift`; it reaches `width` (head-local units) out, dropping `droop` × width at the edge. uv: u around, v inner → outer */
+export const brimGeo = (seed: number, a: number, lift: number, width: number, droop: number, thick: number, widthAt?: (th: number) => number, nt = 120) => {
+  const hv = headVariant(seed);
+  const v = new THREE.Vector3();
+  const pos: number[] = [];
+  const uv: number[] = [];
+  const idx: number[] = [];
+  const ns = 6;
+  for (let i = 0; i <= nt; i++) {
+    const th = -Math.PI + (2 * Math.PI * i) / nt;
+    headPoint(Math.sin(a) * Math.sin(th), Math.cos(a), Math.sin(a) * Math.cos(th), hv, v);
+    const bx = v.x * (1 + lift);
+    const by = v.y * (1 + lift);
+    const bz = v.z * (1 + lift);
+    const L = Math.hypot(bx, bz) || 1;
+    const w = width * (widthAt ? widthAt(th) : 1);
+    for (let j = 0; j <= ns; j++) {
+      const s2 = j / ns;
+      const x = bx + (bx / L) * w * s2;
+      const z = bz + (bz / L) * w * s2;
+      const y = by - droop * w * s2 * s2;
+      pos.push(x, y + thick / 2, z, x, y - thick / 2, z);
+      uv.push(i / nt, s2, i / nt, s2);
+    }
+  }
+  const row = (ns + 1) * 2;
+  for (let i = 0; i < nt; i++)
+    for (let j = 0; j < ns; j++) {
+      const a0 = i * row + j * 2;
+      const b0 = (i + 1) * row + j * 2;
+      // top face, bottom face
+      idx.push(a0, a0 + 2, b0, a0 + 2, b0 + 2, b0);
+      idx.push(a0 + 1, b0 + 1, a0 + 3, a0 + 3, b0 + 1, b0 + 3);
+    }
+  // the rolled outer edge
+  for (let i = 0; i < nt; i++) {
+    const a1 = i * row + ns * 2;
+    const b1 = (i + 1) * row + ns * 2;
+    idx.push(a1, b1, a1 + 1, a1 + 1, b1, b1 + 1);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return g;
+};
+/** the head-surface point straight in front at polar angle a, puffed by lift (where a bill attaches) */
+const frontAt = (seed: number, a: number, lift: number) => {
+  const v = headPoint(0, Math.cos(a), Math.sin(a), headVariant(seed), new THREE.Vector3());
+  return { y: v.y * (1 + lift), z: v.z * (1 + lift) };
+};
+
 export type HatPart = { geo: THREE.BufferGeometry; color: string; spec?: number; hull?: boolean; inkK?: number; cast?: boolean; rim?: number; tex?: "panels" | "rib" | "weave" | "tweed" | null };
 
 const hatCache = new Map<string, HatPart[]>();
@@ -641,29 +695,32 @@ export const hatParts = (hat: string, seed: number): HatPart[] => {
   const R = HEAD_HW;
   switch (hat) {
     case "cap": {
-      // a six-panel cap: a rounded crown, a top button, a long curved bill
-      const c = new THREE.SphereGeometry(1, 64, 28, 0, Math.PI * 2, 0, Math.PI / 2);
-      c.scale(R * 1.07, top * 0.98, R * 1.07 * HEAD_DEPTH * 1.04);
-      c.translate(0, R * 0.36, -R * 0.02);
-      parts.push({ geo: smoothSeams(c), color: "hat", spec: 0.25, hull: true, cast: true, tex: "panels" });
-      parts.push({ geo: lathe([[R * 1.07, R * 0.3], [R * 1.09, R * 0.34], [R * 1.085, R * 0.44], [R * 1.06, R * 0.47]], 64, HEAD_DEPTH * 1.04 * 1.0), color: "band", spec: 0.15, hull: true });
-      parts.push({ geo: billGeo(R * 0.34, R * 0.78, R * 1.06, R * 1.0, 0.16, 0.0075, 66), color: "hat", spec: 0.2, hull: true, cast: true });
+      // a six-panel cap: a crown that hugs the (squircle) head, a band, a top button, a long curved bill
+      const A1 = 68 * D2R;
+      parts.push({ geo: capGeo({ seed, a0: () => 0, a1: () => A1, thick: (s2) => 0.07 + 0.025 * (1 - s2) * (1 - s2), nt: 96, na: 26 }), color: "hat", spec: 0.25, hull: true, cast: true, tex: "panels" });
+      parts.push({ geo: capGeo({ seed, a0: () => A1 - 9 * D2R, a1: () => A1 + 1 * D2R, thick: () => 0.085, nt: 96, na: 4 }), color: "band", spec: 0.15, hull: true });
+      const f = frontAt(seed, A1, 0.07);
+      parts.push({ geo: billGeo(f.y, R * 0.78, R * 1.06, f.z / 0.9 / 1.0, 0.16, 0.0075, 66), color: "hat", spec: 0.2, hull: true, cast: true });
+      const topY = headPoint(0, 1, 0, headVariant(seed), new THREE.Vector3()).y * 1.095;
       const b = new THREE.SphereGeometry(R * 0.085, 16, 10, 0, Math.PI * 2, 0, Math.PI / 2);
-      b.translate(0, R * 0.36 + top * 0.98 - R * 0.01, -R * 0.02);
+      b.translate(0, topY - R * 0.01, 0);
       parts.push({ geo: b, color: "hat", spec: 0.2, hull: true, inkK: 0.6 });
       break;
     }
     case "flat": {
-      // a flat cap: a low, wide crown pulled forward over a short stiff bill, a cloth button on top
-      const c = new THREE.SphereGeometry(1, 48, 22, 0, Math.PI * 2, 0, Math.PI / 2);
-      c.scale(R * 1.16, R * 0.5, R * 1.2);
-      c.translate(0, R * 0.62, R * 0.04);
-      c.rotateX(0.2);
-      parts.push({ geo: smoothSeams(c), color: "hat", spec: 0.1, hull: true, cast: true, tex: "tweed" });
-      parts.push({ geo: billGeo(R * 0.6, R * 0.42, R * 1.02, R * 1.02, 0.3, 0.0068, 54), color: "hat", spec: 0.1, hull: true, cast: true });
+      // a flat cap: a crown that hugs the head, fuller and pulled forward at the front, a short stiff bill, a button
+      const A1 = 60 * D2R;
+      const front = (th: number) => Math.max(0, Math.cos(th));
+      parts.push({
+        geo: capGeo({ seed, a0: () => 0, a1: () => A1, thick: (s2, th) => 0.075 + 0.07 * front(th) * Math.sin(Math.PI * Math.min(1, s2 * 1.2)) + 0.03 * (1 - s2), nt: 96, na: 26 }),
+        color: "hat", spec: 0.1, hull: true, cast: true, tex: "tweed",
+      });
+      const f = frontAt(seed, A1, 0.08);
+      parts.push({ geo: billGeo(f.y, R * 0.42, R * 1.02, f.z / 0.9, 0.3, 0.0068, 54), color: "hat", spec: 0.1, hull: true, cast: true });
+      const topY = headPoint(0, 0.97, 0.24, headVariant(seed), new THREE.Vector3());
       const b = new THREE.SphereGeometry(R * 0.07, 12, 8);
       b.scale(1, 0.6, 1);
-      b.translate(0, R * 1.12, R * 0.12);
+      b.translate(0, topY.y * 1.12, topY.z * 1.12);
       parts.push({ geo: b, color: "hat", hull: true, inkK: 0.6 });
       break;
     }
@@ -697,26 +754,11 @@ export const hatParts = (hat: string, seed: number): HatPart[] => {
       break;
     }
     case "sunhat": {
-      // a soft sun hat: a rounded crown, a ribbon band, a wide brim that dips a little
-      parts.push({
-        geo: lathe([[R * 0.98, R * 0.36], [R * 1.0, R * 0.6], [R * 0.96, R * 0.92], [R * 0.82, R * 1.18], [R * 0.5, R * 1.3], [0, R * 1.33]]),
-        color: "hat",
-        spec: 0.08,
-        hull: true,
-        cast: true,
-        tex: "weave",
-      });
-      parts.push({ geo: lathe([[R * 1.005, R * 0.37], [R * 1.02, R * 0.4], [R * 1.02, R * 0.56], [R * 1.0, R * 0.6]]), color: "band", spec: 0.25, hull: true });
-      const brim: [number, number][] = [];
-      for (let i = 0; i <= 10; i++) {
-        const s = i / 10;
-        brim.push([R * (0.97 + 0.95 * s), R * (0.4 - 0.2 * s * s)]);
-      }
-      for (let i = 10; i >= 0; i--) {
-        const s = i / 10;
-        brim.push([R * (0.97 + 0.95 * s), R * (0.4 - 0.2 * s * s) + R * 0.05]);
-      }
-      parts.push({ geo: lathe(brim, 72, HEAD_DEPTH * 1.08), color: "hat", spec: 0.05, hull: true, cast: true, tex: "weave", rim: 0 });
+      // a soft sun hat: a rounded crown that hugs the head and puffs up on top, a ribbon band, a wide brim that dips
+      const A1 = 62 * D2R;
+      parts.push({ geo: capGeo({ seed, a0: () => 0, a1: () => A1, thick: (s2) => 0.09 + 0.14 * (1 - s2) * (1 - s2), nt: 96, na: 26 }), color: "hat", spec: 0.08, hull: true, cast: true, tex: "weave" });
+      parts.push({ geo: capGeo({ seed, a0: () => A1 - 12 * D2R, a1: () => A1 - 1 * D2R, thick: () => 0.105, nt: 96, na: 4 }), color: "band", spec: 0.25, hull: true });
+      parts.push({ geo: brimGeo(seed, A1 + 1 * D2R, 0.09, R * 0.92, 0.22, R * 0.05), color: "hat", spec: 0.05, hull: true, cast: true, tex: "weave", rim: 0 });
       break;
     }
     default:
@@ -794,3 +836,5 @@ export const mergeGeos = (geos: THREE.BufferGeometry[]) => {
   out.setIndex(idx);
   return out;
 };
+
+void lathe;
