@@ -179,13 +179,14 @@ const S3: Scene = {
       [
         { p: (tt) => add(off1Day(tt).p, [0, 1.15, 0]), r: 0.75, w: (tt) => track([[0, 1], [T.fine + 0.2, 1], [T.change, 0.2, "inout"]], tt) },
         { p: () => add(SWITCH, [0, 0.3, 0]), r: 0.35, w: (tt) => track([[0, 0], [T.checks - 0.2, 0], [T.checks + 0.1, 0.7, "inout"], [T.fine - 0.1, 0.2, "inout"]], tt) },
-        { p: () => LOCK_P, r: 0.6, w: (tt) => track([[0, 0], [T.change - 0.3, 0], [T.change, 1, "inout"]], tt) },
+        
       ],
-      { az: (tt) => track([[0, -0.72], [T.fine, -0.8, "inout"], [T.change, 2.5, "inout"]], tt), el: () => 0.12, fov: 50, minR: 0.95, inside: ROOM },
+      { az: (tt) => track([[0, -0.72], [T.fine, -0.8, "inout"], [T.change, -0.8]], tt), el: () => 0.12, fov: 50, minR: 0.95, inside: ROOM },
       t,
     )
-    const lockCam = aimFrom(() => [-0.7, DECK_Y + 1.55, LR + 1.75], () => add(LOCK_P, [0.35, 0.05, -0.2]), 50);
-    return blendCam(d(t), lockCam(t), smooth((t - T.change + 0.3) / 0.5));
+    const lockCam = aimFrom(keyV([[T.change - 0.1, [-0.9, DECK_Y + 2.1, 7.2]], [T.it2, [-0.6, DECK_Y + 1.95, 6.8]]]), () => [0.6, DECK_Y + 1.25, 4.6], 40);
+    // a cut out to the gallery (a new place: the door, outside), then a slow push on the new lock
+    return t < T.change - 0.05 ? d(t) : lockCam(t);
   },
   actors: (t) => [off1Day(t), off2Lock(t)],
   lamp: (t) => lampState(t, null, { lockNew: smooth((t - T.lock) / 0.2) }),
@@ -282,13 +283,13 @@ const DECK_HOP: V3 = [-0.35, DECK_Y + 0.03, LR + 0.55];
 const AT_SWITCH: V3 = [SWITCH[0] - 0.36, DECK_Y + 0.03, SWITCH[2] - 0.38];
 const LEVER_DOWN = T.switch2 + 0.05;
 const gullTonight = (t: number): GullState | null => {
-  if (t < T.gull1 - 0.3) return null;
+  if (t < T.flapping - 0.15) return null;
   const face0 = GF("normal", 0, 0);
   // flight in from the sea onto the railing
   if (t < T.lands) {
-    const u = clamp((t - (T.gull1 - 0.3)) / (T.lands - T.gull1 + 0.3));
-    const p = mix3([6.5, RAIL_Y + 2.5, 10], RAIL_LAND, smooth(u));
-    return { p: [p[0], p[1] + 0.6 * Math.sin(PI * u), p[2]], yaw: PI + 0.5, tilt: 0.2 * (1 - u), bob: 0, flap: 0.6 * Math.sin(q(t, 30) * 2 * PI * 2), fold: 0, peck: 0, step: 0, face: face0 };
+    const u = clamp((t - (T.flapping - 0.15)) / (T.lands - T.flapping + 0.15));
+    const p = mix3([-6.5, RAIL_Y + 2.5, 10], RAIL_LAND, smooth(u));
+    return { p: [p[0], p[1] + 0.6 * Math.sin(PI * u), p[2]], yaw: PI - 0.5, tilt: 0.2 * (1 - u), bob: 0, flap: 0.6 * Math.sin(q(t, 30) * 2 * PI * 2), fold: 0, peck: 0, step: 0, face: face0 };
   }
   // on the railing: folds its wings, looks around; then hops down and waddles through the door to the switch
   if (t < T.waddles) {
@@ -346,12 +347,15 @@ const S6: Scene = {
     )
     const gp = (tt: number) => add(gullTonight(tt)?.p ?? RAIL_LAND, [0, 0.3, 0]);
     const arrival = aimFrom(
-      keyV([[T.gull1 - 0.3, [-0.4, DECK_Y + 1.5, 1.6]], [T.lands, [-0.2, DECK_Y + 1.35, 2.3]], [T.waddles, [-0.1, DECK_Y + 1.25, 2.6]], [T.inside + 0.2, [-0.5, DECK_Y + 1.1, 2.6]], [T.pecks, [0.05, DECK_Y + 0.85, 2.85]]]),
+      keyV([[T.flapping - 0.1, [-1.25, DECK_Y + 1.4, 1.9]], [T.gull1, [-1.15, DECK_Y + 1.4, 2.0]], [T.lands, [-0.2, DECK_Y + 1.35, 2.3]], [T.waddles, [-0.1, DECK_Y + 1.25, 2.6]], [T.inside + 0.2, [-0.5, DECK_Y + 1.1, 2.6]], [T.pecks, [0.05, DECK_Y + 0.85, 2.85]]]),
       (tt) => (tt < T.lands ? mix3(add(RAIL_LAND, [0, 0.6, 0]), gp(tt), 0.6) : gp(tt)),
       48,
     );
-    const u = window01(t, T.gull1 - 0.25, T.switch2 + 0.1, 0.35, 0.45);
-    return blendCam(d(t), arrival(t), u);
+    // the light comes on: push in on Walt's face from the switch side (his big take, held)
+    const react = aimFrom(keyV([[T.light - 0.1, [0.45, DECK_Y + 1.5, 1.55]], [T.for, [-0.35, DECK_Y + 1.5, 1.2]]]), () => add(W_HIDE, [0, 1.35, 0]), 50);
+    const u = window01(t, T.flapping - 0.2, T.switch2 + 0.1, 0.3, 0.3);
+    const v = smooth((t - T.switch2 - 0.05) / 0.3);
+    return blendCam(blendCam(d(t), arrival(t), u), react(t), v);
   },
   actors: (t) => [waltHide(t).actor],
   gull: gullTonight,
@@ -461,7 +465,7 @@ const waltNow = (t: number): { actor: Actor; bread?: V3 } => {
     armR = mixArm(armR, t < BREAD_T0 ? [50, 110] : [95, 30], toss);
     fwdR = lerp(fwdR, 60, toss);
   }
-  const pose: BodyPose = { lean: 8, armR, armRFwd: fwdR, armL: [20, 30], armLFwd: 20, headNod: 22, headTilt: 10 * guilty, headStretch: track([[0, 1.05], [T.the_gull3 + 0.3, 1]], t) };
+  const pose: BodyPose = { lean: 8, armR, armRFwd: fwdR, armL: [20, 30], armLFwd: 20, headNod: 12, headTilt: 10 * guilty, headStretch: track([[0, 1.05], [T.the_gull3 + 0.3, 1]], t) };
   const face = t < T.it4 ? F("wide", "o", "raised") : t < T.reaches ? F("open", "wavy", "worried", { sweat: true }) : t < T.brought ? F("half", "smirk", "raised") : F("squint", "beam", "raised");
   const bread = t > T.reaches + 0.25 && t < BREAD_T0 ? add(hand(WALT, W_NOW, yaw, pose, "R"), [0, 0.05, 0]) : undefined;
   return { actor: { spec: WALT, p: W_NOW, yaw, pose, face }, bread };
@@ -481,10 +485,10 @@ const S8: Scene = {
     direct(
       [
         { p: (tt) => add(gullNow(tt).p, [0, 0.35, 0]), r: 0.6, w: (tt) => track([[0, 1], [T.it4, 1], [T.reaches, 0.6, "inout"], [T.brought, 0.8, "inout"], [BREAD_T1, 1]], tt) },
-        { p: () => add(W_NOW, [0, 1.2, 0]), r: 0.7, w: (tt) => track([[0, 0.2], [T.showing, 0.6, "inout"], [T.walt4, 1, "inout"]], tt) },
+        { p: () => add(W_NOW, [0, 1.35, 0]), r: 0.95, w: (tt) => track([[0, 0.2], [T.showing, 0.6, "inout"], [T.walt4, 1, "inout"]], tt) },
         { p: (tt) => breadAt(tt) ?? add(W_NOW, [0, 0.9, 0]), r: 0.3, w: (tt) => track([[0, 0], [T.pocket - 0.1, 0], [T.pocket + 0.1, 0.6, "inout"], [BREAD_T1 + 0.1, 0.6], [BREAD_T1 + 0.3, 0, "inout"]], tt) },
       ],
-      { az: (tt) => track([[0, -0.8], [T.it4, -1.0, "inout"], [T.walt4, -0.7, "inout"], [SECONDS, -0.4, "inout"]], tt), el: (tt) => track([[0, 0.15], [BREAD_T1, 0.2], [SECONDS, 0.4, "inout"]], tt), fov: 56, minR: 1.0, lead: 0.15, face: 0.4, inside: ROOM, room: (tt) => track([[0, 1.2], [BREAD_T1 + 0.1, 1.2], [SECONDS, 1.6, "inout"]], tt) },
+      { az: (tt) => track([[0, 0.45], [T.it4, 0.35, "inout"], [T.walt4, 0.65, "inout"], [SECONDS, 0.85, "inout"]], tt), el: (tt) => track([[0, 0.15], [BREAD_T1, 0.2], [SECONDS, 0.4, "inout"]], tt), fov: 56, minR: 1.05, lead: 0.15, face: 0.47, inside: ROOM, room: (tt) => track([[0, 1.35], [BREAD_T1 + 0.1, 1.35], [SECONDS, 1.65, "inout"]], tt) },
       t,
     ),
   actors: (t) => [waltNow(t).actor],
