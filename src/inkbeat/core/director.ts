@@ -29,6 +29,8 @@ export type Style = {
   /** how far ahead the camera anticipates (s) and how long its smoothing window is (s) */
   lead?: number;
   window?: number;
+  /** keep the lens inside a round room: center (x, z) and radius; the camera slides in toward the subject */
+  inside?: { x: number; z: number; r: number };
 };
 
 const D2R = Math.PI / 180;
@@ -88,8 +90,38 @@ export const direct = (subjects: Subject[], style: Style, t: number): Cam => {
   const az = style.az(t);
   const el = style.el(t);
   const pos: V3 = [c[0] + Math.sin(az) * Math.cos(el) * dist, c[1] + Math.sin(el) * dist, c[2] + Math.cos(az) * Math.cos(el) * dist];
+  if (style.inside) {
+    const { x, z, r } = style.inside;
+    const at = (m: number): V3 => [c[0] + (pos[0] - c[0]) * m, c[1] + (pos[1] - c[1]) * m, c[2] + (pos[2] - c[2]) * m];
+    const inside = (p: V3) => Math.hypot(p[0] - x, p[2] - z) <= r;
+    if (!inside(pos)) {
+      // walk from the lens toward the subject: stop at the first point inside the room (the lens stays indoors
+      // and looks out through the glass or the door); if the line never enters the room, leave the lens alone
+      let hit = -1;
+      for (let i = 1; i <= 50; i++) {
+        const m = 1 - i / 50;
+        if (inside(at(m))) {
+          hit = m;
+          break;
+        }
+      }
+      if (hit >= 0) {
+        let lo = hit;
+        let hi = Math.min(1, hit + 0.02);
+        for (let i = 0; i < 16; i++) {
+          const m = (lo + hi) / 2;
+          if (inside(at(m))) lo = m;
+          else hi = m;
+        }
+        const p2 = at(lo);
+        pos[0] = p2[0];
+        pos[1] = p2[1];
+        pos[2] = p2[2];
+      }
+    }
+  }
   // composition: put the center of attention at `face` from the top (aim a little below it)
   const face = style.face ?? 0.42;
-  const drop = Math.tan(((0.5 - face) * style.fov * D2R)) * dist;
+  const drop = Math.tan((0.5 - face) * style.fov * D2R) * Math.hypot(pos[0] - c[0], pos[1] - c[1], pos[2] - c[2]);
   return { pos, look: [c[0], c[1] - drop, c[2]], fov: style.fov, roll: 0 };
 };
