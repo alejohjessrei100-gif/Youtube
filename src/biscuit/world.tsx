@@ -223,9 +223,10 @@ const lotFrame = (side: "n" | "s" | "e" | "w", at: number): { p: V3; ry: number 
   side === "n" ? { p: [at, 0, SZ + 0.6], ry: PI } : side === "s" ? { p: [at, 0, -SZ - 0.6], ry: 0 } : side === "e" ? { p: [SX + 0.6, 0, at], ry: -PI / 2 } : { p: [-SX - 0.6, 0, at], ry: PI / 2 };
 
 // ------------------------------------------------------------------ lampposts and posters along the route
-const POLES: { p: V3; ry: number; side: number }[] = [];
+export const POLES: { p: V3; ry: number; side: number }[] = [];
 for (let x = -18; x <= 18; x += 6) {
-  POLES.push({ p: [x + 1.3, 0, RZ + 0.35], ry: PI, side: 0 });
+  // (no lamppost at x = 1.3 on the north side: that stretch is where Biscuit walks home, shot from the road)
+  if (Math.abs(x + 1.3 - 1.3) > 0.01) POLES.push({ p: [x + 1.3, 0, RZ + 0.35], ry: PI, side: 0 });
   POLES.push({ p: [x - 1.1, 0, -RZ - 0.35], ry: 0, side: 2 });
 }
 for (let z = -9; z <= 9; z += 6) {
@@ -444,7 +445,6 @@ export const Dog: React.FC<{ d: DogState }> = ({ d }) => {
         <group position={[0, 0.86 + 0.18 * sit, 0.5 - 0.08 * sit]} rotation={[d.headNod - 0.35 * d.bonk, d.headYaw, d.headTilt]}>
           <M g={sphG(1, 18)} c={GOLD} p={[0, 0.03, 0]} s={[0.17, 0.16, 0.18]} />
           <M g={sphG(1, 14)} c={GREY} p={[0, -0.04, 0.17]} s={[0.1, 0.085, 0.13]} />
-          <M g={sphG(1, 10)} c={GREY} p={[0, 0.06, 0.13]} s={[0.12, 0.05, 0.07]} />
           <M g={sphG(0.04, 10)} c="#141014" p={[0, -0.01, 0.3]} s={[1.2, 0.8, 0.8]} />
           {d.mouth > 0.05 ? (
             <>
@@ -461,13 +461,13 @@ export const Dog: React.FC<{ d: DogState }> = ({ d }) => {
               ) : (
                 <>
                   {/* warm brown eyes under a milky film: old, kind and blind */}
-                  <M g={sphG(0.03, 12)} c="#f4efe6" s={[1, 1, 0.6]} />
-                  <M g={sphG(0.021, 12)} c="#5a3a24" p={[0, 0, 0.012]} s={[1, 1, 0.5]} />
-                  <mesh geometry={sphG(0.022, 12)} material={coreMat("#dfe8f0", 1.0, 0.55)} position={[0, 0, 0.016]} scale={[1, 1, 0.4]} />
-                  <mesh geometry={sphG(0.006, 6)} material={coreMat("#ffffff", 1)} position={[sd * -0.007, 0.008, 0.025]} />
+                  <M g={sphG(0.034, 12)} c="#2a1a14" s={[1, 1, 0.55]} />
+                  <M g={sphG(0.026, 12)} c="#6a4430" p={[0, 0, 0.012]} s={[1, 1, 0.45]} />
+                  <mesh geometry={sphG(0.027, 12)} material={coreMat("#e4ecf4", 1.0, 0.5)} position={[0, 0, 0.018]} scale={[1, 1, 0.35]} />
+                  <mesh geometry={sphG(0.008, 6)} material={coreMat("#ffffff", 1)} position={[sd * -0.009, 0.011, 0.027]} />
                 </>
               )}
-              <M g={boxG(0.05, 0.012, 0.012)} c={GREY} p={[0, 0.045, 0.01]} r={[0, 0, sd * -0.25]} />
+              <M g={boxG(0.045, 0.01, 0.01)} c={GOLD_D} p={[0, 0.042, 0.015]} r={[0, 0, sd * -0.3]} />
             </group>
           ))}
           {[-1, 1].map((sd) => (

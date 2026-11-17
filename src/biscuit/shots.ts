@@ -111,7 +111,7 @@ export type Scene = {
 const OFF = (spec: CharacterSpec, p: V3, yaw: number, pose: BodyPose, face: FaceState): Actor => ({ spec, p, yaw, pose, face });
 
 // ================================================================== A. the morning: posters everywhere, nobody owns a Biscuit, the call
-const POLE_POSTER: V3 = [1.3, 1.55, 13.44];
+const POLE_POSTER: V3 = [-4.7, 1.55, 13.44];
 const ROBE_P: V3 = [5.4, 0, 15.6];
 const MUG_P: V3 = [6.4, 0, 15.6];
 const PAPER_P: V3 = [7.4, 0, 15.6];
@@ -119,7 +119,7 @@ const PAPER_P: V3 = [7.4, 0, 15.6];
 const readPoster = (spec: CharacterSpec, p: V3, yaw: number, u: number, side: "L" | "R" = "R") => {
   const hp = head(spec, p);
   // held at chest height, well below the face, so the reader's face stays in view while they look down at it
-  const tgt: V3 = [hp[0] + Math.sin(yaw) * 0.36 + Math.cos(yaw) * (side === "R" ? -0.06 : 0.06), hp[1] - 0.6, hp[2] + Math.cos(yaw) * 0.36];
+  const tgt: V3 = [hp[0] + Math.sin(yaw) * 0.4 + Math.cos(yaw) * (side === "R" ? -0.06 : 0.06), hp[1] - 0.78, hp[2] + Math.cos(yaw) * 0.4];
   const k = ik(spec, p, yaw, side, tgt, 4);
   return { arm: mixArm([14, 8], k.arm, u), fwd: lerp(10, k.fwd, u) };
 };
@@ -142,7 +142,8 @@ const mugA = (t: number) => {
   const chest = window01(t, T.please - 0.1, SECONDS, 0.3, 0.2);
   const hp = head(MUG, MUG_P);
   // the phone at her right ear (a character's right is -x when it faces +z)
-  const ear: V3 = [hp[0] - Math.cos(yaw) * 0.17 + Math.sin(yaw) * 0.04, hp[1] - 0.04, hp[2] + Math.sin(yaw) * 0.17 + Math.cos(yaw) * 0.04];
+  // on speaker: the phone held up in front of her face (it reads clearly; at the ear it would sink into the big toon head)
+  const ear: V3 = [hp[0] + Math.sin(yaw) * 0.36 - Math.cos(yaw) * 0.05, hp[1] - 0.12, hp[2] + Math.cos(yaw) * 0.36 + Math.sin(yaw) * 0.05];
   const kp = ik(MUG, MUG_P, yaw, "R", ear, 2);
   const kc = ik(MUG, MUG_P, yaw, "L", add(MUG_P, [0.03, MUG.height * 0.68, -0.18]), 2);
   let pose: BodyPose = { lean: 2, armR: mixArm([40, 70], kp.arm, call), armRFwd: lerp(60, kp.fwd, call), armL: [40, 80], armLFwd: 70, headTilt: 12 * melt };
@@ -153,7 +154,7 @@ const mugA = (t: number) => {
     t < T.called ? F("half", "wavy", "raised") :
     t < T.voice - 0.1 ? F("open", "flat", "neutral") :
     t < T.please ? F("huge", "o", "worried") : F("sparkle", "smile", "worried", { flush: 0.4 });
-  const phoneOn = call > 0.05 ? { p: add(hand(MUG, MUG_P, yaw, pose, "R"), [0, 0.06, 0]), ry: yaw - PI / 2, tilt: 0.2 } : undefined;
+  const phoneOn = call > 0.05 ? { p: add(hand(MUG, MUG_P, yaw, pose, "R"), [0, 0.08, 0]), ry: yaw, tilt: 0.1 } : undefined;
   const mug = add(hand(MUG, MUG_P, yaw, pose, "L"), [0, 0.04, 0]);
   return { a: OFF(MUG, MUG_P, yaw, pose, face), phone: phoneOn, mug: chest > 0.5 ? undefined : mug };
 };
@@ -171,10 +172,10 @@ const SA: { id: number; t0: number } = { id: 1, t0: 0 };
 const sceneA = {
   id: SA.id, t0: SA.t0, mood: "golden", blur: 1.3,
   cam: keyed([
-    [0, C([1.3, 1.52, 14.3], POLE_POSTER, 38)],
-    [T.three + 0.3, C([1.4, 1.58, 14.5], add(POLE_POSTER, [0, -0.02, 0]), 42), "inout"],
-    [T.three + 1.0, C([1.9, 2.6, 15.0], [-3, 1.4, 14.2], 48), "inout"],
-    [T.posters + 0.1, C([4.6, 3.3, 11.4], [-8, 1.0, 15.2], 50), "inout"],
+    [0, C([-4.7, 1.52, 14.3], POLE_POSTER, 38)],
+    [T.three + 0.3, C([-4.6, 1.58, 14.5], add(POLE_POSTER, [0, -0.02, 0]), 42), "inout"],
+    [T.three + 1.0, C([-4.1, 2.6, 15.0], [3, 1.4, 14.2], 48), "inout"],
+    [T.posters + 0.1, C([-2.6, 3.3, 11.4], [9, 1.0, 15.2], 50), "inout"],
     [T.biscuit1 + 0.25, C([ROBE_P[0] + 0.2, 1.55, 12.7], add(head(ROBE, ROBE_P), [0, -0.35, 0]), 44), "inout"],
     [T.nobody + 0.9, C([MUG_P[0] - 0.05, 1.6, 11.2], [MUG_P[0], 1.25, 15.6], 54), "inout"],
     [T.people + 0.2, C([MUG_P[0] + 0.15, 1.6, 12.7], add(head(MUG, MUG_P), [0, -0.3, 0]), 44), "inout"],
@@ -189,7 +190,7 @@ const sceneA = {
     const p = paperA(t);
     return { held: [r.held, p.held].filter(Boolean) as { p: V3; ry: number; tilt?: number }[], phone: m.phone, mug: m.mug };
   },
-  focus: (t: number) => (t < T.posters ? POLE_POSTER : t < T.nobody ? head(ROBE, ROBE_P) : head(MUG, MUG_P)),
+  focus: (t: number) => (t < T.three + 0.9 ? POLE_POSTER : t < T.nobody ? head(ROBE, ROBE_P) : head(MUG, MUG_P)),
 };
 
 // ================================================================== B. overhead: a new street every morning, the long loop
@@ -255,7 +256,8 @@ export const dogC = (t: number): DogState => {
   const turn = window01(t, T.lost - 0.2, T.walk - 0.3, 0.5, 0.4);
   // he turns toward the road (clear of the lamppost) so his face, cloudy eyes and grey muzzle read
   if (!w.seg && !after) yaw = -PI / 2 - 1.87 * turn;
-  if (after && w.seg === null) yaw = yawTo(LILY_GATE, add(LILY_GATE, [1, 0, 0])) + PI;
+  // home: he settles beside Lily facing the street (his head angled toward her), so her face stays in view in the hug
+  if (after && w.seg === null) yaw = lerp(yawTo(AROUND[2].from, AROUND[2].to), PI + 0.6, smooth((t - AROUND[2].t1) / 0.5));
   // ears perk at each voice, the head turns toward it; the tail wags harder and harder
   let ears = 0;
   let headYaw = 0;
@@ -324,9 +326,11 @@ const lilyC = (t: number): Actor => {
   const hug = smooth((t - T.home + 0.15) / 0.35);
   const kL = ik(LILY, LILY_P, yaw, "L", add(d.p, [0.12, 0.85, 0.1]), 18);
   const kR = ik(LILY, LILY_P, yaw, "R", add(d.p, [-0.12, 0.85, 0.1]), 18);
-  let pose: BodyPose = { lean: 4 + 22 * hug, armL: mixArm([20, 12], [70, 60], call), armLFwd: lerp(10, 60, call), armR: mixArm([20, 12], [70, 60], call), armRFwd: lerp(10, 60, call) };
+  let pose: BodyPose = { lean: 4 + 10 * hug, armL: mixArm([20, 12], [70, 60], call), armLFwd: lerp(10, 60, call), armR: mixArm([20, 12], [70, 60], call), armRFwd: lerp(10, 60, call) };
   if (hug > 0) pose = { ...pose, armL: mixArm(pose.armL!, kL.arm, hug), armLFwd: lerp(pose.armLFwd!, kL.fwd, hug), armR: mixArm(pose.armR!, kR.arm, hug), armRFwd: lerp(pose.armRFwd!, kR.fwd, hug) };
-  pose = { ...pose, ...look(LILY, LILY_P, yaw, add(d.p, [0, 0.8, 0])), headStretch: 1 + 0.1 * window01(t, T.home - 0.2, T.home + 0.4, 0.08, 0.3) };
+  // in the hug she turns her face out toward the lens, cheek against his head
+  const lk = look(LILY, LILY_P, yaw, add(d.p, [0, 0.8, 0]));
+  pose = { ...pose, headYaw: lerp(lk.headYaw, -45, hug), headNod: lerp(lk.headNod, 8, hug), headTilt: 14 * hug, headStretch: 1 + 0.1 * window01(t, T.home - 0.2, T.home + 0.4, 0.08, 0.3) };
   const face = t < T.follow ? F("open", "flat", "worried") : t < T.home - 0.2 ? F("huge", "grin", "high") : F("closed", "beam", "raised", { flush: 0.5 });
   return OFF(LILY, LILY_P, yaw, pose, face);
 };
@@ -345,16 +349,17 @@ const sceneC = {
       [T.bumping, C([MAILBOX[0] - 0.6, 0.9, 12.6], [MAILBOX[0] + 0.6, 0.75, CZ], 42), "inout"],
       [T.biscuit3, C([MAILBOX[0] - 0.6, 0.9, 12.6], [MAILBOX[0] + 0.65, 0.8, CZ], 42)],
       [T.lost + 0.4, C([MAILBOX[0] + 0.8, 1.3, 11.6], [MAILBOX[0] + 0.7, 0.85, 14.5], 46), "inout"],
-      [T.fourteen + 0.2, C([MAILBOX[0] + 1.33, 0.95, 12.67], [MAILBOX[0] + 1.0, 0.92, 13.77], 38), "inout"],
-      [T.still, C([MAILBOX[0] + 1.3, 0.95, 12.65], [MAILBOX[0] + 1.0, 0.92, 13.77], 38)],
+      [T.fourteen + 0.2, C([MAILBOX[0] + 1.45, 1.0, 12.45], [MAILBOX[0] + 1.0, 0.88, 13.77], 46), "inout"],
+      [T.still, C([MAILBOX[0] + 1.42, 1.0, 12.45], [MAILBOX[0] + 1.0, 0.88, 13.77], 46)],
       [T.walk, C([MAILBOX[0] + 1.6, 1.3, 11.3], [MAILBOX[0] + 0.3, 0.7, 13.7], 46), "inout"],
       // a low lens on the sidewalk itself, leading him as he trots toward it (no lamppost between them)
-      [T.girl + 0.2, C([0.9, 1.0, 13.9], [3.4, 0.7, 13.85], 48), "inout"],
-      [T.strangers + 0.2, C([-1.7, 1.05, 14.0], [0.8, 0.75, 14.5], 48), "inout"],
-      [T.say2 + 0.4, C([-2.8, 1.05, 14.0], [-0.5, 0.8, 14.8], 48), "inout"],
-      [T.follow + 0.4, C([-3.5, 1.05, 13.9], [-1.6, 0.8, 14.9], 48), "inout"],
-      [T.home + 0.3, C([-3.05, 1.05, 13.2], [-3.05, 0.9, 15.4], 52), "inout"],
-      [T.now + 0.1, C([-3.05, 1.08, 13.15], [-3.05, 0.9, 15.4], 52)],
+      // a road-side track alongside him as he trots home past the neighbors
+      [T.girl, C([5.4, 1.35, 11.7], [4.0, 0.75, 13.9], 52), "inout"],
+      [T.strangers + 0.2, C([1.6, 1.35, 11.6], [0.9, 0.8, 14.6], 50), "inout"],
+      [T.say2 + 0.4, C([0.0, 1.35, 11.7], [-0.4, 0.85, 14.8], 50), "inout"],
+      [T.follow + 0.4, C([-1.8, 1.3, 11.9], [-2.0, 0.85, 15.0], 50), "inout"],
+      [T.home + 0.3, C([-3.95, 1.1, 13.45], [-3.0, 0.9, 15.4], 52), "inout"],
+      [T.now + 0.1, C([-3.95, 1.12, 13.4], [-3.0, 0.9, 15.4], 52)],
       [T.hi + 0.2, C([-1.4, 2.6, 10.6], [-2.4, 0.9, 15.2], 50), "inout"],
       [SECONDS, C([0.2, 4.4, 8.9], [-1.4, 1.0, 15.2], 52), "inout"],
     ]),

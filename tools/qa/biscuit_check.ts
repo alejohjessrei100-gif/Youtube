@@ -3,19 +3,11 @@
 // the fences. Prints problems grouped into time ranges.
 import { headOf } from "../../src/inkbeat/char/Character3D";
 import { SCENES } from "../../src/biscuit/shots";
-import { MAILBOX, RZ, RX, SZ } from "../../src/biscuit/world";
+import { MAILBOX, POLES as POLES_W, SZ } from "../../src/biscuit/world";
 import { SECONDS } from "../../src/biscuit/words.gen";
 
 type V = [number, number, number];
-const POLES: V[] = [];
-for (let x = -18; x <= 18; x += 6) {
-  POLES.push([x + 1.3, 0, RZ + 0.35]);
-  POLES.push([x - 1.1, 0, -RZ - 0.35]);
-}
-for (let z = -9; z <= 9; z += 6) {
-  POLES.push([-RX - 0.35, 0, z + 0.8]);
-  POLES.push([RX + 0.35, 0, z - 0.8]);
-}
+const POLES: V[] = POLES_W.map((p) => p.p as V);
 const segPointDist2D = (a: V, b: V, p: V) => {
   const dx = b[0] - a[0], dz = b[2] - a[2];
   const L = dx * dx + dz * dz || 1e-9;
@@ -53,6 +45,11 @@ for (let f = 0; f < Math.round(SECONDS * 30); f++) {
   // 2. the lens inside something
   for (const p of POLES) if (Math.hypot(cam.pos[0] - p[0], cam.pos[2] - p[2]) < 0.3 && cam.pos[1] < 4.3) add("lens inside a lamppost", t);
   for (const b of bodies) if (Math.hypot(cam.pos[0] - b.p[0], cam.pos[2] - b.p[2]) < b.r + 0.12 && cam.pos[1] < b.h + 0.1) add(`lens inside ${b.name}`, t);
+  for (const b of bodies) {
+    const cy = b.name === "dog" ? 0.65 : b.h * 0.6;
+    const d3 = Math.hypot(cam.pos[0] - b.p[0], cam.pos[1] - cy, cam.pos[2] - b.p[2]);
+    if (d3 < 1.1) add(`lens very close (${d3.toFixed(2)} m) to ${b.name}`, t);
+  }
   if (Math.abs(cam.pos[0] - MAILBOX[0]) < 0.4 && Math.abs(cam.pos[2] - MAILBOX[2]) < 0.38 && cam.pos[1] < 1.4) add("lens inside the mailbox", t);
   if (cam.pos[2] > SZ + 0.55 && cam.pos[1] < 1.0) add("lens behind the fence line, low", t);
   // 3. overlaps
