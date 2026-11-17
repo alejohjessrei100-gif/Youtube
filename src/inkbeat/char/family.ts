@@ -92,7 +92,7 @@ export const FOOT_X = 0.44;
 /** shoe: half-width, height, half-length, toe offset forward; sole thickness */
 export const SHOE = { w: 0.03, h: 0.042, l: 0.058, fwd: 0.022, sole: 0.011 };
 /** walk: stride (forward swing at the ankle), foot lift, arm swing at the hand */
-export const WALK = { stride: 0.085, lift: 0.035, arm: 0.05 };
+export const WALK = { stride: 0.11, lift: 0.04, arm: 0.06 };
 
 // ------------------------------------------------------------------ face layout (hw, canvas y down)
 /** the face decal covers x, y in [-FACE_SPAN, FACE_SPAN] hw around the head center */

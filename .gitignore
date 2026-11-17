@@ -6,3 +6,4 @@ tools/t/reach.js
 tools/t/frames.js
 tools/t/frames_dagenh.js
 tools/t/frames_peigneur.js
+tools/t/act_events.js
