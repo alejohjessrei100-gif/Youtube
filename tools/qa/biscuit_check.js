@@ -12705,10 +12705,10 @@ var mugA = (t) => {
   const melt = smooth((t - T.voice + 0.1) / 0.3);
   const chest = window01(t, T.please - 0.1, SECONDS, 0.3, 0.2);
   const hp = head(MUG, MUG_P);
-  const ear = [hp[0] + Math.sin(yaw) * 0.36 - Math.cos(yaw) * 0.05, hp[1] - 0.12, hp[2] + Math.cos(yaw) * 0.36 + Math.sin(yaw) * 0.05];
+  const ear = [hp[0] + Math.sin(yaw) * 0.36 - Math.cos(yaw) * 0.12, hp[1] - 0.5, hp[2] + Math.cos(yaw) * 0.36 + Math.sin(yaw) * 0.12];
   const kp = ik(MUG, MUG_P, yaw, "R", ear, 2);
   const kc = ik(MUG, MUG_P, yaw, "L", add(MUG_P, [0.03, MUG.height * 0.68, -0.18]), 2);
-  let pose = { lean: 2, armR: mixArm([40, 70], kp.arm, call), armRFwd: lerp2(60, kp.fwd, call), armL: [40, 80], armLFwd: 70, headTilt: 12 * melt };
+  let pose = { lean: 2, armR: mixArm([40, 70], kp.arm, call), armRFwd: lerp2(60, kp.fwd, call), armL: [40, 80], armLFwd: 70, headTilt: 12 * melt, headNod: 10 * call * (1 - melt) };
   if (shrug > 0) pose = { ...pose, armR: mixArm(pose.armR, [60, 90], shrug), armRFwd: lerp2(pose.armRFwd, 20, shrug), headNod: -8 * shrug };
   if (chest > 0) pose = { ...pose, armL: mixArm([40, 80], kc.arm, chest), armLFwd: lerp2(70, kc.fwd, chest) };
   const face = t < T.nobody ? F2("open", "flat", "raised") : t < T.called ? F2("half", "wavy", "raised") : t < T.voice - 0.1 ? F2("open", "flat", "neutral") : t < T.please ? F2("huge", "o", "worried") : F2("sparkle", "smile", "worried", { flush: 0.4 });
@@ -12891,7 +12891,7 @@ var lilyC = (t) => {
   let pose = { lean: 4 + 10 * hug, armL: mixArm([20, 12], [70, 60], call), armLFwd: lerp2(10, 60, call), armR: mixArm([20, 12], [70, 60], call), armRFwd: lerp2(10, 60, call) };
   if (hug > 0) pose = { ...pose, armL: mixArm(pose.armL, kL.arm, hug), armLFwd: lerp2(pose.armLFwd, kL.fwd, hug), armR: mixArm(pose.armR, kR.arm, hug), armRFwd: lerp2(pose.armRFwd, kR.fwd, hug) };
   const lk = look(LILY, LILY_P, yaw, add(d.p, [0, 0.8, 0]));
-  pose = { ...pose, headYaw: lerp2(lk.headYaw, -45, hug), headNod: lerp2(lk.headNod, 8, hug), headTilt: 14 * hug, headStretch: 1 + 0.1 * window01(t, T.home - 0.2, T.home + 0.4, 0.08, 0.3) };
+  pose = { ...pose, headYaw: lerp2(lk.headYaw, 45, hug), headNod: lerp2(lk.headNod, 8, hug), headTilt: 14 * hug, headStretch: 1 + 0.1 * window01(t, T.home - 0.2, T.home + 0.4, 0.08, 0.3) };
   const face = t < T.follow ? F2("open", "flat", "worried") : t < T.home - 0.2 ? F2("huge", "grin", "high") : F2("closed", "beam", "raised", { flush: 0.5 });
   return OFF(LILY, LILY_P, yaw, pose, face);
 };
@@ -12908,7 +12908,7 @@ var sceneC = {
     keyed([
       [T.then - 0.08, C([2.9, 1.6, 12.3], [0.8, 1.4, 15], 46)],
       [T.saw + 0.1, C([2.9, 1.55, 12.4], [2.1, 1.4, 14.9], 46), "inout"],
-      [T.old, C([MAILBOX[0] + 0.5, 1.25, 12], [MAILBOX[0] + 3.5, 0.7, CZ], 44), "inout"],
+      [T.old, C([MAILBOX[0] + 0.9, 1.25, 11.5], [MAILBOX[0] + 3.5, 0.7, CZ], 44), "inout"],
       [T.walking + 0.2, C([MAILBOX[0] + 2.4, 1.25, 11.2], [MAILBOX[0] + 2, 0.65, CZ], 44), "inout"],
       [T.bumping, C([MAILBOX[0] - 0.6, 0.9, 12.6], [MAILBOX[0] + 0.6, 0.75, CZ], 42), "inout"],
       [T.biscuit3, C([MAILBOX[0] - 0.6, 0.9, 12.6], [MAILBOX[0] + 0.65, 0.8, CZ], 42)],
@@ -12918,10 +12918,11 @@ var sceneC = {
       [T.walk, C([MAILBOX[0] + 1.6, 1.3, 11.3], [MAILBOX[0] + 0.3, 0.7, 13.7], 46), "inout"],
       // a low lens on the sidewalk itself, leading him as he trots toward it (no lamppost between them)
       // a road-side track alongside him as he trots home past the neighbors
-      [T.girl, C([5.4, 1.35, 11.7], [4, 0.75, 13.9], 52), "inout"],
-      [T.strangers + 0.2, C([1.6, 1.35, 11.6], [0.9, 0.8, 14.6], 50), "inout"],
-      [T.say2 + 0.4, C([0, 1.35, 11.7], [-0.4, 0.85, 14.8], 50), "inout"],
-      [T.follow + 0.4, C([-1.8, 1.3, 11.9], [-2, 0.85, 15], 50), "inout"],
+      // a road-side track just ahead of him, so his face (and the neighbors behind him) read as he trots home
+      [T.girl, C([2.6, 1.3, 11.8], [4, 0.75, 13.9], 52), "inout"],
+      [T.strangers + 0.2, C([-1, 1.3, 11.8], [0.4, 0.8, 14.6], 50), "inout"],
+      [T.say2 + 0.4, C([-2.1, 1.3, 11.9], [-0.7, 0.85, 14.8], 50), "inout"],
+      [T.follow + 0.4, C([-3.4, 1.3, 12.2], [-2.4, 0.85, 15], 50), "inout"],
       [T.home + 0.3, C([-3.95, 1.1, 13.45], [-3, 0.9, 15.4], 52), "inout"],
       [T.now + 0.1, C([-3.95, 1.12, 13.4], [-3, 0.9, 15.4], 52)],
       [T.hi + 0.2, C([-1.4, 2.6, 10.6], [-2.4, 0.9, 15.2], 50), "inout"],
