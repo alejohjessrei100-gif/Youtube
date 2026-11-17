@@ -211,16 +211,19 @@ const sceneB = {
 };
 
 // ================================================================== C. the carrier, the mailbox, the walk home, "Hi, Biscuit"
+/** where he stops: his nose (0.8 m ahead of his center) just touching the mailbox front (0.275 m from its center) */
+const STOP = 0.275 + 0.8 + 0.03;
 const DOG_ROUTE: WalkSeg[] = [
-  { t0: T.then - 0.1, t1: T.mailbox + 0.05, from: [MAILBOX[0] + 5.7, 0, CZ], to: [MAILBOX[0] + 0.78, 0, CZ] },
+  { t0: T.then - 0.1, t1: T.mailbox + 0.05, from: [MAILBOX[0] + 5.7, 0, CZ], to: [MAILBOX[0] + STOP, 0, CZ] },
 ];
 const BUMP = T.mailbox + 0.05;
+
 const AROUND: WalkSeg[] = [
   // around the mailbox through the gap between it and the lamppost (z 13.8: 0.45 m from the pole, 0.3 m from the box)
-  { t0: T.walk - 0.4, t1: T.walk + 0.4, from: [MAILBOX[0] + 0.78, 0, CZ], to: [MAILBOX[0] + 0.75, 0, 13.8] },
-  { t0: T.walk + 0.4, t1: T.girl + 0.1, from: [MAILBOX[0] + 0.75, 0, 13.8], to: [MAILBOX[0] - 0.9, 0, 13.8] },
+  { t0: T.walk - 0.4, t1: T.walk + 0.4, from: [MAILBOX[0] + STOP, 0, CZ], to: [MAILBOX[0] + STOP + 0.0, 0, 13.8] },
+  { t0: T.walk + 0.4, t1: T.girl + 0.1, from: [MAILBOX[0] + STOP + 0.0, 0, 13.8], to: [MAILBOX[0] - 0.9, 0, 13.8] },
   // the trot home: faster once the neighbors call his name
-  { t0: T.girl + 0.1, t1: T.home - 0.05, from: [MAILBOX[0] - 0.9, 0, 13.8], to: [LILY_GATE[0] + 0.85, 0, LILY_GATE[2] - 0.85] },
+  { t0: T.girl + 0.1, t1: T.home - 0.05, from: [MAILBOX[0] - 0.9, 0, 13.8], to: [LILY_GATE[0] + 1.0, 0, LILY_GATE[2] - 0.85] },
 ];
 const dogStride = 0.42;
 const dogWalk = (segs: WalkSeg[], rest: V3, t: number) => {
@@ -347,12 +350,12 @@ const sceneC = {
       [T.saw + 0.1, C([2.9, 1.55, 12.4], [2.1, 1.4, 14.9], 46), "inout"],
       [T.old, C([MAILBOX[0] + 0.9, 1.25, 11.5], [MAILBOX[0] + 3.5, 0.7, CZ], 44), "inout"],
       [T.walking + 0.2, C([MAILBOX[0] + 2.4, 1.25, 11.2], [MAILBOX[0] + 2.0, 0.65, CZ], 44), "inout"],
-      [T.bumping, C([MAILBOX[0] - 0.6, 0.9, 12.6], [MAILBOX[0] + 0.6, 0.75, CZ], 42), "inout"],
-      [T.biscuit3, C([MAILBOX[0] - 0.6, 0.9, 12.6], [MAILBOX[0] + 0.65, 0.8, CZ], 42)],
-      [T.lost + 0.4, C([MAILBOX[0] + 0.8, 1.3, 11.6], [MAILBOX[0] + 0.7, 0.85, 14.5], 46), "inout"],
-      [T.fourteen + 0.2, C([MAILBOX[0] + 1.45, 1.0, 12.45], [MAILBOX[0] + 1.0, 0.88, 13.77], 46), "inout"],
-      [T.still, C([MAILBOX[0] + 1.42, 1.0, 12.45], [MAILBOX[0] + 1.0, 0.88, 13.77], 46)],
-      [T.walk, C([MAILBOX[0] + 1.6, 1.3, 11.3], [MAILBOX[0] + 0.3, 0.7, 13.7], 46), "inout"],
+      [T.bumping, C([MAILBOX[0] - 0.28, 0.9, 12.6], [MAILBOX[0] + 0.92, 0.75, CZ], 42), "inout"],
+      [T.biscuit3, C([MAILBOX[0] - 0.28, 0.9, 12.6], [MAILBOX[0] + 0.97, 0.8, CZ], 42)],
+      [T.lost + 0.4, C([MAILBOX[0] + 1.12, 1.3, 11.6], [MAILBOX[0] + 1.02, 0.85, 14.5], 46), "inout"],
+      [T.fourteen + 0.2, C([MAILBOX[0] + 1.77, 1.0, 12.45], [MAILBOX[0] + 1.32, 0.88, 13.77], 46), "inout"],
+      [T.still, C([MAILBOX[0] + 1.74, 1.0, 12.45], [MAILBOX[0] + 1.32, 0.88, 13.77], 46)],
+      [T.walk, C([MAILBOX[0] + 1.92, 1.3, 11.3], [MAILBOX[0] + 0.62, 0.7, 13.7], 46), "inout"],
       // a low lens on the sidewalk itself, leading him as he trots toward it (no lamppost between them)
       // a road-side track alongside him as he trots home past the neighbors
       // a road-side track just ahead of him, so his face (and the neighbors behind him) read as he trots home

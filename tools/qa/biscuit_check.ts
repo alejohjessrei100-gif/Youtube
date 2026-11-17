@@ -58,6 +58,15 @@ for (let f = 0; f < Math.round(SECONDS * 30); f++) {
       const a = bodies[i], b = bodies[j];
       if (Math.hypot(a.p[0] - b.p[0], a.p[2] - b.p[2]) < (a.r + b.r) * 1.05) add(`${a.name} overlaps ${b.name}`, t);
     }
+  if (dog) {
+    // the dog's nose and head (0.8 m and 0.5 m ahead of his center) against the mailbox and the people
+    for (const k of [0.5, 0.8]) {
+      const hx = dog.p[0] + Math.sin(dog.yaw) * k;
+      const hz = dog.p[2] + Math.cos(dog.yaw) * k;
+      if (Math.abs(hx - MAILBOX[0]) < 0.275 && Math.abs(hz - MAILBOX[2]) < 0.25) add(`dog ${k === 0.8 ? "nose" : "head"} inside the mailbox`, t);
+      for (const a of actors) if (Math.hypot(hx - a.p[0], hz - a.p[2]) < 0.24) add(`dog ${k === 0.8 ? "nose" : "head"} inside an actor`, t);
+    }
+  }
   for (const b of bodies) {
     if (Math.abs(b.p[0] - MAILBOX[0]) < 0.27 + b.r * 0.8 && Math.abs(b.p[2] - MAILBOX[2]) < 0.25 + b.r * 0.8) add(`${b.name} inside the mailbox`, t);
     if (b.p[2] > SZ + 0.6 - b.r * 0.5 && b.p[2] < SZ + 0.6 + b.r * 0.5) add(`${b.name} in the fence line`, t);

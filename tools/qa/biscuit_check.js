@@ -12770,16 +12770,17 @@ var sceneB = {
   day: (t) => 1 + Math.floor(clamp3((t - T.every) / (T.always - T.every)) * 3.999),
   focus: () => [0, 0, 0]
 };
+var STOP = 0.275 + 0.8 + 0.03;
 var DOG_ROUTE = [
-  { t0: T.then - 0.1, t1: T.mailbox + 0.05, from: [MAILBOX[0] + 5.7, 0, CZ], to: [MAILBOX[0] + 0.78, 0, CZ] }
+  { t0: T.then - 0.1, t1: T.mailbox + 0.05, from: [MAILBOX[0] + 5.7, 0, CZ], to: [MAILBOX[0] + STOP, 0, CZ] }
 ];
 var BUMP = T.mailbox + 0.05;
 var AROUND = [
   // around the mailbox through the gap between it and the lamppost (z 13.8: 0.45 m from the pole, 0.3 m from the box)
-  { t0: T.walk - 0.4, t1: T.walk + 0.4, from: [MAILBOX[0] + 0.78, 0, CZ], to: [MAILBOX[0] + 0.75, 0, 13.8] },
-  { t0: T.walk + 0.4, t1: T.girl + 0.1, from: [MAILBOX[0] + 0.75, 0, 13.8], to: [MAILBOX[0] - 0.9, 0, 13.8] },
+  { t0: T.walk - 0.4, t1: T.walk + 0.4, from: [MAILBOX[0] + STOP, 0, CZ], to: [MAILBOX[0] + STOP + 0, 0, 13.8] },
+  { t0: T.walk + 0.4, t1: T.girl + 0.1, from: [MAILBOX[0] + STOP + 0, 0, 13.8], to: [MAILBOX[0] - 0.9, 0, 13.8] },
   // the trot home: faster once the neighbors call his name
-  { t0: T.girl + 0.1, t1: T.home - 0.05, from: [MAILBOX[0] - 0.9, 0, 13.8], to: [LILY_GATE[0] + 0.85, 0, LILY_GATE[2] - 0.85] }
+  { t0: T.girl + 0.1, t1: T.home - 0.05, from: [MAILBOX[0] - 0.9, 0, 13.8], to: [LILY_GATE[0] + 1, 0, LILY_GATE[2] - 0.85] }
 ];
 var dogStride = 0.42;
 var dogWalk = (segs, rest, t) => {
@@ -12910,12 +12911,12 @@ var sceneC = {
       [T.saw + 0.1, C([2.9, 1.55, 12.4], [2.1, 1.4, 14.9], 46), "inout"],
       [T.old, C([MAILBOX[0] + 0.9, 1.25, 11.5], [MAILBOX[0] + 3.5, 0.7, CZ], 44), "inout"],
       [T.walking + 0.2, C([MAILBOX[0] + 2.4, 1.25, 11.2], [MAILBOX[0] + 2, 0.65, CZ], 44), "inout"],
-      [T.bumping, C([MAILBOX[0] - 0.6, 0.9, 12.6], [MAILBOX[0] + 0.6, 0.75, CZ], 42), "inout"],
-      [T.biscuit3, C([MAILBOX[0] - 0.6, 0.9, 12.6], [MAILBOX[0] + 0.65, 0.8, CZ], 42)],
-      [T.lost + 0.4, C([MAILBOX[0] + 0.8, 1.3, 11.6], [MAILBOX[0] + 0.7, 0.85, 14.5], 46), "inout"],
-      [T.fourteen + 0.2, C([MAILBOX[0] + 1.45, 1, 12.45], [MAILBOX[0] + 1, 0.88, 13.77], 46), "inout"],
-      [T.still, C([MAILBOX[0] + 1.42, 1, 12.45], [MAILBOX[0] + 1, 0.88, 13.77], 46)],
-      [T.walk, C([MAILBOX[0] + 1.6, 1.3, 11.3], [MAILBOX[0] + 0.3, 0.7, 13.7], 46), "inout"],
+      [T.bumping, C([MAILBOX[0] - 0.28, 0.9, 12.6], [MAILBOX[0] + 0.92, 0.75, CZ], 42), "inout"],
+      [T.biscuit3, C([MAILBOX[0] - 0.28, 0.9, 12.6], [MAILBOX[0] + 0.97, 0.8, CZ], 42)],
+      [T.lost + 0.4, C([MAILBOX[0] + 1.12, 1.3, 11.6], [MAILBOX[0] + 1.02, 0.85, 14.5], 46), "inout"],
+      [T.fourteen + 0.2, C([MAILBOX[0] + 1.77, 1, 12.45], [MAILBOX[0] + 1.32, 0.88, 13.77], 46), "inout"],
+      [T.still, C([MAILBOX[0] + 1.74, 1, 12.45], [MAILBOX[0] + 1.32, 0.88, 13.77], 46)],
+      [T.walk, C([MAILBOX[0] + 1.92, 1.3, 11.3], [MAILBOX[0] + 0.62, 0.7, 13.7], 46), "inout"],
       // a low lens on the sidewalk itself, leading him as he trots toward it (no lamppost between them)
       // a road-side track alongside him as he trots home past the neighbors
       // a road-side track just ahead of him, so his face (and the neighbors behind him) read as he trots home
@@ -12987,6 +12988,14 @@ for (let f = 0; f < Math.round(SECONDS * 30); f++) {
       const a = bodies[i], b = bodies[j];
       if (Math.hypot(a.p[0] - b.p[0], a.p[2] - b.p[2]) < (a.r + b.r) * 1.05) add2(`${a.name} overlaps ${b.name}`, t);
     }
+  if (dog) {
+    for (const k of [0.5, 0.8]) {
+      const hx = dog.p[0] + Math.sin(dog.yaw) * k;
+      const hz = dog.p[2] + Math.cos(dog.yaw) * k;
+      if (Math.abs(hx - MAILBOX[0]) < 0.275 && Math.abs(hz - MAILBOX[2]) < 0.25) add2(`dog ${k === 0.8 ? "nose" : "head"} inside the mailbox`, t);
+      for (const a of actors) if (Math.hypot(hx - a.p[0], hz - a.p[2]) < 0.24) add2(`dog ${k === 0.8 ? "nose" : "head"} inside an actor`, t);
+    }
+  }
   for (const b of bodies) {
     if (Math.abs(b.p[0] - MAILBOX[0]) < 0.27 + b.r * 0.8 && Math.abs(b.p[2] - MAILBOX[2]) < 0.25 + b.r * 0.8) add2(`${b.name} inside the mailbox`, t);
     if (b.p[2] > SZ + 0.6 - b.r * 0.5 && b.p[2] < SZ + 0.6 + b.r * 0.5) add2(`${b.name} in the fence line`, t);
