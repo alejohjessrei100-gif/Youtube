@@ -59,7 +59,7 @@ for (let f = 0; f < Math.round(SECONDS * 30); f++) {
   for (let i = 0; i < bodies.length; i++)
     for (let j = i + 1; j < bodies.length; j++) {
       const a = bodies[i], b = bodies[j];
-      if (Math.hypot(a.p[0] - b.p[0], a.p[2] - b.p[2]) < (a.r + b.r) * 0.75) add(`${a.name} overlaps ${b.name}`, t);
+      if (Math.hypot(a.p[0] - b.p[0], a.p[2] - b.p[2]) < (a.r + b.r) * 1.05) add(`${a.name} overlaps ${b.name}`, t);
     }
   for (const b of bodies) {
     if (Math.abs(b.p[0] - MAILBOX[0]) < 0.27 + b.r * 0.8 && Math.abs(b.p[2] - MAILBOX[2]) < 0.25 + b.r * 0.8) add(`${b.name} inside the mailbox`, t);

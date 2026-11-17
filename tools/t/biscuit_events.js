@@ -12678,12 +12678,12 @@ var follow = (path, aim, k) => (t) => {
 };
 var OFF = (spec, p, yaw, pose, face) => ({ spec, p, yaw, pose, face });
 var POLE_POSTER = [1.3, 1.55, 13.44];
-var ROBE_P = [2, 0, 15.45];
-var MUG_P = [5.3, 0, 15.45];
-var PAPER_P = [8.4, 0, 15.45];
+var ROBE_P = [5.4, 0, 15.6];
+var MUG_P = [6.4, 0, 15.6];
+var PAPER_P = [7.4, 0, 15.6];
 var readPoster = (spec, p, yaw, u, side = "R") => {
   const hp = head(spec, p);
-  const tgt = [hp[0] + Math.sin(yaw) * 0.42 + Math.cos(yaw) * (side === "R" ? -0.08 : 0.08), hp[1] - 0.32, hp[2] + Math.cos(yaw) * 0.42];
+  const tgt = [hp[0] + Math.sin(yaw) * 0.36 + Math.cos(yaw) * (side === "R" ? -0.06 : 0.06), hp[1] - 0.6, hp[2] + Math.cos(yaw) * 0.36];
   const k = ik(spec, p, yaw, side, tgt, 4);
   return { arm: mixArm([14, 8], k.arm, u), fwd: lerp2(10, k.fwd, u) };
 };
@@ -12693,7 +12693,7 @@ var robeA = (t) => {
   const r = readPoster(ROBE, ROBE_P, yaw, up);
   const scratch = window01(t, T.nobody - 0.1, T.biscuit2 + 0.6, 0.25, 0.3);
   const ks = ik(ROBE, ROBE_P, yaw, "L", add(head(ROBE, ROBE_P), [0.1, 0.16, -0.02]), 2);
-  const pose = { lean: 4, armR: r.arm, armRFwd: r.fwd, armL: mixArm([14, 8], ks.arm, scratch), armLFwd: lerp2(10, ks.fwd, scratch), headNod: 14 * up - 6 * scratch, headTilt: 14 * scratch };
+  const pose = { lean: 4, armR: r.arm, armRFwd: r.fwd, armL: mixArm([14, 8], ks.arm, scratch), armLFwd: lerp2(10, ks.fwd, scratch), headNod: 24 * up - 14 * scratch, headTilt: 14 * scratch };
   const face = t < T.posters + 0.3 ? F2("half", "o", "neutral") : t < T.nobody ? F2("squint", "flat", "raised") : F2("wide", "wavy", "worried");
   const held = up > 0.2 ? { p: add(hand(ROBE, ROBE_P, yaw, pose, "R"), [0, 0.12, 0]), ry: yaw + PI2, tilt: 0.05 } : void 0;
   return { a: OFF(ROBE, ROBE_P, yaw, pose, face), held };
@@ -12705,7 +12705,7 @@ var mugA = (t) => {
   const melt = smooth((t - T.voice + 0.1) / 0.3);
   const chest = window01(t, T.please - 0.1, SECONDS, 0.3, 0.2);
   const hp = head(MUG, MUG_P);
-  const ear = [hp[0] + 0.13, hp[1] - 0.02, hp[2] - 0.02];
+  const ear = [hp[0] - Math.cos(yaw) * 0.17 + Math.sin(yaw) * 0.04, hp[1] - 0.04, hp[2] + Math.sin(yaw) * 0.17 + Math.cos(yaw) * 0.04];
   const kp = ik(MUG, MUG_P, yaw, "R", ear, 2);
   const kc = ik(MUG, MUG_P, yaw, "L", add(MUG_P, [0.03, MUG.height * 0.68, -0.18]), 2);
   let pose = { lean: 2, armR: mixArm([40, 70], kp.arm, call), armRFwd: lerp2(60, kp.fwd, call), armL: [40, 80], armLFwd: 70, headTilt: 12 * melt };
@@ -12721,7 +12721,7 @@ var paperA = (t) => {
   const up = smooth((t - T.named) / 0.4);
   const r = readPoster(PAPER, PAPER_P, yaw, up, "L");
   const shake = window01(t, T.nobody + 0.3, T.people, 0.15, 0.2) * Math.sin(t * 14) * 22;
-  const pose = { lean: 8, armL: r.arm, armLFwd: r.fwd, armR: [14, 8], armRFwd: 10, headYaw: shake, headNod: 10 };
+  const pose = { lean: 8, armL: r.arm, armLFwd: r.fwd, armR: [14, 8], armRFwd: 10, headYaw: shake, headNod: 24 };
   const face = t < T.nobody ? F2("squint", "flat", "angry") : F2("half", "frown", "raised");
   const held = up > 0.2 ? { p: add(hand(PAPER, PAPER_P, yaw, pose, "L"), [0, 0.12, 0]), ry: yaw + PI2, tilt: -0.06 } : void 0;
   return { a: OFF(PAPER, PAPER_P, yaw, pose, face), held };
@@ -12737,11 +12737,11 @@ var sceneA = {
     [T.three + 0.3, C([1.4, 1.58, 14.5], add(POLE_POSTER, [0, -0.02, 0]), 42), "inout"],
     [T.three + 1, C([1.9, 2.6, 15], [-3, 1.4, 14.2], 48), "inout"],
     [T.posters + 0.1, C([4.6, 3.3, 11.4], [-8, 1, 15.2], 50), "inout"],
-    [T.biscuit1 + 0.25, C([2.7, 1.55, 12.55], add(head(ROBE, ROBE_P), [0, -0.25, 0]), 44), "inout"],
-    [T.nobody + 0.9, C([5.3, 1.65, 11.4], [5.3, 1.3, 15.45], 52), "inout"],
-    [T.people + 0.2, C([5.5, 1.6, 12.6], add(head(MUG, MUG_P), [0, -0.3, 0]), 44), "inout"],
-    [T.voice, C([5.42, 1.62, 13.75], add(head(MUG, MUG_P), [0, -0.12, 0]), 38), "inout"],
-    [T.him + 0.5, C([5.4, 1.63, 13.9], add(head(MUG, MUG_P), [0, -0.1, 0]), 36)]
+    [T.biscuit1 + 0.25, C([ROBE_P[0] + 0.2, 1.55, 12.7], add(head(ROBE, ROBE_P), [0, -0.35, 0]), 44), "inout"],
+    [T.nobody + 0.9, C([MUG_P[0] - 0.05, 1.6, 11.2], [MUG_P[0], 1.25, 15.6], 54), "inout"],
+    [T.people + 0.2, C([MUG_P[0] + 0.15, 1.6, 12.7], add(head(MUG, MUG_P), [0, -0.3, 0]), 44), "inout"],
+    [T.voice, C([MUG_P[0] + 0.1, 1.62, 13.85], add(head(MUG, MUG_P), [0, -0.12, 0]), 38), "inout"],
+    [T.him + 0.5, C([MUG_P[0] + 0.1, 1.63, 14], add(head(MUG, MUG_P), [0, -0.1, 0]), 36)]
   ]),
   actors: (t) => [robeA(t).a, mugA(t).a, paperA(t).a],
   town: (t) => ({ t, posters: -1 }),
@@ -12779,7 +12779,7 @@ var AROUND = [
   { t0: T.walk - 0.4, t1: T.walk + 0.4, from: [MAILBOX[0] + 0.78, 0, CZ], to: [MAILBOX[0] + 0.75, 0, 13.8] },
   { t0: T.walk + 0.4, t1: T.girl + 0.1, from: [MAILBOX[0] + 0.75, 0, 13.8], to: [MAILBOX[0] - 0.9, 0, 13.8] },
   // the trot home: faster once the neighbors call his name
-  { t0: T.girl + 0.1, t1: T.home - 0.05, from: [MAILBOX[0] - 0.9, 0, 13.8], to: [LILY_GATE[0] + 0.85, 0, LILY_GATE[2] - 0.75] }
+  { t0: T.girl + 0.1, t1: T.home - 0.05, from: [MAILBOX[0] - 0.9, 0, 13.8], to: [LILY_GATE[0] + 0.85, 0, LILY_GATE[2] - 0.85] }
 ];
 var dogStride = 0.42;
 var dogWalk = (segs, rest, t) => {
@@ -12796,9 +12796,9 @@ var dogWalk = (segs, rest, t) => {
   return { p, walk: void 0, seg: null };
 };
 var VOICES = () => [
-  { who: "mug", at: T.strangers - 0.1, p: [1.2, 0, 15.5] },
-  { who: "robe", at: T.say2 - 0.05, p: [0, 0, 15.5] },
-  { who: "paper", at: T.follow - 0.1, p: [-1.5, 0, 15.5] }
+  { who: "mug", at: T.strangers - 0.1, p: [1.2, 0, 15.72] },
+  { who: "robe", at: T.say2 - 0.05, p: [0, 0, 15.72] },
+  { who: "paper", at: T.follow - 0.1, p: [-1.5, 0, 15.72] }
 ];
 var dogC = (t) => {
   const a = dogWalk(DOG_ROUTE, DOG_ROUTE[0].from, t);
@@ -12845,8 +12845,8 @@ var dogC = (t) => {
     t
   };
 };
-var CAR_IN = { t0: T.then - 0.1, t1: T.saw - 0.05, from: [MAILBOX[0] - 4.8, 0, 15], to: [MAILBOX[0] - 2.2, 0, 15] };
-var CAR_TO = { t0: BUMP + 0.5, t1: T.biscuit3 + 0.6, from: [MAILBOX[0] - 2.2, 0, 15], to: [MAILBOX[0] + 0.55, 0, 14.95] };
+var CAR_IN = { t0: T.then - 0.1, t1: T.saw - 0.05, from: [MAILBOX[0] - 4.2, 0, 14.55], to: [MAILBOX[0] - 2.2, 0, 14.55] };
+var CAR_TO = { t0: BUMP + 0.5, t1: T.biscuit3 + 0.6, from: [MAILBOX[0] - 2.2, 0, 14.55], to: [MAILBOX[0] + 0.55, 0, 14.95] };
 var carrierC = (t) => {
   const w = walkAt([CAR_IN, CAR_TO], CAR_IN.from, t, CARRIER.height);
   const p = w.p;
@@ -12907,21 +12907,21 @@ var sceneC = {
     keyed([
       [T.then - 0.08, C([2.9, 1.6, 12.3], [0.8, 1.4, 15], 46)],
       [T.saw + 0.1, C([2.9, 1.55, 12.4], [2.1, 1.4, 14.9], 46), "inout"],
-      [T.old, C([MAILBOX[0] - 2.1, 1.3, 12.2], [MAILBOX[0] + 3.3, 0.7, CZ], 44), "inout"],
-      [T.walking + 0.2, C([MAILBOX[0] + 2.3, 0.95, 12.2], [MAILBOX[0] + 1.8, 0.65, CZ], 42), "inout"],
-      [T.bumping, C([MAILBOX[0] + 1.1, 0.85, 12.7], [MAILBOX[0] + 0.3, 0.75, CZ + 0.05], 40), "inout"],
-      [T.biscuit3, C([MAILBOX[0] + 1.1, 0.85, 12.7], [MAILBOX[0] + 0.3, 0.8, CZ + 0.05], 40)],
-      [T.lost + 0.4, C([MAILBOX[0] + 0.8, 1.25, 12.2], [MAILBOX[0] + 0.6, 0.9, 14.5], 46), "inout"],
+      [T.old, C([MAILBOX[0] + 0.5, 1.25, 12], [MAILBOX[0] + 3.5, 0.7, CZ], 44), "inout"],
+      [T.walking + 0.2, C([MAILBOX[0] + 2.4, 1.25, 11.2], [MAILBOX[0] + 2, 0.65, CZ], 44), "inout"],
+      [T.bumping, C([MAILBOX[0] - 0.6, 0.9, 12.6], [MAILBOX[0] + 0.6, 0.75, CZ], 42), "inout"],
+      [T.biscuit3, C([MAILBOX[0] - 0.6, 0.9, 12.6], [MAILBOX[0] + 0.65, 0.8, CZ], 42)],
+      [T.lost + 0.4, C([MAILBOX[0] + 0.8, 1.3, 11.6], [MAILBOX[0] + 0.7, 0.85, 14.5], 46), "inout"],
       [T.fourteen + 0.2, C([MAILBOX[0] + 1.33, 0.95, 12.67], [MAILBOX[0] + 1, 0.92, 13.77], 38), "inout"],
       [T.still, C([MAILBOX[0] + 1.3, 0.95, 12.65], [MAILBOX[0] + 1, 0.92, 13.77], 38)],
-      [T.walk, C([MAILBOX[0] + 1.2, 1.15, 11.9], [MAILBOX[0] + 0.2, 0.7, 13.6], 46), "inout"],
+      [T.walk, C([MAILBOX[0] + 1.6, 1.3, 11.3], [MAILBOX[0] + 0.3, 0.7, 13.7], 46), "inout"],
       // a low lens on the sidewalk itself, leading him as he trots toward it (no lamppost between them)
-      [T.girl + 0.2, C([1.4, 0.72, 13.95], [3.4, 0.62, 13.85], 50), "inout"],
-      [T.strangers + 0.2, C([-0.7, 0.78, 14], [1, 0.7, 14.4], 50), "inout"],
-      [T.say2 + 0.4, C([-1.95, 0.82, 14.05], [-0.2, 0.75, 14.7], 50), "inout"],
-      [T.follow + 0.4, C([-3.2, 0.9, 14.1], [-1.6, 0.8, 14.9], 50), "inout"],
-      [T.home + 0.3, C([-2.85, 1.15, 12.5], [-3.1, 0.85, 15.4], 42), "inout"],
-      [T.now + 0.1, C([-2.85, 1.15, 12.55], [-3.1, 0.85, 15.4], 42)],
+      [T.girl + 0.2, C([0.9, 1, 13.9], [3.4, 0.7, 13.85], 48), "inout"],
+      [T.strangers + 0.2, C([-1.7, 1.05, 14], [0.8, 0.75, 14.5], 48), "inout"],
+      [T.say2 + 0.4, C([-2.8, 1.05, 14], [-0.5, 0.8, 14.8], 48), "inout"],
+      [T.follow + 0.4, C([-3.5, 1.05, 13.9], [-1.6, 0.8, 14.9], 48), "inout"],
+      [T.home + 0.3, C([-3.05, 1.05, 13.2], [-3.05, 0.9, 15.4], 52), "inout"],
+      [T.now + 0.1, C([-3.05, 1.08, 13.15], [-3.05, 0.9, 15.4], 52)],
       [T.hi + 0.2, C([-1.4, 2.6, 10.6], [-2.4, 0.9, 15.2], 50), "inout"],
       [SECONDS, C([0.2, 4.4, 8.9], [-1.4, 1, 15.2], 52), "inout"]
     ]),

@@ -345,15 +345,18 @@ const Overhead: React.FC<{ day: number; route: number }> = ({ day, route }) => {
   return (
     <group>
       {marks.map((p, k) => (
-        <group key={k} position={[p[0], 0.4, p[2]]} scale={Math.min(1, pop * 4 - k * 0.05 > 0 ? pop * 4 - k * 0.05 : 0)}>
-          <mesh geometry={boxG(1.6, 0.08, 2.1)} material={coreMat("#ffd34d", 1.2)} rotation={[0, (k * 0.7) % 1, 0]} />
+        <group key={k} position={[p[0], 0.45, p[2]]} rotation={[-PI / 2, 0, PI / 2 + (h1(k) - 0.5) * 0.5]} scale={Math.max(0, Math.min(1, pop * 4 - k * 0.05)) * 4.2}>
+          <mesh material={posterMat()}>
+            <planeGeometry args={[0.34, 0.45]} />
+          </mesh>
+          <mesh geometry={boxG(0.4, 0.51, 0.01)} material={coreMat("#d8282e", 1.0)} position={[0, 0, -0.01]} />
         </group>
       ))}
       {Array.from({ length: dashes }, (_, k) => {
         const a = loopAt(k / 80 + 0.003);
         const b = loopAt(k / 80 + 0.008);
         const yaw = Math.atan2(b[0] - a[0], b[2] - a[2]);
-        return <mesh key={`d${k}`} geometry={boxG(0.7, 0.06, 1.6)} material={coreMat("#ffffff", 1.1)} position={[a[0], 0.3, a[2]]} rotation={[0, yaw, 0]} />;
+        return <mesh key={`d${k}`} geometry={boxG(0.9, 0.06, 1.7)} material={coreMat("#ff8a1a", 1.0)} position={[a[0], 0.35, a[2]]} rotation={[0, yaw, 0]} />;
       })}
     </group>
   );
@@ -457,9 +460,11 @@ export const Dog: React.FC<{ d: DogState }> = ({ d }) => {
                 <M g={boxG(0.05, 0.008, 0.01)} c="#2a1a14" p={[0, 0, 0.02]} r={[0, 0, sd * 0.2]} />
               ) : (
                 <>
-                  <M g={sphG(0.032, 12)} c="#e8eef4" />
-                  <M g={sphG(0.018, 10)} c="#a8b8c8" p={[0, 0, 0.022]} />
-                  <mesh geometry={sphG(0.009, 6)} material={coreMat("#ffffff", 1)} position={[sd * -0.008, 0.01, 0.03]} />
+                  {/* warm brown eyes under a milky film: old, kind and blind */}
+                  <M g={sphG(0.03, 12)} c="#f4efe6" s={[1, 1, 0.6]} />
+                  <M g={sphG(0.021, 12)} c="#5a3a24" p={[0, 0, 0.012]} s={[1, 1, 0.5]} />
+                  <mesh geometry={sphG(0.022, 12)} material={coreMat("#dfe8f0", 1.0, 0.55)} position={[0, 0, 0.016]} scale={[1, 1, 0.4]} />
+                  <mesh geometry={sphG(0.006, 6)} material={coreMat("#ffffff", 1)} position={[sd * -0.007, 0.008, 0.025]} />
                 </>
               )}
               <M g={boxG(0.05, 0.012, 0.012)} c={GREY} p={[0, 0.045, 0.01]} r={[0, 0, sd * -0.25]} />
