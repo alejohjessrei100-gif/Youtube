@@ -13,6 +13,7 @@ import { AGLOE_FRAMES, Agloe } from "../src/agloe/Agloe";
 import { DAGENH_FRAMES, DagenH } from "../src/dagenh/DagenH";
 import { PEIGNEUR_FRAMES, Peigneur } from "../src/peigneur/Peigneur";
 import { ACT_FRAMES, ActLab } from "../src/actlab/ActLab";
+import { MEAT_FRAMES, MeatShower } from "../src/meat/MeatShower";
 
 // staticFile() (fonts) resolves against this folder, wherever the page is hosted.
 (window as unknown as { remotion_staticBase: string }).remotion_staticBase = new URL(".", location.href).pathname.replace(/\/$/, "");
@@ -29,6 +30,7 @@ type Comp = {
 };
 
 const COMPS: Comp[] = [
+  { id: "MeatShower", label: "Kentucky meat shower (34 s)", component: MeatShower, width: 1080, height: 1920, fps: 30, durationInFrames: MEAT_FRAMES, defaultProps: { audio: true } },
   { id: "ActLab", label: "Character animation trial (12 s)", component: ActLab, width: 1080, height: 1920, fps: 30, durationInFrames: ACT_FRAMES, defaultProps: { audio: true } },
   { id: "Peigneur", label: "Lake Peigneur: the lake that drained (30 s)", component: Peigneur, width: 1080, height: 1920, fps: 30, durationInFrames: PEIGNEUR_FRAMES, defaultProps: { sub: false, audio: true } },
   { id: "DagenH", label: "Dagen H: Sweden switches sides (33 s)", component: DagenH, width: 1080, height: 1920, fps: 30, durationInFrames: DAGENH_FRAMES, defaultProps: { sub: false, audio: true } },

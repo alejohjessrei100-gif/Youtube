@@ -7,3 +7,5 @@ tools/t/frames.js
 tools/t/frames_dagenh.js
 tools/t/frames_peigneur.js
 tools/t/act_events.js
+tools/t/frames_meat.js
+tools/t/meat_events.js
