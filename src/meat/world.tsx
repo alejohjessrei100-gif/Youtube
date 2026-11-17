@@ -225,7 +225,6 @@ export const Farm: React.FC<{ s: FarmState; children?: React.ReactNode }> = ({ s
         {[0, 1, 2].map((i) => (
           <mesh key={i} geometry={sphG(0.05, 8)} material={coreMat("#f0e6cc", 0.9)} position={[Math.cos(s.t * 1.7 + i * 2) * 0.22, KETTLE_RIM - 0.085, Math.sin(s.t * 1.7 + i * 2) * 0.22]} scale={[1, 0.4 + 0.3 * Math.abs(Math.sin(s.t * 3 + i)), 1]} />
         ))}
-        <Smoke p={[0.05, KETTLE_RIM + 0.05, -0.05]} s={0.12} t={s.t} seed={3} n={4} color="#bcb8c4" />
       </group>
       {children}
     </group>
@@ -360,3 +359,4 @@ export const Museum: React.FC<{ s: MuseumState }> = () => (
   </group>
 );
 void clamp;
+void Smoke;

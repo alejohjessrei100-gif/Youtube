@@ -510,7 +510,7 @@ export const SETUPS: Setup[] = [
   // 12. One calls it lung tissue: at the microscope, then "lung!"
   {
     id: 12, t0: T.one2, mood: "lamp", set: "lab", focus: [-0.55, 1.2, -0.2], blur: 1.6,
-    keys: [{ at: T.one2, cam: C([0.4, 1.35, 1.4], [-0.5, 1.15, -0.3], 44) }, { at: at(T.lung), cam: C([0.5, 1.45, 1.7], [-0.4, 1.25, -0.3], 44), dur: 0.5 }],
+    keys: [{ at: T.one2, cam: C([1.0, 1.4, 1.9], [-0.5, 1.15, -0.45], 44) }, { at: at(T.lung), cam: C([0.8, 1.5, 1.8], [-0.45, 1.3, -0.45], 44), dur: 0.5 }],
     actors: (t) => [sci1At(t).actor],
     lab: (t) => ({ jarLung: smooth((t - T.lung - 0.1) / 0.25), jarMuscle: 0, jarCart: 0 }),
   },
