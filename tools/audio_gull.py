@@ -9,7 +9,7 @@ from scipy.signal import butter, sosfilt
 
 ROOT = Path(__file__).resolve().parent.parent
 SR = 48000
-TOTAL = 31.0
+TOTAL = 34.7
 N = int(TOTAL * SR)
 WORDS = json.loads((ROOT / "out/next/words.json").read_text())
 
@@ -294,7 +294,7 @@ mus *= db(-3) ** np.clip(duck * 1.3, 0, 1)
 
 fx *= db(-3) ** np.clip(duck * 1.3, 0, 1)
 bed *= db(6)
-mus *= db(5)
+mus *= db(-2)
 out = (v + fx + bed + mus) * np.clip((TOTAL - t_all) / 0.5, 0, 1)
 with wave.open(str(ROOT / "out/next/premaster.wav"), "wb") as f:
     f.setnchannels(1); f.setsampwidth(2); f.setframerate(SR)

@@ -32,7 +32,7 @@ type Comp = {
 };
 
 const COMPS: Comp[] = [
-  { id: "Gull", label: "The Gull at 9:14 (31 s)", component: GullShort, width: 1080, height: 1920, fps: 30, durationInFrames: GULL_FRAMES, defaultProps: { audio: true } },
+  { id: "Gull", label: "The Gull at 9:14 (35 s)", component: GullShort, width: 1080, height: 1920, fps: 30, durationInFrames: GULL_FRAMES, defaultProps: { audio: true } },
   { id: "DirectorLab", label: "Camera + expressions test (10 s)", component: DirectorLab, width: 1080, height: 1920, fps: 30, durationInFrames: DIR_FRAMES, defaultProps: {} },
   { id: "MeatShower", label: "Kentucky meat shower (34 s)", component: MeatShower, width: 1080, height: 1920, fps: 30, durationInFrames: MEAT_FRAMES, defaultProps: { audio: true } },
   { id: "ActLab", label: "Character animation trial (12 s)", component: ActLab, width: 1080, height: 1920, fps: 30, durationInFrames: ACT_FRAMES, defaultProps: { audio: true } },

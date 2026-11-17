@@ -81,7 +81,7 @@ export const Point: React.FC<{ t: number }> = ({ t }) => (
   <group>
     <Sea t={t} />
     {/* the plateau and its cliff */}
-    <M g={cylG(14, 15.6, 6.4, 40)} c="#5a5660" tex="rock" ts={1.2} p={[0, -3.2, 0]} />
+    <M g={cylG(14, 15.6, 6.4, 40)} c="#5a5660" tex="rock" ts={1.2} p={[0, -3.32, 0]} />
     <M g={cylG(13.9, 14, 0.4, 40)} c="#6a9a4a" tex="grass" ts={1.4} p={[0, -0.2, 0]} />
     {Array.from({ length: 34 }, (_, i) => {
       const a = (i / 34) * PI * 2 + h1(i) * 0.1;
