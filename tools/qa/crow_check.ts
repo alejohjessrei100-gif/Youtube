@@ -6,7 +6,7 @@
 import { headOf } from "../../src/inkbeat/char/Character3D";
 import { moodOf } from "../../src/inkbeat/core/moods";
 import { shotLight } from "../../src/inkbeat/core/shadows";
-import { SCENES, beakTip, hand, head, T } from "../../src/crow/shots";
+import { SCENES, beakTip, hand, headPosed, T } from "../../src/crow/shots";
 import { BENCHES, BOARD_Y, LAMPS, SEAT_B, SEAT_W, TABLE_H, TABLE_HW, TREE, TREE_R } from "../../src/crow/world";
 import { SECONDS } from "../../src/crow/words.gen";
 
@@ -61,8 +61,8 @@ for (let f = 0; f < N; f++) {
       if (j > i && d2(p, o.p as V) < 0.42) add(`actors ${i}/${j} (${s.id}) overlap ${d2(p, o.p as V).toFixed(2)} m`, t);
     });
     // lens
-    const hd = head(a.spec, p, a.pose.sit ?? 0) as V;
-    if (d3(lens, hd) < 0.45) add(`lens within 0.45 m of actor${i}'s head (${s.id})`, t);
+    const hd = headPosed(a) as V;
+    if (d3(lens, hd) < 0.55) add(`lens within 0.55 m of actor${i}'s head (${s.id})`, t);
     if (d2(lens, p) < 0.28 && lens[1] < a.spec.height) add(`lens inside actor${i}'s body (${s.id})`, t);
     // sightline to focus through a body that is not the subject
     if (d3(hd, focus) > 0.4 && d3(p, focus) > 0.5 && segBlock(lens, focus, p, 0.2, hd[1] + 0.15)) add(`actor${i} blocks the lens -> focus line (${s.id})`, t);
@@ -169,6 +169,14 @@ for (let f = 0; f < N; f++) {
     const toCam = Math.atan2(lens[0] - hd[0], lens[2] - hd[2]);
     const off = Math.abs(Math.atan2(Math.sin(toCam - fy), Math.cos(toCam - fy))) * (180 / Math.PI);
     if (off > 80) add(`speaker's face turned ${off.toFixed(0)} deg from the lens (${s.id})`, t);
+  }
+  // --- Okafor's face must read in his own beats: facing within 50 deg of the lens
+  if ([1, 2, 4, 7, 10, 12].includes(s.id) && ok && !(s.id === 4 && t < T.always) && !(s.id === 1 && t > T.nobody)) {
+    const fy = ok.yaw + ((ok.pose.headYaw ?? 0) * Math.PI) / 180;
+    const hd = headPosed(ok);
+    const toCam = Math.atan2(lens[0] - hd[0], lens[2] - hd[2]);
+    const off = Math.abs(Math.atan2(Math.sin(toCam - fy), Math.cos(toCam - fy))) * (180 / Math.PI);
+    if (off > 50) add(`Okafor's face turned ${off.toFixed(0)} deg from the lens (${s.id})`, t);
   }
   // --- shadow box covers every actor and the crow
   const sl = shotLight(moodOf(s.mood), cam);

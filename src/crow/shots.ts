@@ -104,6 +104,13 @@ export const head = (spec: CharacterSpec, p: V3, sit = 0): V3 => {
   const h = headOf(p, spec.height, spec.build);
   return [h[0], h[1] - (sit ? DROP(sit) : 0), h[2]];
 };
+/** the head where it is drawn: lowered by sitting, then tipped forward by the body lean (about the feet) */
+export const headPosed = (a: { spec: CharacterSpec; p: V3; yaw: number; pose: BodyPose }): V3 => {
+  const h = head(a.spec, a.p, a.pose.sit ?? 0);
+  const L = ((a.pose.lean ?? 0) * PI) / 180;
+  const up = h[1] - a.p[1];
+  return [a.p[0] + Math.sin(a.yaw) * up * Math.sin(L), a.p[1] + up * Math.cos(L), a.p[2] + Math.cos(a.yaw) * up * Math.sin(L)];
+};
 const look = (spec: CharacterSpec, p: V3, yaw: number, target: V3, sit = 0) => {
   const l = lookAt(head(spec, p, sit), target, yaw, 55, 15);
   return { headYaw: l.yaw, headNod: l.nod };
@@ -152,7 +159,7 @@ const place = (l: L, moved: Record<string, V3> = {}): Piece[] => l.map(([kind, w
 
 // ------------------------------------------------------------------ Okafor seated (white's stool)
 const SEAT_YAW = PI / 2;
-const seatedBase = (t: number): BodyPose => ({ sit: 1, lean: 8 + 2 * Math.sin(t * 0.8), armL: [14, 14], armLFwd: 55, armR: [14, 14], armRFwd: 55 });
+const seatedBase = (t: number): BodyPose => ({ sit: 1, lean: 4 + 1.5 * Math.sin(t * 0.8), armL: [14, 14], armLFwd: 55, armR: [14, 14], armRFwd: 55 });
 
 // ------------------------------------------------------------------ the crow: flight in, stare, the push
 const CROW_S = 0.62;
@@ -276,7 +283,7 @@ const s1: Scene = {
   actors: (t) => {
     const stool = window01(t, T.nobody - 0.2, SECONDS, 0.6, 0.1);
     const lk = look(OKAFOR, SEAT_W, SEAT_YAW, add(BOARD_C, [0, 0, 0]), 1);
-    const pose: BodyPose = { ...seatedBase(t), lean: 10, headYaw: lk.headYaw * (1 - stool) - 28 * stool, headNod: lk.headNod * (1 - stool) + 4 * stool };
+    const pose: BodyPose = { ...seatedBase(t), lean: 4, headYaw: lk.headYaw * (1 - stool) - 28 * stool, headNod: lk.headNod * (1 - stool) + 4 * stool };
     return [A(OKAFOR, SEAT_W, SEAT_YAW, pose, stool > 0.5 ? F("half", "flat", "raised") : F("squint", "flat", "angry"))];
   },
   extra: () => ({ pieces: place(MID) }),
@@ -297,17 +304,17 @@ const pawnPath = (t: number): V3 => {
 const s2Okafor = (t: number) => {
   const reach = window01(t, MOVE0, MOVE1, 0.35, 0.3);
   const tgt = add(pawnPath(t), [-0.012, PAWN_H, 0]);
-  const k = ik(OKAFOR, SEAT_W, SEAT_YAW, "R", tgt, 24, 1);
+  const k = ik(OKAFOR, SEAT_W, SEAT_YAW, "R", tgt, 16, 1);
   const base = seatedBase(t);
-  const pose: BodyPose = { ...base, lean: lerp(10, 24, reach), armR: mixArm(base.armR!, k.arm, reach), armRFwd: lerp(base.armRFwd!, k.fwd, reach), ...look(OKAFOR, SEAT_W, SEAT_YAW, pawnPath(t), 1) };
+  const pose: BodyPose = { ...base, lean: lerp(4, 16, reach), armR: mixArm(base.armR!, k.arm, reach), armRFwd: lerp(base.armRFwd!, k.fwd, reach), ...look(OKAFOR, SEAT_W, SEAT_YAW, pawnPath(t), 1) };
   const face = t < MOVE0 ? F("half", "flat", "neutral") : t < MOVE1 - 0.1 ? F("squint", "smirk", "raised") : F("half", "smirk", "raised");
   return { a: A(OKAFOR, SEAT_W, SEAT_YAW, pose, face), pose, reach };
 };
 const s2: Scene = {
   id: 2, t0: T.every - 0.08, mood: "golden", blur: 1.2,
   cam: keyed([
-    [T.every - 0.08, C([0.15, 1.12, 1.65], [-0.45, 0.88, 0], 42)],
-    [T.walks, C([0.2, 1.1, 1.5], [-0.38, 0.86, 0], 42), "inout"],
+    [T.every - 0.08, C([0.6, 1.12, 0.85], [-0.5, 0.92, 0.0], 42)],
+    [T.walks, C([0.58, 1.1, 0.78], [-0.42, 0.88, 0.0], 42), "inout"],
   ]),
   actors: (t) => [s2Okafor(t).a],
   extra: (t) => {
@@ -346,12 +353,12 @@ const s4: Scene = {
     [T.the2 - 0.08, C([0.42, 1.26, 0.5], [0.02, 0.64, 0.0], 40)],
     [T.black + 0.3, C([0.34, 1.04, 0.32], [0.02, 0.64, -0.06], 36), "inout"],
     [T.one2 + 0.5, C([0.3, 0.96, 0.26], [0.03, 0.66, -0.08], 34), "inout"],
-    [T.always + 0.5, C([0.55, 1.42, 1.45], [-0.7, 1.2, 0.5], 42), "inout"],
-    [T.he1, C([0.55, 1.42, 1.5], [-0.72, 1.22, 0.52], 42)],
+    [T.always + 0.5, C([0.55, 1.42, -0.55], [-0.9, 1.32, 0.55], 40), "inout"],
+    [T.he1, C([0.52, 1.42, -0.52], [-0.9, 1.32, 0.56], 39)],
   ]),
   actors: (t) => {
     const lean = window01(t, T.the2, SECONDS, 0.6, 0.1);
-    const pose: BodyPose = { lean: 18 * lean, armR: [16, 10], armRFwd: 10, armL: [16, 10], armLFwd: 10, ...look(OKAFOR, OK_STAND, OK_STAND_YAW, BISHOP_B) };
+    const pose: BodyPose = { lean: 8 * lean, armR: [16, 10], armRFwd: 10, armL: [16, 10], armLFwd: 10, ...look(OKAFOR, OK_STAND, OK_STAND_YAW, BISHOP_B) };
     const face = t < T.always ? F("huge", "o", "high") : F("squint", "smirk", "raised");
     return [A(OKAFOR, OK_STAND, OK_STAND_YAW, pose, face)];
   },
@@ -391,8 +398,8 @@ const OK_KIDS: V3 = [KIDS_SPOT[0] + 1.25, 0, KIDS_SPOT[2] + 0.28];
 const s6: Scene = {
   id: 6, t0: T.he2 - 0.08, mood: "day", blur: 1.0,
   cam: keyed([
-    [T.he2 - 0.08, C([-4.0, 1.2, -0.55], [-4.35, 0.95, -2.75], 44)],
-    [T.and2, C([-4.05, 1.16, -0.75], [-4.4, 0.95, -2.78], 42), "linear"],
+    [T.he2 - 0.08, C([-3.85, 1.22, -0.2], [-4.05, 1.0, -2.72], 46)],
+    [T.and2, C([-3.9, 1.2, -0.4], [-4.1, 1.0, -2.74], 45), "linear"],
   ]),
   actors: (t) => {
     const lens = s6.cam(t).pos;
@@ -417,13 +424,13 @@ const s6: Scene = {
 const s7: Scene = {
   id: 7, t0: T.and2 - 0.08, mood: "day", blur: 1.3,
   cam: keyed([
-    [T.and2 - 0.08, C([0.72, 1.1, 0.5], [-0.8, 0.98, 0.0], 40)],
-    [T.so, C([0.6, 1.08, 0.44], [-0.82, 0.98, 0.0], 38), "linear"],
+    [T.and2 - 0.08, C([0.75, 1.14, 0.4], [-0.75, 1.08, 0.0], 40)],
+    [T.so, C([0.62, 1.13, 0.34], [-0.76, 1.08, 0.0], 38), "linear"],
   ]),
   actors: (t) => {
     const slump = window01(t, T.and2, SECONDS, 0.5, 0.1);
     const base = seatedBase(t);
-    const pose: BodyPose = { ...base, lean: 10 + 6 * slump, headTilt: 14 * slump, headNod: 8 * slump };
+    const pose: BodyPose = { ...base, lean: 4 + 3 * slump, headTilt: 14 * slump, headNod: 4 * slump };
     return [A(OKAFOR, SEAT_W, SEAT_YAW, pose, F("half", "wavy", "worried", { sweat: true }))];
   },
   extra: () => ({ pieces: place(LOSE) }),
@@ -447,8 +454,8 @@ const s8Okafor = (t: number) => {
 const s8: Scene = {
   id: 8, t0: T.so - 0.08, mood: "night", blur: 1.0,
   cam: keyed([
-    [T.so - 0.08, C([-1.55, 1.35, 0.6], [-3.4, 1.3, 2.4], 44)],
-    [T.at, C([-1.85, 1.38, 0.95], [-3.5, 1.3, 2.5], 40), "linear"],
+    [T.so - 0.08, C([HIDE[0] + TD.z * 1.6 - TD.x * 1.0, 1.35, HIDE[2] - TD.x * 1.6 - TD.z * 1.0], [HIDE[0] - TD.x * 0.2, 1.3, HIDE[2] - TD.z * 0.2], 44)],
+    [T.at, C([HIDE[0] + TD.z * 1.4 - TD.x * 0.85, 1.35, HIDE[2] - TD.x * 1.4 - TD.z * 0.85], [HIDE[0] - TD.x * 0.2, 1.3, HIDE[2] - TD.z * 0.2], 42), "linear"],
   ]),
   actors: (t) => [s8Okafor(t).a],
   extra: (t) => {
@@ -492,14 +499,14 @@ const s10Okafor = (t: number) => {
   const settle = smooth((t - (T.mr2 - 0.1)) / (T.resets - T.mr2 - 0.2));
   const sit = lerp(0.82, 1, settle);
   const base = seatedBase(t);
-  const pose: BodyPose = { ...base, sit, lean: lerp(26, 10, settle), ...look(OKAFOR, SEAT_W, SEAT_YAW, add(CROW_SPOT, [0, 0.25, 0]), sit) };
+  const pose: BodyPose = { ...base, sit, lean: lerp(14, 4, settle), ...look(OKAFOR, SEAT_W, SEAT_YAW, add(CROW_SPOT, [0, 0.25, 0]), sit) };
   return A(OKAFOR, SEAT_W, SEAT_YAW, pose, F("glare", "flat", "angry"));
 };
 const s10: Scene = {
   id: 10, t0: T.mr2 - 0.08, mood: "golden", blur: 1.0,
   cam: keyed([
-    [T.mr2 - 0.08, C([0.1, 1.3, 2.05], [-0.15, 0.95, 0], 42)],
-    [T.resets, C([0.05, 1.28, 1.95], [-0.12, 0.95, 0], 42), "linear"],
+    [T.mr2 - 0.08, C([1.1, 1.04, 0.48], [-0.75, 1.02, -0.05], 40)],
+    [T.resets, C([1.02, 1.04, 0.44], [-0.75, 1.04, -0.05], 39), "linear"],
   ]),
   actors: (t) => [s10Okafor(t)],
   extra: (t) => ({ pieces: place(LOSE, { bn: K1 }).map((p) => (p.id === "wk" ? { ...p, tip: PI / 2 - 0.05 } : p)), crow: crowAt(t) }),
@@ -521,8 +528,8 @@ const s11Pose = (t: number) => {
 const s11: Scene = {
   id: 11, t0: T.resets - 0.08, mood: "golden", blur: 1.0,
   cam: keyed([
-    [T.resets - 0.08, C([0.05, 1.26, 0.3], [-0.14, 0.64, 0.0], 38)],
-    [T.and3, C([0.02, 1.22, 0.28], [-0.15, 0.64, 0.0], 37), "linear"],
+    [T.resets - 0.08, C([0.42, 1.06, 0.34], [-0.25, 0.7, 0.0], 40)],
+    [T.and3, C([0.4, 1.05, 0.32], [-0.26, 0.7, 0.0], 39), "linear"],
   ]),
   actors: (t) => [A(OKAFOR, SEAT_W, SEAT_YAW, s11Pose(t).pose, F("half", "smirk", "raised"))],
   extra: (t) => {
@@ -539,18 +546,18 @@ const s11: Scene = {
 const s12: Scene = {
   id: 12, t0: T.and3 - 0.08, mood: "golden", blur: 0.9,
   cam: keyed([
-    [T.and3 - 0.08, C([0.15, 1.24, 1.85], [-0.05, 1.0, 0], 42)],
-    [T.fifty + 0.4, C([0.15, 1.22, 1.6], [-0.05, 1.0, 0], 40), "inout"],
-    [T.the5 + 0.2, C([0.15, 1.22, 1.62], [-0.05, 1.0, 0], 40)],
-    [SECONDS, C([0.6, 2.3, 3.9], [-0.05, 0.9, 0], 44), "inout"],
+    [T.and3 - 0.08, C([1.1, 1.04, 0.48], [-0.72, 1.04, -0.05], 40)],
+    [T.fifty + 0.4, C([0.98, 1.05, 0.42], [-0.72, 1.06, -0.05], 38), "inout"],
+    [T.the5 + 0.2, C([0.98, 1.05, 0.42], [-0.72, 1.06, -0.05], 38)],
+    [SECONDS, C([1.6, 1.9, 2.4], [-0.15, 0.9, 0], 44), "inout"],
   ]),
   actors: (t) => {
     const point = window01(t, T.best - 0.25, T.fifty + 0.55, 0.25, 0.3);
     const lk = look(OKAFOR, SEAT_W, SEAT_YAW, add(CROW_SPOT, [0, 0.25, 0]), 1);
-    const kp = ik(OKAFOR, SEAT_W, SEAT_YAW, "R", add(OK_HEAD(t), [0.42, -0.2, 0.05]), 12, 1);
+    const kp = ik(OKAFOR, SEAT_W, SEAT_YAW, "R", add(OK_HEAD(t), [0.45, -0.22, -0.12]), 6, 1);
     const base = seatedBase(t);
     const groan = window01(t, T.eleven - 0.1, SECONDS, 0.3, 0.1);
-    const pose: BodyPose = { ...base, lean: 12, armR: mixArm(base.armR!, kp.arm, point), armRFwd: lerp(base.armRFwd!, kp.fwd, point), ...lk, headTilt: 10 * groan };
+    const pose: BodyPose = { ...base, lean: 6, armR: mixArm(base.armR!, kp.arm, point), armRFwd: lerp(base.armRFwd!, kp.fwd, point), ...lk, headTilt: 10 * groan };
     const face = groan > 0.3 ? F("closed", "grimace", "worried") : F("glare", talk(t, T.best, T.fifty + 0.35, "smirk"), "angry");
     return [A(OKAFOR, SEAT_W, SEAT_YAW, pose, face)];
   },
