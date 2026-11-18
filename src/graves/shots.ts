@@ -154,8 +154,8 @@ const BOAT: V3 = [6, 0, -52];
 const s8: Scene = {
   id: 8, t0: T.fishing - 0.06, mood: "night", blur: 0.6, dim: 0.5,
   cam: keyed([
-    [T.fishing - 0.06, C([1.0, -4.2, -42.5], [6, -5.2, -52], 42)],
-    [T.twenty1 - 0.06, C([1.3, -4.4, -43.5], [6, -6.2, -52], 42), "linear"],
+    [T.fishing - 0.06, C([-3.5, -3.9, -40.5], [6, -5.0, -52], 40)],
+    [T.twenty1 - 0.06, C([-3.2, -4.1, -41.5], [6, -5.6, -52], 40), "linear"],
   ]),
   actors: () => [],
   yard: yard(),
@@ -164,7 +164,7 @@ const s8: Scene = {
 };
 // 9. dusk: the row from above, the lens rising ("twenty-two men")
 const s9: Scene = {
-  id: 9, t0: T.twenty1 - 0.06, mood: "dusk", blur: 0.6, dim: 0.7,
+  id: 9, t0: T.twenty1 - 0.06, mood: "cold", blur: 0.6, dim: 0.85,
   cam: keyed([
     [T.twenty1 - 0.06, C([0.0, 3.0, 7.6], [0.0, 0.3, ROW_Z], 46)],
     [T.that - 0.06, C([0.0, 4.4, 8.4], [0.0, 0.2, ROW_Z - 0.4], 48), "linear"],
@@ -219,9 +219,9 @@ const LENS12: V3 = [1.25, 1.5, 6.9];
 const s12: Scene = {
   id: 12, t0: T.shes1 - 0.06, mood: "night", blur: 1.1, dim: 0.5,
   cam: keyed([
-    [T.shes1 - 0.06, C(LENS12, [1.2, 1.35, ROAD_Z - 1.4], 44)],
-    [T.captain + 0.3, C([1.5, 1.5, 7.3], [1.9, 1.42, ROAD_Z - 1.35], 36), "inout"],
-    [T.twenty2 - 0.06, C([1.55, 1.5, 7.45], [2.05, 1.45, ROAD_Z - 1.35], 33), "linear"],
+    [T.shes1 - 0.06, C(LENS12, [1.2, 1.3, ROAD_Z - 1.4], 46)],
+    [T.captain + 0.3, C([1.45, 1.5, 7.1], [1.95, 1.4, ROAD_Z - 1.35], 42), "inout"],
+    [T.twenty2 - 0.06, C([1.5, 1.5, 7.25], [2.05, 1.42, ROAD_Z - 1.35], 40), "linear"],
   ]),
   actors: (t) => {
     const ym = lerpAng(yawTo(MA_P, SH_OUT), yawTo(MA_P, LENS12), 0.45);
@@ -245,7 +245,7 @@ const SH_ROW2: V3 = [slotX(18) - 0.1, 0, ROW_Z + 1.05];
 const s13: Scene = {
   id: 13, t0: T.twenty2 - 0.06, mood: "golden", blur: 0.8, dim: 0.9,
   cam: keyed([
-    [T.twenty2 - 0.06, C([slotX(19.5), 1.3, -0.35], [slotX(19.3), 1.1, ROW_Z + 1.0], 44)],
+    [T.twenty2 - 0.06, C([slotX(19.2), 1.4, -0.85], [slotX(19.1), 1.15, ROW_Z + 1.0], 48)],
     [SECONDS, C([slotX(17), 4.4, -3.6], [slotX(16), 0.4, ROW_Z + 0.6], 48), "inout"],
   ]),
   actors: () => {

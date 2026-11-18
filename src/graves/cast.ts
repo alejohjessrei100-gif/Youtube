@@ -9,7 +9,7 @@ const F = { blush: 0.3, brow: 1.25 };
 export const SHERIFF: CharacterSpec = {
   height: 1.8,
   build: { ...B, torso: "barrel" },
-  look: { skin: SKIN.tan, outfit: "shirt", colors: { top: "#c8b078", inner: "#c8b078", bottom: "#4a4a3a", shoes: CLOTH.chestnut, accent: "#e8c040" }, hair: "crop", hairColor: HAIR.black, hat: "sunhat", hatColor: "#6a4a2a", mustache: true, face: F, seed: 301 },
+  look: { skin: SKIN.tan, outfit: "shirt", colors: { top: "#c8b078", inner: "#c8b078", bottom: "#4a4a3a", shoes: CLOTH.chestnut, accent: "#e8c040" }, hair: "crop", hairColor: HAIR.black, hat: "sunhat", hatColor: "#6a4a2a", hatBand: "#3a2a1a", mustache: true, face: F, seed: 301 },
 };
 /** the stonemason, about 40: a canvas work jacket, a knit beanie, her hair in a bun */
 export const MASON: CharacterSpec = {

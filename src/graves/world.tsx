@@ -89,7 +89,8 @@ export const Gravestone: React.FC<{ p: V3; name: string; isNew?: boolean; ry?: n
     {/* the slab: the back body in stone, the front 2 cm a separate solid that carries the name texture */}
     <M g={boxG(0.46, 0.6, 0.1)} c={isNew ? "#dddad2" : "#868a80"} p={[0, 0.38, -0.015]} />
     <mesh geometry={boxG(0.44, 0.58, 0.02)} material={faceMatC(name, isNew, dim)} position={[0, 0.38, 0.045]} castShadow />
-    <M g={cylG(0.23, 0.23, 0.12, 18, false, 0, PI)} c={isNew ? "#dddad2" : "#868a80"} p={[0, 0.68, 0]} r={[PI / 2, 0, PI / 2]} />
+    {/* the rounded top: a disc as deep as the slab, its lower half inside the slab, behind the name face */}
+    <M g={cylG(0.23, 0.23, 0.1, 24)} c={isNew ? "#dddad2" : "#868a80"} p={[0, 0.66, -0.015]} r={[PI / 2, 0, 0]} />
   </group>
 );
 const Stake: React.FC<{ p: V3 }> = ({ p }) => (
@@ -173,8 +174,10 @@ export const Yard: React.FC<{ s: YardState }> = ({ s }) => (
 export const Truck: React.FC<{ p: V3; yaw: number; roll: number; lights: number; stone?: boolean; dim: number }> = ({ p, yaw, roll, lights, stone = true, dim }) => (
   <group position={p} rotation={[0, yaw, 0]}>
     <M g={boxG(1.7, 0.5, 4.0)} c="#7a3a2e" p={[0, 0.75, 0]} />
-    <M g={boxG(1.66, 0.62, 1.5)} c="#7a3a2e" p={[0, 1.3, 0.9]} />
-    <M g={boxG(1.5, 0.42, 0.04)} c="#9ac0d8" p={[0, 1.36, 1.66]} />
+    <M g={boxG(1.66, 0.62, 1.3)} c="#7a3a2e" p={[0, 1.3, 0.55]} />
+    <M g={boxG(1.36, 0.34, 0.04)} c="#2a3440" p={[0, 1.36, 1.21]} />
+    <M g={boxG(1.6, 0.12, 0.9)} c="#6a3026" p={[0, 1.06, 1.5]} />
+    <M g={boxG(1.2, 0.26, 0.04)} c="#c8c8cc" p={[0, 0.78, 2.01]} />
     <M g={boxG(1.6, 0.06, 2.0)} c="#3a2a26" p={[0, 1.02, -0.9]} />
     {[-1, 1].map((sd) => (
       <M key={sd} g={boxG(0.06, 0.32, 2.0)} c="#7a3a2e" p={[sd * 0.82, 1.17, -0.9]} />
@@ -187,7 +190,7 @@ export const Truck: React.FC<{ p: V3; yaw: number; roll: number; lights: number;
       </group>
     ))}
     {[-0.6, 0.6].map((x) => (
-      <mesh key={x} geometry={sphG(0.09, 10)} position={[x, 0.85, 2.0]} material={coreMat("#fff4d0", 0.5 + 2 * lights)} />
+      <mesh key={x} geometry={sphG(0.09, 10)} position={[x, 0.8, 2.02]} material={coreMat("#fff4d0", 0.6 + 1.0 * lights)} userData={{ outline: false }} />
     ))}
     {lights > 0.05 ? <spotLight position={[0, 0.9, 2.1]} target-position={[0, 0, 9]} color="#fff0d0" intensity={14 * lights} distance={16} angle={0.5} penumbra={0.6} decay={1.4} /> : null}
   </group>
@@ -195,15 +198,17 @@ export const Truck: React.FC<{ p: V3; yaw: number; roll: number; lights: number;
 
 // ------------------------------------------------------------------ the Margaret Ann: a small trawler that rides the swell, then founders
 export const Boat: React.FC<{ p: V3; t: number; sink: number; heel: number }> = ({ p, t, sink, heel }) => {
-  const y = SEA_Y + waveH(p[0], p[2], t) - 0.15 - 2.6 * sink * sink;
+  const y = SEA_Y + waveH(p[0], p[2], t) + 0.1 - 3.0 * sink * sink;
   const pitch = 0.12 * Math.sin(t * 1.3) + 0.5 * sink;
   return (
     <group position={[p[0], y, p[2]]} rotation={[pitch, 0.6, 0.08 * Math.sin(t * 0.9) + heel]}>
-      <M g={boxG(1.6, 0.8, 5.0)} c="#2e4a6a" p={[0, 0.2, 0]} />
-      <M g={coneG(0.82, 1.4, 4)} c="#2e4a6a" p={[0, 0.2, 3.1]} r={[PI / 2, PI / 4, 0]} s={[1, 1, 0.55]} />
-      <M g={boxG(1.62, 0.12, 5.0)} c="#c8c2b0" p={[0, 0.62, 0]} />
-      <M g={boxG(1.1, 0.9, 1.3)} c="#e8e2d0" p={[0, 1.1, -0.6]} />
-      <M g={boxG(0.9, 0.3, 0.04)} c="#ffd890" p={[0, 1.25, 0.06]} />
+      <M g={boxG(1.7, 1.1, 5.0)} c="#8a2e2a" p={[0, 0.25, 0]} />
+      <M g={boxG(1.72, 0.14, 5.02)} c="#e8e0c8" p={[0, 0.86, 0]} />
+      <M g={coneG(0.88, 1.5, 4)} c="#8a2e2a" p={[0, 0.25, 3.2]} r={[PI / 2, PI / 4, 0]} s={[1, 1, 0.62]} />
+      <M g={boxG(1.5, 0.06, 4.8)} c="#7a5a3a" p={[0, 0.82, 0]} />
+      <M g={boxG(1.1, 0.9, 1.4)} c="#e8e2d0" p={[0, 1.3, -0.9]} />
+      <M g={boxG(0.8, 0.26, 0.04)} c="#ffd890" p={[0, 1.45, -0.18]} />
+      <M g={boxG(1.12, 0.14, 1.5)} c="#2e4a6a" p={[0, 1.8, -0.9]} />
       <M g={cylG(0.05, 0.06, 3.0, 8)} c="#5a4a3a" p={[0, 2.1, 1.0]} />
       <M g={cylG(0.03, 0.03, 2.0, 6)} c="#5a4a3a" p={[0, 2.2, 1.0]} r={[0, 0, PI / 2 - 0.3]} />
     </group>
