@@ -1,15 +1,25 @@
 {
-  "name": "Riley",
+  "name": "Velo",
   "mode": "describe",
   "fam": "npc",
-  "skin": "tan",
-  "scale": 1.0,
-  "top": {"stripes": ["#ff7a1a", "#fff3d6", 6]},
-  "sleeve": "#ff7a1a",
-  "legs": ["shorts", "#2b3a67", "#ffffff"],
-  "shoes": "#f2f2f2",
-  "hair": ["r_spiky", "#2a1a10"],
-  "extras": [["cap", "#1fa3a3", "#0f6b6b", true]],
+  "skin": "#0a0a0d",
+  "scale": 1.05,
+  "top": "#0b0b0f",
+  "sleeve": "#0b0b0f",
+  "legs": "#09090c",
+  "shoes": "#050506",
+  "hair": null,
+  "extras": [
+    [
+      "trench",
+      "#0e0e13",
+      3.0
+    ],
+    [
+      "fedora",
+      "#09090c"
+    ]
+  ],
   "import_id": null,
   "import_faces": "emotion"
 }

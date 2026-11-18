@@ -1418,7 +1418,9 @@ try:
         cur = rgb.outputs[0]; WE = {}; WM = {}
         def layer(fn, key, first):
             nonlocal cur
-            img = bpy.data.images.load(os.path.join(FACEDIR2, fn + '.png'), check_existing=True)
+            _fd = FACEDIR2
+            if sum(skin) / 3. < .12 and os.path.exists(os.path.join(HERE, 'faces2_glow', fn + '.png')): _fd = os.path.join(HERE, 'faces2_glow')   # dark head: use the glow-outline faces
+            img = bpy.data.images.load(os.path.join(_fd, fn + '.png'), check_existing=True)
             tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = img; tx.extension = 'CLIP'; tx.interpolation = 'Cubic'
             nt.links.new(uv.outputs[0], tx.inputs['Vector'])
             v = nt.nodes.new('ShaderNodeValue'); v.name = 'W_' + key; v.outputs[0].default_value = 1. if first else 0.
@@ -2450,6 +2452,31 @@ try:
         HERO_CFG.update(json.load(open(os.path.join(HERE, 'hero.json'), encoding='utf-8')))
     except Exception as ex: log('hero.json not found / unreadable, using the default hero:', ex)
     HERO_NAME = HERO_CFG.get('name', 'Hero')
+    def fedora(col, band=None):
+        def f(ch):
+            mn, mx, c = hbb(ch); u = ch.scale; w = max(mx.x - mn.x, mx.y - mn.y); band_ = band or tuple(x * .45 for x in col)
+            cm_ = mat('fed_%d_%d_%d' % tuple(int(x * 255) for x in col), col, .75); bm_ = mat('fedb_%d_%d_%d' % tuple(int(x * 255) for x in band_), band_, .7)
+            z0 = mx.z - .12 * u
+            attachf(obj('fedora_brim', CYL, (c.x, c.y, z0), (w * .86, w * .86, .06 * u), (-4, 0, 0), m=cm_), ch, 'Head')
+            attachf(obj('fedora_crown', CYL, (c.x, c.y, z0 + .3 * u), (w * .56, w * .56, .62 * u), m=cm_), ch, 'Head')
+            attachf(obj('fedora_top', SPH, (c.x, c.y, z0 + .58 * u), (w * .56, w * .56, .12 * u), m=cm_), ch, 'Head')
+            attachf(obj('fedora_band', CYL, (c.x, c.y, z0 + .14 * u), (w * .585, w * .585, .16 * u), m=bm_), ch, 'Head')
+            attachf(box('fedora_pinch', (.5 * w * .3, .1 * u, .06 * u), (c.x, c.y + w * .28, z0 + .62 * u), cm_), ch, 'Head')
+        return f
+    def trench(col, length=3.0):
+        def f(ch):
+            tmn, tmx, tc = tbb(ch); u = ch.scale; cm_ = mat('trench_%d_%d_%d' % tuple(int(x * 255) for x in col), col, .8)
+            dm_ = mat('trenchd_%d' % int(col[2] * 255), tuple(x * .6 for x in col), .8); bk_ = mat('trench_btn', (.12, .12, .14), .35, .6)
+            W, D, H = (tmx.x - tmn.x), (tmx.y - tmn.y), (tmx.z - tmn.z)
+            attachf(box('trench', (W * 1.1, D * 1.22, H * 1.0), (tc.x, tc.y, tc.z), cm_), ch, 'Uppertorso')
+            attachf(box('trench_skirt', (W * 1.12, D * 1.24, length * u), (tc.x, tc.y, tmn.z - length * u / 2 + .15 * u), cm_), ch, 'Hips')
+            attachf(box('trench_skirt_back', (W * .5, D * 1.4, length * u * .9), (tc.x, tc.y - D * .1, tmn.z - length * u * .45 + .1 * u), dm_), ch, 'Hips')
+            attachf(box('trench_collar', (W * .98, D * 1.3, .22 * u), (tc.x, tc.y, tmx.z - .08 * u), dm_), ch, 'Uppertorso')
+            for sx in (-1, 1): attachf(box('trench_lapel', (.34 * u, .08 * u, H * .9), (tc.x + sx * W * .22, tmx.y + D * .12, tc.z + .05 * u), dm_, (0, 0, -sx * 14)), ch, 'Uppertorso')
+            attachf(box('trench_belt', (W * 1.14, D * 1.28, .3 * u), (tc.x, tc.y, tmn.z + .1 * u), dm_), ch, 'Uppertorso')
+            attachf(box('trench_buckle', (.34 * u, .08 * u, .26 * u), (tc.x, tmx.y + D * .14, tmn.z + .1 * u), bk_), ch, 'Uppertorso')
+            for k in range(3): attachf(obj('trench_btn', CYL8, (tc.x + .22 * u, tmx.y + D * .15, tmn.z + (k + 1.1) * H / 4.3), (.1 * u, .1 * u, .06 * u), (90, 0, 0), bk_), ch, 'Uppertorso')
+        return f
     def ballcap(col, brim=None, back=False):
         def f(ch):
             mn, mx, c = hbb(ch); u = ch.scale; w = max(mx.x - mn.x, mx.y - mn.y)
@@ -2481,6 +2508,8 @@ try:
         if k == 'medal': return medal
         if k == 'cloak': return cloak
         if k == 'cap': return ballcap(_col(a[0]), _col(a[1]) if len(a) > 1 else None, bool(a[2]) if len(a) > 2 else False)
+        if k == 'fedora': return fedora(_col(a[0]), _col(a[1]) if len(a) > 1 else None)
+        if k == 'trench': return trench(_col(a[0]), float(a[1]) if len(a) > 1 else 3.0)
         if k == 'hoodie': return hoodie(_col(a[0]))
         if k == 'logo': return chest_logo(_col(a[0]), *(float(x) for x in a[1:4]))
         if k in ('flatcap', 'apron', 'cardigan', 'coat', 'bow', 'skirt'): return globals_[k](_col(a[0]))
@@ -2511,7 +2540,7 @@ try:
             log('hero imported from packs/c%s' % cfg['import_id'], 'faces:', cfg.get('import_faces', 'emotion'))
         else:
             hair = cfg.get('hair')
-            if hair and any(e and e[0] in ('cap', 'flatcap') for e in cfg.get('extras', [])) and hair[0] in ('r_spiky', 'r_curly', 'r_bun', 'r_swoop'):
+            if hair and any(e and e[0] in ('cap', 'flatcap', 'fedora') for e in cfg.get('extras', [])) and hair[0] in ('r_spiky', 'r_curly', 'r_bun', 'r_swoop'):
                 hair = ['r_short'] + list(hair[1:]); log('hero: hat on -> hair under it becomes r_short')
             hair = (hair[0], _col(hair[1]), _col(hair[2]) if len(hair) > 2 else None) if hair else None
             ex = tuple(x for x in (_extra(e) for e in cfg.get('extras', [])) if x)
