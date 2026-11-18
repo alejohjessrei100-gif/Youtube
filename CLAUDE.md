@@ -66,6 +66,9 @@ verified, and disclose any known remaining issue.
 - Ask the user before publishing a render to the phone page (artifact). Commit and push code as usual.
 - Voiceover: use the user's requested speed (currently 1.10x). Speed it up only; do not trim pauses.
 - SFX must be audible; music sits well under the voice (the approved gull/museum mix balance).
+- What gets views (user, from channel results): a mystery that looks like a crime or something sinister (break-ins where
+  nothing is stolen, meat raining from the sky, a fake town on a map), investigated, then an innocent, human twist at
+  the end. Default new scripts to this shape.
 - Every script gets a rating out of 10 with reasons. Scripts are original fiction, retention-driven, and not always
   time-related.
 - Characters keep the locked look: squircle heads, wide clavicles, sharp elbows, straight arms at rest, hands.
