@@ -125,12 +125,16 @@ export const Poster: React.FC<{ p: V3; ry: number; tilt?: number; s?: number }> 
 // ------------------------------------------------------------------ houses
 const HOUSE_COLORS = ["#d8c8a8", "#a8c8d8", "#e8b8a0", "#c8d8b0", "#f0e0b0", "#c0b0d0", "#e8d0d8", "#b8d0c8"];
 const ROOF_COLORS = ["#6a3a32", "#3a4a5a", "#5a4a3a", "#7a3a3a", "#4a5a4a"];
-export const doorOf = (seed: number) => (h1(seed + 2) - 0.5) * 1.6;
+export const doorOf = (seed: number) => (h1(seed + 2) - 0.5) * 1.2;
+export const houseW = (seed: number) => 5.0 + h1(seed) * 0.5;
+/** the fence along each lot's front is exactly this long, so neighboring fences meet instead of overlapping */
+const LOT_FENCE = 6.1;
 /** a house facing +z in its local frame; its front fence line is at local z = 0 */
 const House: React.FC<{ seed: number; posterOnGate?: boolean; lily?: boolean }> = ({ seed, posterOnGate, lily }) => {
   const c = HOUSE_COLORS[seed % HOUSE_COLORS.length];
   const rc = ROOF_COLORS[(seed * 3) % ROOF_COLORS.length];
-  const W = 6.2 + h1(seed) * 1.4;
+  // narrow enough that neighbors never overlap (lots are >= 6.2 m apart; a house plus its porch is <= 5.5 m)
+  const W = houseW(seed);
   const D = 5.5;
   const Hh = 3.0 + h1(seed + 1) * 0.6;
   const zc = -3.4 - D / 2;
@@ -138,7 +142,8 @@ const House: React.FC<{ seed: number; posterOnGate?: boolean; lily?: boolean }> 
   return (
     <group>
       {/* the house: walls, siding, a gable roof, a chimney */}
-      <M g={boxG(W, Hh, D)} c={c} tex="planks" ts={0.6} p={[0, Hh / 2 + 0.25, zc]} />
+      {/* (walls don't receive shadows: grazing sun on the shaded side walls crawled with shadow acne as the lens moved) */}
+      <M g={boxG(W, Hh, D)} c={c} tex="planks" ts={0.6} p={[0, Hh / 2 + 0.25, zc]} recv={false} />
       <M g={boxG(W + 0.2, 0.25, D + 0.2)} c="#8a8278" tex="stone" p={[0, 0.125, zc]} />
       {[-1, 1].map((sd) => (
         <M key={sd} g={boxG(W + 0.5, 0.14, D / 2 + 0.9)} c={rc} tex="shingles" p={[0, Hh + 0.25 + 0.95, zc + sd * (D / 4 + 0.15)]} r={[sd * -0.62, 0, 0]} />
@@ -192,15 +197,15 @@ const House: React.FC<{ seed: number; posterOnGate?: boolean; lily?: boolean }> 
         <M key={`b${sd}`} g={sphG(0.45, 10)} c="#3a7a3a" p={[door + sd * 2.2, 0.35, zc + D / 2 + 0.5]} s={[1.2, 0.8, 0.9]} />
       ))}
       {/* the picket fence along the front, a gate on the walk, a mailbox on a post */}
-      {Array.from({ length: Math.floor((W + 1.4) / 0.22) }, (_, k) => {
-        const x = -W / 2 - 0.7 + k * 0.22;
+      {Array.from({ length: Math.floor(LOT_FENCE / 0.22) }, (_, k) => {
+        const x = -LOT_FENCE / 2 + 0.11 + k * 0.22;
         if (Math.abs(x - door) < 0.55) return null;
         return <M key={`f${k}`} g={boxG(0.07, 0.85, 0.035)} c="#f4f0e8" tex="wood" p={[x, 0.43, 0]} cast={false} />;
       })}
       {[0.25, 0.65].map((y) => (
         <React.Fragment key={y}>
-          <M g={boxG(door + W / 2 + 0.7 - 0.55, 0.06, 0.03)} c="#e8e4dc" tex="wood" p={[(-W / 2 - 0.7 + door - 0.55) / 2, y, -0.03]} cast={false} />
-          <M g={boxG(W / 2 + 0.7 - door - 0.55, 0.06, 0.03)} c="#e8e4dc" tex="wood" p={[(W / 2 + 0.7 + door + 0.55) / 2, y, -0.03]} cast={false} />
+          <M g={boxG(door + LOT_FENCE / 2 - 0.55, 0.06, 0.03)} c="#e8e4dc" tex="wood" p={[(-LOT_FENCE / 2 + door - 0.55) / 2, y, -0.03]} cast={false} />
+          <M g={boxG(LOT_FENCE / 2 - door - 0.55, 0.06, 0.03)} c="#e8e4dc" tex="wood" p={[(LOT_FENCE / 2 + door + 0.55) / 2, y, -0.03]} cast={false} />
         </React.Fragment>
       ))}
       <group position={[door + 0.85, 0, 0.25]}>
@@ -213,9 +218,9 @@ const House: React.FC<{ seed: number; posterOnGate?: boolean; lily?: boolean }> 
   );
 };
 /** where the houses stand: side (n, s, e, w), offset along the side, seed */
-const LOTS: { side: "n" | "s" | "e" | "w"; at: number; seed: number }[] = [
+export const LOTS: { side: "n" | "s" | "e" | "w"; at: number; seed: number }[] = [
   ...[-16, -9.8, -3.5, 2.6, 9, 15.6].map((at, i) => ({ side: "n" as const, at, seed: i })),
-  ...[-15, -8, -1.4, 5.2, 12, 17.6].map((at, i) => ({ side: "s" as const, at, seed: i + 7 })),
+  ...[-15, -8, -1.4, 5.2, 12, 18.3].map((at, i) => ({ side: "s" as const, at, seed: i + 7 })),
   ...[-8, -1.5, 5].map((at, i) => ({ side: "e" as const, at, seed: i + 14 })),
   ...[-7, -0.5, 6].map((at, i) => ({ side: "w" as const, at, seed: i + 18 })),
 ];

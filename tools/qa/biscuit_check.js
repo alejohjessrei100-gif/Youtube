@@ -12556,7 +12556,7 @@ var LILY_GATE = [-3.5, 0, SZ + 0.6];
 var MAILBOX = [4.3, 0, CZ + 0.15];
 var LOTS = [
   ...[-16, -9.8, -3.5, 2.6, 9, 15.6].map((at, i) => ({ side: "n", at, seed: i })),
-  ...[-15, -8, -1.4, 5.2, 12, 17.6].map((at, i) => ({ side: "s", at, seed: i + 7 })),
+  ...[-15, -8, -1.4, 5.2, 12, 18.3].map((at, i) => ({ side: "s", at, seed: i + 7 })),
   ...[-8, -1.5, 5].map((at, i) => ({ side: "e", at, seed: i + 14 })),
   ...[-7, -0.5, 6].map((at, i) => ({ side: "w", at, seed: i + 18 }))
 ];
