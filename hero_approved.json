@@ -1,0 +1,25 @@
+{
+  "name": "Velo",
+  "mode": "describe",
+  "fam": "npc",
+  "skin": "#0a0a0d",
+  "scale": 1.05,
+  "top": "#0b0b0f",
+  "sleeve": "#0b0b0f",
+  "legs": "#09090c",
+  "shoes": "#050506",
+  "hair": null,
+  "extras": [
+    [
+      "trench",
+      "#0e0e13",
+      3.0
+    ],
+    [
+      "fedora",
+      "#09090c"
+    ]
+  ],
+  "import_id": null,
+  "import_faces": "emotion"
+}
