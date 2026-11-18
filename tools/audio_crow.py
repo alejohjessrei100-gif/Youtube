@@ -214,8 +214,8 @@ S(sting(), E["checkmate"] + 0.05, 7)
 S(clack(5), E["checkmate"] + 0.52, 9)
 S(clack(6) * 0.6, E["checkmate"] + 0.62, 12)
 # 10. the stool, 11. the king set down, 12. "best of fifty" bell, the smug caw at the score
-P("cloth.wav", cut[9] + 0.05, 14)
-S(clack(8), cut[11] - 0.3, 9)
+P("cloth.wav", cut[11] + 0.05, 14)
+S(clack(8), cut[13] - 0.3, 9)
 P("bell_02.ogg", E["eleven"] - 0.15, 12)
 S(caw(4, 0.26, 700), E["four"] + 0.45, 11)
 S(caw(5, 0.22, 760), E["four"] + 0.8, 12)
@@ -225,7 +225,7 @@ bed = np.zeros(N)
 air = lp(noise(N, 41), 900) * (0.7 + 0.3 * np.sin(t_all * 0.6))
 air = air / rms(air) * SRMS * db(-31)
 bed += air
-NIGHT = (cut[7], cut[8])
+NIGHT = (cut[8], cut[9])
 rng = np.random.default_rng(5)
 at = 0.2
 while at < TOTAL - 0.5:
@@ -266,10 +266,10 @@ CURIOUS = [293.7, 0, 349.2, 0, 440.0, 392.0, 349.2, 0, 293.7, 0, 329.6, 0, 261.6
 SNEAK = [146.8, 0, 0, 155.6, 146.8, 0, 0, 0, 130.8, 0, 0, 138.6, 130.8, 0, 0, 0]
 TENSE = [293.7, 311.1, 293.7, 311.1, 329.6, 349.2, 329.6, 349.2]
 TAG = [392.0, 493.9, 587.3, 784.0, 587.3, 493.9, 392.0, 0]
-mus = phrase(0.2, cut[6], 0.25, CURIOUS, -20)
-mus += phrase(cut[6], cut[8], 0.25, SNEAK, -19)
-mus += phrase(cut[8], E["checkmate"], 0.3, TENSE, -21)
-mus += phrase(cut[9], TOTAL, 0.22, TAG, -20)
+mus = phrase(0.2, cut[7], 0.25, CURIOUS, -20)
+mus += phrase(cut[7], cut[9], 0.25, SNEAK, -19)
+mus += phrase(cut[9], E["checkmate"], 0.3, TENSE, -21)
+mus += phrase(cut[11], TOTAL, 0.22, TAG, -20)
 mus *= db(-6) ** np.clip(duck * 1.3, 0, 1)
 
 fx *= db(-3) ** np.clip(duck * 1.3, 0, 1)

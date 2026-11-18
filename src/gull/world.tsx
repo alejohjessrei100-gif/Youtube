@@ -468,7 +468,7 @@ export const Porch: React.FC<{ t: number; beamAngle: number }> = ({ t, beamAngle
 // ------------------------------------------------------------------ the gull: an expressive cartoon herring gull
 export type GullFace = { eyes: "normal" | "big" | "narrow" | "sparkle" | "closed"; brow: number; beak: number };
 export type GullState = { p: V3; yaw: number; tilt: number; bob: number; flap: number; fold: number; peck: number; step: number; face: GullFace; s?: number; pitch?: number };
-export type BirdPal = { body: string; tail: string; wing: string; tip: string; head: string; brow: string; beak: string; beak2: string; spot: string; leg: string; beakLen?: number };
+export type BirdPal = { body: string; tail: string; wing: string; tip: string; head: string; brow: string; beak: string; beak2: string; spot: string; leg: string; beakLen?: number; corvid?: boolean };
 export const GULL_PAL: BirdPal = { body: "#f6f6f2", tail: "#f0f0ea", wing: "#a8b0bc", tip: "#2a2a30", head: "#f8f8f4", brow: "#6a6a72", beak: "#f0c030", beak2: "#e8b028", spot: "#d8302a", leg: "#e8a8a0" };
 export const Gull: React.FC<{ g: GullState; pal?: BirdPal }> = ({ g, pal }) => {
   const P = pal ?? GULL_PAL;
@@ -505,14 +505,14 @@ export const Gull: React.FC<{ g: GullState; pal?: BirdPal }> = ({ g, pal }) => {
                 {eye === "narrow" ? <mesh geometry={boxG(0.06, 0.02, 0.02)} material={coreMat(P.head, 1)} position={[0, 0.02, 0.012]} /> : null}
               </>
             )}
-            <mesh geometry={boxG(0.05, 0.01, 0.01)} material={coreMat(P.brow, 1)} position={[0, 0.038 - 0.006 * g.face.brow, 0.012]} rotation={[0, 0, sd * 0.45 * g.face.brow]} />
+            {P.corvid ? null : <mesh geometry={boxG(0.05, 0.01, 0.01)} material={coreMat(P.brow, 1)} position={[0, 0.038 - 0.006 * g.face.brow, 0.012]} rotation={[0, 0, sd * 0.45 * g.face.brow]} />}
           </group>
         ))}
         {/* the beak: upper and lower, the red spot; it opens */}
         <M g={coneG(0.032, 0.15, 8)} c={P.beak} p={[0, -0.005, 0.15]} r={[PI / 2 - 0.08, 0, 0]} s={[1, 1, 0.7]} />
-        <group rotation={[0.45 * g.face.beak, 0, 0]} position={[0, -0.02, 0.08]}>
-          <M g={coneG(0.026, 0.12, 8)} c={P.beak2} p={[0, -0.005, 0.06]} r={[PI / 2 + 0.12, 0, 0]} s={[1, 1, 0.6]} />
-          <M g={sphG(0.011, 6)} c={P.spot} p={[0, -0.006, 0.09]} />
+        <group rotation={[0.45 * g.face.beak, 0, 0]} position={[0, P.corvid ? -0.012 : -0.02, 0.08]}>
+          <M g={coneG(0.026, 0.12, 8)} c={P.beak2} p={[0, -0.005, 0.06]} r={[PI / 2 + (P.corvid ? -0.02 : 0.12), 0, 0]} s={[1, 1, 0.6]} />
+          {P.corvid ? null : <M g={sphG(0.011, 6)} c={P.spot} p={[0, -0.006, 0.09]} />}
         </group>
       </group>
       {/* legs: they step in turn while waddling */}

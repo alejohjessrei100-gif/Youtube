@@ -66,6 +66,13 @@ for (let f = 0; f < N; f++) {
     if (d2(lens, p) < 0.28 && lens[1] < a.spec.height) add(`lens inside actor${i}'s body (${s.id})`, t);
     // sightline to focus through a body that is not the subject
     if (d3(hd, focus) > 0.4 && d3(p, focus) > 0.5 && segBlock(lens, focus, p, 0.2, hd[1] + 0.15)) add(`actor${i} blocks the lens -> focus line (${s.id})`, t);
+    if (d3(hd, focus) > 0.35) {
+      for (let k = 1; k < 40; k++) {
+        const u = k / 40;
+        const q: V = [lens[0] + (focus[0] - lens[0]) * u, lens[1] + (focus[1] - lens[1]) * u, lens[2] + (focus[2] - lens[2]) * u];
+        if (d3(q, hd) < 0.27) { add(`actor${i}'s head blocks the lens -> focus line (${s.id})`, t); break; }
+      }
+    }
     // limbs finite and in range
     for (const v of [a.pose.armL?.[0], a.pose.armL?.[1], a.pose.armR?.[0], a.pose.armR?.[1], a.pose.armLFwd, a.pose.armRFwd]) {
       if (v !== undefined && (!Number.isFinite(v) || v < -25 || v > 165)) add(`actor${i} (${s.id}) arm angle out of range ${v}`, t);
@@ -171,7 +178,7 @@ for (let f = 0; f < N; f++) {
     if (off > 80) add(`speaker's face turned ${off.toFixed(0)} deg from the lens (${s.id})`, t);
   }
   // --- Okafor's face must read in his own beats: facing within 50 deg of the lens
-  if ([1, 2, 4, 7, 8, 10, 12].includes(s.id) && ok && !(s.id === 4 && t < T.always) && !(s.id === 1 && t > T.nobody)) {
+  if ([1, 2, 7, 8, 10, 12, 13].includes(s.id) && ok && !(s.id === 1 && t > T.nobody)) {
     const fy = ok.yaw + ((ok.pose.headYaw ?? 0) * Math.PI) / 180;
     const hd = headPosed(ok);
     const toCam = Math.atan2(lens[0] - hd[0], lens[2] - hd[2]);

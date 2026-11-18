@@ -188,7 +188,7 @@ export const Park: React.FC<{ s: ParkState; seatTop: number }> = ({ s, seatTop }
 );
 
 // ------------------------------------------------------------------ the crow
-export const CROW_PAL: BirdPal = { body: "#2e3040", tail: "#262836", wing: "#3a3e52", tip: "#1c1d28", head: "#34364a", brow: "#14141c", beak: "#3c3c44", beak2: "#33333a", spot: "#33333a", leg: "#2a2a30" };
+export const CROW_PAL: BirdPal = { body: "#2e3040", tail: "#262836", wing: "#3a3e52", tip: "#1c1d28", head: "#34364a", brow: "#14141c", beak: "#3c3c44", beak2: "#33333a", spot: "#33333a", leg: "#2a2a30", corvid: true };
 export const Crow: React.FC<{ g: GullState }> = ({ g }) => <Gull g={g} pal={CROW_PAL} />;
 
 /** the flashlight prop held in a hand: a body along its aim, a lens at the front */

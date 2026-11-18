@@ -275,7 +275,7 @@ const BOARD_C: V3 = [0, BOARD_Y, 0];
 const s1: Scene = {
   id: 1, t0: 0, mood: "day", blur: 1.2,
   cam: keyed([
-    [0, C([0.62, 0.86, 0.42], [-0.12, 0.68, -0.02], 40)],
+    [0, C([0.85, 0.98, 0.5], [-0.35, 0.84, 0.0], 44)],
     [T.year, C([1.45, 1.16, 1.6], [-0.4, 0.92, 0], 42), "inout"],
     [T.nobody, C([1.55, 1.2, 1.8], [-0.35, 0.92, 0], 42)],
     [T.player + 0.6, C([1.5, 1.32, 1.6], [0.7, 0.62, 0], 40), "inout"],
@@ -313,8 +313,8 @@ const s2Okafor = (t: number) => {
 const s2: Scene = {
   id: 2, t0: T.every - 0.08, mood: "golden", blur: 1.2,
   cam: keyed([
-    [T.every - 0.08, C([0.6, 1.12, 0.85], [-0.5, 0.92, 0.0], 42)],
-    [T.walks, C([0.58, 1.1, 0.78], [-0.42, 0.88, 0.0], 42), "inout"],
+    [T.every - 0.08, C([0.95, 1.28, 1.05], [-0.4, 0.82, 0.0], 44)],
+    [T.walks, C([0.9, 1.26, 1.0], [-0.35, 0.8, 0.0], 44), "inout"],
   ]),
   actors: (t) => [s2Okafor(t).a],
   extra: (t) => {
@@ -343,7 +343,6 @@ const s3: Scene = {
 };
 
 // 4. the next morning: a black bishop has moved (a faint ghost where it stood), Okafor leans in, impressed
-const BISHOP_A = sqAt(7, 5);
 const BISHOP_B = sqAt(4, 2);
 const OK_STAND: V3 = [-0.98, 0, 0.62];
 const OK_STAND_YAW = yawTo(OK_STAND, [0, 0, 0]);
@@ -353,8 +352,6 @@ const s4: Scene = {
     [T.the2 - 0.08, C([0.42, 1.26, 0.5], [0.02, 0.64, 0.0], 40)],
     [T.black + 0.3, C([0.34, 1.04, 0.32], [0.02, 0.64, -0.06], 36), "inout"],
     [T.one2 + 0.5, C([0.3, 0.96, 0.26], [0.03, 0.66, -0.08], 34), "inout"],
-    [T.always + 0.5, C([0.55, 1.42, -0.55], [-0.9, 1.32, 0.55], 40), "inout"],
-    [T.he1, C([0.52, 1.42, -0.52], [-0.9, 1.32, 0.56], 39)],
   ]),
   actors: (t) => {
     const lean = window01(t, T.the2, SECONDS, 0.6, 0.1);
@@ -362,8 +359,18 @@ const s4: Scene = {
     const face = t < T.always ? F("huge", "o", "high") : F("squint", "smirk", "raised");
     return [A(OKAFOR, OK_STAND, OK_STAND_YAW, pose, face)];
   },
-  extra: () => ({ pieces: place(MID, { wp4: PAWN_B, bb: BISHOP_B }), ghost: { id: "ghost", kind: "b", white: false, p: BISHOP_A, op: 0.28 } }),
+  extra: () => ({ pieces: place(MID, { wp4: PAWN_B, bb: BISHOP_B }) }),
   focus: (t) => (t < T.always ? BISHOP_B : head(OKAFOR, OK_STAND)),
+};
+
+// 4b. "always a good move": his face, impressed (a cut, not a swoop)
+const s4b: Scene = {
+  ...s4, id: 13, t0: T.always - 0.1, blur: 1.0,
+  cam: keyed([
+    [T.always - 0.1, C([0.55, 1.42, -0.55], [-0.9, 1.3, 0.55], 40)],
+    [T.he1, C([0.45, 1.42, -0.47], [-0.9, 1.31, 0.55], 38), "linear"],
+  ]),
+  focus: () => head(OKAFOR, OK_STAND),
 };
 
 // 5. the groundskeeper   6. the kids
@@ -398,8 +405,8 @@ const OK_KIDS: V3 = [KIDS_SPOT[0] + 1.25, 0, KIDS_SPOT[2] + 0.28];
 const s6: Scene = {
   id: 6, t0: T.he2 - 0.08, mood: "day", blur: 1.0,
   cam: keyed([
-    [T.he2 - 0.08, C([-4.75, 1.25, -0.15], [-4.05, 1.0, -2.7], 46)],
-    [T.and2, C([-4.7, 1.22, -0.35], [-4.08, 1.0, -2.72], 45), "linear"],
+    [T.he2 - 0.08, C([-4.1, 1.3, 0.75], [-4.1, 0.9, -2.75], 46)],
+    [T.and2, C([-4.1, 1.28, 0.55], [-4.1, 0.9, -2.75], 45), "linear"],
   ]),
   actors: (t) => {
     const lens = s6.cam(t).pos;
@@ -412,7 +419,7 @@ const s6: Scene = {
       return A(spec, p, y, pose, no > 0.3 ? F("closed", "grin", "raised") : F("open", "o", "raised"));
     };
     return [
-      A(OKAFOR, OK_KIDS, yO, { lean: 22 * bend, armL: [20, 14], armLFwd: 30 * bend, armR: [20, 14], armRFwd: 30 * bend }, F("open", talk(t, T.he2, T.not2 - 0.2, "flat"), "raised")),
+      A(OKAFOR, OK_KIDS, yO, { lean: 10 * bend, armL: [20, 14], armLFwd: 30 * bend, armR: [20, 14], armRFwd: 30 * bend }, F("open", talk(t, T.he2, T.not2 - 0.2, "flat"), "raised")),
       kid(KID1, K1P, 0), kid(KID2, K2P, 0.11),
     ];
   },
@@ -424,8 +431,8 @@ const s6: Scene = {
 const s7: Scene = {
   id: 7, t0: T.and2 - 0.08, mood: "day", blur: 1.3,
   cam: keyed([
-    [T.and2 - 0.08, C([0.75, 1.14, 0.4], [-0.75, 1.08, 0.0], 40)],
-    [T.so, C([0.62, 1.13, 0.34], [-0.76, 1.08, 0.0], 38), "linear"],
+    [T.and2 - 0.08, C([1.1, 1.22, 0.5], [-0.76, 1.0, 0.0], 44)],
+    [T.so, C([1.0, 1.2, 0.46], [-0.76, 1.0, 0.0], 42), "linear"],
   ]),
   actors: (t) => {
     const slump = window01(t, T.and2, SECONDS, 0.5, 0.1);
@@ -478,8 +485,6 @@ const s9: Scene = {
     [T.then, C([-0.38, 0.89, 0.52], [0.34, 0.81, -0.02], 37)],
     [T.pushes, C([-0.3, 0.96, 0.62], [0.12, 0.7, 0.0], 40), "inout"],
     [T.beak + 0.4, C([-0.24, 0.98, 0.6], [0.05, 0.68, -0.02], 40)],
-    [T.checkmate + 0.15, C([-0.35, 0.86, 0.38], [-0.1, 0.66, -0.12], 36), "inout"],
-    [T.mr2, C([-0.37, 0.84, 0.36], [-0.1, 0.66, -0.13], 35)],
   ]),
   actors: () => [],
   extra: (t) => {
@@ -494,6 +499,16 @@ const s9: Scene = {
   },
 };
 
+// 9b. "checkmate": the white king topples (its own shot, no swing)
+const s9b: Scene = {
+  ...s9, id: 14, t0: T.checkmate - 0.06, blur: 1.2,
+  cam: keyed([
+    [T.checkmate - 0.06, C([-0.35, 0.86, 0.38], [-0.1, 0.66, -0.12], 36)],
+    [T.mr2, C([-0.37, 0.84, 0.36], [-0.1, 0.66, -0.13], 35), "linear"],
+  ]),
+  focus: () => sqAt(1, 2),
+};
+
 // 10. he sits down across from it (already lowering as the shot opens: the seat is under him)
 const s10Okafor = (t: number) => {
   const settle = smooth((t - (T.mr2 - 0.1)) / (T.resets - T.mr2 - 0.2));
@@ -505,8 +520,8 @@ const s10Okafor = (t: number) => {
 const s10: Scene = {
   id: 10, t0: T.mr2 - 0.08, mood: "golden", blur: 1.0,
   cam: keyed([
-    [T.mr2 - 0.08, C([1.3, 1.1, 0.36], [-0.7, 0.98, -0.05], 40)],
-    [T.resets, C([1.22, 1.1, 0.33], [-0.7, 1.0, -0.05], 39), "linear"],
+    [T.mr2 - 0.08, C([1.35, 1.3, 0.42], [-0.7, 0.95, -0.05], 40)],
+    [T.resets, C([1.28, 1.28, 0.4], [-0.7, 0.96, -0.05], 39), "linear"],
   ]),
   actors: (t) => [s10Okafor(t)],
   extra: (t) => ({ pieces: place(LOSE, { bn: K1 }).map((p) => (p.id === "wk" ? { ...p, tip: PI / 2 - 0.05 } : p)), crow: crowAt(t) }),
@@ -528,8 +543,8 @@ const s11Pose = (t: number) => {
 const s11: Scene = {
   id: 11, t0: T.resets - 0.08, mood: "golden", blur: 1.0,
   cam: keyed([
-    [T.resets - 0.08, C([0.3, 1.3, 0.42], [-0.2, 0.64, 0.02], 30)],
-    [T.and3, C([0.28, 1.28, 0.4], [-0.21, 0.64, 0.02], 29), "linear"],
+    [T.resets - 0.08, C([0.22, 1.55, 0.2], [-0.2, 0.64, 0.02], 28)],
+    [T.and3, C([0.21, 1.53, 0.19], [-0.21, 0.64, 0.02], 27), "linear"],
   ]),
   actors: (t) => [A(OKAFOR, SEAT_W, SEAT_YAW, s11Pose(t).pose, F("half", "smirk", "raised"))],
   extra: (t) => {
@@ -548,8 +563,7 @@ const s12: Scene = {
   cam: keyed([
     [T.and3 - 0.08, C([1.1, 1.04, 0.48], [-0.72, 1.04, -0.05], 40)],
     [T.fifty + 0.4, C([0.98, 1.05, 0.42], [-0.72, 1.06, -0.05], 38), "inout"],
-    [T.the5 + 0.2, C([0.98, 1.05, 0.42], [-0.72, 1.06, -0.05], 38)],
-    [SECONDS, C([1.6, 1.9, 2.4], [-0.15, 0.9, 0], 44), "inout"],
+    [T.the5, C([0.98, 1.05, 0.42], [-0.72, 1.06, -0.05], 38)],
   ]),
   actors: (t) => {
     const point = window01(t, T.best - 0.25, T.fifty + 0.55, 0.25, 0.3);
@@ -565,7 +579,17 @@ const s12: Scene = {
   focus: () => [0, 1.0, 0] as V3,
 };
 
-export const SCENES: Scene[] = [s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12];
+// 12b. the score: both of them in frame, the crow proud, Okafor groaning; the lens drifts back
+const s12b: Scene = {
+  ...s12, id: 15, t0: T.the5 - 0.05, blur: 0.8,
+  cam: keyed([
+    [T.the5 - 0.05, C([0.15, 1.12, 1.75], [0.0, 0.88, 0], 44)],
+    [SECONDS, C([0.45, 1.75, 3.0], [0.0, 0.85, 0], 46), "inout"],
+  ]),
+  focus: () => [0, 0.9, 0] as V3,
+};
+
+export const SCENES: Scene[] = [s1, s2, s3, s4, s4b, s5, s6, s7, s8, s9, s9b, s10, s11, s12, s12b];
 export const sceneAt = (t: number) => {
   let s = SCENES[0];
   for (const x of SCENES) if (t >= x.t0) s = x;

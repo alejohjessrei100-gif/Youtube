@@ -10,7 +10,7 @@ const F = { blush: 0.3, brow: 1.25 };
 export const OKAFOR: CharacterSpec = {
   height: 1.74,
   build: { ...B, torso: "barrel" },
-  look: { skin: SKIN.deep, outfit: "sweater", colors: { top: "#c8922e", inner: "#efe6d2", bottom: "#4a4a58", shoes: CLOTH.chestnut, accent: "#6a4a2a" }, hair: "sides", hairColor: HAIR.silver, glasses: "#2a2420", mustache: "#d8d4cc", face: { ...F, lines: true }, seed: 211 },
+  look: { skin: SKIN.deep, outfit: "sweater", colors: { top: "#c8922e", inner: "#efe6d2", bottom: "#4a4a58", shoes: CLOTH.chestnut, accent: "#6a4a2a" }, hair: "crop", hairColor: HAIR.silver, glasses: "#2a2420", mustache: "#d8d4cc", face: { ...F, lines: true }, seed: 211 },
 };
 /** the park groundskeeper: a green work shirt and cap */
 export const STAFF: CharacterSpec = {
