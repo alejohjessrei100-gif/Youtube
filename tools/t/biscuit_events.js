@@ -12642,6 +12642,7 @@ var ik = (spec, p, yaw, side, target, lean = 0) => {
 };
 var hand = (spec, p, yaw, pose, side) => handWorld({ position: p, yaw, height: spec.height, build: spec.build, pose, side });
 var yawTo = (from, to) => Math.atan2(to[0] - from[0], to[2] - from[2]);
+var lerpAng = (a, b, u) => a + Math.atan2(Math.sin(b - a), Math.cos(b - a)) * u;
 var head = (spec, p) => headOf(p, spec.height, spec.build);
 var look = (spec, p, yaw, target) => {
   const l = lookAt(head(spec, p), target, yaw);
@@ -12734,9 +12735,10 @@ var sceneA = {
   blur: 1.3,
   cam: keyed([
     [0, C([-4.7, 1.52, 14.3], POLE_POSTER, 38)],
-    [T.three + 0.3, C([-4.6, 1.58, 14.5], add(POLE_POSTER, [0, -0.02, 0]), 42), "inout"],
-    [T.three + 1, C([-4.1, 2.6, 15], [3, 1.4, 14.2], 48), "inout"],
-    [T.posters + 0.1, C([-2.6, 3.3, 11.4], [9, 1, 15.2], 50), "inout"],
+    [T.three + 0.1, C([-4.6, 1.58, 14.5], add(POLE_POSTER, [0, -0.02, 0]), 42), "inout"],
+    // a slow rise off the poster to the street (1.6 s, not a whip)
+    [T.posters - 0.2, C([-4.1, 2.6, 15], [3, 1.4, 14.2], 48), "inout"],
+    [T.posters + 0.6, C([-2.6, 3.3, 11.4], [9, 1, 15.2], 50), "inout"],
     [T.biscuit1 + 0.25, C([ROBE_P[0] + 0.2, 1.55, 12.7], add(head(ROBE, ROBE_P), [0, -0.35, 0]), 44), "inout"],
     [T.nobody + 0.9, C([MUG_P[0] - 0.05, 1.6, 11.2], [MUG_P[0], 1.25, 15.6], 54), "inout"],
     [T.people + 0.2, C([MUG_P[0] + 0.15, 1.6, 12.7], add(head(MUG, MUG_P), [0, -0.3, 0]), 44), "inout"],
@@ -12770,15 +12772,15 @@ var sceneB = {
   day: (t) => 1 + Math.floor(clamp3((t - T.every) / (T.always - T.every)) * 3.999),
   focus: () => [0, 0, 0]
 };
-var STOP = 0.275 + 0.8 + 0.03;
+var STOP = 0.275 + 0.8 + 0.06;
 var DOG_ROUTE = [
   { t0: T.then - 0.1, t1: T.mailbox + 0.05, from: [MAILBOX[0] + 5.7, 0, CZ], to: [MAILBOX[0] + STOP, 0, CZ] }
 ];
 var BUMP = T.mailbox + 0.05;
 var AROUND = [
   // around the mailbox through the gap between it and the lamppost (z 13.8: 0.45 m from the pole, 0.3 m from the box)
-  { t0: T.walk - 0.4, t1: T.walk + 0.4, from: [MAILBOX[0] + STOP, 0, CZ], to: [MAILBOX[0] + STOP + 0, 0, 13.8] },
-  { t0: T.walk + 0.4, t1: T.girl + 0.1, from: [MAILBOX[0] + STOP + 0, 0, 13.8], to: [MAILBOX[0] - 0.9, 0, 13.8] },
+  { t0: T.walk, t1: T.walk + 0.8, from: [MAILBOX[0] + STOP, 0, CZ], to: [MAILBOX[0] + STOP - 0.45, 0, 13.78] },
+  { t0: T.walk + 0.8, t1: T.girl + 0.1, from: [MAILBOX[0] + STOP - 0.45, 0, 13.78], to: [MAILBOX[0] - 0.9, 0, 13.8] },
   // the trot home: faster once the neighbors call his name
   { t0: T.girl + 0.1, t1: T.home - 0.05, from: [MAILBOX[0] - 0.9, 0, 13.8], to: [LILY_GATE[0] + 1, 0, LILY_GATE[2] - 0.85] }
 ];
@@ -12808,14 +12810,29 @@ var dogC = (t) => {
   const w = after ? b : a;
   let p = w.p;
   let yaw = -PI2 / 2;
-  if (w.seg) yaw = yawTo(w.seg.from, w.seg.to);
+  if (w.seg) {
+    const pa = (after ? dogWalk(AROUND, AROUND[0].from, t - 0.6) : dogWalk(DOG_ROUTE, DOG_ROUTE[0].from, t - 0.6)).p;
+    const pb = (after ? dogWalk(AROUND, AROUND[0].from, t + 0.6) : dogWalk(DOG_ROUTE, DOG_ROUTE[0].from, t + 0.6)).p;
+    const dx = pb[0] - pa[0];
+    const dz = pb[2] - pa[2];
+    const k = clamp3(Math.hypot(dx, dz) / 0.7) * smooth((t - (after ? AROUND[0].t0 : DOG_ROUTE[0].t0)) / 0.5);
+    const y0 = -PI2 / 2;
+    yaw = Math.atan2(Math.sin(y0) * (1 - k) + dx / (Math.hypot(dx, dz) || 1) * k, Math.cos(y0) * (1 - k) + dz / (Math.hypot(dx, dz) || 1) * k);
+  }
   const bonk = window01(t, BUMP - 0.02, BUMP + 0.7, 0.04, 0.4);
   const back = window01(t, BUMP, T.walk - 0.4, 0.15, 0.3) * 0.12;
   if (!after && t > BUMP) p = add(p, [back, 0, 0]);
-  const sit = window01(t, BUMP + 0.35, T.walk - 0.35, 0.4, 0.35);
-  const turn = window01(t, T.lost - 0.2, T.walk - 0.3, 0.5, 0.4);
+  const sit = window01(t, BUMP + 0.35, T.walk - 0.1, 0.4, 0.9);
+  const turn = window01(t, T.lost - 0.2, T.walk, 1, 1);
   if (!w.seg && !after) yaw = -PI2 / 2 - 1.87 * turn;
-  if (after && w.seg === null) yaw = lerp2(yawTo(AROUND[2].from, AROUND[2].to), PI2 + 0.6, smooth((t - AROUND[2].t1) / 0.5));
+  if (after && w.seg === null) {
+    const pa = dogWalk(AROUND, AROUND[0].from, AROUND[2].t1 - 1.2).p;
+    const pb = AROUND[2].to;
+    const y0 = Math.atan2(pb[0] - pa[0], pb[2] - pa[2]);
+    const y1 = PI2 + 0.6;
+    const dy = Math.atan2(Math.sin(y1 - y0), Math.cos(y1 - y0));
+    yaw = y0 + dy * smooth((t - AROUND[2].t1) / 0.8);
+  }
   let ears = 0;
   let headYaw = 0;
   for (const v of VOICES()) {
@@ -12853,8 +12870,8 @@ var carrierC = (t) => {
   const p = w.p;
   const d = dogC(t);
   let yaw = PI2 / 2;
-  if (t > T.saw - 0.1) yaw = yawTo(p, d.p);
-  if (t > T.home - 0.5) yaw = yawTo(p, LILY_GATE);
+  yaw = lerpAng(yaw, yawTo(p, d.p), smooth((t - T.saw + 0.3) / 0.5));
+  yaw = lerpAng(yaw, yawTo(p, LILY_GATE), smooth((t - T.home + 0.6) / 0.8));
   const surprised = window01(t, T.saw, BUMP + 0.4, 0.1, 0.3);
   const ouch = window01(t, BUMP, BUMP + 1, 0.05, 0.4);
   const pet = window01(t, T.lost - 0.1, T.walk - 0.3, 0.35, 0.35);
@@ -12872,7 +12889,7 @@ var carrierC = (t) => {
 };
 var neighborC = (spec, p, at, t) => {
   const d = dogC(t);
-  const yaw = t < at - 1.2 ? PI2 : yawTo(p, d.p);
+  const yaw = lerpAng(PI2, yawTo(p, d.p), smooth((t - (at - 1.5)) / 0.7));
   const call = window01(t, at - 0.1, at + 0.6, 0.12, 0.3);
   const wave = window01(t, T.hi - 0.35, SECONDS, 0.2, 0.2);
   const cup = ik(spec, p, yaw, "R", add(head(spec, p), [Math.sin(yaw) * 0.14 + Math.cos(yaw) * -0.06, -0.06, Math.cos(yaw) * 0.14]), 6);
@@ -12911,8 +12928,9 @@ var sceneC = {
       [T.saw + 0.1, C([2.9, 1.55, 12.4], [2.1, 1.4, 14.9], 46), "inout"],
       [T.old, C([MAILBOX[0] + 0.9, 1.25, 11.5], [MAILBOX[0] + 3.5, 0.7, CZ], 44), "inout"],
       [T.walking + 0.2, C([MAILBOX[0] + 2.4, 1.25, 11.2], [MAILBOX[0] + 2, 0.65, CZ], 44), "inout"],
-      [T.bumping, C([MAILBOX[0] - 0.28, 0.9, 12.6], [MAILBOX[0] + 0.92, 0.75, CZ], 42), "inout"],
-      [T.biscuit3, C([MAILBOX[0] - 0.28, 0.9, 12.6], [MAILBOX[0] + 0.97, 0.8, CZ], 42)],
+      // the bump: the mailbox (left) and his face (right) both in frame
+      [T.bumping, C([MAILBOX[0] - 0.75, 0.95, 12.3], [MAILBOX[0] + 0.45, 0.75, CZ], 46), "inout"],
+      [T.biscuit3, C([MAILBOX[0] - 0.75, 0.95, 12.3], [MAILBOX[0] + 0.5, 0.8, CZ], 46)],
       [T.lost + 0.4, C([MAILBOX[0] + 1.12, 1.3, 11.6], [MAILBOX[0] + 1.02, 0.85, 14.5], 46), "inout"],
       [T.fourteen + 0.2, C([MAILBOX[0] + 1.77, 1, 12.45], [MAILBOX[0] + 1.32, 0.88, 13.77], 46), "inout"],
       [T.still, C([MAILBOX[0] + 1.74, 1, 12.45], [MAILBOX[0] + 1.32, 0.88, 13.77], 46)],

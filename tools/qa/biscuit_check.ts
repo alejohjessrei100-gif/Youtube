@@ -15,6 +15,8 @@ const segPointDist2D = (a: V, b: V, p: V) => {
   return { d: Math.hypot(a[0] + dx * u - p[0], a[2] + dz * u - p[2]), u, y: a[1] + (b[1] - a[1]) * u };
 };
 const issues: Record<string, number[]> = {};
+// motion continuity: nobody turns > 6 degrees or moves > 0.15 m in one frame (within a scene)
+const prevPose: Record<string, { yaw: number; x: number; z: number; scene: number }> = {};
 const add = (k: string, t: number) => (issues[k] ??= []).push(t);
 for (let f = 0; f < Math.round(SECONDS * 30); f++) {
   const t = f / 30;
@@ -28,6 +30,19 @@ for (let f = 0; f < Math.round(SECONDS * 30); f++) {
   // bodies: characters as vertical capsules (r 0.22, up to their height), the dog as a box-ish blob
   const bodies: { name: string; p: V; r: number; h: number }[] = actors.map((a, i) => ({ name: `actor${i}`, p: a.p as V, r: 0.22, h: a.spec.height }));
   if (dog) bodies.push({ name: "dog", p: [dog.p[0] + Math.sin(dog.yaw) * 0.1, 0, dog.p[2] + Math.cos(dog.yaw) * 0.1], r: 0.33, h: 1.0 });
+  {
+    const movers: { name: string; yaw: number; x: number; z: number }[] = actors.map((a, i) => ({ name: `actor${i}`, yaw: a.yaw, x: a.p[0], z: a.p[2] }));
+    if (dog) movers.push({ name: "dog", yaw: dog.yaw, x: dog.p[0], z: dog.p[2] });
+    for (const m of movers) {
+      const q = prevPose[m.name];
+      if (q && q.scene === s.id) {
+        const dy = Math.abs(Math.atan2(Math.sin(m.yaw - q.yaw), Math.cos(m.yaw - q.yaw))) * (180 / Math.PI);
+        if (dy > 6) add(`${m.name} turns ${dy.toFixed(0)} deg in one frame`, t);
+        if (Math.hypot(m.x - q.x, m.z - q.z) > 0.15) add(`${m.name} jumps in one frame`, t);
+      }
+      prevPose[m.name] = { yaw: m.yaw, x: m.x, z: m.z, scene: s.id };
+    }
+  }
   // 1. sightline lens -> focus
   for (const p of POLES) {
     const r = segPointDist2D(cam.pos as V, focus, p);

@@ -50,6 +50,8 @@ const ik = (spec: CharacterSpec, p: V3, yaw: number, side: "L" | "R", target: V3
 };
 const hand = (spec: CharacterSpec, p: V3, yaw: number, pose: BodyPose, side: "L" | "R") => handWorld({ position: p, yaw, height: spec.height, build: spec.build, pose, side });
 const yawTo = (from: V3, to: V3) => Math.atan2(to[0] - from[0], to[2] - from[2]);
+/** angle blend the short way round */
+const lerpAng = (a: number, b: number, u: number) => a + Math.atan2(Math.sin(b - a), Math.cos(b - a)) * u;
 const head = (spec: CharacterSpec, p: V3) => headOf(p, spec.height, spec.build);
 const look = (spec: CharacterSpec, p: V3, yaw: number, target: V3) => {
   const l = lookAt(head(spec, p), target, yaw);
@@ -174,9 +176,10 @@ const sceneA = {
   id: SA.id, t0: SA.t0, mood: "golden", blur: 1.3,
   cam: keyed([
     [0, C([-4.7, 1.52, 14.3], POLE_POSTER, 38)],
-    [T.three + 0.3, C([-4.6, 1.58, 14.5], add(POLE_POSTER, [0, -0.02, 0]), 42), "inout"],
-    [T.three + 1.0, C([-4.1, 2.6, 15.0], [3, 1.4, 14.2], 48), "inout"],
-    [T.posters + 0.1, C([-2.6, 3.3, 11.4], [9, 1.0, 15.2], 50), "inout"],
+    [T.three + 0.1, C([-4.6, 1.58, 14.5], add(POLE_POSTER, [0, -0.02, 0]), 42), "inout"],
+    // a slow rise off the poster to the street (1.6 s, not a whip)
+    [T.posters - 0.2, C([-4.1, 2.6, 15.0], [3, 1.4, 14.2], 48), "inout"],
+    [T.posters + 0.6, C([-2.6, 3.3, 11.4], [9, 1.0, 15.2], 50), "inout"],
     [T.biscuit1 + 0.25, C([ROBE_P[0] + 0.2, 1.55, 12.7], add(head(ROBE, ROBE_P), [0, -0.35, 0]), 44), "inout"],
     [T.nobody + 0.9, C([MUG_P[0] - 0.05, 1.6, 11.2], [MUG_P[0], 1.25, 15.6], 54), "inout"],
     [T.people + 0.2, C([MUG_P[0] + 0.15, 1.6, 12.7], add(head(MUG, MUG_P), [0, -0.3, 0]), 44), "inout"],
@@ -212,7 +215,7 @@ const sceneB = {
 
 // ================================================================== C. the carrier, the mailbox, the walk home, "Hi, Biscuit"
 /** where he stops: his nose (0.8 m ahead of his center) just touching the mailbox front (0.275 m from its center) */
-const STOP = 0.275 + 0.8 + 0.03;
+const STOP = 0.275 + 0.8 + 0.06;
 const DOG_ROUTE: WalkSeg[] = [
   { t0: T.then - 0.1, t1: T.mailbox + 0.05, from: [MAILBOX[0] + 5.7, 0, CZ], to: [MAILBOX[0] + STOP, 0, CZ] },
 ];
@@ -220,8 +223,8 @@ const BUMP = T.mailbox + 0.05;
 
 const AROUND: WalkSeg[] = [
   // around the mailbox through the gap between it and the lamppost (z 13.8: 0.45 m from the pole, 0.3 m from the box)
-  { t0: T.walk - 0.4, t1: T.walk + 0.4, from: [MAILBOX[0] + STOP, 0, CZ], to: [MAILBOX[0] + STOP + 0.0, 0, 13.8] },
-  { t0: T.walk + 0.4, t1: T.girl + 0.1, from: [MAILBOX[0] + STOP + 0.0, 0, 13.8], to: [MAILBOX[0] - 0.9, 0, 13.8] },
+  { t0: T.walk, t1: T.walk + 0.8, from: [MAILBOX[0] + STOP, 0, CZ], to: [MAILBOX[0] + STOP - 0.45, 0, 13.78] },
+  { t0: T.walk + 0.8, t1: T.girl + 0.1, from: [MAILBOX[0] + STOP - 0.45, 0, 13.78], to: [MAILBOX[0] - 0.9, 0, 13.8] },
   // the trot home: faster once the neighbors call his name
   { t0: T.girl + 0.1, t1: T.home - 0.05, from: [MAILBOX[0] - 0.9, 0, 13.8], to: [LILY_GATE[0] + 1.0, 0, LILY_GATE[2] - 0.85] },
 ];
@@ -251,17 +254,35 @@ export const dogC = (t: number): DogState => {
   const w = after ? b : a;
   let p = w.p;
   let yaw = -PI / 2;
-  if (w.seg) yaw = yawTo(w.seg.from, w.seg.to);
+  if (w.seg) {
+    // heading follows his actual travel (a short look-behind/ahead), so corners turn smoothly, never snap
+    const pa = (after ? dogWalk(AROUND, AROUND[0].from, t - 0.6) : dogWalk(DOG_ROUTE, DOG_ROUTE[0].from, t - 0.6)).p;
+    const pb = (after ? dogWalk(AROUND, AROUND[0].from, t + 0.6) : dogWalk(DOG_ROUTE, DOG_ROUTE[0].from, t + 0.6)).p;
+    const dx = pb[0] - pa[0];
+    const dz = pb[2] - pa[2];
+    const k = clamp(Math.hypot(dx, dz) / 0.7) * smooth((t - (after ? AROUND[0].t0 : DOG_ROUTE[0].t0)) / 0.5);
+    const y0 = -PI / 2;
+    yaw = Math.atan2(Math.sin(y0) * (1 - k) + (dx / (Math.hypot(dx, dz) || 1)) * k, Math.cos(y0) * (1 - k) + (dz / (Math.hypot(dx, dz) || 1)) * k);
+  }
   // after the bump: knocked back a step, sits, turns his face toward the road (and the lens)
   const bonk = window01(t, BUMP - 0.02, BUMP + 0.7, 0.04, 0.4);
   const back = window01(t, BUMP, T.walk - 0.4, 0.15, 0.3) * 0.12;
   if (!after && t > BUMP) p = add(p, [back, 0, 0]);
-  const sit = window01(t, BUMP + 0.35, T.walk - 0.35, 0.4, 0.35);
-  const turn = window01(t, T.lost - 0.2, T.walk - 0.3, 0.5, 0.4);
+  // an old dog gets up slowly: the stand and the turn back each take about a second
+  const sit = window01(t, BUMP + 0.35, T.walk - 0.1, 0.4, 0.9);
+  const turn = window01(t, T.lost - 0.2, T.walk, 1.0, 1.0);
   // he turns toward the road (clear of the lamppost) so his face, cloudy eyes and grey muzzle read
   if (!w.seg && !after) yaw = -PI / 2 - 1.87 * turn;
   // home: he settles beside Lily facing the street (his head angled toward her), so her face stays in view in the hug
-  if (after && w.seg === null) yaw = lerp(yawTo(AROUND[2].from, AROUND[2].to), PI + 0.6, smooth((t - AROUND[2].t1) / 0.5));
+  if (after && w.seg === null) {
+    // continue from his last walking heading (the same smoothed heading), turning the short way round
+    const pa = dogWalk(AROUND, AROUND[0].from, AROUND[2].t1 - 1.2).p;
+    const pb = AROUND[2].to;
+    const y0 = Math.atan2(pb[0] - pa[0], pb[2] - pa[2]);
+    const y1 = PI + 0.6;
+    const dy = Math.atan2(Math.sin(y1 - y0), Math.cos(y1 - y0));
+    yaw = y0 + dy * smooth((t - AROUND[2].t1) / 0.8);
+  }
   // ears perk at each voice, the head turns toward it; the tail wags harder and harder
   let ears = 0;
   let headYaw = 0;
@@ -290,8 +311,8 @@ const carrierC = (t: number) => {
   const p = w.p;
   const d = dogC(t);
   let yaw = PI / 2;
-  if (t > T.saw - 0.1) yaw = yawTo(p, d.p);
-  if (t > T.home - 0.5) yaw = yawTo(p, LILY_GATE);
+  yaw = lerpAng(yaw, yawTo(p, d.p), smooth((t - T.saw + 0.3) / 0.5));
+  yaw = lerpAng(yaw, yawTo(p, LILY_GATE), smooth((t - T.home + 0.6) / 0.8));
   const surprised = window01(t, T.saw, BUMP + 0.4, 0.1, 0.3);
   const ouch = window01(t, BUMP, BUMP + 1.0, 0.05, 0.4);
   const pet = window01(t, T.lost - 0.1, T.walk - 0.3, 0.35, 0.35);
@@ -313,7 +334,7 @@ const carrierC = (t: number) => {
 };
 const neighborC = (spec: CharacterSpec, p: V3, at: number, t: number): Actor => {
   const d = dogC(t);
-  const yaw = t < at - 1.2 ? PI : yawTo(p, d.p);
+  const yaw = lerpAng(PI, yawTo(p, d.p), smooth((t - (at - 1.5)) / 0.7));
   const call = window01(t, at - 0.1, at + 0.6, 0.12, 0.3);
   const wave = window01(t, T.hi - 0.35, SECONDS, 0.2, 0.2);
   const cup = ik(spec, p, yaw, "R", add(head(spec, p), [Math.sin(yaw) * 0.14 + Math.cos(yaw) * -0.06, -0.06, Math.cos(yaw) * 0.14]), 6);
