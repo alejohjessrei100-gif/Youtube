@@ -1,0 +1,36 @@
+{
+  "name": "Kuro",
+  "mode": "describe",
+  "fam": "tom",
+  "skin": "#0a0a0d",
+  "scale": 1.05,
+  "top": [
+    [
+      0,
+      "#14141a"
+    ],
+    [
+      0.35,
+      "#f4f4f8"
+    ]
+  ],
+  "sleeve": "#f4f4f8",
+  "legs": [
+    "shorts",
+    "#1c1f2b",
+    "#f4f4f8"
+  ],
+  "shoes": "#f4f4f8",
+  "hair": [
+    "r_spiky",
+    "#f4f4f8"
+  ],
+  "extras": [
+    [
+      "headband",
+      "#f4f4f8"
+    ]
+  ],
+  "import_id": null,
+  "import_faces": "emotion"
+}
