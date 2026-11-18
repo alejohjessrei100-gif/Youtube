@@ -1,15 +1,15 @@
 {
-  "name": "Hero",
+  "name": "Riley",
   "mode": "describe",
   "fam": "npc",
-  "skin": "light",
+  "skin": "tan",
   "scale": 1.0,
-  "top": [0.20, 0.45, 0.90],
-  "sleeve": [0.20, 0.45, 0.90],
-  "legs": [0.15, 0.18, 0.30],
-  "shoes": [0.95, 0.95, 0.95],
-  "hair": ["r_short", [0.25, 0.15, 0.08]],
-  "extras": [],
+  "top": {"stripes": ["#ff7a1a", "#fff3d6", 6]},
+  "sleeve": "#ff7a1a",
+  "legs": ["shorts", "#2b3a67", "#ffffff"],
+  "shoes": "#f2f2f2",
+  "hair": ["r_spiky", "#2a1a10"],
+  "extras": [["cap", "#1fa3a3", "#0f6b6b", true]],
   "import_id": null,
   "import_faces": "emotion"
 }
