@@ -240,13 +240,13 @@ const s12: Scene = {
   focus: () => head(MASON, MA_P),
 };
 // 13. dawn: the two empty slots, the mason and the sheriff beside them; the lens rises over the row to the sea
-const MA_ROW: V3 = [slotX(20) + 0.3, 0, ROW_Z + 0.95];
-const SH_ROW2: V3 = [slotX(18) - 0.1, 0, ROW_Z + 1.05];
+const MA_ROW: V3 = [slotX(20) + 0.15, 0, ROW_Z + 0.95];
+const SH_ROW2: V3 = [slotX(18.6), 0, ROW_Z + 1.05];
 const s13: Scene = {
   id: 13, t0: T.twenty2 - 0.06, mood: "golden", blur: 0.8, dim: 0.9,
   cam: keyed([
     [T.twenty2 - 0.06, C([slotX(19.2), 1.4, -0.85], [slotX(19.1), 1.15, ROW_Z + 1.0], 48)],
-    [SECONDS, C([slotX(17), 4.4, -3.6], [slotX(16), 0.4, ROW_Z + 0.6], 48), "inout"],
+    [SECONDS, C([slotX(18.6), 4.2, -3.4], [slotX(19.3), 0.6, ROW_Z + 0.5], 48), "inout"],
   ]),
   actors: () => {
     const ym = lerpAng(yawTo(MA_ROW, stoneAt(20)), yawTo(MA_ROW, [slotX(19.5), 0, -0.35]), 0.4);
