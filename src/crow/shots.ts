@@ -398,8 +398,8 @@ const OK_KIDS: V3 = [KIDS_SPOT[0] + 1.25, 0, KIDS_SPOT[2] + 0.28];
 const s6: Scene = {
   id: 6, t0: T.he2 - 0.08, mood: "day", blur: 1.0,
   cam: keyed([
-    [T.he2 - 0.08, C([-3.85, 1.22, -0.2], [-4.05, 1.0, -2.72], 46)],
-    [T.and2, C([-3.9, 1.2, -0.4], [-4.1, 1.0, -2.74], 45), "linear"],
+    [T.he2 - 0.08, C([-4.75, 1.25, -0.15], [-4.05, 1.0, -2.7], 46)],
+    [T.and2, C([-4.7, 1.22, -0.35], [-4.08, 1.0, -2.72], 45), "linear"],
   ]),
   actors: (t) => {
     const lens = s6.cam(t).pos;
@@ -454,8 +454,8 @@ const s8Okafor = (t: number) => {
 const s8: Scene = {
   id: 8, t0: T.so - 0.08, mood: "night", blur: 1.0,
   cam: keyed([
-    [T.so - 0.08, C([HIDE[0] + TD.z * 1.6 - TD.x * 1.0, 1.35, HIDE[2] - TD.x * 1.6 - TD.z * 1.0], [HIDE[0] - TD.x * 0.2, 1.3, HIDE[2] - TD.z * 0.2], 44)],
-    [T.at, C([HIDE[0] + TD.z * 1.4 - TD.x * 0.85, 1.35, HIDE[2] - TD.x * 1.4 - TD.z * 0.85], [HIDE[0] - TD.x * 0.2, 1.3, HIDE[2] - TD.z * 0.2], 42), "linear"],
+    [T.so - 0.08, C([HIDE[0] + TD.z * 0.8 - TD.x * 1.7, 1.4, HIDE[2] - TD.x * 0.8 - TD.z * 1.7], [HIDE[0] - TD.z * 0.15, 1.3, HIDE[2] + TD.x * 0.15], 44)],
+    [T.at, C([HIDE[0] + TD.z * 0.7 - TD.x * 1.5, 1.4, HIDE[2] - TD.x * 0.7 - TD.z * 1.5], [HIDE[0] - TD.z * 0.15, 1.3, HIDE[2] + TD.x * 0.15], 42), "linear"],
   ]),
   actors: (t) => [s8Okafor(t).a],
   extra: (t) => {
@@ -505,8 +505,8 @@ const s10Okafor = (t: number) => {
 const s10: Scene = {
   id: 10, t0: T.mr2 - 0.08, mood: "golden", blur: 1.0,
   cam: keyed([
-    [T.mr2 - 0.08, C([1.1, 1.04, 0.48], [-0.75, 1.02, -0.05], 40)],
-    [T.resets, C([1.02, 1.04, 0.44], [-0.75, 1.04, -0.05], 39), "linear"],
+    [T.mr2 - 0.08, C([1.3, 1.1, 0.36], [-0.7, 0.98, -0.05], 40)],
+    [T.resets, C([1.22, 1.1, 0.33], [-0.7, 1.0, -0.05], 39), "linear"],
   ]),
   actors: (t) => [s10Okafor(t)],
   extra: (t) => ({ pieces: place(LOSE, { bn: K1 }).map((p) => (p.id === "wk" ? { ...p, tip: PI / 2 - 0.05 } : p)), crow: crowAt(t) }),
@@ -528,8 +528,8 @@ const s11Pose = (t: number) => {
 const s11: Scene = {
   id: 11, t0: T.resets - 0.08, mood: "golden", blur: 1.0,
   cam: keyed([
-    [T.resets - 0.08, C([0.42, 1.06, 0.34], [-0.25, 0.7, 0.0], 40)],
-    [T.and3, C([0.4, 1.05, 0.32], [-0.26, 0.7, 0.0], 39), "linear"],
+    [T.resets - 0.08, C([0.3, 1.3, 0.42], [-0.2, 0.64, 0.02], 30)],
+    [T.and3, C([0.28, 1.28, 0.4], [-0.21, 0.64, 0.02], 29), "linear"],
   ]),
   actors: (t) => [A(OKAFOR, SEAT_W, SEAT_YAW, s11Pose(t).pose, F("half", "smirk", "raised"))],
   extra: (t) => {

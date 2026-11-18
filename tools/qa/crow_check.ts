@@ -171,7 +171,7 @@ for (let f = 0; f < N; f++) {
     if (off > 80) add(`speaker's face turned ${off.toFixed(0)} deg from the lens (${s.id})`, t);
   }
   // --- Okafor's face must read in his own beats: facing within 50 deg of the lens
-  if ([1, 2, 4, 7, 10, 12].includes(s.id) && ok && !(s.id === 4 && t < T.always) && !(s.id === 1 && t > T.nobody)) {
+  if ([1, 2, 4, 7, 8, 10, 12].includes(s.id) && ok && !(s.id === 4 && t < T.always) && !(s.id === 1 && t > T.nobody)) {
     const fy = ok.yaw + ((ok.pose.headYaw ?? 0) * Math.PI) / 180;
     const hd = headPosed(ok);
     const toCam = Math.atan2(lens[0] - hd[0], lens[2] - hd[2]);
