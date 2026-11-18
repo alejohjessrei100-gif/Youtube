@@ -17,6 +17,7 @@ import { MEAT_FRAMES, MeatShower } from "../src/meat/MeatShower";
 import { DIR_FRAMES, DirectorLab } from "../src/directorlab/DirectorLab";
 import { GULL_FRAMES, GullShort } from "../src/gull/Gull";
 import { MUSEUM_FRAMES, MuseumShort } from "../src/museum/Museum";
+import { GRAVES_FRAMES, GravesShort } from "../src/graves/Graves";
 import { CROW_FRAMES, CrowShort } from "../src/crow/Crow";
 import { BISCUIT_FRAMES, BiscuitShort } from "../src/biscuit/Biscuit";
 
@@ -35,6 +36,7 @@ type Comp = {
 };
 
 const COMPS: Comp[] = [
+  { id: "Graves", label: "The Graves Nobody Dug (40 s)", component: GravesShort, width: 1080, height: 1920, fps: 30, durationInFrames: GRAVES_FRAMES, defaultProps: { audio: true } },
   { id: "Crow", label: "The Chess Crow (37 s)", component: CrowShort, width: 1080, height: 1920, fps: 30, durationInFrames: CROW_FRAMES, defaultProps: { audio: true } },
   { id: "Biscuit", label: "Lost Dog: Biscuit (40 s)", component: BiscuitShort, width: 1080, height: 1920, fps: 30, durationInFrames: BISCUIT_FRAMES, defaultProps: { audio: true } },
   { id: "Museum", label: "The Man Who Steals Nothing (35 s)", component: MuseumShort, width: 1080, height: 1920, fps: 30, durationInFrames: MUSEUM_FRAMES, defaultProps: { audio: true } },

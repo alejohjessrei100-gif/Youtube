@@ -21,8 +21,8 @@ import type { Piece, PieceKind } from "./world";
 import { SECONDS, WORDS } from "./words.gen";
 
 const PI = Math.PI;
-const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-const smooth = (u: number) => {
+export const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+export const smooth = (u: number) => {
   const x = clamp(u);
   return x * x * (3 - 2 * x);
 };
@@ -51,7 +51,7 @@ const SIT = sitGeom(OKAFOR.height, OKAFOR.build);
 // Character3D: drop = (hipY - ANKLE_Y) * 0.5 * height = feetFwd / 0.9
 const sitDrop = SIT.feetFwd / 0.9;
 const DROP = (sit: number) => sitDrop * sit;
-const ik = (spec: CharacterSpec, p: V3, yaw: number, side: "L" | "R", target: V3, lean = 0, sit = 0) => {
+export const ik = (spec: CharacterSpec, p: V3, yaw: number, side: "L" | "R", target: V3, lean = 0, sit = 0) => {
   const r = (v: number) => Math.round(v * 100) / 100;
   // a seated body is lowered: solve in the unlowered frame
   const dy = sit > 0 ? DROP(sit) : 0;
@@ -98,8 +98,8 @@ export const hand = (spec: CharacterSpec, p: V3, yaw: number, pose: BodyPose, si
   const h = handWorld({ position: p, yaw, height: spec.height, build: spec.build, pose, side });
   return [h[0], h[1] - (pose.sit ? DROP(pose.sit) : 0), h[2]] as V3;
 };
-const yawTo = (from: V3, to: V3) => Math.atan2(to[0] - from[0], to[2] - from[2]);
-const lerpAng = (a: number, b: number, u: number) => a + Math.atan2(Math.sin(b - a), Math.cos(b - a)) * u;
+export const yawTo = (from: V3, to: V3) => Math.atan2(to[0] - from[0], to[2] - from[2]);
+export const lerpAng = (a: number, b: number, u: number) => a + Math.atan2(Math.sin(b - a), Math.cos(b - a)) * u;
 export const head = (spec: CharacterSpec, p: V3, sit = 0): V3 => {
   const h = headOf(p, spec.height, spec.build);
   return [h[0], h[1] - (sit ? DROP(sit) : 0), h[2]];
@@ -111,7 +111,7 @@ export const headPosed = (a: { spec: CharacterSpec; p: V3; yaw: number; pose: Bo
   const up = h[1] - a.p[1];
   return [a.p[0] + Math.sin(a.yaw) * up * Math.sin(L), a.p[1] + up * Math.cos(L), a.p[2] + Math.cos(a.yaw) * up * Math.sin(L)];
 };
-const look = (spec: CharacterSpec, p: V3, yaw: number, target: V3, sit = 0) => {
+export const look = (spec: CharacterSpec, p: V3, yaw: number, target: V3, sit = 0) => {
   const l = lookAt(head(spec, p, sit), target, yaw, 55, 15);
   return { headYaw: l.yaw, headNod: l.nod };
 };
@@ -120,9 +120,9 @@ const talk = (t: number, a: number, b: number, base: FaceState["mouth"]): FaceSt
   if (t < a || t > b) return base;
   return Math.floor((t - a) * 9) % 2 === 0 ? "open" : "o";
 };
-const C = (pos: V3, lk: V3, fov: number, roll = 0): Cam => ({ pos, look: lk, fov, roll });
+export const C = (pos: V3, lk: V3, fov: number, roll = 0): Cam => ({ pos, look: lk, fov, roll });
 type Ez = "inout" | "out" | "in" | "linear";
-const keyed = (keys: [number, Cam, Ez?][]) => (t: number): Cam => {
+export const keyed = (keys: [number, Cam, Ez?][]) => (t: number): Cam => {
   let c = keys[0][1];
   for (let i = 1; i < keys.length; i++) {
     const [tk, ck, e] = keys[i];

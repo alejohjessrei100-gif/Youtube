@@ -20,7 +20,7 @@ export const RAIL_R = 4.9;
 export const RAIL_Y = DECK_Y + 1.1;
 const TOWER_R0 = 4.6;
 const TOWER_R1 = 3.9;
-const SEA_Y = -6;
+export const SEA_Y = -6;
 /** the brass switch on its box beside the lens; the lever pivots on the front face */
 export const SWITCH: V3 = [1.6, DECK_Y, 1.75];
 export const LENS_C: V3 = [0, DECK_Y, 0];
@@ -36,7 +36,7 @@ const seaGeo = (() => {
   return g;
 })();
 const seaBase = Float32Array.from(seaGeo.attributes.position.array as Float32Array);
-const waveH = (x: number, z: number, t: number) => 0.32 * Math.sin(x * 0.11 + t * 0.9) + 0.22 * Math.sin(z * 0.13 - t * 0.7 + 1.3) + 0.1 * Math.sin((x + z) * 0.31 + t * 1.6);
+export const waveH = (x: number, z: number, t: number) => 0.32 * Math.sin(x * 0.11 + t * 0.9) + 0.22 * Math.sin(z * 0.13 - t * 0.7 + 1.3) + 0.1 * Math.sin((x + z) * 0.31 + t * 1.6);
 export const Sea: React.FC<{ t: number; color?: string }> = ({ t, color = "#2a6a8c" }) => {
   const p = seaGeo.attributes.position as THREE.BufferAttribute;
   for (let i = 0; i < p.count; i++) {
