@@ -1,0 +1,40 @@
+ROBLOX SHORTS KIT — start here
+================================
+
+(c) Skies. This kit is FREE and NOT FOR SALE. It is owned by Skies. Do not sell, resell or re-upload it as your own.
+Want more free stuff? Join Value Vault:  https://discord.gg/dsC5EzUY7K
+
+What this is: the full animation workflow behind a Roblox story-Shorts channel (blocky characters, emotion faces
+with lip sync, detailed colourful sets, continuous voice-over, punchy camera, meme SFX). Your Claude does the
+animating; your PC (Blender) does the rendering. You record the voice and approve the stills.
+
+No character from the original channel is included — you get your OWN hero (your Roblox avatar, or one Claude
+builds from your description).
+
+SETUP (once, ~15 minutes)
+1. Install Blender 5.0 or newer from blender.org.
+2. Install ffmpeg: open PowerShell and run   winget install Gyan.FFmpeg     (or skip it if you have CapCut installed).
+3. Extract this zip, rename the extracted RobloxShortsKit folder to  RobloxAnim  and move it into Documents
+   (so you get Documents\RobloxAnim\base_rig.blend, faces2\, queue\ ...).
+4. Make a folder Documents\RobloxAnim\sfx and put some short meme sound effects in it (.mp3) — whoosh, pop,
+   vine boom, ding, crickets, bonk, bruh, gulp, dun-dun-dun, yippee, sad trombone, scream, gasp ...
+5. Double-click  Documents\RobloxAnim\queue\START_RENDER_QUEUE.bat  and leave that window open while you want renders.
+6. Best experience: use the Claude desktop app and link the chat to your computer, so Claude can drop render jobs
+   and pick up the results by itself. Without the link it still works — Claude sends you files and tells you where
+   to put them.
+
+FIRST CHAT
+Open a new Claude chat, upload this same zip (RobloxShortsKit.zip), and send:
+
+   Set up my Roblox Shorts studio from this kit. Read SKILL.md and follow it.
+
+Claude will ask whether you already have a character model, build/import your hero, and show you test pictures.
+
+EVERY VIDEO AFTER THAT
+Easiest: keep the zip in a Claude Project (Project files) and start each video chat inside that project.
+If your chat is linked to your computer you can also just say:
+   Read Documents\RobloxAnim\SKILL.md — new video.
+(your approved hero is saved on your PC as hero.json, so it stays the same in every chat).
+Then send your voice recording (video or audio) + the script text and say "new video". Claude cuts the pauses out of
+your voice, writes the animation, sends stills for approval, then renders the final 1080p + 4K into
+Documents\RobloxAnim\Final Videos.

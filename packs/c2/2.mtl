@@ -1,0 +1,28 @@
+newmtl CuteGirl1Mtl
+Material Color
+Ka 0.827726 0.487765 0.293216
+Kd 0.827726 0.487765 0.293216
+Ks 0.0519357 0.0306049 0.0183979 
+
+d 1
+
+Ns 0
+
+map_Ka CuteGirl1_diff.png
+map_Kd CuteGirl1_diff.png
+map_d CuteGirl1_diff.png
+
+newmtl Handle1Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0234425 0.0231273 0.02408 
+
+d 1
+
+Ns 0
+
+map_Ka Handle1_diff.png
+map_Kd Handle1_diff.png
+map_d Handle1_diff.png
+

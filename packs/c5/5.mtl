@@ -1,0 +1,42 @@
+newmtl Guest13371Mtl
+Material Color
+Ka 0.00258583 0.00258583 0.00258583
+Kd 0.00258583 0.00258583 0.00258583
+Ks 0.000162248 0.000162248 0.000162248 
+
+d 1
+
+Ns 0
+
+map_Ka Guest13371_diff.png
+map_Kd Guest13371_diff.png
+map_d Guest13371_diff.png
+
+newmtl Handle1Mtl
+Material Color
+Ka 1 0.133209 0.612066
+Kd 1 0.133209 0.612066
+Ks 0.0627451 0.00835818 0.0384041 
+
+d 1
+
+Ns 0
+
+map_Ka Handle1_diff.png
+map_Kd Handle1_diff.png
+map_d Handle1_diff.png
+
+newmtl Guest13376Mtl
+Material Color
+Ka 0.891262 0.899384 0.899384
+Kd 0.891262 0.899384 0.899384
+Ks 0.0559223 0.056432 0.056432 
+
+d 1
+
+Ns 0
+
+map_Ka Guest13371_diff.png
+map_Kd Guest13371_diff.png
+map_d Guest13371_diff.png
+

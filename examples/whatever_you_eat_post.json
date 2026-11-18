@@ -1,0 +1,13 @@
+{
+  "vname": "food",
+  "title": "Whatever_You_Eat",
+  "src": "C:\\Users\\<you>\\Downloads\\whatever_you_eat_take1.mp4",
+  "cuts": "food_cutmap.json",
+  "frames": 1293,
+  "sfx_dir": "sfx",
+  "make_4k": true,
+  "cues": [["whoosh", 2.42, 0.5, 0.35], ["gulp", 3.56, 0.5, 0.4], ["pop", 3.88, 0.6, 0.5], ["running", 6.70, 1.0, 0.3],
+           ["ding", 10.28, 0.4, 0.3], ["crickets", 12.65, 0.7, 0.3], ["confetti", 16.29, 0.6, 0.4], ["bong", 19.31, 0.7, 0.35],
+           ["crunch", 21.55, 0.5, 0.3], ["metal_pipe", 23.05, 0.6, 0.3], ["boowomp", 27.69, 0.8, 0.4], ["vine_boom", 30.42, 0.8, 0.4],
+           ["yippee", 34.12, 0.7, 0.3], ["dun_dun_dun", 36.85, 0.9, 0.4], ["scream", 37.50, 0.7, 0.3], ["shocked", 39.79, 0.7, 0.4]]
+}

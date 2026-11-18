@@ -1,0 +1,11 @@
+Copy this to  <name>.job  (the extension must be .job) to queue a render:
+
+title=Max - stills r1
+script=max_v1.py
+progress=max_progress.txt
+anchors=max_anchors.json
+
+For the post step:
+title=Max - post
+script=post.py
+progress=max_post_progress.txt
