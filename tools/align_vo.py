@@ -4,7 +4,7 @@ import json, re, subprocess, sys
 from pocketsphinx import Decoder
 wav, txt, out = sys.argv[1:4]
 SPOKEN = {"9:14": "nine fourteen", "9:13": "nine thirteen", "1876": "eighteen seventy six", "1980": "nineteen eighty", "fourteen-inch": "fourteen inch", "backwards": "backwards", "1930s": "nineteen thirties", "1967": "nineteen sixty seven", "eighty-three": "eighty three", "eighty-one": "eighty one", "right-hand": "right hand"}
-EXTRA = {"agloe": "AE G L OW", "mcnally": "M AH K N AE L IY", "mapmaker": "M AE P M EY K ER", "pecks": "P EH K S", "waddles": "W AA D AH L Z", "partner's": "P AA R T N ER Z", "neighbours": "N EY B ER Z", "hoodie": "HH UH D IY"}
+EXTRA = {"agloe": "AE G L OW", "mcnally": "M AH K N AE L IY", "mapmaker": "M AE P M EY K ER", "pecks": "P EH K S", "waddles": "W AA D AH L Z", "partner's": "P AA R T N ER Z", "neighbours": "N EY B ER Z", "hoodie": "HH UH D IY", "okafor": "OW K AA F AO R", "nobody's": "N OW B AA D IY Z"}
 script = open(txt).read().split()
 words, owner = [], []
 for i, w in enumerate(script):

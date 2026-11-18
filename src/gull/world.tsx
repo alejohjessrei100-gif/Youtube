@@ -467,28 +467,32 @@ export const Porch: React.FC<{ t: number; beamAngle: number }> = ({ t, beamAngle
 
 // ------------------------------------------------------------------ the gull: an expressive cartoon herring gull
 export type GullFace = { eyes: "normal" | "big" | "narrow" | "sparkle" | "closed"; brow: number; beak: number };
-export type GullState = { p: V3; yaw: number; tilt: number; bob: number; flap: number; fold: number; peck: number; step: number; face: GullFace; s?: number };
-export const Gull: React.FC<{ g: GullState }> = ({ g }) => {
+export type GullState = { p: V3; yaw: number; tilt: number; bob: number; flap: number; fold: number; peck: number; step: number; face: GullFace; s?: number; pitch?: number };
+export type BirdPal = { body: string; tail: string; wing: string; tip: string; head: string; brow: string; beak: string; beak2: string; spot: string; leg: string; beakLen?: number };
+export const GULL_PAL: BirdPal = { body: "#f6f6f2", tail: "#f0f0ea", wing: "#a8b0bc", tip: "#2a2a30", head: "#f8f8f4", brow: "#6a6a72", beak: "#f0c030", beak2: "#e8b028", spot: "#d8302a", leg: "#e8a8a0" };
+export const Gull: React.FC<{ g: GullState; pal?: BirdPal }> = ({ g, pal }) => {
+  const P = pal ?? GULL_PAL;
   const eye = g.face.eyes;
   const eyeS = eye === "big" ? 1.45 : eye === "sparkle" ? 1.3 : eye === "narrow" ? 0.95 : 1;
   const pupil = eye === "big" ? 0.38 : eye === "sparkle" ? 0.8 : 0.6;
   return (
     <group position={[g.p[0], g.p[1] + g.bob, g.p[2]]} rotation={[0, g.yaw, g.tilt]} scale={g.s ?? 1}>
+    <group rotation={[g.pitch ?? 0, 0, 0]}>
       {/* body, tail, wings */}
-      <M g={sphG(0.17, 16)} c="#f6f6f2" p={[0, 0.3, 0]} s={[0.95, 0.9, 1.35]} />
-      <M g={coneG(0.1, 0.24, 8)} c="#f0f0ea" p={[0, 0.33, -0.27]} r={[-PI / 2 - 0.3, 0, 0]} s={[1.3, 1, 0.5]} />
-      <M g={coneG(0.07, 0.1, 6)} c="#2a2a30" p={[0, 0.36, -0.36]} r={[-PI / 2 - 0.4, 0, 0]} s={[1.4, 1, 0.5]} />
+      <M g={sphG(0.17, 16)} c={P.body} p={[0, 0.3, 0]} s={[0.95, 0.9, 1.35]} />
+      <M g={coneG(0.1, 0.24, 8)} c={P.tail} p={[0, 0.33, -0.27]} r={[-PI / 2 - 0.3, 0, 0]} s={[1.3, 1, 0.5]} />
+      <M g={coneG(0.07, 0.1, 6)} c={P.tip} p={[0, 0.36, -0.36]} r={[-PI / 2 - 0.4, 0, 0]} s={[1.4, 1, 0.5]} />
       {[-1, 1].map((sd) => (
         <group key={sd} position={[sd * 0.12, 0.38, -0.02]} rotation={[0, 0, sd * (0.1 + g.flap * 1.4)]}>
           <group rotation={[0, sd * -0.25 * g.fold, 0]}>
-            <M g={sphG(1, 14)} c="#a8b0bc" p={[sd * (0.07 + 0.2 * (1 - g.fold)), 0, -0.05]} s={[0.1 + 0.22 * (1 - g.fold), 0.028, 0.16]} />
-            <M g={sphG(1, 10)} c="#2a2a30" p={[sd * (0.13 + 0.38 * (1 - g.fold)), -0.005, -0.15 + 0.06 * (1 - g.fold)]} s={[0.06 + 0.06 * (1 - g.fold), 0.02, 0.08]} />
+            <M g={sphG(1, 14)} c={P.wing} p={[sd * (0.07 + 0.2 * (1 - g.fold)), 0, -0.05]} s={[0.1 + 0.22 * (1 - g.fold), 0.028, 0.16]} />
+            <M g={sphG(1, 10)} c={P.tip} p={[sd * (0.13 + 0.38 * (1 - g.fold)), -0.005, -0.15 + 0.06 * (1 - g.fold)]} s={[0.06 + 0.06 * (1 - g.fold), 0.02, 0.08]} />
           </group>
         </group>
       ))}
       {/* the head on its neck: it lunges for the peck */}
       <group position={[0, 0.46 - 0.12 * g.peck, 0.16 + 0.12 * g.peck]} rotation={[0.9 * g.peck, 0, 0]}>
-        <M g={sphG(0.1, 16)} c="#f8f8f4" p={[0, 0, 0]} />
+        <M g={sphG(0.1, 16)} c={P.head} p={[0, 0, 0]} />
         {[-1, 1].map((sd) => (
           <group key={sd} position={[sd * 0.055, 0.03, 0.07]} scale={eyeS}>
             {eye === "closed" ? (
@@ -498,17 +502,17 @@ export const Gull: React.FC<{ g: GullState }> = ({ g }) => {
                 <mesh geometry={sphG(0.026, 10)} material={coreMat("#fbfbf6", 1)} />
                 <mesh geometry={sphG(0.026 * pupil, 8)} material={coreMat("#1a1414", 1)} position={[sd * 0.004, eye === "narrow" ? -0.004 : 0, 0.018]} />
                 {eye === "sparkle" ? <mesh geometry={sphG(0.007, 6)} material={coreMat("#ffffff", 1)} position={[0.008, 0.01, 0.03]} /> : null}
-                {eye === "narrow" ? <mesh geometry={boxG(0.06, 0.02, 0.02)} material={coreMat("#f8f8f4", 1)} position={[0, 0.02, 0.012]} /> : null}
+                {eye === "narrow" ? <mesh geometry={boxG(0.06, 0.02, 0.02)} material={coreMat(P.head, 1)} position={[0, 0.02, 0.012]} /> : null}
               </>
             )}
-            <mesh geometry={boxG(0.05, 0.01, 0.01)} material={coreMat("#6a6a72", 1)} position={[0, 0.038 - 0.006 * g.face.brow, 0.012]} rotation={[0, 0, sd * 0.45 * g.face.brow]} />
+            <mesh geometry={boxG(0.05, 0.01, 0.01)} material={coreMat(P.brow, 1)} position={[0, 0.038 - 0.006 * g.face.brow, 0.012]} rotation={[0, 0, sd * 0.45 * g.face.brow]} />
           </group>
         ))}
         {/* the beak: upper and lower, the red spot; it opens */}
-        <M g={coneG(0.032, 0.15, 8)} c="#f0c030" p={[0, -0.005, 0.15]} r={[PI / 2 - 0.08, 0, 0]} s={[1, 1, 0.7]} />
+        <M g={coneG(0.032, 0.15, 8)} c={P.beak} p={[0, -0.005, 0.15]} r={[PI / 2 - 0.08, 0, 0]} s={[1, 1, 0.7]} />
         <group rotation={[0.45 * g.face.beak, 0, 0]} position={[0, -0.02, 0.08]}>
-          <M g={coneG(0.026, 0.12, 8)} c="#e8b028" p={[0, -0.005, 0.06]} r={[PI / 2 + 0.12, 0, 0]} s={[1, 1, 0.6]} />
-          <M g={sphG(0.011, 6)} c="#d8302a" p={[0, -0.006, 0.09]} />
+          <M g={coneG(0.026, 0.12, 8)} c={P.beak2} p={[0, -0.005, 0.06]} r={[PI / 2 + 0.12, 0, 0]} s={[1, 1, 0.6]} />
+          <M g={sphG(0.011, 6)} c={P.spot} p={[0, -0.006, 0.09]} />
         </group>
       </group>
       {/* legs: they step in turn while waddling */}
@@ -516,11 +520,12 @@ export const Gull: React.FC<{ g: GullState }> = ({ g }) => {
         const lift = Math.max(0, Math.sin(g.step * PI + (sd > 0 ? 0 : PI))) * 0.05;
         return (
           <group key={sd} position={[sd * 0.06, lift, 0.02]}>
-            <M g={cylG(0.012, 0.012, 0.17, 6)} c="#e8a8a0" p={[0, 0.1, 0]} />
-            <M g={coneG(0.045, 0.06, 3)} c="#e8a8a0" p={[0, 0.01, 0.03]} r={[PI / 2, 0, 0]} s={[1, 1, 0.25]} />
+            <M g={cylG(0.012, 0.012, 0.17, 6)} c={P.leg} p={[0, 0.1, 0]} />
+            <M g={coneG(0.045, 0.06, 3)} c={P.leg} p={[0, 0.01, 0.03]} r={[PI / 2, 0, 0]} s={[1, 1, 0.25]} />
           </group>
         );
       })}
+    </group>
     </group>
   );
 };

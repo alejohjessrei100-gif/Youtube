@@ -17,6 +17,7 @@ import { MEAT_FRAMES, MeatShower } from "../src/meat/MeatShower";
 import { DIR_FRAMES, DirectorLab } from "../src/directorlab/DirectorLab";
 import { GULL_FRAMES, GullShort } from "../src/gull/Gull";
 import { MUSEUM_FRAMES, MuseumShort } from "../src/museum/Museum";
+import { CROW_FRAMES, CrowShort } from "../src/crow/Crow";
 import { BISCUIT_FRAMES, BiscuitShort } from "../src/biscuit/Biscuit";
 
 // staticFile() (fonts) resolves against this folder, wherever the page is hosted.
@@ -34,6 +35,7 @@ type Comp = {
 };
 
 const COMPS: Comp[] = [
+  { id: "Crow", label: "The Chess Crow (37 s)", component: CrowShort, width: 1080, height: 1920, fps: 30, durationInFrames: CROW_FRAMES, defaultProps: { audio: true } },
   { id: "Biscuit", label: "Lost Dog: Biscuit (40 s)", component: BiscuitShort, width: 1080, height: 1920, fps: 30, durationInFrames: BISCUIT_FRAMES, defaultProps: { audio: true } },
   { id: "Museum", label: "The Man Who Steals Nothing (35 s)", component: MuseumShort, width: 1080, height: 1920, fps: 30, durationInFrames: MUSEUM_FRAMES, defaultProps: { audio: true } },
   { id: "Gull", label: "The Gull at 9:14 (35 s)", component: GullShort, width: 1080, height: 1920, fps: 30, durationInFrames: GULL_FRAMES, defaultProps: { audio: true } },
