@@ -1,13 +1,27 @@
 ---
-name: mystery-short
-description: The end-to-end workflow for this channel's 3D toon YouTube Shorts, from script to verified render. Covers the "crime that isn't" script formula, camera-led staging (few scenes, handoffs, entrances, follows), the user's voiceover (speed-up only, alignment), world + shots as data, the every-frame checker, detail pass, still checks, the sound mix, publishing to the phone renderer page and the full-timeline review of the user's render. Use it whenever the user asks for new scripts, sends a voiceover, or asks to build, fix or review a Short.
+name: youtube-shorts
+description: The whole workflow for making this channel's YouTube Shorts, from the idea to the upload and learning from the results. Ideas and the "crime that isn't" script formula, the user's ElevenLabs voiceover, building the 3D toon film (camera-led staging, detail pass, every-frame checker, stills), the sound mix, publishing to the phone renderer page, the user's render and the full review loop, the YouTube package (file named by title, SEO title, description, hashtags, cover frame, pinned comment), upload, and the post-upload analytics review that feeds the next script. Use it for any step of making a video: new scripts, a voiceover arriving, building, fixing, reviewing, titles, uploading or "how did it do".
 ---
 
-# mystery-short: script → voice → build → check → publish → review
+# youtube-shorts: idea → script → voice → build → check → render → review → package → upload → learn
 
-The house workflow for this repo's Shorts (Remotion + React Three Fiber toon kit; see the `inkbeat-shorts` skill for
-rendering technique). `CLAUDE.md` holds the non-negotiable QA protocol and standing preferences; this skill is the
-order of work that satisfies them. Every step below exists because skipping it shipped a bad video.
+The whole pipeline for this channel's Shorts (vertical 3D toon stories, ~35–40 s). `CLAUDE.md` holds the
+non-negotiable QA protocol and standing preferences; this skill is the order of work. The `inkbeat-shorts` skill holds
+rendering technique. Every step exists because skipping it cost a video.
+
+## The loop at a glance
+| § | Stage | Who | Output |
+|---|---|---|---|
+| 1 | Ideas + scripts | Claude | 4–5 scripts with ratings and camera beats |
+| 2 | Voiceover | User, then Claude | the user's ElevenLabs mp3 + speed → sped, aligned voice |
+| 3–5 | Build | Claude | world, cast, shots; detail pass; every-frame checker passing |
+| 6 | Stills | Claude | every scene looked at and fixed before the user sees it |
+| 7 | Sound | Claude | the mix at the approved balance |
+| 8 | Publish + render | Claude (after asking), then User | film on the phone page; the user renders the mp4 (named by its title) |
+| 9 | Review | Claude | full-timeline QA of that mp4, fixes, back to §8 until clean |
+| 10 | Package | Claude | title, description, hashtags, cover frame, pinned comment |
+| 11 | Upload | User | the Short on YouTube |
+| 12 | Learn | Both | analytics read; lessons written into `CLAUDE.md`; back to §1 |
 
 ## 0. Ground rules (from the user)
 - Ask before publishing anything to the phone page. Commit and push code as you go (branch in the session's git rules).
@@ -29,7 +43,9 @@ order of work that satisfies them. Every step below exists because skipping it s
   and reasons, then recommend.
 
 ## 2. The voiceover
-The user sends an ElevenLabs mp3 plus a speed ("1.15x").
+**The user's side:** paste the chosen script into ElevenLabs (voice "Lane – Professional Podcaster"; the files so far
+say `pvc s0 sim100 v4`), download the mp3, send it with a speed ("1.15x"). Speeds so far: 1.10–1.25x; use exactly
+what they say. **Claude's side:**
 ```bash
 F=<upload>; NAME=<film>
 cp "$F" public/audio/$NAME-raw.mp3
@@ -108,3 +124,26 @@ python3 -I tools/qa/sheets.py $V/half $V/sheets 8 4
 Every spike → extract those frames at full size and look. Read every contact sheet. List every defect with its
 time, find root causes, fix in code, re-check stills of the changed shots, ask before publishing again. Report:
 what ran, what was found and fixed, what was not verified (phone GPU, motion between samples).
+
+## 10. Package for YouTube (once the review is clean)
+- **Title** (the user asks "give me the seo title only" → reply with the title alone): curiosity + the impossible fact,
+  ≤ 60 characters before the emoji, one fitting emoji, ` #shorts`. Write it from the payoff, never promising more than
+  the video delivers. Examples that shipped: "He Broke Into a Museum 11 Times and Stole Nothing 🖼️ #shorts",
+  "Nobody in Town Owned a Dog Named Biscuit 🐶 #shorts".
+- The same title goes in `web/main.tsx` (`title:`) so the rendered file is already named for upload.
+- **Description** (2–3 lines): the hook question restated, no spoilers, 3–5 hashtags (#shorts #story #mystery plus
+  one topic tag). **Cover frame:** suggest the frame number with the clearest face + the mystery object.
+- **Pinned comment:** a question that invites guesses or opinions ("Would you have pressed charges?").
+
+## 11. Upload (the user)
+Upload the mp4 as a Short from the phone; paste the title and description; set the cover frame; post the pinned
+comment. Note the upload time so the analytics read is fair.
+
+## 12. Learn from the results (after ~48 h, again at ~7 days)
+- Ask for screenshots of YouTube Studio: **stayed-to-watch vs swiped away**, average view duration / % viewed, the
+  retention graph, views and the traffic source split. Never invent numbers or benchmarks.
+- Read it against the script: where the retention graph drops, look at that exact second of the film (the words, the
+  shot, the cut) and name the likely cause. Separate what the data confirms from creative judgment.
+- Compare with the channel's other Shorts (the user's baseline matters more than outside benchmarks).
+- Write what was learned into `CLAUDE.md` standing preferences (e.g. "crime-like mystery + innocent twist gets views";
+  "too many cuts"; "voice 1.15x"), so the next script and build start from it. Then back to stage 1.
