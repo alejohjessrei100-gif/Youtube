@@ -18,6 +18,24 @@ broken) → 4 re-render the affected sections and re-inspect (check nothing regr
   - Full frame rate (30 fps) around risky moments: entrances and exits, character/object interactions, fast moves,
     expression changes, camera transitions, scene cuts, crowded frames, the first and last frames of every action.
 
+**Lessons from Biscuit (glitches got past a "clean" QA). These rules are mandatory:**
+- Review contact sheets at no less than half resolution (540×960 per frame). Quarter-size sheets hide pops, shimmer and
+  bad hands. Crop faces, hands and props at full resolution.
+- Automated checks only catch what they test. Every film's checker must also cover:
+  - hand↔prop distance every frame;
+  - limb and joint angles within limits (no hyper-bent or flipped limbs);
+  - head and face facing the lens when the character speaks;
+  - every prop's position continuity (no teleport or pop);
+  - the shadow camera covering the visible area.
+- Do the frame-diff scan at full frame rate over the whole film, not only at risky moments. Review every spike at
+  30 fps.
+- The phone GPU renders differently from headless CPU Chromium:
+  - Avoid coplanar or near-coplanar surfaces (keep a gap of at least 2 cm).
+  - Keep shadow bias and normalBias safe and set `recv={false}` on large grazing-lit surfaces.
+  - Keep the near/far camera planes tight.
+  - Disclose that phone-GPU output was not verified.
+- When reporting, list exactly which checks ran and which did not. Never say "clean" based on sampled frames.
+
 **Defects to hunt:**
 - Characters: distorted bodies, wrong, missing or extra limbs, facial glitches, broken expressions.
 - Clipping: through walls, floors, objects or other characters.
