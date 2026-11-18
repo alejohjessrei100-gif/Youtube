@@ -71,6 +71,10 @@ verified, and disclose any known remaining issue.
 - What gets views (user, from channel results): a mystery that looks like a crime or something sinister (break-ins where
   nothing is stolen, meat raining from the sky, a fake town on a map), investigated, then an innocent, human twist at
   the end. Default new scripts to this shape.
+- Scripts are written FOR the user's camera rules: few locations (2-4 scenes; cut only for a change of place, time or
+  purpose), one continuous moving camera per scene, and the story itself must contain at least: one object handoff (a
+  thrown / rolling / sliding object the lens follows, then hands to whoever reacts), one entrance the lens widens for,
+  one walk or run the lens follows, and held reactions. List these camera beats under every script.
 - Every script gets a rating out of 10 with reasons. Scripts are original fiction, retention-driven, and not always
   time-related.
 - Characters keep the locked look: squircle heads, wide clavicles, sharp elbows, straight arms at rest, hands.
