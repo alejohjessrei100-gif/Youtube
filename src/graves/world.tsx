@@ -328,7 +328,7 @@ export const CHAPEL: V3 = [-11.2, 0, 1.0];
 export const Dressing: React.FC<{ s: YardState; day: boolean }> = ({ s, day }) => (
   <group>
     {/* the gravel path from the gate to the new row, 3 cm proud of the grass */}
-    <M g={boxG(1.2, 0.03, WALL.z1 - ROW_Z - 0.4)} c="#b8ae9a" p={[0, 0.035, (WALL.z1 + ROW_Z + 0.4) / 2]} cast={false} />
+    <M g={boxG(1.2, 0.03, WALL.z1 - ROW_Z - 0.4)} c="#7e7668" tex="rock" p={[0, 0.035, (WALL.z1 + ROW_Z + 0.4) / 2]} cast={false} />
     {SCATTER.map((q, i) => (q.k < 6 ? <Tuft key={i} p={[q.x, 0.02, q.z]} s={q.s * 0.7} seed={i} /> : <Flower key={i} p={[q.x, 0.02, q.z]} c={FLOWER[q.k % 4]} s={q.s} />))}
     <Cross p={[-4.3, 0, -2.4]} ry={0.1} tilt={0.05} />
     <Cross p={[3.9, 0, -5.2]} ry={-0.2} tilt={-0.08} />
@@ -353,9 +353,10 @@ export const Dressing: React.FC<{ s: YardState; day: boolean }> = ({ s, day }) =
       const yaw = Math.atan2(bx - ax, bz - az);
       return <M key={k} g={boxG(0.5, 0.08, L + 0.1)} c="#9a948a" p={[(ax + bx) / 2, 0.94, (az + bz) / 2]} r={[0, yaw, 0]} />;
     })}
-    {[[-5.0, WALL.z0 + 0.24, 0], [2.4, WALL.z0 + 0.24, 0], [WALL.x0 + 0.24, -1.5, PI / 2], [WALL.x1 - 0.24, 3.8, PI / 2]].map(([x, z, ry], k) => (
-      <M key={k} g={boxG(1.6, 0.7, 0.06)} c="#3e6a36" p={[x, 0.45, z]} r={[0, ry, 0]} />
-    ))}
+    {/* ivy: leafy clumps spilling over the wall top */}
+    {[[-5.0, WALL.z0], [2.4, WALL.z0], [WALL.x0, -1.5], [WALL.x1, 3.8]].map(([x, z], k) =>
+      [0, 1, 2, 3].map((j) => <M key={`${k}-${j}`} g={sphG(0.22, 8)} c={j % 2 ? "#3e6a36" : "#4a7a3e"} p={[x + (Math.abs(z - WALL.z0) < 0.01 ? (j - 1.5) * 0.3 : 0), 0.95 - 0.12 * (j % 2), z + (Math.abs(z - WALL.z0) < 0.01 ? 0 : (j - 1.5) * 0.3)]} s={[1, 0.8, 1]} />),
+    )}
     {/* rocks along the cliff rim */}
     {Array.from({ length: 14 }, (_, k) => {
       const a = (k / 14) * PI * 2 + 0.2;
@@ -408,10 +409,7 @@ export const TruckDetail: React.FC = () => (
     <M g={boxG(1.78, 0.12, 0.14)} c="#9a9aa2" p={[0, 0.55, 2.06]} />
     <M g={boxG(1.78, 0.12, 0.14)} c="#9a9aa2" p={[0, 0.55, -2.06]} />
     <Label text="HSR 931" p={[0, 0.72, -2.14]} r={[0, PI, 0]} w={0.42} h={0.14} fg="#1a1a20" bg="#f0e8c8" />
-    {/* ropes over the stone in the bed, a toolbox against the cab */}
-    {[-1.15, -0.85].map((z) => (
-      <M key={z} g={boxG(1.62, 0.025, 0.025)} c="#c8b080" p={[0, 1.78, z]} />
-    ))}
+    {/* a toolbox against the cab */}
     <M g={boxG(1.4, 0.26, 0.3)} c="#c8a030" p={[0, 1.18, -0.05]} />
   </group>
 );
