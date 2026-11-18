@@ -64,6 +64,8 @@ verified, and disclose any known remaining issue.
 
 ## Standing preferences
 - Ask the user before publishing a render to the phone page (artifact). Commit and push code as usual.
+- Every film registered on the phone page gets its YouTube SEO title (`title` in web/main.tsx): the rendered file is
+  saved under that title.
 - Voiceover: use the user's requested speed (currently 1.10x). Speed it up only; do not trim pauses.
 - SFX must be audible; music sits well under the voice (the approved gull/museum mix balance).
 - What gets views (user, from channel results): a mystery that looks like a crime or something sinister (break-ins where

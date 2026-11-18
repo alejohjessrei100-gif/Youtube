@@ -33,14 +33,18 @@ type Comp = {
   fps: number;
   durationInFrames: number;
   defaultProps: Record<string, unknown>;
+  /** the YouTube title: the rendered file is saved under it */
+  title?: string;
 };
+/** a safe file name from a title: drop characters phones and desktops refuse, keep emoji and words */
+const fileName = (c: Comp) => `${(c.title ?? c.id).replace(/[\\/:*?"<>|]/g, "").replace(/\s+/g, " ").trim()}.mp4`;
 
 const COMPS: Comp[] = [
-  { id: "Graves", label: "The Graves Nobody Dug (40 s)", component: GravesShort, width: 1080, height: 1920, fps: 30, durationInFrames: GRAVES_FRAMES, defaultProps: { audio: true } },
-  { id: "Crow", label: "The Chess Crow (37 s)", component: CrowShort, width: 1080, height: 1920, fps: 30, durationInFrames: CROW_FRAMES, defaultProps: { audio: true } },
-  { id: "Biscuit", label: "Lost Dog: Biscuit (40 s)", component: BiscuitShort, width: 1080, height: 1920, fps: 30, durationInFrames: BISCUIT_FRAMES, defaultProps: { audio: true } },
-  { id: "Museum", label: "The Man Who Steals Nothing (35 s)", component: MuseumShort, width: 1080, height: 1920, fps: 30, durationInFrames: MUSEUM_FRAMES, defaultProps: { audio: true } },
-  { id: "Gull", label: "The Gull at 9:14 (35 s)", component: GullShort, width: 1080, height: 1920, fps: 30, durationInFrames: GULL_FRAMES, defaultProps: { audio: true } },
+  { id: "Graves", title: "New Graves Keep Appearing for 22 Men Nobody Remembers 🪦 #shorts", label: "The Graves Nobody Dug (40 s)", component: GravesShort, width: 1080, height: 1920, fps: 30, durationInFrames: GRAVES_FRAMES, defaultProps: { audio: true } },
+  { id: "Crow", title: "This Crow Has Been Beating Him at Chess for a Year ♟️ #shorts", label: "The Chess Crow (37 s)", component: CrowShort, width: 1080, height: 1920, fps: 30, durationInFrames: CROW_FRAMES, defaultProps: { audio: true } },
+  { id: "Biscuit", title: "Nobody in Town Owned a Dog Named Biscuit 🐶 #shorts", label: "Lost Dog: Biscuit (40 s)", component: BiscuitShort, width: 1080, height: 1920, fps: 30, durationInFrames: BISCUIT_FRAMES, defaultProps: { audio: true } },
+  { id: "Museum", title: "He Broke Into a Museum 11 Times and Stole Nothing 🖼️ #shorts", label: "The Man Who Steals Nothing (35 s)", component: MuseumShort, width: 1080, height: 1920, fps: 30, durationInFrames: MUSEUM_FRAMES, defaultProps: { audio: true } },
+  { id: "Gull", title: "This Lighthouse Turns On by Itself at 9:14 Every Night 🕯️ #shorts", label: "The Gull at 9:14 (35 s)", component: GullShort, width: 1080, height: 1920, fps: 30, durationInFrames: GULL_FRAMES, defaultProps: { audio: true } },
   { id: "DirectorLab", label: "Camera + expressions test (10 s)", component: DirectorLab, width: 1080, height: 1920, fps: 30, durationInFrames: DIR_FRAMES, defaultProps: {} },
   { id: "MeatShower", label: "Kentucky meat shower (34 s)", component: MeatShower, width: 1080, height: 1920, fps: 30, durationInFrames: MEAT_FRAMES, defaultProps: { audio: true } },
   { id: "ActLab", label: "Character animation trial (12 s)", component: ActLab, width: 1080, height: 1920, fps: 30, durationInFrames: ACT_FRAMES, defaultProps: { audio: true } },
@@ -167,7 +171,7 @@ const App: React.FC = () => {
             setProg({ r: p.renderedFrames, e: p.encodedFrames, total, eta: p.renderEstimatedTime, at: Date.now(), start });
           },
         });
-        finish(await r.getBlob(), `${comp.id}.mp4`, "video");
+        finish(await r.getBlob(), fileName(comp), "video");
       }
     } catch (e) {
       setError(ac.signal.aborted ? "Cancelled." : String((e as Error)?.message ?? e));
