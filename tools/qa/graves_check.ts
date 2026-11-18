@@ -25,6 +25,11 @@ const CYL: { n: string; p: V; r: number; top: number }[] = [
   { n: "postR", p: [GATE[0] + GATE_HW + 0.22, 0, GATE[2]], r: 0.32, top: 1.8 },
   { n: "tree", p: [-6.2, 0, -4.3], r: 0.3, top: 3.4 },
   { n: "lamp", p: [2.4, 0, WALL.z1 + 0.6], r: 0.08, top: 3.1 },
+  { n: "crossA", p: [-4.3, 0, -2.4], r: 0.25, top: 1.0 }, { n: "crossB", p: [3.9, 0, -5.2], r: 0.25, top: 1.0 },
+  { n: "obeliskA", p: [5.3, 0, -3.45], r: 0.3, top: 1.8 }, { n: "obeliskB", p: [-2.0, 0, -5.2], r: 0.3, top: 1.8 },
+  { n: "cypressA", p: [-7.7, 0, 7.2], r: 0.55, top: 4 }, { n: "cypressB", p: [7.7, 0, 7.2], r: 0.5, top: 4 }, { n: "cypressC", p: [7.6, 0, -5.6], r: 0.6, top: 4 },
+  { n: "bushA", p: [-7.6, 0, 2.6], r: 0.8, top: 0.9 }, { n: "bushB", p: [7.5, 0, 1.0], r: 0.8, top: 0.9 }, { n: "bushC", p: [-3.2, 0, 7.4], r: 0.8, top: 0.9 },
+  { n: "chapel", p: [-11.2, 0, 1.0], r: 2.4, top: 8 },
 ];
 const insideWall = (p: V, pad: number) => {
   const nearX = (x: number) => Math.abs(p[0] - x) < 0.2 + pad && p[2] > WALL.z0 - pad && p[2] < WALL.z1 + pad;
@@ -56,6 +61,11 @@ for (let f = 0; f < Math.round(SECONDS * 30); f++) {
     for (const c of CYL) if (d2(q, c.p) < c.r && q[1] < c.top) { add(`${c.n} blocks the lens -> focus line (${s.id})`, t); k = 99; break; }
     if (k < 99 && insideWall(q, 0)) { add(`the wall blocks the lens -> focus line (${s.id})`, t); break; }
     if (k < 99 && ex.truck && truckBox(ex.truck.p as V, q, 0) && d3(focus, [ex.truck.p[0], 1.2, ex.truck.p[2]]) > 1.0) { add(`the truck blocks the lens -> focus line (${s.id})`, t); break; }
+  }
+  if (ex.dog) {
+    if (d3(lens, [ex.dog.p[0], 0.5, ex.dog.p[2]]) < 0.6) add(`lens too close to the dog (${s.id})`, t);
+    actors.forEach((a, i) => { if (d2(a.p as V, ex.dog!.p as V) < 0.5) add(`actor${i} overlaps the dog (${s.id})`, t); });
+    for (const st of stones) if (d2(ex.dog.p as V, st) < 0.5) add(`the dog inside a gravestone (${s.id})`, t);
   }
   actors.forEach((a, i) => {
     const p = a.p as V;

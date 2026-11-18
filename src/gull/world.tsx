@@ -67,10 +67,10 @@ export const Sea: React.FC<{ t: number; color?: string }> = ({ t, color = "#2a6a
 };
 
 // ------------------------------------------------------------------ rocks, grass, the point
-const Rock: React.FC<{ p: V3; s: number; seed: number; c?: string }> = ({ p, s, seed, c = "#6a6670" }) => (
+export const Rock: React.FC<{ p: V3; s: number; seed: number; c?: string }> = ({ p, s, seed, c = "#6a6670" }) => (
   <M g={sphG(1, 10)} c={c} tex="rock" p={p} s={[s * (0.9 + h1(seed) * 0.6), s * (0.55 + h1(seed + 1) * 0.4), s * (0.9 + h1(seed + 2) * 0.5)]} r={[h1(seed + 3) * 0.6, h1(seed + 4) * 6, 0]} />
 );
-const Tuft: React.FC<{ p: V3; s?: number; seed: number }> = ({ p, s = 1, seed }) => (
+export const Tuft: React.FC<{ p: V3; s?: number; seed: number }> = ({ p, s = 1, seed }) => (
   <group position={p} scale={s} rotation={[0, h1(seed) * 6, 0]}>
     {[0, 1, 2, 3, 4].map((i) => (
       <M key={i} g={coneG(0.05, 0.45 + h1(seed + i) * 0.3, 4)} c={i % 2 ? "#6a9a4a" : "#88aa58"} p={[Math.cos(i * 1.3) * 0.08, 0.2, Math.sin(i * 1.3) * 0.08]} r={[Math.cos(i * 1.3) * 0.35, 0, Math.sin(i * 1.3) * 0.35]} cast={false} />

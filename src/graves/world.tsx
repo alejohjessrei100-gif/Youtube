@@ -5,9 +5,9 @@
 // Names are drawn into the stone faces (one solid per face, no decal planes: nothing coplanar to z-fight).
 import React from "react";
 import * as THREE from "three";
-import { boxG, canvasTex, coneG, coreMat, cylG, M, sphG } from "../inkbeat/core/kit";
+import { boxG, canvasTex, coneG, coreMat, cylG, Label, M, sphG, torG } from "../inkbeat/core/kit";
 import type { V3 } from "../inkbeat/types";
-import { Sea, SEA_Y, waveH } from "../gull/world";
+import { Gull, Lighthouse, Rock, Sea, SEA_Y, Tuft, waveH } from "../gull/world";
 
 const PI = Math.PI;
 export const h1 = (n: number) => {
@@ -183,6 +183,7 @@ export const Truck: React.FC<{ p: V3; yaw: number; roll: number; lights: number;
       <M key={sd} g={boxG(0.06, 0.32, 2.0)} c="#7a3a2e" p={[sd * 0.82, 1.17, -0.9]} />
     ))}
     {stone ? <Gravestone p={[0, 1.05, -1.0]} name="" dim={dim} /> : null}
+    <TruckDetail />
     {[[-0.82, 1.25], [0.82, 1.25], [-0.82, -1.3], [0.82, -1.3]].map(([x, z], i) => (
       <group key={i} position={[x, 0.38, z]} rotation={[roll, 0, 0]}>
         <M g={cylG(0.38, 0.38, 0.26, 16)} c="#1e1e22" r={[0, 0, PI / 2]} />
@@ -211,6 +212,206 @@ export const Boat: React.FC<{ p: V3; t: number; sink: number; heel: number }> = 
       <M g={boxG(1.12, 0.14, 1.5)} c="#2e4a6a" p={[0, 1.8, -0.9]} />
       <M g={cylG(0.05, 0.06, 3.0, 8)} c="#5a4a3a" p={[0, 2.1, 1.0]} />
       <M g={cylG(0.03, 0.03, 2.0, 6)} c="#5a4a3a" p={[0, 2.2, 1.0]} r={[0, 0, PI / 2 - 0.3]} />
+      <BoatDetail />
     </group>
   );
 };
+
+// ================================================================== detail pass: dressing, life, weather
+
+/** deterministic scatter inside the yard that keeps clear of the row, the path and the stones */
+const clearOf = (x: number, z: number) => {
+  if (Math.abs(z - ROW_Z) < 0.55) return false; // the new row
+  if (Math.abs(x) < 0.9 && z > ROW_Z) return false; // the path from the gate
+  for (let i = 0; i < 30; i++) {
+    const r = Math.floor(i / 10), c = i % 10;
+    const sx = -6.2 + c * 1.35 + (h1(i) - 0.5) * 0.4, sz = -1.2 - r * 1.5 + (h1(i + 9) - 0.5) * 0.3;
+    if (Math.hypot(x - sx, z - sz) < 0.45) return false;
+  }
+  return true;
+};
+const SCATTER = (() => {
+  const out: { x: number; z: number; k: number; s: number }[] = [];
+  for (let i = 0; out.length < 140 && i < 2000; i++) {
+    const x = WALL.x0 + 0.5 + h1(i * 7 + 1) * (WALL.x1 - WALL.x0 - 1);
+    const z = WALL.z0 + 0.5 + h1(i * 7 + 2) * (WALL.z1 - WALL.z0 - 1);
+    if (clearOf(x, z)) out.push({ x, z, k: Math.floor(h1(i * 7 + 3) * 10), s: 0.5 + h1(i * 7 + 4) * 0.6 });
+  }
+  return out;
+})();
+const FLOWER = ["#f4e04a", "#ffffff", "#e8789a", "#9a7ae8"];
+const Flower: React.FC<{ p: V3; c: string; s: number }> = ({ p, c, s }) => (
+  <group position={p} scale={s}>
+    <M g={cylG(0.006, 0.006, 0.2, 4)} c="#4a7a3a" p={[0, 0.1, 0]} cast={false} />
+    <M g={sphG(0.035, 8)} c={c} p={[0, 0.21, 0]} cast={false} />
+  </group>
+);
+const Cross: React.FC<{ p: V3; ry: number; tilt: number }> = ({ p, ry, tilt }) => (
+  <group position={p} rotation={[tilt, ry, 0]}>
+    <M g={boxG(0.4, 0.1, 0.26)} c="#7a7c72" p={[0, 0.05, 0]} />
+    <M g={boxG(0.1, 0.9, 0.08)} c="#86887e" p={[0, 0.55, 0]} />
+    <M g={boxG(0.44, 0.09, 0.08)} c="#86887e" p={[0, 0.72, 0]} />
+  </group>
+);
+const Obelisk: React.FC<{ p: V3 }> = ({ p }) => (
+  <group position={p}>
+    <M g={boxG(0.5, 0.2, 0.5)} c="#7a7c72" p={[0, 0.1, 0]} />
+    <M g={cylG(0.12, 0.18, 1.3, 4)} c="#8a8c82" p={[0, 0.85, 0]} r={[0, PI / 4, 0]} />
+    <M g={coneG(0.13, 0.22, 4)} c="#8a8c82" p={[0, 1.61, 0]} r={[0, PI / 4, 0]} />
+  </group>
+);
+const Vase: React.FC<{ p: V3; c: string }> = ({ p, c }) => (
+  <group position={p}>
+    <M g={cylG(0.05, 0.035, 0.12, 10)} c="#6a6a72" p={[0, 0.06, 0]} />
+    {[0, 1, 2].map((k) => (
+      <Flower key={k} p={[Math.sin(k * 2.1) * 0.025, 0.08, Math.cos(k * 2.1) * 0.025]} c={c} s={0.8} />
+    ))}
+  </group>
+);
+const Wreath: React.FC<{ p: V3 }> = ({ p }) => (
+  <group position={p}>
+    <M g={torG(0.11, 0.035)} c="#3e6a3a" r={[-0.25, 0, 0]} />
+    {[0, 1, 2, 3, 4, 5].map((k) => (
+      <M key={k} g={sphG(0.022, 6)} c={k % 2 ? "#d8303a" : "#f4e04a"} p={[Math.cos(k) * 0.11, Math.sin(k) * 0.11, 0.03]} cast={false} />
+    ))}
+  </group>
+);
+const Cypress: React.FC<{ p: V3; s?: number }> = ({ p, s = 1 }) => (
+  <group position={p} scale={s}>
+    <M g={cylG(0.08, 0.12, 0.5, 8)} c="#4a3a2a" p={[0, 0.25, 0]} />
+    <M g={coneG(0.55, 3.2, 10)} c="#2e5a36" p={[0, 2.0, 0]} />
+    <M g={coneG(0.42, 2.0, 10)} c="#3a6a40" p={[0, 2.9, 0]} />
+  </group>
+);
+const Bush: React.FC<{ p: V3; seed: number }> = ({ p, seed }) => (
+  <group position={p}>
+    {[0, 1, 2].map((k) => (
+      <M key={k} g={sphG(0.45, 10)} c={k % 2 ? "#4a7a3e" : "#3e6a36"} p={[Math.sin(k * 2.2 + seed) * 0.35, 0.32 + 0.08 * k, Math.cos(k * 2.2 + seed) * 0.3]} s={0.8 + 0.3 * h1(seed + k)} />
+    ))}
+  </group>
+);
+const Chapel: React.FC<{ p: V3; ry: number; lit: number }> = ({ p, ry, lit }) => (
+  <group position={p} rotation={[0, ry, 0]}>
+    <M g={boxG(3.0, 2.6, 4.2)} c="#d8d0c0" p={[0, 1.3, 0]} recv={false} />
+    <M g={coneG(2.4, 1.6, 4)} c="#5a4a4a" p={[0, 3.4, 0]} r={[0, PI / 4, 0]} s={[1, 1, 1.4]} />
+    <M g={boxG(1.1, 2.8, 1.1)} c="#e0d8c8" p={[0, 4.0, 2.2]} recv={false} />
+    <M g={coneG(0.85, 2.0, 4)} c="#5a4a4a" p={[0, 6.4, 2.2]} r={[0, PI / 4, 0]} />
+    <M g={boxG(0.06, 0.5, 0.06)} c="#c8a040" p={[0, 7.65, 2.2]} />
+    <M g={boxG(0.3, 0.06, 0.06)} c="#c8a040" p={[0, 7.75, 2.2]} />
+    <M g={boxG(0.9, 1.5, 0.05)} c="#5a3a2a" p={[0, 0.75, 2.76]} />
+    {[-0.9, 0.9].map((x) => (
+      <mesh key={x} geometry={boxG(0.5, 0.9, 0.05)} position={[x, 1.6, 2.13]} material={coreMat(lit > 0.5 ? "#ffd890" : "#3a4a6a", lit > 0.5 ? 1.6 : 0.6)} />
+    ))}
+  </group>
+);
+/** gulls circling high over the headland (day scenes only) */
+const SkyGulls: React.FC<{ t: number }> = ({ t }) => (
+  <group>
+    {[0, 1, 2].map((k) => {
+      const a = t * (0.25 + 0.05 * k) + k * 2.1;
+      const r = 6 + 2 * k;
+      const p: V3 = [Math.cos(a) * r, 7 + k * 1.2 + 0.3 * Math.sin(t + k), -4 + Math.sin(a) * r];
+      return <Gull key={k} g={{ p, yaw: a + PI, tilt: 0.3, bob: 0, flap: 0.5 + 0.5 * Math.sin(t * 9 + k), fold: 0, peck: 0, step: 0, face: { eyes: "normal", brow: 0, beak: 0 }, s: 1.4 }} />;
+    })}
+  </group>
+);
+/** a small grave lantern at the foot of the named stones (lit at night) */
+const Lantern: React.FC<{ p: V3; on: number }> = ({ p, on }) => (
+  <group position={p}>
+    <M g={boxG(0.12, 0.02, 0.12)} c="#2a2a30" p={[0, 0.01, 0]} />
+    <mesh geometry={boxG(0.09, 0.14, 0.09)} position={[0, 0.09, 0]} material={coreMat(on > 0.5 ? "#ffcf70" : "#e8e4d8", on > 0.5 ? 1.8 : 0.5, 0.9)} />
+    <M g={coneG(0.08, 0.06, 4)} c="#2a2a30" p={[0, 0.19, 0]} r={[0, PI / 4, 0]} />
+    {on > 0.5 ? <pointLight position={[0, 0.2, 0.1]} color="#ffb860" intensity={1.6} distance={2.2} decay={1.8} /> : null}
+  </group>
+);
+export const CHAPEL: V3 = [-11.2, 0, 1.0];
+export const Dressing: React.FC<{ s: YardState; day: boolean }> = ({ s, day }) => (
+  <group>
+    {/* the gravel path from the gate to the new row, 3 cm proud of the grass */}
+    <M g={boxG(1.2, 0.03, WALL.z1 - ROW_Z - 0.4)} c="#b8ae9a" p={[0, 0.035, (WALL.z1 + ROW_Z + 0.4) / 2]} cast={false} />
+    {SCATTER.map((q, i) => (q.k < 6 ? <Tuft key={i} p={[q.x, 0.02, q.z]} s={q.s * 0.7} seed={i} /> : <Flower key={i} p={[q.x, 0.02, q.z]} c={FLOWER[q.k % 4]} s={q.s} />))}
+    <Cross p={[-4.3, 0, -2.4]} ry={0.1} tilt={0.05} />
+    <Cross p={[3.9, 0, -5.2]} ry={-0.2} tilt={-0.08} />
+    <Obelisk p={[5.3, 0, -3.45]} />
+    <Obelisk p={[-2.0, 0, -5.2]} />
+    {[[-3.4, -1.0], [1.7, -2.6], [4.6, -1.0], [-0.8, -4.0]].map(([x, z], k) => (
+      <Vase key={k} p={[x, 0.02, z + 0.25]} c={FLOWER[k % 4]} />
+    ))}
+    {[9, 10, 11].map((i) => (
+      <Wreath key={i} p={[slotX(i), 0.16, ROW_Z + 0.16]} />
+    ))}
+    <Lantern p={[slotX(10.5), 0.02, ROW_Z + 0.35]} on={s.lamp} />
+    <Cypress p={[-7.7, 0, 7.2]} />
+    <Cypress p={[7.7, 0, 7.2]} s={0.9} />
+    <Cypress p={[7.6, 0, -5.6]} s={1.1} />
+    <Bush p={[-7.6, 0, 2.6]} seed={1} />
+    <Bush p={[7.5, 0, 1.0]} seed={2} />
+    <Bush p={[-3.2, 0, 7.4]} seed={3} />
+    {/* capstones along the wall top and ivy on the inner face (both stand proud by >= 3 cm) */}
+    {[[WALL.x0, 0, WALL.z0, WALL.x1, 0, WALL.z0], [WALL.x0, 0, WALL.z0, WALL.x0, 0, WALL.z1], [WALL.x1, 0, WALL.z0, WALL.x1, 0, WALL.z1]].map(([ax, , az, bx, , bz], k) => {
+      const L = Math.hypot(bx - ax, bz - az);
+      const yaw = Math.atan2(bx - ax, bz - az);
+      return <M key={k} g={boxG(0.5, 0.08, L + 0.1)} c="#9a948a" p={[(ax + bx) / 2, 0.94, (az + bz) / 2]} r={[0, yaw, 0]} />;
+    })}
+    {[[-5.0, WALL.z0 + 0.24, 0], [2.4, WALL.z0 + 0.24, 0], [WALL.x0 + 0.24, -1.5, PI / 2], [WALL.x1 - 0.24, 3.8, PI / 2]].map(([x, z, ry], k) => (
+      <M key={k} g={boxG(1.6, 0.7, 0.06)} c="#3e6a36" p={[x, 0.45, z]} r={[0, ry, 0]} />
+    ))}
+    {/* rocks along the cliff rim */}
+    {Array.from({ length: 14 }, (_, k) => {
+      const a = (k / 14) * PI * 2 + 0.2;
+      return <Rock key={k} p={[Math.cos(a) * (CLIFF_R - 0.6), 0.1, Math.sin(a) * (CLIFF_R - 0.6)]} s={0.5 + 0.4 * h1(k)} seed={k} />;
+    })}
+    <Chapel p={CHAPEL} ry={PI / 2} lit={s.lamp} />
+    {/* a far headland across the water with its own lighthouse */}
+    <group position={[58, 0, -86]} scale={0.55}>
+      <M g={cylG(16, 20, 14, 24)} c="#6e6a62" tex="rock" p={[0, -4, 0]} recv={false} />
+      <M g={cylG(15.9, 15.9, 0.1, 24)} c="#5f8a48" p={[0, 3.05, 0]} cast={false} />
+      <group position={[0, 3.1, 0]}>
+        <Lighthouse s={{ on: s.lamp, beam: s.lamp, t: s.t, lever: 0 }} />
+      </group>
+    </group>
+    {day ? <SkyGulls t={s.t} /> : null}
+  </group>
+);
+
+// ------------------------------------------------------------------ the storm: rain streaks near the lens
+export const Rain: React.FC<{ t: number; at: V3 }> = ({ t, at }) => (
+  <group position={at}>
+    {Array.from({ length: 90 }, (_, k) => {
+      const x = (h1(k) - 0.5) * 14;
+      const z = (h1(k + 50) - 0.5) * 14;
+      const y = 6 - (((t * 9 + h1(k + 99) * 7) % 7) + 0);
+      return <mesh key={k} geometry={boxG(0.012, 0.5, 0.012)} position={[x, y, z]} rotation={[0, 0, 0.18]} material={coreMat("#c8d8f0", 0.9, 0.45)} userData={{ outline: false }} />;
+    })}
+  </group>
+);
+
+// ------------------------------------------------------------------ boat and truck details (drawn with them)
+export const BoatDetail: React.FC = () => (
+  <group>
+    <Label text="MARGARET ANN" p={[0.9, 0.42, 0.6]} r={[0, PI / 2, 0]} w={2.4} h={0.32} fg="#f0e8d0" bg="none" />
+    <M g={torG(0.22, 0.06)} c="#f05a3a" p={[0.6, 1.3, -0.4]} r={[0, PI / 2, 0]} />
+    <M g={boxG(0.5, 0.4, 0.5)} c="#8a6a3a" p={[-0.4, 1.13, 1.2]} />
+    <M g={boxG(0.45, 0.35, 0.45)} c="#7a5a30" p={[0.35, 1.1, 1.7]} />
+    <M g={coneG(0.4, 0.5, 8)} c="#3a4a3a" p={[0.1, 1.15, -2.1]} />
+    {[-1, 1].map((sd) => (
+      <M key={sd} g={boxG(0.3, 0.2, 0.04)} c="#2a3440" p={[sd * 0.3, 1.5, -1.61]} />
+    ))}
+    <M g={cylG(0.09, 0.11, 0.6, 10)} c="#2a2a30" p={[0.0, 2.1, -1.2]} />
+  </group>
+);
+export const TruckDetail: React.FC = () => (
+  <group>
+    {[-1, 1].map((sd) => (
+      <M key={sd} g={boxG(0.08, 0.16, 0.12)} c="#2a2a30" p={[sd * 0.92, 1.45, 1.1]} />
+    ))}
+    <M g={boxG(1.78, 0.12, 0.14)} c="#9a9aa2" p={[0, 0.55, 2.06]} />
+    <M g={boxG(1.78, 0.12, 0.14)} c="#9a9aa2" p={[0, 0.55, -2.06]} />
+    <Label text="HSR 931" p={[0, 0.72, -2.14]} r={[0, PI, 0]} w={0.42} h={0.14} fg="#1a1a20" bg="#f0e8c8" />
+    {/* ropes over the stone in the bed, a toolbox against the cab */}
+    {[-1.15, -0.85].map((z) => (
+      <M key={z} g={boxG(1.62, 0.025, 0.025)} c="#c8b080" p={[0, 1.78, z]} />
+    ))}
+    <M g={boxG(1.4, 0.26, 0.3)} c="#c8a030" p={[0, 1.18, -0.05]} />
+  </group>
+);

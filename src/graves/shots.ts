@@ -36,7 +36,7 @@ export const T = {
 };
 
 export type Actor = { spec: CharacterSpec; p: V3; yaw: number; pose: BodyPose; face: FaceState };
-export type Extra = { truck?: { p: V3; yaw: number; roll: number; lights: number }; boat?: { p: V3; sink: number; heel: number }; notebook?: { p: V3; ry: number }; paper?: number; count?: string | null };
+export type Extra = { dog?: import("../biscuit/world").DogState; truck?: { p: V3; yaw: number; roll: number; lights: number }; boat?: { p: V3; sink: number; heel: number }; notebook?: { p: V3; ry: number }; paper?: number; count?: string | null };
 export type Scene = { id: number; t0: number; mood: string; blur: number; dim: number; cam: (t: number) => Cam; actors: (t: number) => Actor[]; yard: (t: number) => YardState; extra: (t: number) => Extra; focus: (t: number) => V3 };
 const A = (spec: CharacterSpec, p: V3, yaw: number, pose: BodyPose, face: FaceState): Actor => ({ spec, p, yaw, pose, face });
 const REST: BodyPose = { armL: [14, 10], armLFwd: 10, armR: [14, 10], armRFwd: 10 };
@@ -87,6 +87,9 @@ const townA = (t: number): Actor[] => {
     A(TOWN2, T2P, y2, p2, laugh > 0.3 ? F("closed", "grin", "raised") : t < T.no1 ? F("squint", "o", "raised") : F("open", "flat", "worried")),
   ];
 };
+/** a golden dog sits beside him, looking at the lens, tail going */
+const DOG_P: V3 = [T1P[0] - 0.62, 0, T1P[2] + 0.3];
+const townDog = (t: number) => ({ p: DOG_P, yaw: yawTo(DOG_P, TOWN_LENS) - 0.5, headYaw: 0.25 * Math.sin(t * 0.8), headTilt: 0.15 * Math.sin(t * 1.3), headNod: 0, ears: 0.3, wag: 0.6, sit: 1, bonk: 0, mouth: 0.5, t });
 const s3: Scene = {
   id: 3, t0: T.for - 0.06, mood: "cold", blur: 1.0, dim: 0.9,
   cam: keyed([
@@ -95,7 +98,7 @@ const s3: Scene = {
   ]),
   actors: townA,
   yard: yard(),
-  extra: () => ({}),
+  extra: (t) => ({ dog: townDog(t) }),
   focus: () => head(TOWN1, T1P),
 };
 // 4. the names: a lateral dolly at stone height, each name centered on its word
