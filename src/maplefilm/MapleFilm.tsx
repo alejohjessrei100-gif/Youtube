@@ -10,9 +10,9 @@ import { useFonts } from "../inkbeat/core/frame";
 import { cylG, M, sphG, torG } from "../inkbeat/core/kit";
 import { moodOf } from "../inkbeat/core/moods";
 import { View } from "../inkbeat/core/View";
-import { Mat, Puff, SecCam, Street } from "../maple/world";
+import { Mat, Puff, SECCAM, SecCam, Street } from "../maple/world";
 import { sceneAt } from "./shots";
-import { Kitchen, PoliceCar } from "./world";
+import { Kitchen, PoliceCar, StepStool } from "./world";
 import { DURATION, FPS, SECONDS, WORDS } from "./words";
 
 const LAST = WORDS[WORDS.length - 1][2];
@@ -58,9 +58,10 @@ export const MapleFilm: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
             <Puff u={ex.mat.puff} />
           </>
         ) : null}
+        {ex.stool ? <StepStool p={ex.stool} yaw={-0.6} /> : null}
         {ex.car ? <PoliceCar p={ex.car.p} yaw={ex.car.yaw} t={t} /> : null}
         {ex.heldCam ? (
-          <group position={[ex.heldCam[0] - 2.18, ex.heldCam[1] - 2.0, ex.heldCam[2] - 2.1]}>
+          <group position={[ex.heldCam[0] - SECCAM[0], ex.heldCam[1] - SECCAM[1], ex.heldCam[2] - SECCAM[2]]}>
             <SecCam />
           </group>
         ) : null}

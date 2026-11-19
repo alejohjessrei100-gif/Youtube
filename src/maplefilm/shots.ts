@@ -17,7 +17,7 @@ import { C, hand, head, headPosed, ik, keyed, lerpAng, look, smooth, yawTo } fro
 import { DECK_Y, MAT_C, SECCAM, stepY } from "../maple/world";
 import type { StreetOpts } from "../maple/world";
 import { ALVAREZ, NEIGH_A, NEIGH_B, OFFICER, WALT, WALT_HOOD, WALT_HOOD_DOWN } from "./cast";
-import { KITCHEN } from "./world";
+import { KITCHEN, STOOL_H } from "./world";
 import { SECONDS, WORDS } from "./words";
 
 const PI = Math.PI;
@@ -49,7 +49,7 @@ export const T = {
 
 // ------------------------------------------------------------------ types
 export type Actor = { spec: CharacterSpec; p: V3; yaw: number; pose: BodyPose; face: FaceState; lying?: { p: V3; r: V3 } };
-export type Extra = { mat?: { angle: number; y: number; puff: number }; car?: { p: V3; yaw: number }; heldCam?: V3; mug?: V3; shards?: number; kdoor?: number };
+export type Extra = { mat?: { angle: number; y: number; puff: number }; car?: { p: V3; yaw: number }; heldCam?: V3; mug?: V3; shards?: number; kdoor?: number; stool?: V3 };
 export type Scene = {
   id: number; t0: number; mood: string; blur: number; set: "street" | "kitchen"; opts: (t: number) => StreetOpts;
   cam: (t: number) => Cam; actors: (t: number) => Actor[]; extra: (t: number) => Extra; focus: (t: number) => V3; cctv?: boolean; dip?: boolean;
@@ -107,29 +107,30 @@ const s1: Scene = {
   cam: keyed([
     [0, C([0.3, 2.0, 0.45], [0, 1.0, 6.0], 50)],
     [0.55, C([0.3, 1.95, 0.5], [0, 1.1, 5.2], 48), "linear"],
-    [1.05, C([0.25, 1.75, 0.6], [0, 1.45, 4.4], 30), "inout"],
-    [1.5, C([0.25, 1.75, 0.62], [0, 1.45, 3.5], 30), "linear"],
+    [1.05, C([0.25, 1.75, 0.6], [0, 1.45, 4.4], 38), "inout"],
+    [1.5, C([0.25, 1.75, 0.62], [0, 1.45, 3.5], 40), "linear"],
     [2.05, C([0.4, 2.05, 0.35], [0, 1.0, 3.2], 52), "inout"],
     [2.5, C([0.4, 2.0, 0.38], [0, 1.1, 2.6], 50), "linear"],
-    [3.05, C([0.25, 1.65, 0.6], [0, 1.35, 2.0], 34), "inout"],
-    [3.9, C([0.28, 1.6, 0.58], [0, 1.15, 1.95], 36), "linear"],
-    [4.45, C([0.35, 1.35, 0.25], [0, 0.6, 1.0], 48), "inout"],
-    [4.75, C([0.35, 1.35, 0.26], [0, 0.62, 1.05], 47), "linear"],
-    [5.05, C([0.3, 1.45, 0.3], [0, 0.85, 1.5], 42), "inout"],
-    [T.police, C([0.3, 1.45, 0.32], [0, 0.85, 1.5], 41), "linear"],
+    [3.05, C([0.25, 1.7, 0.55], [0, 1.52, 1.95], 52), "inout"],
+    [3.25, C([0.26, 1.7, 0.56], [0, 1.5, 1.95], 52), "linear"],
+    [3.75, C([0.75, 1.2, 0.3], [-0.05, 0.45, 0.98], 58), "inout"],
+    [4.75, C([0.76, 1.22, 0.32], [-0.05, 0.47, 1.0], 57), "linear"],
+    [5.1, C([1.55, 1.75, 1.7], [0, 0.85, 1.4], 50), "inout"],
+    [T.police, C([1.56, 1.76, 1.72], [0, 0.85, 1.4], 49), "linear"],
   ]),
   actors: (t) => [s1Actor(t).a],
   extra: (t) => {
     const m = matFlip(t, S1F.flip);
     return { mat: { angle: m.angle, y: m.y, puff: m.puff } };
   },
-  focus: (t) => (t < 4.1 ? headPosed(s1Actor(t).a) : [0, 0.5, 0.75]),
+  focus: (t) => (t < 3.3 ? headPosed(s1Actor(t).a) : [0, 0.5, 0.75]),
 };
 
 // ================================================================== 2. day: the police, "Leave it."
 const WALT_P: V3 = [-0.35, DECK_Y, 1.25];
 const OFF_P: V3 = [0.6, 0, 3.4];
 const CAR: { p: V3; yaw: number } = { p: [2.6, 0, 11.2], yaw: PI / 2 };
+const WALT_H = head(WALT, WALT_P);
 const s2Actors = (t: number): Actor[] => {
   const lens = s2.cam(t).pos;
   const yW = lerpAng(yawTo(WALT_P, OFF_P), yawTo(WALT_P, [0.6, 0, 2.5]), 0.3);
@@ -153,77 +154,83 @@ const s2: Scene = {
     [T.sir, C([-1.3, 1.7, 0.57], [0.55, 1.55, 3.4], 29), "linear"],
     [T.crime + 0.2, C([-1.25, 1.68, 0.6], [0.55, 1.55, 3.4], 24), "inout"],
     [T.but - 0.15, C([-1.25, 1.68, 0.6], [0.55, 1.55, 3.4], 24), "linear"],
-    [T.walt - 0.05, C([0.35, 1.65, 0.3], [-0.2, 1.5, 1.4], 40), "inout"],
-    [T.walt + 0.3, C([0.6, 1.55, 2.5], [-0.35, 1.5, 1.25], 36), "inout"],
-    [T.smiled, C([0.58, 1.55, 2.45], [-0.35, 1.52, 1.25], 34), "linear"],
-    [T.smiled + 0.35, C([0.35, 1.55, 2.3], [-0.35, 1.55, 1.25], 26), "inout"],
-    [T.leave + 0.15, C([0.3, 1.55, 2.25], [-0.35, 1.58, 1.25], 24), "inout"],
-    [T.so, C([0.3, 1.55, 2.23], [-0.35, 1.58, 1.25], 23), "linear"],
+    [T.walt - 0.05, C([-1.2, 1.7, 1.95], WALT_H, 52), "in"],
+    [T.walt + 0.3, C([0.6, 1.6, 2.6], WALT_H, 52), "out"],
+    [T.smiled, C([0.58, 1.6, 2.55], WALT_H, 50), "linear"],
+    [T.smiled + 0.35, C([0.4, 1.62, 2.4], WALT_H, 50), "inout"],
+    [T.leave + 0.15, C([0.33, 1.62, 2.32], WALT_H, 50), "inout"],
+    [T.so, C([0.32, 1.62, 2.3], WALT_H, 49), "linear"],
   ]),
   actors: s2Actors,
   extra: () => ({ mat: matUpside, car: CAR }),
-  focus: (t) => (t < T.but - 0.12 ? head(OFFICER, OFF_P) : head(WALT, WALT_P)),
+  focus: (t) => (t < T.but - 0.05 ? head(OFFICER, OFF_P) : head(WALT, WALT_P)),
 };
 
 // ================================================================== 3. day: the neighbours mount the camera
-const NA_P: V3 = [1.8, DECK_Y, 1.75];
-const NB_P: V3 = [-0.25, 0, 3.4];
+const STOOL_P: V3 = [1.9, DECK_Y, 1.85];
+const NA_P: V3 = [1.9, DECK_Y + STOOL_H, 1.85];
+const NB_P: V3 = [1.0, 0, 3.0];
 const MOUNT = T.porch - 0.25;
 const s3Actors = (t: number) => {
   const yA = yawTo(NA_P, SECCAM);
-  const reach = window01(t, T.so, MOUNT + 0.25, 0.3, 0.3);
+  const reach = window01(t, T.so, MOUNT + 0.4, 0.3, 0.3);
   const k = ik(NEIGH_A, NA_P, yA, "R", SECCAM, 4);
-  const pa: BodyPose = { ...REST, lean: 4, armR: mixArm([14, 10], k.arm, reach), armRFwd: lerp(10, k.fwd, reach), headNod: -18 };
   const lens = s3.cam(t).pos;
-  const yB = lerpAng(yawTo(NB_P, SECCAM), yawTo(NB_P, [0.2, 0, 4.6]), 0.35);
+  const after = smooth((t - (MOUNT + 0.3)) / 0.35);
+  const lkA = look(NEIGH_A, NA_P, yA, lens);
+  const pa: BodyPose = { ...REST, lean: 4, armR: mixArm([14, 10], k.arm, reach), armRFwd: lerp(10, k.fwd, reach), headNod: lerp(-18, lkA.headNod, after), headYaw: lkA.headYaw * after };
+  const yB = lerpAng(yawTo(NB_P, SECCAM), yawTo(NB_P, [1.4, 0, 5.7]), 0.6);
   void lens;
   const kb = ik(NEIGH_B, NB_P, yB, "L", add(head(NEIGH_B, NB_P), [0.5, 0.5, -0.4]), 2);
   const point = window01(t, T.so, 99, 0.3, 0.1);
   const pb: BodyPose = { ...REST, armL: mixArm([14, 10], kb.arm, point), armLFwd: lerp(10, kb.fwd, point), ...look(NEIGH_B, NB_P, yB, SECCAM) };
-  return { list: [A(NEIGH_A, NA_P, yA, pa, F("squint", "flat", "neutral")), A(NEIGH_B, NB_P, yB, pb, F("open", flap(t, T.so, T.camera, "smile"), "raised"))], hand: hand(NEIGH_A, NA_P, yA, pa, "R"), reach };
+  return { list: [A(NEIGH_A, NA_P, yA, pa, after > 0.4 ? F("half", "grin", "raised") : F("squint", "flat", "neutral")), A(NEIGH_B, NB_P, yB, pb, F("open", flap(t, T.so, T.camera, "smile"), "raised"))], hand: hand(NEIGH_A, NA_P, yA, pa, "R"), reach };
 };
 const s3: Scene = {
   id: 3, t0: T.so - 0.06, mood: "day", blur: 1.0, set: "street", opts: (t) => ({ night: false, hollowAcross: true, secCam: t >= MOUNT }),
   cam: keyed([
-    [T.so - 0.06, C([0.2, 1.6, 4.6], [1.6, 1.6, 2.2], 44)],
-    [T.camera - 0.35, C([0.25, 1.62, 4.5], [1.65, 1.65, 2.2], 43), "linear"],
-    [T.camera + 0.12, C([1.0, 1.9, 3.1], [2.1, 1.95, 2.1], 28), "inout"],
-    [T.porch - 0.3, C([1.02, 1.9, 3.08], [2.12, 1.95, 2.1], 27), "linear"],
-    [T.porch + 0.2, C([0.8, 1.8, 3.6], [1.5, 1.5, 1.8], 40), "inout"],
-    [T.porch + 0.45, C([0.8, 1.8, 3.62], [1.5, 1.5, 1.8], 40), "linear"],
+    [T.so - 0.06, C([1.4, 1.75, 5.8], [1.45, 1.45, 2.4], 56)],
+    [T.camera - 0.35, C([1.42, 1.76, 5.65], [1.45, 1.5, 2.4], 54), "linear"],
+    [T.camera + 0.12, C([1.9, 2.3, 3.5], [2.0, 2.1, 1.95], 46), "inout"],
+    [T.porch - 0.3, C([1.92, 2.3, 3.45], [2.02, 2.1, 1.97], 45), "linear"],
+    [T.porch + 0.2, C([2.0, 2.35, 4.2], [1.45, 1.55, 1.9], 50), "inout"],
+    [T.porch + 0.45, C([2.0, 2.35, 4.22], [1.45, 1.55, 1.9], 50), "linear"],
   ]),
   actors: (t) => s3Actors(t).list,
-  extra: (t) => ({ mat: matUpside, car: CAR, heldCam: t < MOUNT ? s3Actors(t).hand : undefined }),
-  focus: (t) => (t < T.camera - 0.3 ? head(NEIGH_B, NB_P) : SECCAM),
+  extra: (t) => ({ mat: matUpside, car: CAR, stool: STOOL_P, heldCam: t < MOUNT ? s3Actors(t).hand : undefined }),
+  focus: (t) => (t < T.camera ? [1.45, 1.45, 2.4] : t < T.porch ? SECCAM : [1.45, 1.55, 1.9]),
 };
 
 // ================================================================== 4. night, CCTV: it's Walt
 const S4_WALK: WalkSeg = { t0: T.porch + 0.4, t1: T.walt2 - 0.1, from: [0, 0, 2.9], to: [0, 0, STAND_Z] };
 const HOOD_OFF = T.walt2 + 0.12;
-const S4F = { walk: S4_WALK, crouch: T.every2 + 0.05, flip: T.flipping + 0.2 };
+const S4F = { walk: S4_WALK, crouch: T.every2 + 0.25, flip: T.flipping + 0.2 };
 const s4Actor = (t: number) => {
   const spec = t < HOOD_OFF ? WALT_HOOD : WALT_HOOD_DOWN;
   const f = flipper(spec, t, S4F);
+  const turn = window01(t, HOOD_OFF - 0.1, S4F.crouch - 0.05, 0.45, 0.45);
+  const yaw = lerpAng(PI, yawTo(f.p, SECCAM), 0.6 * turn);
   const hands = window01(t, HOOD_OFF - 0.2, HOOD_OFF + 0.25, 0.12, 0.15);
   const hp = head(spec, f.p, f.pose.sit ?? 0);
-  const kL = ik(spec, f.p, f.yaw, "L", add(hp, [0.2, 0.2, 0.05]), f.pose.lean ?? 0);
-  const kR = ik(spec, f.p, f.yaw, "R", add(hp, [-0.2, 0.2, 0.05]), f.pose.lean ?? 0);
+  const fwd: V3 = [Math.sin(yaw) * 0.05, 0, Math.cos(yaw) * 0.05];
+  const kL = ik(spec, f.p, yaw, "L", add(hp, [0.2 * Math.cos(yaw) * -1 + fwd[0], 0.2, fwd[2] + 0.2 * Math.sin(yaw)]), f.pose.lean ?? 0);
+  const kR = ik(spec, f.p, yaw, "R", add(hp, [0.2 * Math.cos(yaw) + fwd[0], 0.2, fwd[2] - 0.2 * Math.sin(yaw)]), f.pose.lean ?? 0);
   let pose: BodyPose = f.pose;
   if (hands > 0) pose = { ...pose, armL: mixArm(pose.armL!, kL.arm, hands), armLFwd: lerp(pose.armLFwd!, kL.fwd, hands), armR: mixArm(pose.armR!, kR.arm, hands), armRFwd: lerp(pose.armRFwd!, kR.fwd, hands) };
   const up = window01(t, HOOD_OFF + 0.3, S4F.crouch, 0.25, 0.2);
-  const lk = look(spec, f.p, f.yaw, SECCAM, pose.sit ?? 0);
+  const lk = look(spec, f.p, yaw, SECCAM, pose.sit ?? 0);
   pose = { ...pose, headYaw: lk.headYaw * up, headNod: lk.headNod * up };
   const face = t < HOOD_OFF ? F("half", "flat", "neutral") : up > 0.4 ? F("squint", "grin", "raised") : F("closed", "smile", "raised");
-  return { a: A(spec, f.p, f.yaw, pose, face), f };
+  return { a: A(spec, f.p, yaw, pose, face), f };
 };
-const CCTV_LENS: V3 = [2.08, 1.93, 2.02];
+const CCTV_LENS: V3 = [2.08, 2.12, 2.02];
 const s4: Scene = {
   id: 4, t0: T.porch + 0.36, mood: "night", blur: 0.4, set: "street", cctv: true, dip: true, opts: () => ({ night: true, hollowAcross: true, secCam: false }),
   cam: keyed([
     [T.porch + 0.36, C(CCTV_LENS, [0, 0.7, 1.4], 62)],
     [T.walt2 - 0.25, C(CCTV_LENS, [0, 0.8, 1.6], 62), "linear"],
-    [T.walt2 + 0.2, C(CCTV_LENS, [0, 1.45, 1.9], 30), "inout"],
-    [T.every2 - 0.1, C(CCTV_LENS, [0, 1.45, 1.9], 30), "linear"],
+    [T.walt2 + 0.2, C(CCTV_LENS, [0, 1.5, 1.9], 40), "inout"],
+    [T.every2 - 0.1, C(CCTV_LENS, [0, 1.5, 1.9], 40), "linear"],
     [T.every2 + 0.35, C(CCTV_LENS, [0, 0.7, 1.4], 60), "inout"],
     [T.you, C(CCTV_LENS, [0, 0.65, 1.35], 60), "linear"],
   ]),
@@ -238,12 +245,18 @@ const s4: Scene = {
 // ================================================================== 5. morning: across the street, Mrs. Alvarez
 const ALV_P: V3 = [-2.05, 0.04, 18.3];
 const ALV_YAW = PI;
-const POV_LENS: V3 = [-1.45, 1.75, 19.2];
-const FRONT_LENS: V3 = [-1.25, 1.6, 17.45];
+const RUN_TO: V3 = [0.5, 0.04, 18.8];
+/** the whips between her face (+z) and her view of the mat (-z) pan through this side look (keyed lerps look POINTS, so a
+ * straight 180-degree swap would swing the view down through the ground) */
+const SIDE_LOOK: V3 = [1.15, 1.65, 15.4];
+const LAMP_LOOK: V3 = [0.5, 1.2, 0.4];
+// both just outside her window: the lens whips in place between her face and her view of Walt's mat
+const POV_LENS: V3 = [-1.85, 1.75, 15.6];
+const FRONT_LENS: V3 = [-1.95, 1.55, 15.6];
 const MAT_LOOK: V3 = [0, 0.4, 0.65];
 const alvHead = () => head(ALVAREZ, ALV_P);
 const alvActor = (t: number, shock: number, run: number, smileK: number): Actor => {
-  const runW: WalkSeg = { t0: T.ran - 0.05, t1: T.ran + 0.75, from: ALV_P, to: [0.6, 0.04, 18.0] };
+  const runW: WalkSeg = { t0: T.ran - 0.05, t1: T.ran + 0.75, from: ALV_P, to: RUN_TO };
   const w = run > 0 ? walkAt([runW], ALV_P, t, ALVAREZ.height * 1.6) : { p: ALV_P, walk: undefined as number | undefined };
   const yaw = lerpAng(ALV_YAW, yawTo(ALV_P, runW.to), smooth((t - T.ran + 0.45) / 0.8));
   const mugHand = shock < 0.5 && t < T.dropped + 0.05;
@@ -260,36 +273,46 @@ const s5: Scene = {
     [T.across, C([0.35, 1.6, 1.8], [-1.8, 1.7, 17], 40), "linear"],
     [T.alvarez + 0.1, C([-1.8, 1.62, 15.9], [-2.05, 1.45, 18.3], 30), "inout"],
     [T.window - 0.35, C([-1.8, 1.6, 15.95], [-2.05, 1.45, 18.3], 28), "linear"],
-    [T.window + 0.2, C(POV_LENS, MAT_LOOK, 16), "inout"],
+    [T.window - 0.07, C([-1.83, 1.68, 15.75], SIDE_LOOK, 22), "in"],
+    [T.window + 0.2, C(POV_LENS, MAT_LOOK, 16), "out"],
     [T.upside2 - 0.1, C(POV_LENS, MAT_LOOK, 15), "linear"],
     [T.upside2 + 0.3, C(POV_LENS, MAT_LOOK, 8), "inout"],
-    [T.fine - 0.35, C(POV_LENS, MAT_LOOK, 8), "linear"],
-    [T.fine + 0.15, C(FRONT_LENS, [-2.05, 1.42, 18.3], 32), "inout"],
-    [T.lighthouse - 0.3, C(FRONT_LENS, [-2.05, 1.42, 18.3], 31), "linear"],
-    [T.lighthouse + 0.25, C(POV_LENS, [0.95, 1.95, 0.12], 10), "inout"],
-    [T.person - 0.15, C(POV_LENS, [0.95, 1.95, 0.12], 10), "linear"],
-    [T.person + 0.3, C(FRONT_LENS, [-2.05, 1.42, 18.3], 30), "inout"],
+    [T.lighthouse - 0.3, C(POV_LENS, MAT_LOOK, 8), "linear"],
+    [T.lighthouse + 0.2, C(POV_LENS, LAMP_LOOK, 12), "inout"],
+    [T.person - 0.2, C(POV_LENS, LAMP_LOOK, 11.5), "linear"],
+    [T.person + 0.03, C(POV_LENS, SIDE_LOOK, 22), "in"],
+    [T.person + 0.3, C(FRONT_LENS, [-2.05, 1.42, 18.3], 30), "out"],
     [T.then, C(FRONT_LENS, [-2.05, 1.42, 18.3], 29), "linear"],
   ]),
   actors: (t) => [alvActor(t, 0, 0, window01(t, T.fine - 0.2, 99, 0.3, 0.1))],
+  // (her smile starts on "fine" while the lens holds on the mat; it is held when the lens whips back on "person")
   extra: () => ({ mat: matUpside, mug: undefined, car: undefined }),
-  focus: (t) => (t > T.window && t < T.fine ? MAT_LOOK : t > T.lighthouse && t < T.person ? [0.95, 1.95, 0.12] : alvHead()),
+  focus: (t) => (t > T.window && t < T.lighthouse ? MAT_LOOK : t >= T.lighthouse && t < T.person + 0.1 ? LAMP_LOOK : alvHead()),
 };
 // ================================================================== 6. a later morning: the mat is right side up
+const lerpV = (a: V3, b: V3, u: number): V3 => [a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u, a[2] + (b[2] - a[2]) * u];
+const S6_KEYS = keyed([
+  [T.then - 0.06, C(POV_LENS, MAT_LOOK, 12)],
+  [T.mat2 - 0.1, C(POV_LENS, MAT_LOOK, 11), "linear"],
+  [T.mat2 + 0.25, C(POV_LENS, MAT_LOOK, 7), "inout"],
+  [T.up - 0.45, C(POV_LENS, MAT_LOOK, 7), "linear"],
+  [T.up - 0.2, C(POV_LENS, SIDE_LOOK, 18), "in"],
+  [T.up + 0.05, C(FRONT_LENS, [-2.05, 1.42, 18.3], 30), "out"],
+  [T.dropped - 0.05, C(FRONT_LENS, [-2.05, 1.42, 18.3], 32), "linear"],
+  // through the open window, down with the falling cup
+  [T.dropped + 0.15, C([-1.85, 1.5, 17.45], [-1.95, 1.0, 18.0], 46), "in"],
+  [T.dropped + 0.45, C([-2.8, 1.3, 17.95], [-1.95, 0.35, 18.0], 50), "out"],
+  [T.ran - 0.05, C([-2.8, 1.32, 17.96], [-1.95, 0.4, 18.0], 50), "linear"],
+  [T.ran + 0.45, C([-2.6, 1.6, 18.1], RUN_TO, 52), "inout"],
+  [T.walt3, C([-2.6, 1.61, 18.12], RUN_TO, 52), "linear"],
+]);
 const s6: Scene = {
   id: 6, t0: T.then - 0.06, mood: "golden", blur: 1.0, set: "street", dip: true, opts: () => ({ night: false, hollowAcross: true, secCam: true }),
-  cam: keyed([
-    [T.then - 0.06, C(POV_LENS, MAT_LOOK, 12)],
-    [T.mat2 - 0.1, C(POV_LENS, MAT_LOOK, 11), "linear"],
-    [T.mat2 + 0.25, C(POV_LENS, MAT_LOOK, 7), "inout"],
-    [T.up - 0.45, C(POV_LENS, MAT_LOOK, 7), "linear"],
-    [T.up + 0.05, C(FRONT_LENS, [-2.05, 1.42, 18.3], 30), "inout"],
-    [T.dropped - 0.05, C(FRONT_LENS, [-2.05, 1.42, 18.3], 30), "linear"],
-    [T.dropped + 0.45, C([-0.4, 1.0, 17.9], [-2.0, 0.15, 18.05], 46), "inout"],
-    [T.ran - 0.05, C([-0.4, 1.0, 17.92], [-2.0, 0.2, 18.1], 46), "linear"],
-    [T.ran + 0.5, C([-0.2, 1.5, 19.4], [0.4, 1.2, 18.0], 44), "inout"],
-    [T.walt3, C([-0.2, 1.5, 19.45], [0.6, 1.2, 18.0], 44), "linear"],
-  ]),
+  cam: (t) => {
+    const k = S6_KEYS(t);
+    const b = smooth((t - (T.ran - 0.3)) / 0.5);
+    return b > 0 ? C(k.pos, lerpV(k.look, headPosed(alvActor(t, 1, 1, 0)), b), k.fov) : k;
+  },
   actors: (t) => [alvActor(t, window01(t, T.up - 0.15, 99, 0.12, 0.1), t > T.ran - 0.05 ? 1 : 0, 0)],
   extra: (t) => {
     const fall = Math.max(0, t - (T.dropped + 0.05));
@@ -297,25 +320,29 @@ const s6: Scene = {
     const broke = fall > 0.44;
     return { mat: matUpright, mug: broke ? undefined : mug, shards: broke ? Math.min(1, (fall - 0.44) / 0.4) : 0 };
   },
-  focus: (t) => (t < T.up - 0.3 ? MAT_LOOK : t < T.dropped ? alvHead() : t < T.ran - 0.1 ? [-1.95, 0.4, 18.0] : headPosed(alvActor(t, 1, 1, 0))),
+  focus: (t) => (t < T.up - 0.3 ? MAT_LOOK : t < T.dropped + 0.3 ? alvHead() : t < T.ran - 0.05 ? [-1.95, 0.4, 18.0] : headPosed(alvActor(t, 1, 1, 0))),
 };
 
 // ================================================================== 7. Walt's kitchen
 const K = (x: number, y: number, z: number): V3 => [KITCHEN[0] + x, KITCHEN[1] + y, KITCHEN[2] + z];
 const WALT_LIE: { p: V3; r: V3 } = { p: K(-0.5, 0.12, 0.2), r: [-PI / 2 + 0.28, 0, 0] };
+const IN0 = T.fallen + 0.35;
 const ALV_IN: WalkSeg[] = [
-  { t0: T.fallen, t1: T.fallen + 0.35, from: K(3.7, 0, 1.2), to: K(2.6, 0, 1.2) },
-  { t0: T.fallen + 0.35, t1: T.fallen + 0.75, from: K(2.6, 0, 1.2), to: K(2.25, 0, -0.55) },
-  { t0: T.fallen + 0.75, t1: T.fallen + 1.3, from: K(2.25, 0, -0.55), to: K(0.15, 0, -0.75) },
+  { t0: IN0, t1: IN0 + 0.35, from: K(3.7, 0, 1.2), to: K(2.6, 0, 1.2) },
+  { t0: IN0 + 0.35, t1: IN0 + 0.75, from: K(2.6, 0, 1.2), to: K(2.25, 0, -0.55) },
+  { t0: IN0 + 0.75, t1: IN0 + 1.3, from: K(2.25, 0, -0.55), to: K(0.15, 0, -0.75) },
 ];
+const WALT_LIE_HEAD = (): V3 => { const y = head(WALT, [0, 0, 0])[1]; return [WALT_LIE.p[0], WALT_LIE.p[1] + y * Math.cos(WALT_LIE.r[0]), WALT_LIE.p[2] + y * Math.sin(WALT_LIE.r[0])]; };
 const s7Actors = (t: number): Actor[] => {
   const w = walkAt(ALV_IN, ALV_IN[0].from, t, ALVAREZ.height * 1.5);
   const seg = ALV_IN.find((s) => t >= s.t0 && t < s.t1);
   // heading follows the actual travel (a short look-behind / ahead), so the corners turn smoothly
-  const qa = walkAt(ALV_IN, ALV_IN[0].from, t - 0.3).p;
-  const qb = walkAt(ALV_IN, ALV_IN[0].from, t + 0.3).p;
-  const moving = Math.hypot(qb[0] - qa[0], qb[2] - qa[2]) > 0.05;
-  const yaw = moving ? Math.atan2(qb[0] - qa[0], qb[2] - qa[2]) : lerpAng(Math.atan2(-2.1, -0.2), -PI / 2, smooth((t - ALV_IN[2].t1) / 0.3));
+  // heading from a time-averaged path (mean of positions over +-0.35 s), so corners turn smoothly
+  const avg = (u: number): V3 => { let x = 0, z = 0; for (let k = -7; k <= 7; k++) { const q = walkAt(ALV_IN, ALV_IN[0].from, u + k * 0.05).p; x += q[0]; z += q[2]; } return [x / 15, 0, z / 15]; };
+  const qa = avg(t - 0.06);
+  const qb = avg(t + 0.06);
+  const moving = Math.hypot(qb[0] - qa[0], qb[2] - qa[2]) > 0.004;
+  const yaw = t < IN0 - 0.4 ? -PI / 2 : t < ALV_IN[2].t1 && moving ? Math.atan2(qb[0] - qa[0], qb[2] - qa[2]) : lerpAng(Math.atan2(-2.1, -0.2), -PI / 2, smooth((t - ALV_IN[2].t1) / 0.3));
   const crouch = smooth((t - (ALV_IN[2].t1 + 0.05)) / 0.3);
   const hp = head(WALT, [0, 0, 0]);
   void hp;
@@ -323,24 +350,24 @@ const s7Actors = (t: number): Actor[] => {
   const pa: BodyPose = { ...REST, walk: w.walk, lean: seg ? 12 : 6 + 22 * crouch, sit: 0.85 * crouch, armR: mixArm([14, 10], reachW.arm, crouch), armRFwd: lerp(10, reachW.fwd, crouch) };
   const fa = t < T.waited ? F("huge", "gasp", "high", { sweat: true }) : F("wide", "frown", "worried");
   const wave = window01(t, T.waited + 0.1, 99, 0.3, 0.1);
-  const pw: BodyPose = { ...REST, armR: [60 + 30 * wave + 12 * Math.sin(t * 5) * wave, 50], armRFwd: 40, armL: [20, 30], armLFwd: 30, headNod: -20, headYaw: 20 * wave };
+  const pw: BodyPose = { ...REST, armR: [60 + 30 * wave + 12 * Math.sin(t * 5) * wave, 50], armRFwd: 40, armL: [20, 30], armLFwd: 30, headNod: -20, headYaw: 40 * wave };
   const fw = t < T.kitchen ? F("closed", "grimace", "worried") : F("half", "smile", "worried", { sweat: t < T.waited });
   return [{ ...A(WALT, [0, 0, 0], 0, pw, fw), lying: WALT_LIE }, A(ALVAREZ, w.p, yaw, pa, fa)];
 };
 const s7: Scene = {
   id: 7, t0: T.walt3 - 0.06, mood: "day", blur: 1.1, set: "kitchen", opts: () => ({}),
   cam: keyed([
-    [T.walt3 - 0.06, C(K(0.3, 1.0, 1.7), K(-0.5, 0.35, -0.9), 44)],
-    [T.fallen + 0.1, C(K(0.15, 0.75, 0.05), K(-0.5, 0.45, -1.0), 34), "inout"],
-    [T.kitchen - 0.35, C(K(0.13, 0.75, 0.07), K(-0.5, 0.45, -1.0), 33), "linear"],
-    [T.kitchen + 0.15, C(K(-1.6, 1.6, 1.9), K(1.0, 1.0, 0.0), 54), "inout"],
-    [T.waited - 0.15, C(K(-1.6, 1.6, 1.88), K(0.6, 0.9, -0.3), 52), "linear"],
-    [T.waited + 0.3, C(K(-1.4, 1.1, 0.3), K(-0.25, 0.6, -0.8), 38), "inout"],
-    [T.now, C(K(-1.38, 1.1, 0.32), K(-0.25, 0.6, -0.8), 37), "linear"],
+    [T.walt3 - 0.06, C(K(-0.2, 2.0, 0.6), WALT_LIE_HEAD(), 40)],
+    [T.kitchen - 0.25, C(K(-0.25, 1.9, 0.3), WALT_LIE_HEAD(), 36), "linear"],
+    [T.kitchen + 0.2, C(K(-1.7, 1.75, -1.2), K(2.6, 1.3, 1.0), 52), "inout"],
+    [T.waited - 0.05, C(K(-1.7, 1.75, -1.15), K(1.3, 1.1, -0.3), 52), "linear"],
+    // low, from the left wall side: her face and Walt's profile in one portrait frame
+    [T.waited + 0.75, C(K(-2.0, 0.9, -0.9), K(-0.4, 0.68, -0.95), 60), "inout"],
+    [T.now, C(K(-1.97, 0.9, -0.9), K(-0.4, 0.69, -0.95), 58), "linear"],
   ]),
   actors: s7Actors,
-  extra: (t) => ({ kdoor: smooth((t - (T.fallen + 0.05)) / 0.3) }),
-  focus: (t) => (t < T.kitchen ? K(-0.5, 0.4, -1.1) : t < T.waited ? K(2.0, 1.2, 0.5) : K(-0.3, 0.5, -0.8)),
+  extra: (t) => ({ kdoor: smooth((t - (IN0 + 0.05)) / 0.3) }),
+  focus: (t) => (t < T.kitchen + 0.1 ? WALT_LIE_HEAD() : headPosed(s7Actors(t)[1])),
 };
 
 // ================================================================== 8. the street: every house flips its mat
@@ -353,13 +380,13 @@ const s8Actors = (t: number): Actor[] => {
     void lens;
     return A(spec, p, yaw, { ...WAVE(t + k, wave(k), REST, side), ...look(spec, p, yaw, end) }, F("closed", "grin", "raised", { flush: 0.25 }));
   };
-  return [mk(WALT, [-0.45, DECK_Y, 1.25], 0), mk(ALVAREZ, [0.45, DECK_Y, 1.3], 1, "L"), mk(NEIGH_A, [-8.75, 0, 1.8], 2), mk(NEIGH_B, [8.75, 0, 1.8], 3), mk(OFFICER, [1.6, 0, 9.6], 4)];
+  return [mk(WALT, [-0.65, DECK_Y, 1.25], 0), mk(ALVAREZ, [0.65, DECK_Y, 1.3], 1, "L"), mk(NEIGH_A, [-8.75, 0, 1.8], 2), mk(NEIGH_B, [8.75, 0, 1.8], 3), mk(OFFICER, [1.6, 0, 9.6], 4)];
 };
 const s8: Scene = {
   id: 8, t0: T.now - 0.06, mood: "golden", blur: 0.8, set: "street", opts: () => ({ night: false, hollowAcross: true, secCam: true, allMats: true }),
   cam: keyed([
-    [T.now - 0.06, C([0.6, 0.75, 2.4], [0, 0.45, 0.7], 44)],
-    [T.house3 - 0.3, C([0.6, 0.78, 2.45], [0, 0.48, 0.7], 44), "linear"],
+    [T.now - 0.06, C([0, 1.35, 2.75], [0, 0.35, 0.7], 46)],
+    [T.house3 - 0.3, C([0, 1.4, 2.8], [0, 0.4, 0.7], 46), "linear"],
     [T.house3 + 0.15, C([0.2, 1.9, 5.8], [0, 1.3, 1.0], 44), "inout"],
     [T.street2 - 0.15, C([0.2, 1.95, 6.0], [0, 1.3, 1.0], 44), "linear"],
     [T.flips + 0.15, C([0.5, 6.5, 15.5], [0, 0.6, 1.0], 46), "inout"],

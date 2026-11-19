@@ -5,6 +5,19 @@ import { boxG, coreMat, cylG, Label, M, sphG, torG } from "../inkbeat/core/kit";
 import type { V3 } from "../inkbeat/types";
 
 const PI = Math.PI;
+/** a two-step wooden step stool (the neighbour stands on it to mount the porch camera); top at y + 0.45 */
+export const STOOL_H = 0.45;
+export const StepStool: React.FC<{ p: V3; yaw?: number }> = ({ p, yaw = 0 }) => (
+  <group position={p} rotation={[0, yaw, 0]}>
+    <M g={boxG(0.44, 0.05, 0.36)} c="#a0703e" tex="wood" p={[0, STOOL_H - 0.025, 0]} />
+    <M g={boxG(0.44, 0.04, 0.2)} c="#a0703e" tex="wood" p={[0, 0.22, 0.26]} />
+    {[[-0.19, -0.15], [0.19, -0.15], [-0.19, 0.15], [0.19, 0.15]].map(([x, z], i) => (
+      <M key={i} g={boxG(0.04, STOOL_H - 0.05, 0.04)} c="#7a5230" tex="wood" p={[x, (STOOL_H - 0.05) / 2, z]} />
+    ))}
+    {[-0.19, 0.19].map((x) => <M key={x} g={boxG(0.04, 0.24, 0.04)} c="#7a5230" tex="wood" p={[x, 0.12, 0.34]} />)}
+    <M g={boxG(0.3, 0.012, 0.2)} c="#e8e0c8" p={[0, STOOL_H + 0.007, 0]} cast={false} />
+  </group>
+);
 export const PoliceCar: React.FC<{ p: V3; yaw: number; t: number }> = ({ p, yaw, t }) => {
   const blink = Math.floor(t * 4) % 2;
   return (
@@ -43,6 +56,7 @@ export const KITCHEN_BOXES = [
   { n: "table", min: [0.6, 0, -0.1], max: [1.9, 0.8, 0.8] }, { n: "chair", min: [0.05, 0, 0.8], max: [0.55, 0.6, 1.3] },
   { n: "left wall", min: [-3.2, 0, -2.6], max: [-3.0, 3, 2.6] }, { n: "back wall", min: [-3.2, 0, -2.7], max: [3.2, 3, -2.5] },
   { n: "right wall", min: [3.0, 0, -2.6], max: [3.2, 3, 0.4] }, { n: "right wall 2", min: [3.0, 0, 1.78], max: [3.2, 3, 2.6] },
+  { n: "open door leaf", min: [1.9, 0, 1.74], max: [3.0, 2.1, 1.84] },
 ];
 const Tile: React.FC<{ x: number; z: number; dark: boolean }> = ({ x, z, dark }) => <M g={boxG(0.5, 0.04, 0.5)} c={dark ? "#3a5a7a" : "#e8e2d4"} p={[x, 0.02, z]} cast={false} />;
 export const Kitchen: React.FC<{ doorOpen: number; t: number }> = ({ doorOpen, t }) => (
@@ -64,10 +78,10 @@ export const Kitchen: React.FC<{ doorOpen: number; t: number }> = ({ doorOpen, t
       <M key={i} g={boxG(w, h, 0.08)} c="#f4ece0" p={[x, y, -2.43]} cast={false} />
     ))}
     <pointLight position={[-0.6, 2.0, -1.6]} color="#ffe0b0" intensity={6} distance={8} decay={1.4} />
-    {/* the door: it swings open into the room */}
-    <group position={[3.0, 0, 0.65]} rotation={[0, -doorOpen * 1.6, 0]}>
-      <M g={boxG(0.06, 2.1, 1.1)} c="#6a4a32" tex="wood" p={[0, 1.05, 0.55]} />
-      <M g={sphG(0.04, 8)} c="#d8b040" p={[-0.06, 1.0, 0.95]} />
+    {/* the door: hinged on the far (+z) jamb, it swings open into the room behind whoever comes in */}
+    <group position={[3.0, 0, 1.75]} rotation={[0, doorOpen * 1.6, 0]}>
+      <M g={boxG(0.06, 2.1, 1.1)} c="#6a4a32" tex="wood" p={[0, 1.05, -0.55]} />
+      <M g={sphG(0.04, 8)} c="#d8b040" p={[-0.06, 1.0, -0.95]} />
     </group>
     {/* counter run, sink, stove, upper cabinets, fridge */}
     <M g={boxG(4.2, 0.9, 0.6)} c="#4a7a8a" tex="wood" p={[-0.9, 0.45, -2.18]} />

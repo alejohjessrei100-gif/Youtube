@@ -4,6 +4,7 @@
 // trees, far hills, a cat on the fence, fireflies, moths round the lamp. Every flat surface is a separate solid with a
 // gap of >= 2 cm: nothing coplanar. Obstacles are exported for the every-frame checker.
 import React from "react";
+import * as THREE from "three";
 import { boxG, coneG, coreMat, cylG, Label, M, sphG, torG } from "../inkbeat/core/kit";
 import type { V3 } from "../inkbeat/types";
 import { Tuft } from "../gull/world";
@@ -29,13 +30,21 @@ export const BOXES: Box[] = [
   { n: "pot 1", min: [-1.0, 0.3, 0.2], max: [-0.6, 0.85, 0.6] }, { n: "pot 2", min: [0.65, 0.3, 0.15], max: [1.05, 0.85, 0.55] },
   { n: "pot 3", min: [1.85, 0.3, 0.85], max: [2.25, 0.85, 1.25] }, { n: "pot 4", min: [-2.2, 0.3, 1.7], max: [-1.8, 0.85, 2.1] },
   { n: "table", min: [-1.95, 0.3, 0.4], max: [-1.55, 0.9, 0.7] },
-  { n: "fence L", min: [-8, 0, FENCE_Z - 0.05], max: [-0.7, 0.95, FENCE_Z + 0.05] }, { n: "fence R", min: [0.7, 0, FENCE_Z - 0.05], max: [8, 0.95, FENCE_Z + 0.05] },
+  { n: "fence L", min: [-8, 0, FENCE_Z - 0.05], max: [-0.95, 0.95, FENCE_Z + 0.05] }, { n: "fence R", min: [0.95, 0, FENCE_Z - 0.05], max: [8, 0.95, FENCE_Z + 0.05] },
   { n: "street lamp", min: [3.4, 0, 7.9], max: [3.6, 3.6, 8.1] },
   { n: "tree L", min: [-7.4, 0, 2.6], max: [-6.6, 4.5, 3.4] }, { n: "tree R", min: [6.6, 0, 3.0], max: [7.4, 4.5, 3.8] },
   { n: "across house", min: [-4, 0, 17], max: [4, 3.4, 22] },
   { n: "hedge L", min: [-3.4, 0, 3.4], max: [-1.9, 0.9, 4.6] }, { n: "hedge R", min: [1.9, 0, 3.4], max: [3.4, 0.9, 4.6] },
   { n: "left house", min: [-12.5, 0, -4], max: [-5, 3, 0.5] }, { n: "right house", min: [5, 0, -4], max: [12.5, 3, 0.5] },
 ];
+// unfogged, untonemapped glow (the street fog at 15 m otherwise washes a lamp glow into the wall)
+const glowCache = new Map<string, THREE.MeshBasicMaterial>();
+const glowMat = (col: string, k: number) => {
+  const key = `${col}|${k.toFixed(2)}`;
+  let m = glowCache.get(key);
+  if (!m) { m = new THREE.MeshBasicMaterial({ color: new THREE.Color(col).multiplyScalar(k), toneMapped: false, fog: false }); glowCache.set(key, m); }
+  return m;
+};
 // ------------------------------------------------------------------ small parts
 const Window: React.FC<{ p: V3; w?: number; h?: number; lit?: boolean; curtain?: boolean; watcher?: boolean; dz?: number }> = ({ p, w = 0.9, h = 1.0, lit = true, curtain, watcher, dz = 1 }) => (
   <group position={p}>
@@ -138,9 +147,9 @@ export const Puff: React.FC<{ u: number }> = ({ u }) => (
   </group>
 );
 // ------------------------------------------------------------------ the security camera the neighbours mount on the right porch post
-export const SECCAM: V3 = [2.18, 2.0, 2.1];
+export const SECCAM: V3 = [2.18, 2.2, 2.1];
 export const SecCam: React.FC = () => (
-  <group position={SECCAM} rotation={[0.35, -2.6, 0]}>
+  <group position={SECCAM} rotation={[0.5, -2.6, 0]}>
     <M g={boxG(0.06, 0.06, 0.12)} c="#d8d8dc" p={[0, 0, -0.06]} />
     <M g={boxG(0.12, 0.11, 0.2)} c="#e8e8ec" p={[0, -0.04, 0.08]} />
     <M g={cylG(0.035, 0.035, 0.03, 12)} c="#1a1a20" p={[0, -0.04, 0.19]} r={[Math.PI / 2, 0, 0]} />
@@ -150,7 +159,7 @@ export const SecCam: React.FC = () => (
 // ------------------------------------------------------------------ the house across the street, hollow: a front wall with a real window hole, a kitchen behind it
 export const ALV_WIN: V3 = [-1.8, 1.7, 17];
 const AcrossHollow: React.FC<{ night: boolean }> = ({ night }) => {
-  const W0 = -4, W1 = 4, Z0 = 17, D = 5, H = 3.4, hx0 = -2.35, hx1 = -1.25, hy0 = 1.2, hy1 = 2.2, T = 0.15;
+  const W0 = -4, W1 = 4, Z0 = 17, D = 5, H = 3.4, hx0 = -2.35, hx1 = -1.25, hy0 = 1.05, hy1 = 2.1, T = 0.15;
   return (
     <group>
       {/* front wall around the window hole */}
@@ -159,7 +168,7 @@ const AcrossHollow: React.FC<{ night: boolean }> = ({ night }) => {
       <M g={boxG(hx1 - hx0, hy0, T)} c="#b0a090" tex="planks" p={[(hx0 + hx1) / 2, hy0 / 2, Z0 + T / 2]} />
       <M g={boxG(hx1 - hx0, H - hy1, T)} c="#b0a090" tex="planks" p={[(hx0 + hx1) / 2, (hy1 + H) / 2, Z0 + T / 2]} />
       {/* window frame (outside) and sash bars; glass left open so the lens sees through */}
-      {[[(hx0 + hx1) / 2, hy1 + 0.05, hx1 - hx0 + 0.2, 0.1], [(hx0 + hx1) / 2, hy0 - 0.05, hx1 - hx0 + 0.2, 0.1], [hx0 - 0.05, (hy0 + hy1) / 2, 0.1, hy1 - hy0], [hx1 + 0.05, (hy0 + hy1) / 2, 0.1, hy1 - hy0], [(hx0 + hx1) / 2, (hy0 + hy1) / 2, 0.04, hy1 - hy0]].map(([x, y, w, h], i) => (
+      {[[(hx0 + hx1) / 2, hy1 + 0.05, hx1 - hx0 + 0.2, 0.1], [(hx0 + hx1) / 2, hy0 - 0.05, hx1 - hx0 + 0.2, 0.1], [hx0 - 0.05, (hy0 + hy1) / 2, 0.1, hy1 - hy0], [hx1 + 0.05, (hy0 + hy1) / 2, 0.1, hy1 - hy0]].map(([x, y, w, h], i) => (
         <M key={i} g={boxG(w, h, 0.1)} c="#e8e0d0" p={[x, y, Z0 - 0.04]} cast={false} />
       ))}
       <M g={boxG(hx1 - hx0 + 0.3, 0.06, 0.3)} c="#e8e0d0" p={[(hx0 + hx1) / 2, hy0 - 0.03, Z0 + 0.2]} />
@@ -176,8 +185,8 @@ const AcrossHollow: React.FC<{ night: boolean }> = ({ night }) => {
       <M g={boxG(2.5, 0.05, 0.65)} c="#e8e4dc" p={[-1.8, 0.93, Z0 + T + 0.32]} />
       <M g={boxG(0.5, 0.06, 0.4)} c="#a8acb4" p={[-1.8, 0.94, Z0 + T + 0.32]} />
       <M g={cylG(0.02, 0.02, 0.3, 8)} c="#c8ccd4" p={[-1.8, 1.1, Z0 + T + 0.12]} />
-      {[-2.15, -1.45].map((x, k) => (
-        <group key={x} position={[x, 1.22, Z0 + T + 0.1]}>
+      {[-2.25, -1.35].map((x, k) => (
+        <group key={x} position={[x, hy0 + 0.02, Z0 + T + 0.1]}>
           <M g={cylG(0.07, 0.05, 0.12, 10)} c={k ? "#c8603a" : "#4a7a8a"} p={[0, 0.06, 0]} />
           <M g={sphG(0.1, 8)} c="#3e7a40" p={[0, 0.18, 0]} />
         </group>
@@ -188,8 +197,8 @@ const AcrossHollow: React.FC<{ night: boolean }> = ({ night }) => {
       <M g={cylG(0.05, 0.05, 0.72, 8)} c="#6a4a2a" p={[0.4, 0.36, Z0 + 2.6]} />
       <M g={boxG(1.0, 2.1, 0.06)} c="#6a3a2a" tex="wood" p={[1.5, 1.05, Z0 + 0.12]} />
       {/* curtains inside the window, a clock, a calendar, a hanging lamp */}
-      <M g={boxG(0.32, 1.1, 0.03)} c="#a04a3a" p={[hx0 + 0.08, 1.75, Z0 + T + 0.04]} cast={false} />
-      <M g={boxG(0.32, 1.1, 0.03)} c="#a04a3a" p={[hx1 - 0.08, 1.75, Z0 + T + 0.04]} cast={false} />
+      <M g={boxG(0.32, 1.1, 0.03)} c="#a04a3a" p={[hx0 + 0.08, (hy0 + hy1) / 2 + 0.05, Z0 + T + 0.04]} cast={false} />
+      <M g={boxG(0.32, 1.1, 0.03)} c="#a04a3a" p={[hx1 - 0.08, (hy0 + hy1) / 2 + 0.05, Z0 + T + 0.04]} cast={false} />
       <M g={cylG(0.17, 0.17, 0.03, 20)} c="#f4ead6" p={[0.5, 2.5, Z0 + D - T - 0.08]} r={[Math.PI / 2, 0, 0]} />
       <Label text="NOV" p={[-0.6, 2.2, Z0 + D - T - 0.08]} r={[0, Math.PI, 0]} w={0.34} h={0.4} fg="#c83a3a" bg="#f4ead6" />
       <mesh geometry={sphG(0.14, 10)} position={[-1.0, 2.8, Z0 + 1.5]} material={coreMat("#ffe0a0", night ? 2.2 : 1.3)} userData={{ outline: false }} />
@@ -251,8 +260,22 @@ export const Street: React.FC<{ t: number } & StreetOpts> = ({ t, night = true, 
     ))}
     <group position={[0.95, 1.95, 0.12]}>
       <M g={boxG(0.16, 0.26, 0.1)} c="#2a2a30" p={[0, 0, 0]} />
-      <mesh geometry={boxG(0.11, 0.2, 0.06)} position={[0, 0, 0.07]} material={coreMat("#ffd890", (night ? 2.4 : 1.2) + 3 * lampFlare)} userData={{ outline: false }} />
+      <mesh geometry={boxG(0.11, 0.2, 0.06)} position={[0, 0, 0.07]} material={lampFlare > 0.01 ? glowMat("#fffbf0", 1.6 + 1.0 * lampFlare) : coreMat("#ffd890", night ? 2.4 : 1.2)} userData={{ outline: false }} />
       {night || lampFlare > 0 ? <pointLight position={[0, 0, 0.6]} color="#ffc070" intensity={(night ? 9 : 0) + 14 * lampFlare} distance={9 + 8 * lampFlare} decay={1.6} /> : null}
+      {lampFlare > 0.01 ? (
+        <>
+          {/* an opaque toon glow (transparent meshes do not survive the ink pass): a bright halo disc and eight rays,
+              9 cm off the wall, scaled in with the flare */}
+          <group position={[0, 0, -0.03]} scale={[lampFlare, lampFlare, 1]}>
+            <mesh geometry={cylG(0.27, 0.27, 0.01, 28)} rotation={[Math.PI / 2, 0, 0]} material={glowMat("#ff9a1a", 1.15)} userData={{ outline: false }} />
+            {Array.from({ length: 8 }, (_, k) => (
+              <group key={k} rotation={[0, 0, (k * Math.PI) / 4 + 0.2]}>
+                <mesh geometry={boxG(0.05, 0.2, 0.01)} position={[0, 0.42, 0]} material={glowMat("#ff7a0a", 1.1)} userData={{ outline: false }} />
+              </group>
+            ))}
+          </group>
+        </>
+      ) : null}
       {lampFlare > 0.01 ? <mesh geometry={coneG(1.4, 9, 20)} position={[0, 0, 4.6]} rotation={[-Math.PI / 2, 0, 0]} material={coreMat("#ffe8b0", 1.2, 0.12 * lampFlare)} userData={{ outline: false }} /> : null}
     </group>
     <group position={[-1.85, DECK_Y, 0.95]} rotation={[0, 0.5, 0]}>
@@ -300,7 +323,7 @@ export const Street: React.FC<{ t: number } & StreetOpts> = ({ t, night = true, 
       <M key={i} g={boxG(0.07, 0.01, 0.05)} c={["#a8782e", "#8a5a2a", "#6a7a2e"][i % 3]} p={[(h1(i + 40) - 0.5) * 10, 0.025, 4 + h1(i + 50) * 4]} r={[0, h1(i) * 6, 0]} cast={false} />
     ))}
     {/* fence with a gate gap, the mailbox, the street lamp, the cat */}
-    {[[-8, -0.7], [0.7, 8]].map(([a, b], s) => (
+    {[[-8, -0.95], [0.95, 8]].map(([a, b], s) => (
       <group key={s}>
         <M g={boxG(b - a, 0.05, 0.04)} c="#e8e0d0" p={[(a + b) / 2, 0.7, FENCE_Z]} />
         <M g={boxG(b - a, 0.05, 0.04)} c="#e8e0d0" p={[(a + b) / 2, 0.3, FENCE_Z]} />
