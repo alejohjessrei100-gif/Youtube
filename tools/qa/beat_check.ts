@@ -17,7 +17,7 @@ for (let f = 0; f < Math.round(SECONDS * 30); f++) {
   if (d3(lens, o.ball as V) < 0.3) add("lens too close to the ball", t);
   for (let k = 1; k < 40; k++) { const u = k / 40; const q: V = [lens[0] + (fo[0] - lens[0]) * u, lens[1] + (fo[1] - lens[1]) * u, lens[2] + (fo[2] - lens[2]) * u]; if (d3(fo, hd) > 0.35 && d3(q, hd) < 0.27) { add("Okafor's head blocks the lens -> focus line", t); break; } }
   const h = hand(o.spec, o.p, o.yaw, o.pose, "R");
-  if (o.grip > 0.95 && d3(h, o.ball as V) > 0.06) add(`ball ${d3(h, o.ball as V).toFixed(3)} m from the hand while gripped`, t);
+  if (o.grip > 0.95 && d3(h, o.ball as V) > 0.09) add(`ball ${d3(h, o.ball as V).toFixed(3)} m from the hand while gripped`, t);
   for (const v of [o.pose.armR?.[0], o.pose.armR?.[1], o.pose.armRFwd]) if (v !== undefined && (v < -25 || v > 165)) add("arm angle out of range", t);
   if (t > 4.15) { const fy = o.yaw + ((o.pose.headYaw ?? 0) * Math.PI) / 180; const to = Math.atan2(lens[0] - hd[0], lens[2] - hd[2]); const off = Math.abs(Math.atan2(Math.sin(to - fy), Math.cos(to - fy))) * 180 / Math.PI; if (off > 50) add(`face ${off.toFixed(0)} deg from the lens`, t); }
   if (o.ball[1] < BALL_END[1] - 0.005) add("ball below the board", t);

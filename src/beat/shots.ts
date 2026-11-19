@@ -23,8 +23,8 @@ export const MOVES: { start: number; land: number; word: string }[] = [
 ];
 export const OK: V3 = [0.05, 0, 0.82];
 export const OK_YAW = Math.PI - 0.1;
-const HOLD: V3 = [0.14, 1.12, 0.52];
-export const BALL_END: V3 = [-0.0325, BOARD_Y + 0.045, 0.26];
+const HOLD: V3 = [0.2, 1.1, 0.42];
+export const BALL_END: V3 = [-0.0325, BOARD_Y + 0.065, 0.26];
 const CROW_HEAD: V3 = [CROW_SPOT[0], TABLE_H + 0.9 * 0.62, CROW_SPOT[2]];
 export const ballAt = (t: number): V3 => {
   const u = smooth((t - 1.25) / 0.55);
@@ -36,20 +36,21 @@ export const ballAt = (t: number): V3 => {
 export const cam = keyed([
   [0, C([-0.25, 1.0, -1.45], [0.05, 1.15, 0.82], 44)],
   [0.55, C([-0.2, 1.0, -1.3], [0.05, 1.15, 0.8], 42), "linear"],
-  [1.0, C([0.0, 1.2, 0.0], [0.12, 1.1, 0.52], 30), "inout"],
-  [1.25, C([0.0, 1.2, 0.05], [0.12, 1.1, 0.5], 29), "linear"],
+  [1.0, C([0.05, 1.2, -0.1], [0.2, 1.1, 0.42], 32), "inout"],
+  [1.25, C([0.05, 1.2, -0.05], [0.2, 1.1, 0.4], 31), "linear"],
   [1.65, C([-0.3, 1.0, -0.2], [-0.03, 0.68, 0.26], 30), "inout"],
   [2.0, C([-0.28, 0.95, -0.15], [-0.03, 0.68, 0.26], 28), "linear"],
   [2.5, C([-0.15, 0.95, -0.85], [0.43, 0.9, -0.02], 30), "inout"],
   [3.65, C([-0.1, 0.95, -0.8], [0.43, 0.9, -0.02], 28), "linear"],
-  [4.15, C([0.0, 1.5, 0.1], [0.05, 1.45, 0.82], 28), "inout"],
-  [SECONDS, C([0.0, 1.5, 0.13], [0.05, 1.45, 0.82], 26), "linear"],
+  [4.15, C([0.0, 1.5, 0.1], [0.05, 1.42, 0.82], 44), "inout"],
+  [SECONDS, C([0.0, 1.5, 0.14], [0.05, 1.42, 0.82], 41), "linear"],
 ]);
 const flap = (t: number, a: number, b: number, base: FaceState["mouth"]): FaceState["mouth"] => (t < a || t > b ? base : Math.floor((t - a) * 9) % 2 === 0 ? "open" : "o");
 export const okafor = (t: number) => {
   const grip = window01(t, -1, 1.85, 0.01, 0.45);
   const ball = ballAt(t);
-  const k = ik(OKAFOR, OK, OK_YAW, "R", ball, 6);
+  // the hand sits just behind the ball (away from the lens), so the ball stays visible in front of it
+  const k = ik(OKAFOR, OK, OK_YAW, "R", [ball[0], ball[1], ball[2] + 0.05], 6);
   const crowLook = smooth((t - 1.9) / 0.4);
   const lensLook = smooth((t - 3.5) / 0.3);
   const tgtA: V3 = [lerp(ball[0], CROW_HEAD[0], crowLook), lerp(ball[1], CROW_HEAD[1], crowLook), lerp(ball[2], CROW_HEAD[2], crowLook)];
@@ -65,7 +66,7 @@ export const okafor = (t: number) => {
   return { spec: OKAFOR, p: OK, yaw: OK_YAW, pose, face, grip, ball };
 };
 export const crow = (t: number): GullState => ({
-  p: CROW_SPOT, yaw: yawTo(CROW_SPOT, OK), tilt: 0.22 * window01(t, 2.3, 4.0, 0.3, 0.3) * Math.sin(t * 3), bob: 0, flap: 0, fold: 1, peck: 0, step: 0, s: 0.62,
+  p: CROW_SPOT, yaw: lerpAng(yawTo(CROW_SPOT, OK), yawTo(CROW_SPOT, [-0.15, 0, -0.85]), 0.85), tilt: 0.22 * window01(t, 2.3, 4.0, 0.3, 0.3) * Math.sin(t * 3), bob: 0, flap: 0, fold: 1, peck: 0, step: 0, s: 0.62,
   face: { eyes: t < 2.3 ? "normal" : t < 4.1 ? "narrow" : "big", brow: t < 2.3 ? 0 : 1, beak: 0 },
 });
 export const focus = (t: number): V3 => (t < 0.5 ? head(OKAFOR, OK) : t < 2.0 ? ballAt(t) : t < 3.6 ? CROW_HEAD : head(OKAFOR, OK));
