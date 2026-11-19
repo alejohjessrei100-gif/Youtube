@@ -18,10 +18,21 @@ sh("nvidia-smi -L || echo 'no GPU'", check=False)
 sh("npm ci --no-audit --no-fund", cwd=W)
 sh("npx remotion browser ensure", cwd=W, check=False)
 t0 = time.time()
+# Headless Chrome on Kaggle has no WebGL under --gl=angle ("GL_VENDOR = Disabled"). Probe one frame per mode; use the first that works.
+first = cfg["comps"][0]["id"]
+GL = None
+for mode in ["egl", "angle-egl", "vulkan", "swangle"]:
+    if os.path.exists("/tmp/probe.jpg"): os.remove("/tmp/probe.jpg")
+    r = subprocess.run(f'npx remotion still src/index.ts {first} /tmp/probe.jpg --frame=30 --gl={mode} --timeout=120000 --log=error', shell=True, cwd=W, executable="/bin/bash")
+    ok = r.returncode == 0 and os.path.exists("/tmp/probe.jpg")
+    print(f"[probe] --gl={mode}: {'OK' if ok else 'failed'}", flush=True)
+    if ok:
+        GL = mode; break
+if not GL: sys.exit("no working --gl mode")
+print("using --gl=" + GL, flush=True)
 for c in cfg["comps"]:
     out = f"/kaggle/working/{c['file']}"
-    # angle = the GPU path when a GPU is present, else software; 2 renders in parallel is the safe default
-    sh(f'npx remotion render src/index.ts {c["id"]} "{out}" --gl=angle --concurrency=4 --timeout=240000 --log=warn', cwd=W)
+    sh(f'npx remotion render src/index.ts {c["id"]} "{out}" --gl={GL} --concurrency=4 --timeout=240000 --log=warn', cwd=W)
     print(f"[{c['id']}] done, {os.path.getsize(out)/1e6:.1f} MB, elapsed {time.time()-t0:.0f}s", flush=True)
 shutil.rmtree(W, ignore_errors=True)   # keep /kaggle/working to the mp4s only
 print(sorted(os.listdir("/kaggle/working")))
