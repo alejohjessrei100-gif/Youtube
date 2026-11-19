@@ -15,7 +15,7 @@ export const WORDS: [string, number, number][] = [
   ["and", 2.1, 2.2], ["stole", 2.2, 2.55], ["nothing.", 2.55, 3.05], ["He", 3.35, 3.5], ["just", 3.5, 3.72], ["flipped", 3.72, 4.1], ["the", 4.1, 4.2], ["doormat.", 4.2, 4.8],
 ];
 export const MOVES = [
-  { start: 0.55, land: 1.0, word: "burglar" }, { start: 1.45, land: 2.0, word: "house" }, { start: 2.35, land: 2.85, word: "nothing." }, { start: 3.9, land: 4.5, word: "doormat." },
+  { start: 0.55, land: 1.0, word: "burglar" }, { start: 1.45, land: 2.0, word: "house" }, { start: 2.35, land: 2.85, word: "nothing." }, { start: 3.5, land: 4.05, word: "flipped" }, { start: 4.15, land: 4.5, word: "doormat." },
 ];
 const STAND = 2.0;
 const seg = [{ t0: 0, t1: 3.4, from: [0, 0, 6.0] as V3, to: [0, 0, STAND] as V3 }];
@@ -42,9 +42,11 @@ export const cam = keyed([
   [2.0, C([2.9, 1.6, 4.9], [0.3, 1.75, 0.3], 44), "inout"],
   [2.35, C([2.8, 1.6, 4.7], [0.3, 1.7, 0.4], 42), "linear"],
   [2.85, C([1.5, 1.2, 3.4], [0.0, 1.1, 0.4], 34), "inout"],
-  [3.9, C([0.8, 1.0, 3.0], [0.0, 0.7, 0.9], 34), "linear"],
-  [4.5, C([0.8, 0.7, 1.7], [0.0, 0.55, 0.7], 36), "inout"],
-  [SECONDS, C([0.8, 0.66, 1.6], [0.0, 0.5, 0.7], 34), "linear"],
+  [3.5, C([-0.8, 1.2, 3.3], [0.0, 0.9, 1.0], 34), "linear"],
+  [4.05, C([-0.8, 1.05, 0.25], [0.0, 0.62, 0.7], 56), "inout"],
+  [4.15, C([-0.8, 1.05, 0.25], [0.0, 0.62, 0.7], 56), "linear"],
+  [4.5, C([-0.7, 0.85, 0.38], [0.0, 0.42, 0.72], 50), "inout"],
+  [SECONDS, C([-0.68, 0.83, 0.4], [0.0, 0.4, 0.72], 48), "linear"],
 ]);
 export const prowler = (t: number) => {
   const { p, walk } = pathAt(t);

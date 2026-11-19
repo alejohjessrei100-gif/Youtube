@@ -117,7 +117,8 @@ export const Mat: React.FC<{ angle: number; y: number }> = ({ angle, y }) => (
   <group position={[MAT_C[0], y, MAT_C[2]]} rotation={[angle, 0, 0]}>
     <M g={boxG(0.95, 0.03, 0.6)} c="#8a6a3a" tex="fabric" p={[0, 0, 0]} />
     <M g={boxG(0.97, 0.02, 0.62)} c="#2a2220" p={[0, -0.025, 0]} />
-    <Label text="WELCOME" p={[0, 0.0222 + 0.0, 0]} r={[-PI / 2, 0, 0]} w={0.8} h={0.2} fg="#f4ead0" bg="none" />
+    <Label text="WELCOME" p={[0, 0.037, 0]} r={[-PI / 2, 0, 0]} w={0.8} h={0.2} fg="#f4ead0" bg="none" />
+    <Label text="MAPLE MATS CO." p={[0, -0.057, 0]} r={[PI / 2, 0, 0]} w={0.6} h={0.12} fg="#8a8a90" bg="none" />
     {[-0.34, -0.17, 0, 0.17, 0.34].map((x) => (
       <M key={x} g={boxG(0.012, 0.004, 0.5)} c="#6a4a24" p={[x, 0.0185, 0]} cast={false} />
     ))}
@@ -126,9 +127,9 @@ export const Mat: React.FC<{ angle: number; y: number }> = ({ angle, y }) => (
 export const Puff: React.FC<{ u: number }> = ({ u }) => (
   <group position={[0, DECK_Y + 0.05, 0.65]}>
     {u > 0 && u < 1
-      ? Array.from({ length: 7 }, (_, i) => {
+      ? Array.from({ length: 24 }, (_, i) => {
           const a = i * 0.9;
-          return <mesh key={i} geometry={sphG(0.06, 8)} position={[Math.cos(a) * 0.5 * u, 0.1 + 0.25 * u, Math.sin(a) * 0.3 * u]} scale={0.6 + 1.4 * u} material={coreMat("#c8c0b0", 0.7, 0.5 * (1 - u))} userData={{ outline: false }} />;
+          return <mesh key={i} geometry={sphG(0.012, 5)} position={[Math.cos(a) * (0.3 + 0.2 * (i % 3)) * u, 0.05 + 0.3 * u * (0.5 + (0.5 * (i % 4)) / 3), Math.sin(a) * 0.3 * u]} scale={0.8 + 0.6 * u} material={coreMat("#c8bfae", 0.9, 0.7 * (1 - u))} userData={{ outline: false }} />;
         })
       : null}
   </group>
