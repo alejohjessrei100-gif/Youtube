@@ -75,6 +75,9 @@ verified, and disclose any known remaining issue.
   purpose), one continuous moving camera per scene, and the story itself must contain at least: one object handoff (a
   thrown / rolling / sliding object the lens follows, then hands to whoever reacts), one entrance the lens widens for,
   one walk or run the lens follows, and held reactions. List these camera beats under every script.
+- COMPLETE DETAIL IS REQUIRED on every film, including tests and samples (user, repeatedly): no set goes to stills
+  until the detail checklist in the youtube-shorts skill (section 4) is done. Reusing an old set bare is a defect.
+  Report the checklist (done / not done) with every build.
 - Every script gets a rating out of 10 with reasons. Scripts are original fiction, retention-driven, and not always
   time-related.
 - Characters keep the locked look: squircle heads, wide clavicles, sharp elbows, straight arms at rest, hands.

@@ -79,11 +79,24 @@ biscuit `Dog`; museum `Flashlight`.
   rounded top 1 cm inside the slab front and back), `recv={false}` on large grazing-lit surfaces. Decals are a
   separate solid, never a plane on a face.
 
-## 4. Detail pass (never skip — the user rejects empty sets)
-Before the first still: ground cover (tufts, flowers), paths, varied props of the place, signs of life (birds, a
-dog, lit windows at night, a lantern), background landmarks (buildings, a far lighthouse), weather (rain, lightning
-flash), object details (names, plates, crates, lifebuoys), 2D inserts with texture (aged paper, folds, stains,
-drawings). Every added object goes into the checker's obstacle list.
+## 4. Detail pass: a GATE, not advice (the user rejects empty sets, every time)
+Nothing goes to stills until every box below is done for EVERY set in the film (tests and samples included; a reused
+set must be re-dressed for the new story). Report the list, ticked, with the build.
+- [ ] **Ground cover:** grass tufts, flowers, gravel, leaves, dirt: no flat colour fields.
+- [ ] **Surface materials:** textures on walls, floors, wood, stone (not plain colour); worn edges, stains, moss.
+- [ ] **Set dressing from the story's world:** 15+ props that belong there (tools, signs, crates, plants, furniture),
+      at several distances; nothing floating, nothing coplanar.
+- [ ] **Readable signs / text** that tell the story (shop names, notices, labels), as in the reference channel.
+- [ ] **Background landmarks:** buildings, trees, hills, a skyline or far lights: never a plain backdrop.
+- [ ] **Light:** one strong key with cast shadows, a visible light source in the scene, warm vs cool, light shafts
+      or glows; grade per the style bible (darker, richer, ~10% real shadow).
+- [ ] **Life:** birds, a pet, passers-by, lit windows, drifting particles (dust, leaves, steam, confetti).
+- [ ] **Weather / air:** wind in foliage, mist, rain, sparks, smoke where the scene allows.
+- [ ] **The key object** has its own detail (engraving, wear, a highlight), and one close-up insert.
+- [ ] **Characters:** a costume/hat that says who they are (within the locked look), expressive faces and gestures.
+- [ ] **2D inserts** (papers, signs, diagrams) have texture: paper grain, folds, stains, drawings.
+- [ ] Every added object is in the every-frame checker's obstacle list.
+A sample with an empty background is a failed build even if the camera work is right.
 
 ## 5. The every-frame checker (`tools/qa/<film>_check.ts`, run before any render)
 `npx esbuild tools/qa/<film>_check.ts --bundle --platform=node --outfile=/tmp/c.js && node /tmp/c.js`
