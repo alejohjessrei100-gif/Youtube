@@ -1,3 +1,6 @@
 node_modules/
 out/*
 !out/test_5s.mp4
+!out/cmp/
+out/cmp/*
+!out/cmp/compare.png
