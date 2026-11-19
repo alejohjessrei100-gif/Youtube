@@ -9,6 +9,8 @@ The whole pipeline for this channel's Shorts (vertical 3D toon stories, ~35–40
 non-negotiable QA protocol and standing preferences; this skill is the order of work. The `inkbeat-shorts` skill holds
 rendering technique. Every step exists because skipping it cost a video.
 
+Look and title rules from the reference channel: [references/style-bible.md](references/style-bible.md).
+
 ## The loop at a glance
 | § | Stage | Who | Output |
 |---|---|---|---|
