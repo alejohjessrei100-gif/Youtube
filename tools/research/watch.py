@@ -118,7 +118,30 @@ for w in words: speech[int(w["t0"] * 100):int(w["t1"] * 100) + 1] = True
 onsets = [round(i / 100, 2) for i in range(5, len(flux) - 5) if flux[i] > 9 and flux[i] == flux[i - 5:i + 5].max() and not speech[i] and db[i] > -45]
 loud = [round(float(db[i:i + 50].mean()), 1) for i in range(0, len(db), 50)]
 
-rep = dict(video=os.path.basename(src), fps=round(FPS, 2), frames=N, seconds=round(N / FPS, 2), cuts=len(cuts) - 1, mean_shot=round(N / FPS / len(shots), 2), shots=shot_rows, words=words, sfx_onsets=onsets, loudness_db_per_half_second=loud)
+# ------------------------------------------------------------------ transitions inside the picture: fast moves and dissolves
+# a hard cut is a ONE-frame spike; a fast camera move (snap-push / whip) is a short run of high frame differences that
+# ramps up and down (motion blur); a dissolve is a run of moderate differences with no optical-flow structure.
+moves = []
+i = 1
+while i < N:
+    if pd[i] > 8 and i not in cuts:
+        j = i
+        while j + 1 < N and pd[j + 1] > 6 and (j + 1) not in cuts: j += 1
+        dur = j - i + 1
+        if 4 <= dur <= 45:
+            seg = per[i:j + 1]
+            sp = np.hypot(seg[:, 0], seg[:, 1]); zm = seg[:, 2]
+            peak = float(pd[i:j + 1].max())
+            kind = "push / zoom" if abs(np.median(zm)) > 0.6 * max(1e-6, np.median(sp)) else ("whip / pan" if np.median(sp) > 0.4 else "move")
+            land = (j + 1) / FPS
+            w_at = next((w["w"] for w in words if w["t0"] - 0.15 <= land <= w["t1"] + 0.05), "")
+            moves.append(dict(start=round(i / FPS, 2), land=round(land, 2), duration=round(dur / FPS, 2), kind=kind, peak_diff=round(peak, 1), lands_on_word=w_at))
+        i = j + 1
+    else:
+        i += 1
+holds = []
+calm = [k for k in range(N) if pd[k] < 4]
+rep = dict(fast_moves=moves, video=os.path.basename(src), fps=round(FPS, 2), frames=N, seconds=round(N / FPS, 2), cuts=len(cuts) - 1, mean_shot=round(N / FPS / len(shots), 2), shots=shot_rows, words=words, sfx_onsets=onsets, loudness_db_per_half_second=loud)
 json.dump(rep, open(os.path.join(out, "report.json"), "w"), indent=1)
 lines = [f"# {rep['video']}: {rep['seconds']} s, {rep['frames']} frames at {rep['fps']} fps, {rep['cuts']} cuts, mean shot {rep['mean_shot']} s", "", "| shot | time | dur | camera (median) | moving | fast move | bright | contrast | sat | warm | words |", "|---|---|---|---|---|---|---|---|---|---|---|"]
 for k, s in enumerate(shot_rows):
@@ -126,6 +149,11 @@ for k, s in enumerate(shot_rows):
     L = s["look"]
     fm = f"{s['fast_moves'][0]}-{s['fast_moves'][1]} s" if s['fast_moves'] else ""
     lines.append(f"| {k} | {s['start']}-{s['end']} | {s['duration']} | {s['camera']} | {int(s['moving_share'] * 100)}% | {fm} | {L['brightness']} | {L['contrast']} | {L['saturation']} | {L['warmth']} | {ws} |")
+lines += ["", f"## Fast camera moves inside shots: {len(moves)} (mean {np.mean([m['duration'] for m in moves]) if moves else 0:.2f} s)", "", "| start | lands | dur | kind | lands on word |", "|---|---|---|---|---|"]
+lines += [f"| {m['start']} | {m['land']} | {m['duration']} | {m['kind']} | {m['lands_on_word']} |" for m in moves]
+beats = sorted([s['start'] for s in shot_rows][1:] + [m['land'] for m in moves])
+gaps = np.diff([0] + beats + [N / FPS])
+lines += ["", f"Picture changes (hard cuts + fast-move landings): {len(beats)} in {N / FPS:.1f} s = one every {N / FPS / max(1, len(beats)):.2f} s (median gap {np.median(gaps):.2f} s)"]
 lines += ["", f"Effect onsets outside speech (s): {onsets}"]
 open(os.path.join(out, "report.md"), "w").write("\n".join(lines))
 print("\n".join(lines[:3]))
