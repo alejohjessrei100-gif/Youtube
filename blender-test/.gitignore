@@ -1,0 +1,7 @@
+frames*/
+post_frames/
+ptest/
+dbg*/
+*.png
+render.log
+__pycache__/
