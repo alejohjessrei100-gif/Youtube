@@ -1,0 +1,562 @@
+{
+ "title": "The king who banned Tuesdays",
+ "fps": 30,
+ "end_pad": 0.7,
+ "lowercase": true,
+ "scenes": [
+  {
+   "id": "decree",
+   "start_word": 0,
+   "set": "throne_room",
+   "mood": "day",
+   "set_args": {
+    "calendars": "wall"
+   },
+   "cast": [
+    {
+     "id": "king",
+     "type": "king",
+     "z": 1.0,
+     "face": 0,
+     "x": 640,
+     "y": 1620,
+     "scale": 1.15,
+     "pose": "hips",
+     "expr": "smug"
+    },
+    {
+     "id": "knight",
+     "type": "knight",
+     "z": 1.0,
+     "face": 0.3,
+     "dir": 1,
+     "x": 200,
+     "y": 1640,
+     "scale": 1.1,
+     "pose": "stand",
+     "expr": "sad"
+    }
+   ],
+   "keys": [
+    {
+     "w": 0,
+     "frame": [
+      540,
+      300,
+      810
+     ]
+    },
+    {
+     "w": 2,
+     "frame": [
+      700,
+      1250,
+      1100
+     ]
+    },
+    {
+     "w": 4,
+     "frame": "king:face"
+    },
+    {
+     "w": 7,
+     "frame": "wide"
+    },
+    {
+     "w": 10,
+     "frame": [
+      440,
+      1260,
+      1600
+     ]
+    },
+    {
+     "w": 13,
+     "frame": [
+      170,
+      1222,
+      836
+     ]
+    },
+    {
+     "w": 16,
+     "frame": [
+      1040,
+      1185,
+      810
+     ]
+    },
+    {
+     "w": 21,
+     "frame": [
+      740,
+      1183,
+      874
+     ]
+    }
+   ],
+   "acts": [
+    {
+     "w": 4,
+     "who": "king",
+     "pose": "point"
+    },
+    {
+     "w": 7,
+     "who": "king",
+     "pose": "hips"
+    },
+    {
+     "w": 12,
+     "who": "knight",
+     "pose": "shrug",
+     "talk": true
+    },
+    {
+     "w": 15,
+     "who": "knight",
+     "talk": false
+    },
+    {
+     "w": 16,
+     "who": "king",
+     "pose": "point",
+     "expr": "angry",
+     "talk": true
+    },
+    {
+     "w": 25,
+     "who": "king",
+     "talk": false
+    }
+   ]
+  },
+  {
+   "id": "stopped",
+   "start_word": 26,
+   "set": "throne_room",
+   "mood": "night",
+   "set_args": {
+    "calendars": "bare"
+   },
+   "cast": [
+    {
+     "id": "king",
+     "type": "king",
+     "z": 1.0,
+     "face": 0,
+     "x": 640,
+     "y": 1620,
+     "scale": 1.15,
+     "pose": "point",
+     "expr": "angry"
+    }
+   ],
+   "keys": [
+    {
+     "w": 26,
+     "frame": "king"
+    },
+    {
+     "w": 29,
+     "frame": "king:face"
+    },
+    {
+     "w": 32,
+     "frame": [
+      168,
+      240,
+      810
+     ]
+    },
+    {
+     "w": 35,
+     "frame": "king:face"
+    }
+   ],
+   "acts": [
+    {
+     "w": 26,
+     "who": "king",
+     "talk": true
+    },
+    {
+     "w": 31,
+     "who": "king",
+     "talk": false
+    },
+    {
+     "w": 33,
+     "who": "king",
+     "expr": "shocked",
+     "pose": "stand"
+    }
+   ]
+  },
+  {
+   "id": "soup",
+   "start_word": 36,
+   "set": "kitchen",
+   "mood": "interior",
+   "cast": [
+    {
+     "id": "cook",
+     "type": "cook",
+     "x": 360,
+     "y": 1560,
+     "scale": 1.1,
+     "z": 1.0,
+     "face": 0.3,
+     "dir": 1,
+     "pose": "hold",
+     "expr": "deadpan"
+    }
+   ],
+   "keys": [
+    {
+     "w": 36,
+     "frame": "cook:face"
+    },
+    {
+     "w": 39,
+     "frame": [
+      423,
+      414,
+      958
+     ]
+    }
+   ]
+  },
+  {
+   "id": "guards",
+   "start_word": 41,
+   "set": "throne_room",
+   "mood": "day",
+   "set_args": {
+    "calendars": "bare"
+   },
+   "cast": [
+    {
+     "id": "king",
+     "type": "king",
+     "z": 1.0,
+     "face": 0,
+     "x": 540,
+     "y": 1460,
+     "scale": 1.05,
+     "pose": "stand",
+     "expr": "angry"
+    },
+    {
+     "type": "knight",
+     "z": 1.0,
+     "face": -0.2,
+     "dir": -1,
+     "torso": "#2f5a9a",
+     "scale": 1.0,
+     "y": 1720,
+     "expr": "deadpan",
+     "pose": "stand",
+     "id": "guardB",
+     "x": 945
+    },
+    {
+     "type": "knight",
+     "z": 1.0,
+     "face": 0.2,
+     "dir": 1,
+     "torso": "#2f5a9a",
+     "scale": 1.0,
+     "y": 1780,
+     "expr": "deadpan",
+     "pose": "stand",
+     "id": "guardA",
+     "x": 135
+    }
+   ],
+   "keys": [
+    {
+     "w": 41,
+     "frame": "wide"
+    },
+    {
+     "w": 47,
+     "frame": [
+      540,
+      1061,
+      800
+     ]
+    },
+    {
+     "w": 52,
+     "frame": "wide"
+    }
+   ],
+   "acts": [
+    {
+     "w": 41,
+     "who": "guardA",
+     "x": 945,
+     "dur": 1.5
+    },
+    {
+     "w": 41,
+     "who": "guardB",
+     "x": 135,
+     "dur": 1.5
+    },
+    {
+     "w": 47,
+     "who": "king",
+     "pose": "cheer",
+     "talk": true
+    },
+    {
+     "w": 51,
+     "who": "king",
+     "talk": false
+    },
+    {
+     "w": 52,
+     "who": "king",
+     "pose": "stand",
+     "expr": "sad"
+    }
+   ]
+  },
+  {
+   "id": "bed",
+   "start_word": 54,
+   "set": "bedchamber",
+   "mood": "night",
+   "set_args": {
+    "day": "MON"
+   },
+   "cast": [
+    {
+     "id": "knight",
+     "type": "knight",
+     "z": 1.0,
+     "face": 0.3,
+     "dir": 1,
+     "x": 150,
+     "y": 1720,
+     "scale": 1.0,
+     "pose": "stand",
+     "expr": "deadpan"
+    },
+    {
+     "id": "king",
+     "type": "king",
+     "z": 1.0,
+     "face": 0,
+     "x": 540,
+     "y": 1460,
+     "scale": 0.95,
+     "pose": "sit",
+     "expr": "sly"
+    }
+   ],
+   "keys": [
+    {
+     "w": 54,
+     "frame": "wide"
+    },
+    {
+     "w": 59,
+     "frame": "knight:face"
+    },
+    {
+     "w": 66,
+     "frame": "king:face"
+    },
+    {
+     "w": 71,
+     "frame": "wide"
+    },
+    {
+     "w": 78,
+     "frame": [
+      705,
+      120,
+      915
+     ]
+    },
+    {
+     "w": 81,
+     "frame": "king:face"
+    }
+   ],
+   "acts": [
+    {
+     "w": 59,
+     "who": "knight",
+     "talk": true,
+     "pose": "shrug"
+    },
+    {
+     "w": 65,
+     "who": "knight",
+     "talk": false,
+     "pose": "stand"
+    },
+    {
+     "w": 66,
+     "who": "king",
+     "talk": true
+    },
+    {
+     "w": 70,
+     "who": "king",
+     "talk": false
+    },
+    {
+     "w": 80,
+     "who": "king",
+     "expr": "sad"
+    },
+    {
+     "w": 83,
+     "who": "king",
+     "expr": "deadpan"
+    }
+   ]
+  },
+  {
+   "id": "explain",
+   "start_word": 85,
+   "set": "bedchamber",
+   "mood": "golden",
+   "set_args": {
+    "day": "MON"
+   },
+   "calm": true,
+   "bloom": 0.6,
+   "cast": [
+    {
+     "id": "king",
+     "type": "king",
+     "z": 1.0,
+     "face": 0,
+     "x": 540,
+     "y": 1460,
+     "scale": 0.95,
+     "pose": "sit",
+     "expr": "deadpan"
+    }
+   ],
+   "keys": [
+    {
+     "w": 85,
+     "frame": [
+      540,
+      150,
+      915
+     ]
+    },
+    {
+     "w": 92,
+     "frame": [
+      570,
+      120,
+      810
+     ]
+    },
+    {
+     "w": 100,
+     "frame": [
+      938,
+      68,
+      810
+     ]
+    },
+    {
+     "w": 103,
+     "frame": "king:face"
+    }
+   ]
+  },
+  {
+   "id": "end",
+   "start_word": 105,
+   "set": "bedchamber",
+   "mood": "dawn",
+   "set_args": {
+    "day": "MON"
+   },
+   "calm": true,
+   "cast": [
+    {
+     "id": "king",
+     "type": "king",
+     "z": 1.0,
+     "face": 0,
+     "x": 540,
+     "y": 1460,
+     "scale": 0.95,
+     "pose": "sit",
+     "expr": "happy"
+    },
+    {
+     "id": "cook",
+     "type": "cook",
+     "x": 1300,
+     "y": 1700,
+     "scale": 1.0,
+     "z": 1.0,
+     "face": -0.3,
+     "dir": -1,
+     "pose": "stand",
+     "expr": "deadpan"
+    }
+   ],
+   "keys": [
+    {
+     "w": 105,
+     "frame": "wide"
+    },
+    {
+     "w": 117,
+     "frame": "king:face"
+    },
+    {
+     "w": 121,
+     "frame": [
+      740,
+      1250,
+      1250
+     ]
+    },
+    {
+     "w": 126,
+     "frame": "cook:face"
+    }
+   ],
+   "acts": [
+    {
+     "w": 117,
+     "who": "king",
+     "pose": "cheer"
+    },
+    {
+     "w": 120,
+     "who": "cook",
+     "x": 1010,
+     "dur": 1.0
+    },
+    {
+     "w": 121,
+     "who": "king",
+     "expr": "shocked",
+     "pose": "sit"
+    },
+    {
+     "w": 122,
+     "who": "cook",
+     "pose": "shrug",
+     "talk": true
+    }
+   ]
+  }
+ ]
+}
