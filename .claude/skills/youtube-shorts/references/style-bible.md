@@ -1,5 +1,9 @@
 # Style bible: lessons from the reference channel (RicksClips3000)
 
+> **STATUS: built from still images only. No video has been watched yet.** Nothing here describes motion, cut timing,
+> camera moves, acting in motion, sound or script beats. Those sections stay open until user-provided recordings are run
+> through `tools/research/watch.py` and watched.
+
 Sources: the public titles + view counts of his last 20 Shorts (read 2026-11-19) and 80 official stills from
 YouTube's public image server (each video's cover + automatic stills at ~25/50/75%), measured and looked at. No video
 was downloaded. Raw research: `research/ricksclips/` (dataset, per-video notes; images kept locally, git-ignored).

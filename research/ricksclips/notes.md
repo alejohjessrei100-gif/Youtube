@@ -1,5 +1,9 @@
 # RicksClips3000 research notes (dataset: his 20 most recent Shorts, read 2026-11-19)
 
+> **STATUS: built from still images only. No video has been watched yet.** Nothing here describes motion, cut timing,
+> camera moves, acting in motion, sound or script beats. Those sections stay open until user-provided recordings are run
+> through `tools/research/watch.py` and watched.
+
 Sources (all public, authorised): his channel page (titles, view counts, video IDs: `dataset.json`) and YouTube's public
 image server: the cover image + three automatic stills (~25%, 50%, 75% through) per video = 80 real frames.
 Media lives in `media/` (git-ignored: his images are kept locally for study, never committed or published).
