@@ -17,6 +17,7 @@ import { MEAT_FRAMES, MeatShower } from "../src/meat/MeatShower";
 import { DIR_FRAMES, DirectorLab } from "../src/directorlab/DirectorLab";
 import { GULL_FRAMES, GullShort } from "../src/gull/Gull";
 import { MUSEUM_FRAMES, MuseumShort } from "../src/museum/Museum";
+import { BEAT_FRAMES, BeatSample } from "../src/beat/Beat";
 import { GRAVES_FRAMES, GravesShort } from "../src/graves/Graves";
 import { CROW_FRAMES, CrowShort } from "../src/crow/Crow";
 import { BISCUIT_FRAMES, BiscuitShort } from "../src/biscuit/Biscuit";
@@ -40,6 +41,7 @@ type Comp = {
 const fileName = (c: Comp) => `${(c.title ?? c.id).replace(/[\\/:*?"<>|]/g, "").replace(/\s+/g, " ").trim()}.mp4`;
 
 const COMPS: Comp[] = [
+  { id: "BeatSample", label: "Beat-camera sample (5 s, silent)", component: BeatSample, width: 1080, height: 1920, fps: 30, durationInFrames: BEAT_FRAMES, defaultProps: {} },
   { id: "Graves", title: "New Graves Keep Appearing for 22 Men Nobody Remembers 🪦 #shorts", label: "The Graves Nobody Dug (40 s)", component: GravesShort, width: 1080, height: 1920, fps: 30, durationInFrames: GRAVES_FRAMES, defaultProps: { audio: true } },
   { id: "Crow", title: "This Crow Has Been Beating Him at Chess for a Year ♟️ #shorts", label: "The Chess Crow (37 s)", component: CrowShort, width: 1080, height: 1920, fps: 30, durationInFrames: CROW_FRAMES, defaultProps: { audio: true } },
   { id: "Biscuit", title: "Nobody in Town Owned a Dog Named Biscuit 🐶 #shorts", label: "Lost Dog: Biscuit (40 s)", component: BiscuitShort, width: 1080, height: 1920, fps: 30, durationInFrames: BISCUIT_FRAMES, defaultProps: { audio: true } },
