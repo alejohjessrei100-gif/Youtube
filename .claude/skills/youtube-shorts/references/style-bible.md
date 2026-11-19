@@ -1,8 +1,8 @@
 # Style bible: lessons from the reference channel (RicksClips3000)
 
-> **STATUS: built from still images only. No video has been watched yet.** Nothing here describes motion, cut timing,
-> camera moves, acting in motion, sound or script beats. Those sections stay open until user-provided recordings are run
-> through `tools/research/watch.py` and watched.
+> **STATUS (2026-11-19):** "Look", "Measured" and "Structure seen in the 80 stills" come from still images. "Motion,
+> editing, sound and script (watched)" comes from six user-provided recordings watched frame by frame
+> (`research/ricksclips/watched.md`). Not yet watched: a low performer, so nothing here is contrasted against a flop.
 
 Sources: the public titles + view counts of his last 20 Shorts (read 2026-11-19) and 80 official stills from
 YouTube's public image server (each video's cover + automatic stills at ~25/50/75%), measured and looked at. No video
@@ -56,3 +56,34 @@ moves or script beats — that needs screen recordings the user makes (priority 
 - Weakest: plain science explainers (147–327K), meme titles (55–413K), abstract premises (574K).
 - Title formula: 4–7 words, no emoji, no #shorts; "Why…", "How…", "The [object] That/Who…", "This [object]…";
   one concrete object + an odd effect.
+
+## Motion, editing, sound and script (watched: 6 videos, every frame measured)
+Full notes: `research/ricksclips/watched.md`.
+- **Inside a set: no cuts, fast camera moves.** 10–33 eased moves per video, 0.45–0.63 s each, with motion blur:
+  snap-pushes into the thing just named, swings across the set to the next subject. Hard cuts (0–2 per video) only
+  for a jump in place or time; time skips may use a quick dissolve.
+- **Moves land on the spoken noun** (90–100% land during a word). **The picture changes every 1.1–1.9 s.**
+- **Between moves the lens drifts;** it is never parked. Holds > 3 s only for a joke or a reaction.
+- **Place changes by camera flight or object follow** (down a canyon into a city; along poured oil to the sea).
+- **Shot vocabulary:** face-filling close-up for every line of dialogue, extreme low angles, Dutch tilts, POV,
+  top-down, through-a-window/doorway, macro inserts, and a diagram-like insert for the explanation.
+- **Acting:** constant gesture; faces change every line; cartoon extremes at peaks (purple face + steam, sweat).
+- **Sound:** narration from frame 0, video ends on the last word (no outro); 3.4–3.8 words/s with almost no pauses
+  (longest ≈ 0.46 s); 5–14 effect hits outside speech.
+- **Script:** strange action at 0 s → "You see," context with stakes → authority mocks in quoted dialogue → hero calm
+  and cryptic → it gets worse → "Then…" turn / time skip → explanation by an everyday analogy addressed to "you" →
+  the doubters hit by exactly what was predicted, in one image; end on that line. Unnamed "he", present tense.
+
+## Applying the motion rules to our films
+- **Camera:** keep one continuous lens per set (the user's rule — his videos confirm it), but replace our slow drifts
+  with **beats**: every 1.1–1.9 s an eased 0.4–0.6 s move (snap-push or swing) that lands on the noun being spoken,
+  with a light drift in between. Build the camera from the word timings: list the nouns, give each a framing.
+- **Cuts** only at changes of place or time (a quick dissolve is fine for a time skip); prefer a camera flight or an
+  object follow to carry the viewer between places.
+- **Dialogue in close-up,** the speaker's face filling the frame; one cartoon-extreme reaction per film.
+- **An insert for the twist/explanation** (a cross-section, a diagram, a macro of the clue).
+- **Ending:** cut out on the last word.
+- **Narration pace (the user's call):** his narration runs 3.4–3.8 words/s with almost no pauses; ours runs about 3.0
+  with 0.6–1.0 s pauses. The standing rule is to keep pauses; matching him would mean a faster or tighter read.
+- **Our script shape stays** (the user's proven "crime that isn't"), told his way: strange act at 0 s, someone in
+  charge reacting in quoted dialogue, a "Then…" turn, an everyday-analogy explanation, end on the payoff image.
