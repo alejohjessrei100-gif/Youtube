@@ -15,6 +15,7 @@ import { DirectorLab, DIR_FRAMES } from "./directorlab/DirectorLab";
 import { HatLab } from "./hatlab/HatLab";
 import { GullShort, GULL_FRAMES } from "./gull/Gull";
 import { MuseumShort, MUSEUM_FRAMES } from "./museum/Museum";
+import { MapleTest, MAPLE_FRAMES } from "./maple/Maple";
 import { BeatSample, BEAT_FRAMES } from "./beat/Beat";
 import { GravesShort, GRAVES_FRAMES } from "./graves/Graves";
 import { CrowShort, CROW_FRAMES } from "./crow/Crow";
@@ -25,6 +26,7 @@ import { BiscuitShort, BISCUIT_FRAMES } from "./biscuit/Biscuit";
 // DemoMove: a 3 s beat-rig move (sharp). DemoMoveSub: the same at SUB × fps for motion blur (average with ffmpeg tmix).
 export const Root: React.FC = () => (
   <>
+    <Composition id="MapleTest" component={MapleTest} durationInFrames={MAPLE_FRAMES} fps={30} width={1080} height={1920} />
     <Composition id="BeatSample" component={BeatSample} durationInFrames={BEAT_FRAMES} fps={30} width={1080} height={1920} />
     <Composition id="Graves" component={GravesShort} durationInFrames={GRAVES_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: true }} />
     <Composition id="Crow" component={CrowShort} durationInFrames={CROW_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: true }} />
