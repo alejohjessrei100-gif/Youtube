@@ -105,112 +105,6 @@ const Fade: React.FC<{ at: number; y?: number; children: React.ReactNode; style?
   );
 };
 
-/* ------------------------------------------------- steps + dot (the motif) */
-
-type Geo = { xs: number[]; tops: number[]; bw: number; R: number };
-const mkGeo = (n: number, LX: number, RX: number, yBase: number, yTop: number): Geo => {
-  const bw = Math.min(116, ((RX - LX) / n) * 0.77);
-  const pitch = (RX - LX - bw) / (n - 1);
-  return {
-    xs: [...Array(n)].map((_, k) => LX + bw / 2 + k * pitch),
-    tops: [...Array(n)].map((_, k) => yBase - (k * (yBase - yTop)) / (n - 1)),
-    bw,
-    R: 31,
-  };
-};
-
-const Steps: React.FC<{ g: Geo; rise: number[]; opacity?: number }> = ({ g, rise, opacity = 1 }) => {
-  const f = useCurrentFrame();
-  return (
-    <g fill="none" stroke={FG} strokeWidth={SW} opacity={opacity}>
-      {g.xs.map((x, k) => (
-        <rect
-          key={k}
-          x={x - g.bw / 2}
-          y={lerp(1960, g.tops[k], ramp(f, rise[k], rise[k] + 9, eo3))}
-          width={g.bw}
-          height={1700}
-        />
-      ))}
-    </g>
-  );
-};
-
-const HOP = 9; // frames in the air
-// dot pops in on step 0, then hops onto each next step at hop[k]
-const Dot: React.FC<{ g: Geo; appear: number; hop: number[] }> = ({ g, appear, hop }) => {
-  const f = useCurrentFrame();
-  const { R } = g;
-  if (f < appear) return null;
-  let x = g.xs[0];
-  let y = g.tops[0] - R;
-  let sx = 1;
-  let sy = 1;
-  const ta = f - appear;
-  const pop = ta < 5 ? lerp(0, 2.1, ta / 5) : ta < 13 ? lerp(2.1, 1, eio3((ta - 5) / 8)) : 1;
-  sx = sy = pop;
-  for (let k = 1; k < g.xs.length; k++) {
-    const th = hop[k];
-    if (f < th) break;
-    const t = (f - th) / HOP;
-    const y0 = g.tops[k - 1] - R;
-    const y1 = g.tops[k] - R;
-    if (t < 1) {
-      const peak = Math.min(y0, y1) - 120;
-      x = lerp(g.xs[k - 1], g.xs[k], t);
-      y = t < 0.5 ? lerp(y0, peak, 1 - (1 - t * 2) ** 2) : lerp(peak, y1, ((t - 0.5) * 2) ** 2);
-      sx = 0.9;
-      sy = 1.12;
-      break;
-    }
-    x = g.xs[k];
-    y = y1;
-    const tl = f - (th + HOP);
-    const wob = Math.exp(-tl / 3.2) * Math.cos(tl * 0.75);
-    sy = 1 - 0.26 * wob;
-    sx = 1 + 0.22 * wob;
-  }
-  return <circle cx={x} cy={y} r={R} fill={FG} transform={`translate(${x} ${y}) scale(${sx} ${sy}) translate(${-x} ${-y})`} />;
-};
-
-// pulse ring + dashed orbit + ellipse ring + sparks, ported from the skill's payoff
-const Payoff: React.FC<{ id: string; cx: number; cy: number; at: number; k?: number }> = ({ id, cx, cy, at, k = 1 }) => {
-  const f = useCurrentFrame();
-  const t = f - at;
-  if (t < 0) return null;
-  const pulse = ramp(f, at, at + 18, Easing.out(Easing.quad));
-  const orbit = ramp(f, at + 1.5, at + 18, Easing.inOut(Easing.quad));
-  const ring = ramp(f, at + 5, at + 23, Easing.inOut(Easing.quad));
-  const rot = (f - at) * (40 / 48);
-  return (
-    <g>
-      <defs>
-        <mask id={`${id}-o`} maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1920">
-          <circle cx={cx} cy={cy} r={140 * k} fill="none" stroke="#fff" strokeWidth={14}
-            strokeDasharray={880 * k} strokeDashoffset={880 * k * (1 - orbit)} transform={`rotate(-90 ${cx} ${cy})`} />
-        </mask>
-        <mask id={`${id}-e`} maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1920">
-          <ellipse cx={cx} cy={cy} rx={220 * k} ry={46 * k} fill="none" stroke="#fff" strokeWidth={14}
-            strokeDasharray={1000 * k} strokeDashoffset={1000 * k * (1 - ring)} />
-        </mask>
-      </defs>
-      <circle cx={cx} cy={cy} r={34 * (1 + 3.2 * pulse)} fill="none" stroke={FG} strokeWidth={3} opacity={0.9 * (1 - pulse)} />
-      <circle cx={cx} cy={cy} r={140 * k} fill="none" stroke={FG} strokeWidth={2} strokeDasharray="5 9"
-        mask={`url(#${id}-o)`} transform={`rotate(${rot} ${cx} ${cy})`} />
-      <ellipse cx={cx} cy={cy} rx={220 * k} ry={46 * k} fill="none" stroke={SOFT} strokeWidth={2} mask={`url(#${id}-e)`} />
-      {[...Array(22)].map((_, i) => {
-        const a = (i / 22) * Math.PI * 2 + (i % 2) * 0.12;
-        const d = (190 + (i % 4) * 34) * k;
-        const e = ramp(f, at + 1.5, at + 16, Easing.out(Easing.cubic));
-        const op = ramp(f, at + 1.5, at + 3) * (1 - 0.65 * ramp(f, at + 16, at + 30));
-        return (
-          <circle key={i} cx={cx + Math.cos(a) * d * e} cy={cy + Math.sin(a) * d * e} r={i % 3 ? 4 : 6} fill={FG} opacity={op} />
-        );
-      })}
-    </g>
-  );
-};
-
 const Svg: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: "absolute", left: 0, top: 0 }}>
     {children}
@@ -219,31 +113,49 @@ const Svg: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 /* ---------------------------------------------------------------- scenes */
 
+// Hook: a hairline coin draws itself, spins, and ripples out
 const Hook: React.FC = () => {
   const f = useCurrentFrame();
-  const g = mkGeo(4, 137, 853, 1240, 520);
-  const hop = [0, 14, 22, 30];
-  const rise = [4, 8, 16, 24];
-  const TP = 39;
-  const last = g.tops[3] - g.R;
+  const cx = 540, cy = 900, R = 230;
+  const draw1 = ramp(f, 0, 22, eio3);
+  const draw2 = ramp(f, 8, 28, eio3);
+  const glyph = ramp(f, 22, 38, eo3);
+  const spinT = Math.max(0, f - 36);
+  const sx = Math.max(0.06, Math.abs(Math.cos(spinT * 0.13)));
+  const spinIn = ramp(f, 36, 50);
+  const scaleX = lerp(1, sx, spinIn);
   return (
     <Scene len={S.hook[1]} fadeIn={false}>
       <Cap lines={[{ t: "this is your opportunity", from: 0, to: 40 }, { t: "to earn money online.", from: 40 }]} />
       <Svg>
-        <Steps g={g} rise={rise} opacity={1 - 0.68 * ramp(f, TP + 3, TP + 20)} />
-        <Dot g={g} appear={2} hop={hop} />
-        <Payoff id="h" cx={g.xs[3]} cy={last} at={TP} />
+        {[40, 56, 72].map((at, i) => {
+          const k = ramp(f, at, at + 34, Easing.out(Easing.cubic));
+          return f >= at ? (
+            <circle key={i} cx={cx} cy={cy} r={R + 20 + 330 * k} fill="none" stroke={FG} strokeWidth={2} opacity={0.7 * (1 - k)} />
+          ) : null;
+        })}
+        <g transform={`translate(${cx} ${cy}) scale(${scaleX} 1) translate(${-cx} ${-cy})`}>
+          <circle cx={cx} cy={cy} r={R} fill="none" stroke={FG} strokeWidth={SW + 1.2} pathLength={1}
+            strokeDasharray={1} strokeDashoffset={1 - draw1} transform={`rotate(-90 ${cx} ${cy})`} />
+          <circle cx={cx} cy={cy} r={R - 38} fill="none" stroke={SOFT} strokeWidth={SW} pathLength={1}
+            strokeDasharray={1} strokeDashoffset={1 - draw2} transform={`rotate(-90 ${cx} ${cy})`} />
+          <text x={cx} y={cy + 92} textAnchor="middle" fontFamily={FONT} fontWeight={400} fontSize={270} fill={FG} opacity={glyph}>
+            $
+          </text>
+        </g>
       </Svg>
     </Scene>
   );
 };
 
+// Intro: a grid of phones appears, one steps forward and its play triangle fills
 const Intro: React.FC = () => {
   const f = useCurrentFrame();
   const cols = [350, 540, 730];
-  const rows = [650, 960, 1270]; // phone centres
+  const rows = [650, 960, 1270];
   const W = 150, H = 266;
   const focus = ramp(f, 70, 92, eio3);
+  const fill = ramp(f, 86, 100, eo3);
   return (
     <Scene len={S.intro[1] - S.intro[0]}>
       <Cap
@@ -264,16 +176,11 @@ const Intro: React.FC = () => {
             return (
               <g key={idx} opacity={a * dim} transform={`translate(${cx} ${cy}) scale(${s}) translate(${-cx} ${-cy})`}>
                 <rect x={cx - W / 2} y={cy - H / 2} width={W} height={H} rx={26} fill="none" stroke={FG} strokeWidth={SW} />
-                <path d={`M ${cx - 14} ${cy - 20} L ${cx + 18} ${cy} L ${cx - 14} ${cy + 20} Z`} fill="none" stroke={FG} strokeWidth={SW} strokeLinejoin="round" />
+                <path d={`M ${cx - 14} ${cy - 20} L ${cx + 18} ${cy} L ${cx - 14} ${cy + 20} Z`}
+                  fill={center ? FG : "none"} fillOpacity={center ? fill : 0} stroke={FG} strokeWidth={SW} strokeLinejoin="round" />
               </g>
             );
           })
-        )}
-        {f >= 78 && (
-          <>
-            <circle cx={540} cy={960} r={31 * ramp(f, 78, 90, Easing.out(Easing.back(2)))} fill={FG} />
-            <Payoff id="i" cx={540} cy={960} at={80} k={0.8} />
-          </>
         )}
       </Svg>
     </Scene>
@@ -313,65 +220,79 @@ const Demo: React.FC = () => {
   );
 };
 
+// How: six cards draw in one by one, joined by a hairline line; the last card fills
 const How: React.FC = () => {
   const f = useCurrentFrame();
   const text = "a guard sees a crooked painting...";
   const typed = text.slice(0, Math.max(0, Math.floor((f - 10) / 1.4)));
   const cursor = Math.floor(f / 8) % 2 === 0 ? "|" : "";
   const labels = ["script", "characters", "town", "voice", "captions", "video"];
-  const g = mkGeo(6, 110, 970, 1380, 700);
-  const word = [62, 100, 130, 162, 181, 226]; // frame each word is spoken
-  const hop = word.map((w) => w - HOP);
-  const rise = word.map((w, k) => (k === 0 ? w - 8 : w - HOP - 6));
+  const word = [68, 100, 130, 162, 181, 226]; // frame each word is spoken
+  const CX = 240, CW = 600, CH = 104, Y0 = 600, GAP = 148;
   const boxA = ramp(f, 4, 16, eo3) * (1 - 0.7 * ramp(f, 52, 70));
   return (
     <Scene len={S.how[1] - S.how[0]}>
       <Cap lines={[{ t: "type your idea.", from: 0, to: 40 }, { t: "claude builds the rest.", from: 40 }]} />
       <Svg>
         <rect x={140} y={330} width={800} height={110} rx={22} fill="none" stroke={FG} strokeWidth={SW} opacity={boxA} />
-        <Steps g={g} rise={rise} />
-        <Dot g={g} appear={word[0] - 2} hop={hop} />
-        {f >= word[5] && <Payoff id="w" cx={g.xs[5]} cy={g.tops[5] - g.R} at={word[5]} k={0.9} />}
+        {labels.map((l, k) => {
+          const y = Y0 + k * GAP;
+          const draw = ramp(f, word[k] - 10, word[k] + 8, eio3);
+          const link = k > 0 ? ramp(f, word[k] - 16, word[k] - 4, eio3) : 0;
+          const last = k === 5;
+          const fill = last ? ramp(f, word[k] + 6, word[k] + 20, eo3) : 0;
+          return (
+            <g key={l}>
+              {k > 0 && (
+                <line x1={540} y1={y - (GAP - CH)} x2={540} y2={y - (GAP - CH) + (GAP - CH) * link} stroke={FG} strokeWidth={SW} />
+              )}
+              <rect x={CX} y={y} width={CW} height={CH} rx={26} fill="none" stroke={FG} strokeWidth={SW + (last ? 0.6 : 0)}
+                pathLength={1} strokeDasharray={1} strokeDashoffset={1 - draw} />
+              {last && <rect x={CX} y={y} width={CW * fill} height={CH} rx={26} fill={FG} style={{ clipPath: "inset(0 0 0 0 round 26px)" }} />}
+            </g>
+          );
+        })}
       </Svg>
       <div
         style={{
-          position: "absolute",
-          left: 170,
-          top: 330,
-          width: 740,
-          height: 110,
-          display: "flex",
-          alignItems: "center",
-          fontFamily: FONT,
-          fontSize: 38,
-          color: FG,
-          opacity: boxA,
+          position: "absolute", left: 170, top: 330, width: 740, height: 110, display: "flex", alignItems: "center",
+          fontFamily: FONT, fontSize: 38, color: FG, opacity: boxA,
         }}
       >
         {typed}
         <span style={{ opacity: 0.9 }}>{cursor}</span>
       </div>
       {labels.map((l, k) => {
-        const a = ramp(f, word[k] + 3, word[k] + 15, eo3);
+        const a = ramp(f, word[k], word[k] + 12, eo3);
+        const last = k === 5;
+        const fillK = last ? ramp(f, word[k] + 10, word[k] + 20) : 0;
         return (
           <div
             key={l}
             style={{
-              position: "absolute",
-              left: g.xs[k] - 18,
-              top: g.tops[k] + 34,
-              width: 36,
-              fontFamily: FONT,
-              fontSize: 30,
-              color: SOFT,
-              opacity: a,
-              writingMode: "vertical-rl",
-              transform: "rotate(180deg)",
-              letterSpacing: "0.02em",
-              whiteSpace: "nowrap",
+              position: "absolute", left: CX + 40, top: Y0 + k * GAP, height: CH, display: "flex", alignItems: "center",
+              fontFamily: FONT, fontSize: 42, fontWeight: 400, letterSpacing: "0.01em", opacity: a,
+              color: last && fillK > 0.5 ? "#000" : FG,
             }}
           >
             {l}
+          </div>
+        );
+      })}
+      {labels.map((l, k) => {
+        const a = ramp(f, word[k], word[k] + 12, eo3);
+        const last = k === 5;
+        const fillK = last ? ramp(f, word[k] + 10, word[k] + 20) : 0;
+        return (
+          <div
+            key={l + "n"}
+            style={{
+              position: "absolute", left: CX + CW - 90, top: Y0 + k * GAP, width: 50, height: CH, display: "flex",
+              alignItems: "center", justifyContent: "flex-end", fontFamily: FONT, fontSize: 28, opacity: a * 0.9,
+              color: last && fillK > 0.5 ? "#000" : SOFT,
+            }}
+          >
+            0{k + 1}
           </div>
         );
       })}
@@ -430,23 +351,31 @@ const Price: React.FC = () => {
   );
 };
 
+// CTA: an outlined button draws itself, then fills to white
 const Cta: React.FC = () => {
   const f = useCurrentFrame();
-  const dot = ramp(f, 8, 20, Easing.out(Easing.back(2)));
-  const loop = (f % 54) / 54;
+  const draw = ramp(f, 36, 64, eio3);
+  const fill = ramp(f, 62, 82, eio3);
+  const W = 700, H = 150, X = 190, Y = 900;
   return (
     <Scene len={S.cta[1] - S.cta[0]} fadeOut={14}>
       <Cap lines={[{ t: "tell claude your story.", from: 3, to: 44 }, { t: "get your video.", from: 44 }]} />
       <Svg>
-        {f >= 70 && (
-          <circle cx={540} cy={960} r={34 + 150 * loop} fill="none" stroke={FG} strokeWidth={2} opacity={0.5 * (1 - loop)} />
-        )}
-        <circle cx={540} cy={960} r={31 * dot} fill={FG} />
-        {f >= 46 && <Payoff id="c" cx={540} cy={960} at={46} />}
+        <defs>
+          <clipPath id="btnfill">
+            <rect x={X} y={Y} width={W * fill} height={H} />
+          </clipPath>
+        </defs>
+        <rect x={X} y={Y} width={W} height={H} rx={75} fill="none" stroke={FG} strokeWidth={SW + 0.6}
+          pathLength={1} strokeDasharray={1} strokeDashoffset={1 - draw} />
+        <rect x={X} y={Y} width={W} height={H} rx={75} fill={FG} clipPath="url(#btnfill)" />
+        <text x={540} y={Y + 100} textAnchor="middle" fontFamily={FONT} fontWeight={500} fontSize={66} fill={FG} opacity={ramp(f, 50, 64)}>
+          3d-animation
+        </text>
+        <text x={540} y={Y + 100} textAnchor="middle" fontFamily={FONT} fontWeight={500} fontSize={66} fill="#000" clipPath="url(#btnfill)">
+          3d-animation
+        </text>
       </Svg>
-      <Fade at={40} style={{ position: "absolute", left: 0, width: 1080, top: 1220, textAlign: "center", fontFamily: FONT, fontWeight: 500, fontSize: 70, color: FG, letterSpacing: "-0.02em" }}>
-        3d-animation
-      </Fade>
       <Fade at={88} y={8} style={{ position: "absolute", left: 0, width: 1080, top: 1440, textAlign: "center", fontFamily: FONT, fontSize: 28, color: SOFT }}>
         results vary. no income is guaranteed.
       </Fade>
