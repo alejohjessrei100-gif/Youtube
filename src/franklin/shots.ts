@@ -169,8 +169,8 @@ const s2: Scene = {
   id: 2, t0: T.rare - 0.05, mood: "lamp", blur: 1.0, set: "lib",
   cam: keyed([
     [T.rare - 0.05, C(Lb(2.4, 1.7, 3.4), Lb(-3.2, 1.2, 1.5), 56)],
-    [T.rare + 0.45, C(Lb(2.5, 1.75, 3.5), Lb(-0.6, 1.1, 0.6), 56), "inout"],
-    [T.book + 0.35, C(Lb(2.1, 1.5, 1.6), Lb(0.8, 1.1, -0.6), 48), "inout"],
+    [T.rare + 0.15, C(Lb(2.45, 1.72, 3.45), Lb(-1.4, 1.15, 0.9), 56), "inout"],
+    [T.book + 0.6, C(Lb(2.1, 1.5, 1.6), Lb(0.8, 1.1, -0.6), 48), "inout"],
     [BOOK_SLIDE.t0, C(Lb(2.05, 1.48, 1.55), Lb(0.8, 1.05, -0.5), 48), "linear"],
     [BOOK_SLIDE.t1 + 0.1, C(Lb(1.9, 1.55, 1.2), Lb(0.72, 1.35, -0.6), 50), "inout"],
     [T.returned - 0.1, C(Lb(1.88, 1.55, 1.18), Lb(0.74, 1.4, -0.7), 49), "linear"],
@@ -208,8 +208,8 @@ const s3Actors = (t: number): Actor[] => {
   const offer = window01(t, FR_IN.t1 + 0.05, T.day, 0.2, 0.25);
   const shake = window01(t, SHAKE.t0, SHAKE.t1, 0.2, 0.2);
   const cup = window01(t, T.finally - 0.1, T.you2 - 0.1, 0.25, 0.25);
-  const tap = window01(t, T.figured - 0.15, T.when - 0.05, 0.2, 0.2);
-  const lean = 4 + 16 * offer + 18 * shake + 16 * cup;
+  const tap = window01(t, T.figured - 0.15, T.when + 0.25, 0.2, 0.5);
+  const lean = 4 + 16 * offer + 10 * shake + 12 * cup;
   let pf: BodyPose = { ...REST, walk: w.walk, lean };
   pf = reach(FRANKLIN, fp, fyaw, pf, "R", add(fp, [0.28 * Math.sin(fyaw) + 0.14 * Math.cos(fyaw), 0.95, 0.28 * Math.cos(fyaw) - 0.14 * Math.sin(fyaw)]), carry, 2);
   pf = reach(FRANKLIN, fp, fyaw, pf, "L", add(fp, [0.28 * Math.sin(fyaw) - 0.14 * Math.cos(fyaw), 0.95, 0.28 * Math.cos(fyaw) + 0.14 * Math.sin(fyaw)]), carry, 2);
@@ -225,9 +225,11 @@ const s3Actors = (t: number): Actor[] => {
   const nod = window01(t, T.polite2 - 0.05, T.friendly - 0.15, 0.15, 0.15);
   const scratch = window01(t, T.brain - 0.1, T.easiest, 0.2, 0.25);
   const glee = window01(t, T.must - 0.15, 99, 0.2, 0.1);
-  let pr: BodyPose = { ...REST, lean: 4 + 16 * shake + 14 * cup + 12 * nod };
+  let pr: BodyPose = { ...REST, lean: 4 + 10 * shake + 10 * cup + 12 * nod };
   pr = reach(RIVAL, RV_L, RV_LYAW, pr, "L", Lb(0.8, 1.2, -0.75), read, 4);
   pr = reach(RIVAL, RV_L, RV_LYAW, pr, "R", Lb(0.8, 1.2, -0.75), read, 4);
+  const putDown = window01(t, T.polite2 + 0.05, T.polite2 + 0.9, 0.35, 0.3);
+  pr = reach(RIVAL, RV_L, RV_LYAW, pr, "L", add(NOTE_DESK, [0, 0.04, 0]), putDown, 14);
   pr = reach(RIVAL, RV_L, RV_LYAW, pr, "R", MEET, shake, 20);
   pr = reach(RIVAL, RV_L, RV_LYAW, pr, "R", add(CLINK, [0.07, 0, -0.03]), cup, 18);
   pr = reach(RIVAL, RV_L, RV_LYAW, pr, "R", add(head(RIVAL, RV_L), [0.3, 0.08, 0.06]), scratch, 4);
@@ -276,12 +278,12 @@ const s3: Scene = {
     const book: Prop = { p: lerpV(inHands, Lb(0.45, 0.83, -0.18), smooth((t - (FR_IN.t1 - 0.15)) / 0.3)), r: [0, lerpAng(fr.yaw, 0.3, smooth((t - (FR_IN.t1 - 0.15)) / 0.3)), 0] };
     // the note: in Franklin's right hand, to the rival's hands, then on the desk
     const inF = add(handAt(fr, "R"), [0, 0.03, 0]), inR = add(lerpV(handAt(rv, "L"), handAt(rv, "R"), 0.5), [0, 0.05, 0]);
-    const note: Prop = t < NOTE_GIVE ? { p: inF, r: [0.9, fr.yaw, 0] } : t < T.polite2 + 0.25 ? { p: lerpV(inF, inR, smooth((t - NOTE_GIVE) / 0.3)), r: [-1.1, 0, 0] } : { p: lerpV(inR, NOTE_DESK, smooth((t - (T.polite2 + 0.25)) / 0.35)), r: [0, 0.25, 0] };
+    const note: Prop = t < NOTE_GIVE ? { p: inF, r: [0.9, fr.yaw, 0] } : t < T.polite2 + 0.05 ? { p: lerpV(inF, inR, smooth((t - NOTE_GIVE) / 0.3)), r: [-1.1, 0, 0] } : t < T.polite2 + 0.38 ? { p: lerpV(inR, add(handAt(rv, "L"), [0, 0.03, 0]), smooth((t - (T.polite2 + 0.05)) / 0.2)), r: [-0.5, 0, 0] } : { p: lerpV(add(handAt(rv, "L"), [0, 0.03, 0]), NOTE_DESK, smooth((t - (T.polite2 + 0.38)) / 0.12)), r: [0, 0.25, 0] };
     const held = smooth((t - (T.finally - 0.15)) / 0.45) * (1 - smooth((t - (T.you2 - 0.5)) / 0.45));
     const cupF: V3 = lerpV(CUP_F0, add(handAt(fr, "R"), [0, 0.02, 0]), held);
     const cupR: V3 = lerpV(CUP_R0, add(handAt(rv, "R"), [0, 0.02, 0]), held);
-    const q = window01(t, T.why - 0.25, T.easiest + 0.1, 0.15, 0.15);
-    const heart = window01(t, T.must - 0.15, 99, 0.15, 0.1);
+    const q = window01(t, T.why - 0.35, T.easiest + 0.1, 0.3, 0.2);
+    const heart = window01(t, T.must - 0.3, 99, 0.35, 0.1);
     const bubble = q > 0 ? { p: add(head(RIVAL, RV_L), [0.0, 0.62, 0.05]), text: "?", k: q } : heart > 0 ? { p: add(head(RIVAL, RV_L), [0.0, 0.62, 0.05]), text: "I MUST LIKE HIM.", k: heart } : undefined;
     return { book, note, cups: [{ p: cupF }, { p: cupR }], bubble };
   },

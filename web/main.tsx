@@ -76,6 +76,7 @@ const LOG = (new URLSearchParams(location.search).get("log") ?? "info") as "info
 
 const SCALES = [
   { v: 1, label: "Full res 1080 × 1920 (final)" },
+  { v: 0.75, label: "Lighter 810 × 1440 (for phones that crash)" },
   { v: 0.5, label: "Half res (quick test)" },
 ];
 
@@ -129,6 +130,9 @@ const App: React.FC = () => {
   const [saveMsg, setSaveMsg] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
   const [frame, setFrame] = useState(0);
+  // render in parts: short chunks one after another, memory freed between them; each part is saved on its own
+  const [partSec, setPartSec] = useState(8);
+  const [parts, setParts] = useState<{ name: string; blob: Blob; url: string; from: number; to: number; saved?: string }[]>([]);
   const player = useRef<PlayerRef>(null);
   const abort = useRef<AbortController | null>(null);
   const comp = useMemo(() => COMPS.find((c) => c.id === compId)!, [compId]);
@@ -144,6 +148,46 @@ const App: React.FC = () => {
     if (result) URL.revokeObjectURL(result.url);
     setSaveMsg(null);
     setResult({ url: URL.createObjectURL(blob), blob, name, kind });
+  };
+
+  const runParts = async () => {
+    setError(null);
+    setProgress(0);
+    player.current?.pause();
+    setPreview(false);
+    parts.forEach((p) => URL.revokeObjectURL(p.url));
+    setParts([]);
+    const ac = new AbortController();
+    abort.current = ac;
+    const step = Math.max(30, Math.round(partSec * comp.fps));
+    const first = Math.max(0, Math.min(comp.durationInFrames - 1, vFrom));
+    const last = Math.max(first, Math.min(comp.durationInFrames - 1, vTo ?? comp.durationInFrames - 1));
+    const n = Math.ceil((last - first + 1) / step);
+    const base = fileName(comp).replace(/\.mp4$/, "");
+    try {
+      for (let k = 0; k < n; k++) {
+        if (ac.signal.aborted) break;
+        const a = first + k * step, b = Math.min(last, a + step - 1);
+        setBusy(`Rendering part ${k + 1} of ${n} (frames ${a}–${b})…`);
+        const start = Date.now();
+        setProg({ r: 0, e: 0, total: b - a + 1, eta: 0, at: start, start });
+        const r = await renderMediaOnWeb({
+          frameRange: [a, b], composition, inputProps: comp.defaultProps, scale, container: "mp4",
+          videoBitrate: scale < 1 ? "medium" : "high", licenseKey: "free-license", signal: ac.signal, delayRenderTimeoutInMilliseconds: 240_000,
+          onProgress: (p) => { setProgress((k + p.progress) / n); setProg({ r: p.renderedFrames, e: p.encodedFrames, total: b - a + 1, eta: p.renderEstimatedTime, at: Date.now(), start }); },
+        });
+        const blob = await r.getBlob();
+        const name = `${base} - part ${String(first === 0 ? k + 1 : `${k + 1} from ${first}`)} of ${n} (frames ${a}-${b}).mp4`;
+        setParts((ps) => [...ps, { name, blob, url: URL.createObjectURL(blob), from: a, to: b }]);
+        // give the phone a moment to free the render's memory before the next part
+        await new Promise((ok) => setTimeout(ok, 800));
+      }
+    } catch (e) {
+      setError(ac.signal.aborted ? "Cancelled. Parts already finished are below: save them, then set the start frame to continue." : `${String((e as Error)?.message ?? e)} · Parts already finished are below: save them, then set the start frame to the next part to continue.`);
+    } finally {
+      setBusy(null);
+      abort.current = null;
+    }
   };
 
   const run = async (what: "still" | "video") => {
@@ -260,6 +304,30 @@ const App: React.FC = () => {
         <button onClick={() => run("still")} disabled={!!busy}>Render still</button>
         <button className="primary" onClick={() => run("video")} disabled={!!busy}>Render MP4</button>
       </div>
+
+      {comp.durationInFrames > 1 ? (
+        <div className="field">
+          <span>Phone crashes on a full render? Render in parts: {partSec}-second chunks, one after another, memory freed between them. Save each part as it appears (a crash then loses only the part in progress); to resume, set the video range's start frame to the next part. Send all parts; they are joined into one file.</span>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <select value={partSec} onChange={(e) => setPartSec(Number(e.target.value))} disabled={!!busy} aria-label="Part length">
+              {[4, 6, 8, 10].map((v) => <option key={v} value={v}>{v} s parts ({Math.ceil(((vTo ?? comp.durationInFrames - 1) - vFrom + 1) / (v * comp.fps))} parts)</option>)}
+            </select>
+            <button className="primary" onClick={runParts} disabled={!!busy}>Render in parts</button>
+          </div>
+        </div>
+      ) : null}
+
+      {parts.length ? (
+        <div className="result">
+          {parts.map((p, i) => (
+            <div key={p.url} style={{ display: "flex", flexDirection: "column", gap: 4, marginBottom: 8 }}>
+              <span className="sub">{p.name}</span>
+              <button className="primary" onClick={async () => { const m = await save(p.blob, p.name); setParts((ps) => ps.map((q, j) => (j === i ? { ...q, saved: m } : q))); }}>Save part {i + 1}</button>
+              {p.saved ? <span className="sub" role="status">{p.saved}</span> : null}
+            </div>
+          ))}
+        </div>
+      ) : null}
 
       {busy ? (
         <div className="status">
