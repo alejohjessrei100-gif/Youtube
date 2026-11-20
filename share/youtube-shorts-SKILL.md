@@ -1,6 +1,6 @@
 ---
 name: youtube-shorts
-description: The whole workflow for this channel's YouTube Shorts (vertical 3D toon films, ~35–45 s), from a fresh container to an uploaded video. Setup and downloads, scripts (the "crime that isn't" formula and the facts/psychology path), the user's ElevenLabs voiceover, building the film in Remotion + React Three Fiber, Poly Haven / Sketchfab assets, the detail gate, the every-frame checker, stills, the sound mix, rendering (phone page, this container, Kaggle), the full review of the render, the YouTube package, upload and the analytics read. Use it for any step: setting up, new scripts, a voiceover arriving, building, fixing, rendering, reviewing, titles, uploading or "how did it do".
+description: The whole workflow for this channel's YouTube Shorts (vertical 3D toon films, ~35–45 s), from a fresh container to an uploaded video. Setup and downloads, scripts (the "crime that isn't" formula and the facts/psychology path), the user's ElevenLabs voiceover, building the film in Remotion + React Three Fiber, Poly Haven / Sketchfab assets, the detail gate, the every-frame checker, stills, the sound mix, rendering (phone page, this container), the full review of the render, the YouTube package, upload and the analytics read. Use it for any step: setting up, new scripts, a voiceover arriving, building, fixing, rendering, reviewing, titles, uploading or "how did it do".
 ---
 
 # youtube-shorts: setup → script → voice → build → check → stills → sound → render → review → package → upload → learn
@@ -18,13 +18,22 @@ Keep your own reference-channel notes (look, pacing, titles) in `references/styl
 | 7 | Checker | Claude | every-frame checker `OK: no issues` |
 | 8 | Stills | Claude | every scene and risky beat looked at and fixed |
 | 9 | Sound | Claude | the mix at the approved balance |
-| 10 | Render | Claude (ask before publishing) / User / Kaggle | the mp4, named by its YouTube title |
+| 10 | Render | Claude (ask before publishing) / User | the mp4, named by its YouTube title |
 | 11 | Review | Claude | full-timeline QA of the mp4; fix; back to §10 until clean |
 | 12–14 | Package, upload, learn | Both | title, description, cover, pinned comment; analytics → CLAUDE.md |
 
 ## 0. Setup in a new container
-1. **Repo:** your own GitHub repo with this project (`<your-github-user>/<your-repo>`). Work on your own branch; commit and
-   push only where you are allowed.
+**First, ask the user for these (never guess, never reuse values from another person's setup):**
+| Placeholder | Ask the user | Used in |
+|---|---|---|
+| `<REPO>` | "Which GitHub repo holds your project (owner/name), and which branch should I work on?" | §0.1, commits |
+| `<PHONE_PAGE_URL>` | "Do you already have a phone renderer page? Send its link, or I'll create a new private one." | §0.6, §10 |
+| `<VOICE>` | "Which ElevenLabs voice and model do you use?" | §3 |
+| `<VOICE_SPEED>` | "What speed should I apply to your voiceovers (e.g. 1.15x)?" | §3 |
+| `<CHANNEL_TITLES>` | "Send 2–3 of your best-performing titles so new titles match your style." | §12 |
+| API keys | Only through the secure credential form (`request_credential`) — never typed into chat. | §0.5 |
+
+1. **Repo:** `<REPO>` (ask the user). Work on the branch they name; commit and push only where you are allowed.
 2. **Node project:** `npm ci` (Node 20+; Remotion 4.0.540, three, @react-three/fiber, @remotion/web-renderer, esbuild,
    playwright). `npx tsc --noEmit -p .` must pass.
 3. **System tools:** `ffmpeg` (6.x), Python 3 with `numpy scipy pillow pocketsphinx`
@@ -36,14 +45,12 @@ Keep your own reference-channel notes (look, pacing, titles) in `references/styl
    videos; only analyse files the user provides.
 5. **Keys — always through the secure credential form (`request_credential`), never pasted in chat.** If the user
    pastes a key anyway, don't use it from chat: store it through the form and tell them to regenerate it.
-   - Kaggle: host `api.kaggle.com`, bearer. The `kaggle` CLI runs with
-     `KAGGLE_USERNAME=<your-kaggle-username> KAGGLE_KEY=proxy-injected KAGGLE_API_TOKEN=proxy-injected` (the proxy injects the
-     real key).
-   - Sketchfab: host `api.sketchfab.com`, header `Authorization: Token <key>` (prefix `Token`). Test: `GET /v3/me` → 200.
+   - Sketchfab (optional): ask the user for their own token through the form (host `api.sketchfab.com`, prefix
+     `Token`). Test: `GET /v3/me` → 200.
    - Poly Haven: no key (`api.polyhaven.com`; files from `dl.polyhaven.org`).
    - Never take or use the user's cookies or logins. Never bypass YouTube bot checks.
-6. **Phone page (the renderer the user renders on):** your own private artifact page (publish `web/dist/index.html`
-   once to create it, then keep its URL: `<your-phone-page-url>`; index.html + app.js + audio/<film>-mix.mp3). Before republishing from a new session, `read` the artifact (and any
+6. **Phone page (the renderer the user renders on):** `<PHONE_PAGE_URL>` (ask the user; if they have none, publish
+   `web/dist/index.html` once to create a private page and give them the link; index.html + app.js + audio/<film>-mix.mp3). Before republishing from a new session, `read` the artifact (and any
    published file the publish touches, e.g. `path: "app.js"`), and check the new build still contains every film.
 7. **Smoke test:** `npm run -s web:build`, start `(cd web/dist && python3 -m http.server 8765)` in the background,
    `COMP=<AnyCompId> node tools/t/websheet.js <scratch>/smoke 0.5 300` → a JPEG appears.
@@ -56,7 +63,7 @@ Keep your own reference-channel notes (look, pacing, titles) in `references/styl
   not verified (if it wasn't).
 - **COMPLETE DETAIL on every film, tests included** (§6 gate), reported with every build.
 - **Locked character look:** squircle heads, wide clavicles, sharp elbows, straight arms at rest, hands.
-- **Voice:** use the user's speed (1.10–1.25x so far); speed up only, never trim pauses.
+- **Voice:** use the user's speed (`<VOICE_SPEED>` unless they say otherwise); speed up only, never trim pauses.
 - **Mix:** SFX audible, music well under the voice (§9 numbers).
 - **Every film registered on the phone page gets its YouTube SEO title** (`title:` in `web/main.tsx`); renders are
   saved under that title.
@@ -67,17 +74,15 @@ Deliver 4–5 options; each a single narration paragraph (the user pastes it int
 and a rating out of 10 with reasons; then recommend one. ~110–130 words → ~35–45 s at the user's speed.
 **Reference pacing:** 3.4–3.8 words/s, almost no pauses; narration starts on frame 0, ends ≤ 0.5 s before the end.
 
-**Path A — the crime that isn't (default; what got views):** a mystery that looks like a crime or something sinister
-(break-ins where nothing is stolen, meat raining from the sky, a fake town on a map) → people investigate and fail →
+**Path A — the crime that isn't (default):** a mystery that looks like a crime or something sinister
+(e.g. break-ins where nothing is stolen, something strange falling from the sky) → people investigate and fail →
 someone caught in the act → "You see, …" a two- or three-line human, innocent backstory → "Then…" → a single-image payoff.
 
 **Path B — interesting facts / psychology:** a real, published, well-replicated finding told as a story about one
 person. Shape: 0 s the strange action or a "you" hook → "You see," the mechanism in one sentence → an everyday
 analogy aimed at the viewer ("Ever walk into the kitchen and forget why?") → the name of the effect → a twist or
 practical last line. Name the study (authors, year) in the notes under the script; never invent statistics; say
-"about half" rather than a number you can't source. Used/offered so far: change blindness (Simons & Levin 1998), the
-Benjamin Franklin effect (autobiography; Jecker & Landy 1969), spotlight effect (Gilovich et al. 2000), doorway effect
-(Radvansky et al. 2011), decoy effect (Huber, Payne & Puto 1982), IKEA effect (Norton, Mochon & Ariely 2012).
+"about half" rather than a number you can't source. Examples of solid findings: change blindness (Simons & Levin 1998), the Benjamin Franklin effect (Jecker & Landy 1969), spotlight effect (Gilovich et al. 2000), doorway effect (Radvansky et al. 2011), decoy effect (Huber, Payne & Puto 1982), IKEA effect (Norton, Mochon & Ariely 2012).
 
 **Both paths are written for the camera** — list these beats under every script:
 - 2–4 places only; cut only for a change of place, time or purpose; one continuous moving lens per scene.
@@ -86,7 +91,7 @@ Benjamin Franklin effect (autobiography; Jecker & Landy 1969), spotlight effect 
 - Original fiction and characters; never copy or paraphrase another creator's script or art.
 
 ## 3. The voiceover
-**User:** pastes the script into ElevenLabs (your chosen voice, v4), sends the mp3 with a speed.
+**User:** pastes the script into ElevenLabs (`<VOICE>`), sends the mp3 with a speed (default `<VOICE_SPEED>`).
 **Claude:**
 ```bash
 F=<upload.mp3>; NAME=<film>; SPEED=<1.25>
@@ -107,10 +112,9 @@ mkdir -p out/$NAME && cp public/audio/$NAME-voice.wav out/$NAME/vo.wav
 Files: `src/$NAME/{world.tsx, cast.ts, shots.ts, $Name.tsx, words.ts}`; register in `web/main.tsx` (with `title`)
 and `src/Root.tsx`. Stack: Remotion 4 + React Three Fiber + three.js + the inkbeat toon kit (`View`, `moodOf`
 day/dusk/night/cold/lamp/golden, `CastLight`, `Captions`/`makeChunks`, `M`, `boxG/cylG/sphG/coneG/torG`, `coreMat`,
-`canvasTex`, `Label`, `Character3D`). Reuse: `src/crow/shots.ts` (`C`, `keyed`, `ik`, `hand`, `head`, `headPosed`,
-`look`, `lerpAng`, `yawTo`, `smooth`), `src/inkbeat/anim/acting.ts` (`walkAt`, `window01`, `mixArm`), gull `Sea`,
-`Gull`, `Lighthouse`, `Tuft`, `Rock`; biscuit `Dog`; museum `Flashlight`; maple `Street`, `Mat`, `Kitchen`,
-`PoliceCar`, `StepStool`.
+`canvasTex`, `Label`, `Character3D`). Reuse the shared helpers already in the user's repo (camera keys `C`/`keyed`, arm IK `ik`, `hand`, `head`,
+`headPosed`, `look`, `lerpAng`, `yawTo`, `smooth`; `walkAt`, `window01`, `mixArm`) and props from their earlier films —
+ask the user or search the repo for them; don't rebuild what exists.
 
 **Camera grammar (from the reference channel, measured frame by frame):** 0–2 hard cuts per video, only for place or
 time; inside a scene, fast eased moves of 0.45–0.6 s that land on the spoken noun; the picture changes every
@@ -167,7 +171,7 @@ Nothing goes to stills until every box is done for EVERY set (reused sets re-dre
 - [ ] **2D inserts** have texture (grain, folds, stains).
 - [ ] Every added object is in the checker's obstacle list.
 
-## 7. The every-frame checker (`tools/qa/<film>_check.ts`; template: `tools/qa/maplefilm_check.ts`)
+## 7. The every-frame checker (`tools/qa/<film>_check.ts`; template: the most recent film's checker in `tools/qa/`)
 `npx esbuild tools/qa/<film>_check.ts --bundle --platform=node --log-level=error --outfile=/tmp/c.js && node /tmp/c.js`
 Run before any stills and after every change; fix until `OK: no issues` (INFO lines allowed). Every frame:
 - Lens inside/grazing any box (pad 0.1), near the floor, < 0.55 m from a posed head (`headPosed`).
@@ -196,7 +200,7 @@ handoffs, flips, whips, fly-throughs, the payoff). Hunt: blocked lenses, cropped
 not in hands, floating bits, z-fighting, washed-out glows, empty frames. Fix → re-run the checker → re-render only
 the changed frames → look again. For a suspicious element, render one debug frame with it bright red.
 
-## 9. Sound (`tools/audio_<film>.py`, copied from the latest film's: `tools/audio_maple.py`)
+## 9. Sound (`tools/audio_<film>.py`, copied from the latest film's)
 - Cue times: `tools/t/<film>_events.ts` prints word times, scene cuts, footfalls (walk phase crossing π), prop
   moments → `out/<film>/events.json`. Re-run it after any timing change; re-mix only if it changed.
 - Voice; beds per place (crickets at night, birds by day, surf, wind, rain, a clock); SFX on cues (steps, whoosh on
@@ -204,7 +208,7 @@ the changed frames → look again. For a suspicious element, render one debug fr
 - Approved balance (stem RMS): voice ≈ −25…−27 dB, fx ≈ −31…−33, bed ≈ −37…−45, music ≈ −50…−52.
 - Master: `bash tools/master.sh out/<film>/premaster.wav public/audio/<film>-mix.mp3` (−14 LUFS, −1 dBTP).
 
-## 10. Render — three ways (ask before publishing to the phone page)
+## 10. Render — two ways (ask before publishing to the phone page)
 1. **Phone page (the user's usual render, real phone GPU):** `npm run -s web:build && cp public/audio/<film>-mix.mp3
    web/dist/audio/`, then publish `web/dist/index.html` to the artifact with
    `files: {"app.js": "web/dist/app.js", "audio/<film>-mix.mp3": "web/dist/audio/<film>-mix.mp3"}`. The user picks
@@ -215,13 +219,6 @@ the changed frames → look again. For a suspicious element, render one debug fr
    `ffmpeg -nostdin -framerate 30 -i out/render/<Id>/frames/f%04d.jpg -i public/audio/<film>-mix.mp3 -c:v libx264
    -crf 17 -pix_fmt yuv420p -c:a aac -b:a 192k -shortest "out/render/<YouTube title>.mp4"`.
    (`tools/render_here.sh <Id> [workers] [from] [to]` automates this; it's new — test it on 8 frames before a full run.)
-3. **Kaggle (GPU notebook, private):** `tools/kaggle/pack.sh <Id> [Id...]` (project tarball + render.json with titles)
-   → `python3 tools/kaggle/push.py` (private dataset `<your-kaggle-username>/youtube-shorts-project` + private script
-   `<your-kaggle-username>/shorts-render`; set your username in `tools/kaggle/push.py` and `pack.sh`; GPU + internet on). The script installs, probes `--gl` modes (`egl`, `angle-egl`,
-   `vulkan`, `swangle` — `angle` has no WebGL in Kaggle's headless Chrome) and renders with the first that works.
-   Wait for the dataset to be `ready` before pushing the script, or it won't attach. Poll status rarely (Kaggle
-   rate-limits); fetch only the log/mp4 with `kaggle kernels output … --file-pattern`. If the API is rate-limited, ask
-   the user to paste the log from the notebook's Logs tab. A full Kaggle render is not yet proven end to end.
 Different GPUs can render shadows, depth and glows differently; only the phone render verifies the phone.
 
 ## 11. Full review of the render (the real QA)
@@ -239,8 +236,8 @@ was found and fixed, and what was not verified.
 
 ## 12. Package for YouTube
 - **Title** ("give me the seo title only" → reply with the title alone): curiosity + the impossible fact, ≤ 60
-  characters before one fitting emoji, then ` #shorts`. Never promise more than the video delivers. Example shape:
-  "He Broke Into the Same House 9 Times and Took Nothing 🏠 #shorts".
+  characters before one fitting emoji, then ` #shorts`. Never promise more than the video delivers. Match the style of
+  `<CHANNEL_TITLES>` (ask the user). Example shape: "He Broke Into the Same House 9 Times and Took Nothing 🏠 #shorts".
 - Same title in `web/main.tsx` (`title:`) so the render is already named for upload.
 - **Description:** 2–3 lines restating the hook without spoilers, 3–5 hashtags, CC-BY asset credits, the study for
   Path B. **Cover frame:** the clearest face + the key object. **Pinned comment:** a question inviting opinions.
