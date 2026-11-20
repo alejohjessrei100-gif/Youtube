@@ -77,14 +77,13 @@ const PAGE_DESK: V3 = Hh(-1.72, 1.06, 0.25); // the letter on Franklin's desk (s
 const INKPOT: V3 = Hh(-1.82, 1.16, 0.02); // the quill pot, on the near-right corner of his desk
 const MS_WAIT: V3 = Hh(-2.0, 0, 1.15);
 const LETTER_MEET: V3 = Hh(-2.12, 1.05, 0.8);
-/** a reachable point ~0.55 m from the shoulder toward a far target (pointing, not reaching) */
-const pointDir = (spec: CharacterSpec, p: V3, target: V3): V3 => { const sh = add(head(spec, p), [0, -0.42, 0]); const d = [target[0] - sh[0], target[1] - sh[1], target[2] - sh[2]]; const L = Math.hypot(d[0], d[1], d[2]) || 1; return [sh[0] + (d[0] / L) * 0.55, sh[1] + (d[1] / L) * 0.55, sh[2] + (d[2] / L) * 0.55]; };
 const MS_RUN: WalkSeg = { t0: T.borrow + 0.2, t1: T.rare + 0.75, from: MS_WAIT, to: Hh(-4.2, 0, 2.6) };
 const HAND_OFF = T.letter + 0.45; // the letter leaves the desk for Franklin's hand, then the messenger's
 const s1Actors = (t: number): Actor[] => {
   // the rival: glares and jabs a finger across the aisle on "hated him"
   const jab = window01(t, T.rival + 0.2, T.so + 0.3, 0.2, 0.3);
-  let pr = reach(RIVAL, RV_P, RV_YAW, REST, "R", pointDir(RIVAL, RV_P, add(head(FRANKLIN, FR_P), [0, 0.5, 0])), jab, 6);
+  // an explicit point across the aisle (IK keeps the hand low), with a jab
+  let pr: BodyPose = { ...REST, armR: mixArm(REST.armR!, [88 + 8 * Math.sin(t * 14) * jab, 6], jab), armRFwd: lerp(10, 78, jab) };
   pr = { ...pr, lean: 6 + 6 * jab, ...look(RIVAL, RV_P, RV_YAW, head(FRANKLIN, FR_P)) };
   const fr = F("glare", t < T.hated ? "frown" : "yell", "furious");
   // Franklin: the smile, the quill dip, writing, the handoff
@@ -119,8 +118,8 @@ const s1: Scene = {
     [T.asked - 0.2, C(Hh(-0.65, 1.62, 1.8), Hh(-2.15, 1.5, 0.45), 40), "linear"],
     [T.asked + 0.3, C(Hh(-0.9, 1.7, 1.9), Hh(-1.8, 1.25, 0.55), 46), "inout"],
     [T.specifically - 0.15, C(Hh(-0.92, 1.7, 1.92), Hh(-1.8, 1.22, 0.55), 46), "linear"],
-    [T.specifically + 0.35, C(Hh(-1.4, 2.35, 0.22), PAGE_DESK, 40), "inout"],
-    [T.letter + 0.1, C(Hh(-1.41, 2.32, 0.23), PAGE_DESK, 36), "linear"],
+    [T.specifically + 0.35, C(Hh(-1.25, 2.3, 0.12), PAGE_DESK, 40), "inout"],
+    [T.letter + 0.1, C(Hh(-1.26, 2.28, 0.13), PAGE_DESK, 36), "linear"],
     [T.borrow - 0.1, C(Hh(-0.6, 1.5, 1.3), Hh(-2.15, 1.3, 0.9), 52), "inout"],
     [T.borrow + 0.35, C(Hh(-0.65, 1.5, 1.4), Hh(-2.4, 1.15, 1.3), 52), "linear"],
     [T.rare, C(Hh(-1.6, 1.5, 3.4), Hh(-3.9, 1.0, 2.5), 52), "inout"],
@@ -234,7 +233,8 @@ const s3Actors = (t: number): Actor[] => {
   pr = reach(RIVAL, RV_L, RV_LYAW, pr, "R", add(head(RIVAL, RV_L), [0.3, 0.08, 0.06]), scratch, 4);
   pr = reach(RIVAL, RV_L, RV_LYAW, pr, "L", add(head(RIVAL, RV_L), [-0.12, -0.25, 0.25]), glee, 4);
   pr = reach(RIVAL, RV_L, RV_LYAW, pr, "R", add(head(RIVAL, RV_L), [0.12, -0.25, 0.25]), glee, 4);
-  const rlook = read > 0.5 ? Lb(0.8, 1.2, -0.7) : t > T.when - 0.1 ? s3.cam(t).pos : head(FRANKLIN, fp);
+  const cheatLens = t > T.polite2 - 0.2 && t < T.you2;
+  const rlook = read > 0.5 ? Lb(0.8, 1.2, -0.7) : t > T.when - 0.1 ? s3.cam(t).pos : cheatLens ? lerpV(head(FRANKLIN, fp), s3.cam(t).pos, 0.6) : head(FRANKLIN, fp);
   pr = { ...pr, ...look(RIVAL, RV_L, RV_LYAW, rlook), headNod: (look(RIVAL, RV_L, RV_LYAW, rlook).headNod ?? 0) + 18 * nod, headTilt: 10 * scratch };
   const rf =
     t < T.note + 0.2 ? F("half", "flat", "neutral") :
@@ -371,13 +371,16 @@ const s5: Scene = {
   cam: keyed([
     [T.next - 0.06, C(Oo(0.75, 1.62, 0.26), Oo(0.15, 1.5, -1.36), 46)],
     [T.stand + 0.1, C(Oo(0.62, 1.62, 0.25), Oo(0.15, 1.52, -1.36), 40), "inout"],
-    [GIFT_OUT.t0, C(Oo(0.62, 1.62, 0.25), Oo(0.15, 1.52, -1.36), 40), "linear"],
-    [GIFT_OUT.t1, C(Oo(0.3, 1.3, 0.3), Oo(0.55, 1.2, -1.0), 56), "inout"],
-    [SET_DOWN.t1, C(Oo(0.3, 1.4, 0.3), Oo(0.45, 1.0, -0.95), 56), "inout"],
-    [T.borrow2, C(Oo(-0.2, 1.3, 0.28), Oo(0.55, 1.15, -1.05), 52), "inout"],
-    [PEN_T.done + 0.1, C(Oo(-0.2, 1.3, 0.28), OMEET, 50), "linear"],
-    [PEN_T.done + 0.55, C(Oo(0.45, 1.6, -0.12), Oo(0.15, 1.5, -1.36), 48), "inout"],
-    [SECONDS, C(Oo(0.44, 1.6, -0.14), Oo(0.15, 1.5, -1.36), 47), "linear"],
+    [GIFT_OUT.t0 - 0.1, C(Oo(0.62, 1.62, 0.25), Oo(0.15, 1.52, -1.36), 40), "linear"],
+    // around you (not through you) to the window corner, landing on the gift held out
+    [GIFT_OUT.t0 + 0.12, C(Oo(1.95, 1.55, -0.35), Oo(0.6, 1.1, -1.05), 48), "in"],
+    [GIFT_OUT.t1, C(Oo(1.45, 1.5, -1.85), Oo(0.55, 1.15, -1.05), 52), "out"],
+    [SET_DOWN.t1, C(Oo(1.47, 1.5, -1.83), Oo(0.58, 1.0, -0.85), 52), "inout"],
+    [T.borrow2, C(Oo(1.45, 1.5, -1.85), Oo(0.55, 1.15, -1.05), 52), "inout"],
+    [PEN_T.done + 0.1, C(Oo(1.44, 1.5, -1.84), Oo(0.55, 1.18, -1.05), 50), "linear"],
+    // push in on her softening face
+    [PEN_T.done + 0.55, C(Oo(1.0, 1.55, -1.72), Oo(0.15, 1.47, -1.36), 56), "inout"],
+    [SECONDS, C(Oo(0.97, 1.55, -1.72), Oo(0.15, 1.47, -1.36), 54), "linear"],
   ]),
   actors: s5Actors,
   extra: (t) => {

@@ -58,7 +58,7 @@ export const FranklinFilm: React.FC<{ audio?: boolean }> = ({ audio = true }) =>
         {ex.note ? <Page p={ex.note.p} r={ex.note.r} tex="note" s={0.8} /> : null}
         {ex.book ? <P name="rarebook" p={ex.book.p} r={ex.book.r} /> : null}
         {(ex.cups ?? []).map((c, i) => <P key={i} name="teacup" p={c.p} r={c.r} />)}
-        {(ex.coins ?? []).map((c, i) => <M key={i} g={cylG(0.022, 0.022, 0.006, 14)} c="#e0b84a" tex="metal" p={c} />)}
+        {(ex.coins ?? []).map((c, i) => <M key={i} g={cylG(0.035, 0.035, 0.008, 14)} c="#f0c84a" tex="metal" p={c} />)}
         {ex.gift ? <P name="gift" p={ex.gift.p} r={ex.gift.r} /> : null}
         {ex.pen ? <P name="pen" p={ex.pen.p} r={ex.pen.r} /> : null}
         {ex.bubble ? <Bubble p={ex.bubble.p} text={ex.bubble.text} k={ex.bubble.k} cam={cam.pos} /> : null}
