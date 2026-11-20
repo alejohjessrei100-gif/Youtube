@@ -83,7 +83,7 @@ for (let f = 0; f < Math.round(SECONDS * 30); f++) {
     const key = `s${s.id}a${i}`; const q = prev[key];
     if (q) { if (d3(q.p, p) > 0.15) add(`actor${i} jumps ${d3(q.p, p).toFixed(2)} m (s${s.id})`, t); const dy = Math.abs(Math.atan2(Math.sin(a.yaw - q.yaw), Math.cos(a.yaw - q.yaw))) * 57.3; if (dy > 7) add(`actor${i} turns ${dy.toFixed(0)} deg in a frame (s${s.id})`, t); }
     prev[key] = { p, yaw: a.yaw, s: s.id };
-    actors.forEach((o, j) => { if (j > i && !o.lying && d2(p, o.p as V) < 0.42) add(`actors ${i}/${j} overlap (s${s.id})`, t); });
+    actors.forEach((o, j) => { if (j > i && d2(p, o.p as V) < 0.42) add(`actors ${i}/${j} overlap (s${s.id})`, t); });
   });
   // ---- FRAME CHECK
   {
@@ -91,7 +91,6 @@ for (let f = 0; f < Math.round(SECONDS * 30); f++) {
     const fw = nrm(sub(cam.look as V, lens)); const rt = nrm(crs(fw, [0, 1, 0])); const up = crs(rt, fw);
     const cw = s.cam(Math.max(s.t0, t - 1 / 30)); const fwW = nrm(sub(cw.look as V, cw.pos as V)); const whip = Math.acos(Math.min(1, dot(fw, fwW))) * 57.3 > 8;
     const sph = actors.flatMap((a, i) => bodySpheres(a as never, i));
-    const ex = s.extra(t);
     const bx = [...boxes];
     const floorY = 0.0;
     const fd = d3(lens, fo); const nearLim = Math.max(0.5, 0.3 * fd);
