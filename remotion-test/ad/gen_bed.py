@@ -1,6 +1,6 @@
 """Synth music bed + whooshes for the ad (30 s, stereo, 44.1 kHz)."""
 import numpy as np, wave
-sr=44100; dur=30.0; n=int(sr*dur); t=np.arange(n)/sr
+sr=44100; dur=39.0; n=int(sr*dur); t=np.arange(n)/sr
 rng=np.random.default_rng(3)
 bpm=124; beat=60/bpm
 out=np.zeros(n)
@@ -32,7 +32,7 @@ for bar in range(bars):
             add(tone(f*2,beat*0.5,7,(1,0.3)),tb+k*beat/4*1.0,0.07)
             add(tone(f*2,beat*0.5,7,(1,0.3)),tb+beat/2+k*beat/4,0.05)
 # whooshes at scene changes (seconds)
-for s in (3.33,5.5,15.5,20.0,23.5,27.5):
+for s in (3.3,7.3,17.3,25.65,29.3,34.5):
     L=int(0.55*sr); x=rng.standard_normal(L)
     env=np.sin(np.linspace(0,np.pi,L))**2
     # moving low-pass via cumulative smoothing

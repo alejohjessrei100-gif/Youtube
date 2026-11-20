@@ -15,7 +15,7 @@ import "@fontsource/poppins/latin-800.css";
 import "@fontsource/poppins/latin-600.css";
 
 export const AD_FPS = 30;
-export const AD_DURATION = 30 * AD_FPS;
+export const AD_DURATION = 39 * AD_FPS;
 
 const FONT = "Poppins, sans-serif";
 const YELLOW = "#ffd23f";
@@ -24,14 +24,16 @@ const PINK = "#ff4fa3";
 const INK = "#0a0a14";
 
 // scene boundaries (frames)
+// Timed to the ElevenLabs voiceover: narration plays 0-7.3 s, the 10 s sample clip
+// fills 7.3-17.3 s, then narration continues (ad time = voice time + 10 s).
 const S = {
-  hook: [0, 100],
-  intro: [100, 165],
-  demo: [165, 465],
-  how: [465, 600],
-  no: [600, 705],
-  price: [705, 825],
-  cta: [825, 900],
+  hook: [0, 99],
+  intro: [99, 219],
+  demo: [219, 519],
+  how: [519, 770],
+  no: [770, 879],
+  price: [879, 1035],
+  cta: [1035, 1170],
 } as const;
 
 /* ------------------------------------------------------------ primitives */
@@ -70,6 +72,7 @@ const Slam: React.FC<{
         fontSize: size,
         lineHeight: 1.0,
         letterSpacing: -2,
+        whiteSpace: "nowrap",
         color,
         textTransform: "uppercase",
         textAlign: "center",
@@ -229,16 +232,16 @@ const Hook: React.FC = () => {
     <Scene len={S.hook[1] - S.hook[0]}>
       <CoinRain />
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 26, transform: `scale(${pulse})` }}>
-        <Slam size={96} delay={2} color={CYAN}>
+        <Slam size={96} delay={0} color={CYAN}>
           this is your
         </Slam>
-        <Slam size={188} delay={9} color={YELLOW}>
+        <Slam size={150} delay={24} color={YELLOW}>
           opportunity
         </Slam>
-        <Slam size={112} delay={18}>
+        <Slam size={112} delay={40}>
           to earn money
         </Slam>
-        <Slam size={150} delay={26} color={PINK}>
+        <Slam size={150} delay={66} color={PINK}>
           online
         </Slam>
       </AbsoluteFill>
@@ -249,13 +252,13 @@ const Hook: React.FC = () => {
 const Intro: React.FC = () => (
   <Scene len={S.intro[1] - S.intro[0]}>
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 30, padding: "0 60px" }}>
-      <Slam size={92} delay={0} color={CYAN}>
+      <Slam size={84} delay={12} color={CYAN}>
         animated story shorts
       </Slam>
-      <Slam size={92} delay={6}>
+      <Slam size={84} delay={34}>
         are everywhere
       </Slam>
-      <Slam size={118} delay={22} color={YELLOW} style={{ marginTop: 40 }}>
+      <Slam size={118} delay={72} color={YELLOW} style={{ marginTop: 40 }}>
         now you can make them
       </Slam>
     </AbsoluteFill>
@@ -341,22 +344,23 @@ const Demo: React.FC = () => {
 const How: React.FC = () => {
   const f = useCurrentFrame();
   const text = "A guard notices one painting hanging crooked...";
-  const typed = text.slice(0, Math.max(0, Math.floor((f - 6) / 1.6)));
+  const typed = text.slice(0, Math.max(0, Math.floor((f - 10) / 1.4)));
   const cursor = Math.floor(f / 8) % 2 === 0 ? "|" : " ";
-  const chips: [string, string][] = [
-    ["Script", CYAN],
-    ["Characters", PINK],
-    ["Town", YELLOW],
-    ["Voice", CYAN],
-    ["Captions", PINK],
-    ["Video", YELLOW],
+  // each chip lands on its spoken word: script, characters, town, voice, captions, video
+  const chips: [string, string, number][] = [
+    ["Script", CYAN, 68],
+    ["Characters", PINK, 100],
+    ["Town", YELLOW, 130],
+    ["Voice", CYAN, 162],
+    ["Captions", PINK, 181],
+    ["Video", YELLOW, 226],
   ];
-  const bar = interpolate(f, [62, 125], [0, 100], { ...clamp, easing: Easing.out(Easing.cubic) });
+  const bar = interpolate(f, [66, 238], [0, 100], clamp);
   const boxK = useIn(0, 12);
   return (
     <Scene len={S.how[1] - S.how[0]}>
       <AbsoluteFill style={{ alignItems: "center", paddingTop: 170 }}>
-        <Slam size={78} color={CYAN}>
+        <Slam size={78} color={CYAN} delay={5}>
           you type the idea
         </Slam>
         <div
@@ -381,13 +385,13 @@ const How: React.FC = () => {
           <span style={{ color: PINK }}>{cursor}</span>
         </div>
         <div style={{ marginTop: 70 }}>
-          <Slam size={78} delay={34} color={YELLOW}>
+          <Slam size={78} delay={38} color={YELLOW}>
             claude builds the rest
           </Slam>
         </div>
         <div style={{ marginTop: 50, display: "flex", flexWrap: "wrap", gap: 26, justifyContent: "center", width: 940 }}>
-          {chips.map(([c, bg], i) => (
-            <Chip key={c} delay={40 + i * 9} bg={bg}>
+          {chips.map(([c, bg, d]) => (
+            <Chip key={c} delay={d} bg={bg}>
               {c}
             </Chip>
           ))}
@@ -428,10 +432,11 @@ const Strike: React.FC<{ delay: number; children: React.ReactNode }> = ({ delay,
         style={{
           fontFamily: FONT,
           fontWeight: 800,
-          fontSize: 112,
+          fontSize: 80,
           color: "#fff",
           textTransform: "uppercase",
           textAlign: "center",
+          whiteSpace: "nowrap",
           textShadow: "0 8px 0 rgba(0,0,0,.35)",
         }}
       >
@@ -457,29 +462,30 @@ const Strike: React.FC<{ delay: number; children: React.ReactNode }> = ({ delay,
 const No: React.FC = () => (
   <Scene len={S.no[1] - S.no[0]}>
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 56 }}>
-      <Strike delay={2}>animation skills</Strike>
-      <Strike delay={26}>studio</Strike>
-      <Strike delay={50}>software</Strike>
+      <Strike delay={1}>animation skills</Strike>
+      <Strike delay={42}>studio</Strike>
+      <Strike delay={72}>software</Strike>
     </AbsoluteFill>
   </Scene>
 );
 
 const Price: React.FC = () => {
   const f = useCurrentFrame();
-  const k = useIn(0, 10);
-  const badge = useIn(22, 8);
+  const k = useIn(15, 10);
+  const badge = useIn(80, 8);
   const spin = Math.cos(f / 5);
   return (
     <Scene len={S.price[1] - S.price[0]}>
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 36 }}>
-        <Slam size={68} color={CYAN}>
+        <Slam size={68} color={CYAN} delay={3}>
           the skill
         </Slam>
         <div
           style={{
             fontFamily: FONT,
             fontWeight: 800,
-            fontSize: 178,
+            fontSize: 126,
+            whiteSpace: "nowrap",
             letterSpacing: -4,
             color: YELLOW,
             textAlign: "center",
@@ -523,7 +529,7 @@ const Price: React.FC = () => {
             $2
           </div>
         </div>
-        <Slam size={96} delay={34} color="#fff">
+        <Slam size={96} delay={106} color="#fff">
           just ₱100
         </Slam>
       </AbsoluteFill>
@@ -534,18 +540,18 @@ const Price: React.FC = () => {
 const Cta: React.FC = () => {
   const f = useCurrentFrame();
   const pulse = 1 + 0.03 * Math.sin(f / 3);
-  const fine = useIn(30, 20);
+  const fine = useIn(86, 20);
   return (
     <AbsoluteFill>
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 34, padding: "0 60px" }}>
-        <Slam size={104} color="#fff">
+        <Slam size={104} color="#fff" delay={3}>
           tell claude
         </Slam>
-        <Slam size={104} color="#fff" delay={5}>
+        <Slam size={104} color="#fff" delay={16}>
           your story
         </Slam>
         <div style={{ transform: `scale(${pulse})`, marginTop: 30 }}>
-          <Slam size={110} delay={14} color={INK} style={{ background: YELLOW, padding: "22px 56px", borderRadius: 40, textShadow: "none", boxShadow: "0 14px 0 rgba(0,0,0,.4)" }}>
+          <Slam size={92} delay={44} color={INK} style={{ background: YELLOW, padding: "22px 56px", borderRadius: 40, textShadow: "none", boxShadow: "0 14px 0 rgba(0,0,0,.4)" }}>
             get your video
           </Slam>
         </div>
@@ -586,9 +592,9 @@ const Cta: React.FC = () => {
 const bedVolume = (f: number) => {
   // loud for hook/pitch, ducked under the sample clip's own audio
   const demoA = S.demo[0], demoB = S.demo[1];
-  const duck = interpolate(f, [demoA - 8, demoA + 8, demoB - 10, demoB + 6], [1, 0.09, 0.09, 1], clamp);
+  const duck = interpolate(f, [demoA - 8, demoA + 8, demoB - 10, demoB + 6], [1, 0.2, 0.2, 1], clamp);
   const fadeEnd = interpolate(f, [AD_DURATION - 30, AD_DURATION], [1, 0], clamp);
-  return 0.55 * duck * fadeEnd;
+  return 0.2 * duck * fadeEnd; // sits under the narration
 };
 
 /* ------------------------------------------------------------------ main */
@@ -597,7 +603,7 @@ const flash = (f: number) => {
   // white flash on every scene cut
   let a = 0;
   for (const b of [S.intro[0], S.demo[0], S.how[0], S.no[0], S.price[0], S.cta[0]]) {
-    a = Math.max(a, interpolate(f, [b, b + 5], [0.55, 0], clamp));
+    if (f >= b) a = Math.max(a, interpolate(f, [b, b + 5], [0.55, 0], clamp));
   }
   return a;
 };
@@ -608,6 +614,13 @@ export const Ad: React.FC = () => {
     <AbsoluteFill style={{ backgroundColor: "#090a1c" }}>
       <Background />
       <Audio src={staticFile("bed.wav")} volume={bedVolume} />
+      {/* ElevenLabs narration, split around the sample clip (ad time = voice time + 10 s after the clip) */}
+      <Sequence from={0} durationInFrames={S.demo[0]}>
+        <Audio src={staticFile("vo.mp3")} trimAfter={S.demo[0]} />
+      </Sequence>
+      <Sequence from={S.demo[1]}>
+        <Audio src={staticFile("vo.mp3")} trimBefore={S.demo[0]} />
+      </Sequence>
       <Sequence from={S.hook[0]} durationInFrames={S.hook[1] - S.hook[0]}>
         <Hook />
       </Sequence>

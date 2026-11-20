@@ -5,3 +5,4 @@ out/*
 out/cmp/*
 !out/cmp/compare.png
 public/
+!out/ad_3d_animation.mp4
