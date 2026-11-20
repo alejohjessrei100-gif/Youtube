@@ -20,6 +20,7 @@ import { MUSEUM_FRAMES, MuseumShort } from "../src/museum/Museum";
 import { MAPLE_FILM_FRAMES, MapleFilm } from "../src/maplefilm/MapleFilm";
 import { AssetSheet } from "../src/franklin/AssetSheet";
 import { MIDNIGHT_FRAMES, MidnightFilm } from "../src/midnight/MidnightFilm";
+import { FLASHES_FRAMES, FlashesFilm } from "../src/flashes/FlashesFilm";
 import { FRANKLIN_FRAMES, FranklinFilm } from "../src/franklin/FranklinFilm";
 import { MAPLE_FRAMES, MapleTest } from "../src/maple/Maple";
 import { BEAT_FRAMES, BeatSample } from "../src/beat/Beat";
@@ -48,6 +49,7 @@ const fileName = (c: Comp) => `${(c.title ?? c.id).replace(/[\\/:*?"<>|]/g, "").
 const COMPS: Comp[] = [
   { id: "MapleStreet", title: "Why Maple Street Flips Its Doormats", label: "Why Maple Street Flips Its Doormats (36 s)", component: MapleFilm, width: 1080, height: 1920, fps: 30, durationInFrames: MAPLE_FILM_FRAMES, defaultProps: { audio: true } },
   { id: "MidnightSchool", title: "The Lights Came On at 2 AM in a School Closed for 9 Years 🏫 #shorts", label: "The Midnight School (39 s)", component: MidnightFilm, width: 1080, height: 1920, fps: 30, durationInFrames: MIDNIGHT_FRAMES, defaultProps: { audio: true } },
+  { id: "ThreeFlashes", title: "A Man Flashed a Light at the Hospital Every Night at 9 PM 🔦 #shorts", label: "Three Flashes (37 s)", component: FlashesFilm, width: 1080, height: 1920, fps: 30, durationInFrames: FLASHES_FRAMES, defaultProps: { audio: true } },
   { id: "FranklinFavor", title: "He Made His Enemy Like Him With One Favor 📖 #shorts", label: "He Made His Enemy Like Him With One Favor (36 s)", component: FranklinFilm, width: 1080, height: 1920, fps: 30, durationInFrames: FRANKLIN_FRAMES, defaultProps: { audio: true } },
   { id: "FranklinAssets", label: "Franklin: asset + cast check (still)", component: AssetSheet, width: 1080, height: 1920, fps: 30, durationInFrames: 1, defaultProps: {} },
   { id: "MapleTest", label: "Maple Street doormat test (5 s, silent)", component: MapleTest, width: 1080, height: 1920, fps: 30, durationInFrames: MAPLE_FRAMES, defaultProps: {} },

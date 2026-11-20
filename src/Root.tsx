@@ -18,6 +18,7 @@ import { MuseumShort, MUSEUM_FRAMES } from "./museum/Museum";
 import { MapleFilm, MAPLE_FILM_FRAMES } from "./maplefilm/MapleFilm";
 import { FranklinFilm, FRANKLIN_FRAMES } from "./franklin/FranklinFilm";
 import { MidnightFilm, MIDNIGHT_FRAMES } from "./midnight/MidnightFilm";
+import { FlashesFilm, FLASHES_FRAMES } from "./flashes/FlashesFilm";
 import { MapleTest, MAPLE_FRAMES } from "./maple/Maple";
 import { BeatSample, BEAT_FRAMES } from "./beat/Beat";
 import { GravesShort, GRAVES_FRAMES } from "./graves/Graves";
@@ -30,6 +31,7 @@ import { BiscuitShort, BISCUIT_FRAMES } from "./biscuit/Biscuit";
 export const Root: React.FC = () => (
   <>
     <Composition id="MidnightSchool" component={MidnightFilm} durationInFrames={MIDNIGHT_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: true }} />
+    <Composition id="ThreeFlashes" component={FlashesFilm} durationInFrames={FLASHES_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: true }} />
     <Composition id="FranklinFavor" component={FranklinFilm} durationInFrames={FRANKLIN_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: true }} />
     <Composition id="MapleStreet" component={MapleFilm} durationInFrames={MAPLE_FILM_FRAMES} fps={30} width={1080} height={1920} defaultProps={{ audio: true }} />
     <Composition id="MapleTest" component={MapleTest} durationInFrames={MAPLE_FRAMES} fps={30} width={1080} height={1920} />

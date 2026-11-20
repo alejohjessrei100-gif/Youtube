@@ -68,7 +68,7 @@ verified, and disclose any known remaining issue.
   recheck renders. The user renders on the phone and sends the video with feedback; the review happens on that render.
 - Every film registered on the phone page gets its YouTube SEO title (`title` in web/main.tsx): the rendered file is
   saved under that title.
-- Voiceover: use the user's requested speed (currently 1.10x). Speed it up only; do not trim pauses.
+- Voiceover: use the user's requested speed (currently 1.25x). Speed it up only; do not trim pauses.
 - SFX must be audible; music sits well under the voice (the approved gull/museum mix balance).
 - What gets views (user, from channel results): a mystery that looks like a crime or something sinister (break-ins where
   nothing is stolen, meat raining from the sky, a fake town on a map), investigated, then an innocent, human twist at
