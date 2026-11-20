@@ -73,6 +73,7 @@ verified, and disclose any known remaining issue.
 - What gets views (user, from channel results): a mystery that looks like a crime or something sinister (break-ins where
   nothing is stolen, meat raining from the sky, a fake town on a map), investigated, then an innocent, human twist at
   the end. Default new scripts to this shape.
+  (User, 2026-11-20: the facts/psychology path did NOT do better. Stay on the crime-that-isn't shape.)
 - Scripts are written FOR the user's camera rules: few locations (2-4 scenes; cut only for a change of place, time or
   purpose), one continuous moving camera per scene, and the story itself must contain at least: one object handoff (a
   thrown / rolling / sliding object the lens follows, then hands to whoever reacts), one entrance the lens widens for,

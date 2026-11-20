@@ -71,7 +71,7 @@ and a rating out of 10 with reasons; then recommend one. ~110–130 words → ~3
 (break-ins where nothing is stolen, meat raining from the sky, a fake town on a map) → people investigate and fail →
 someone caught in the act → "You see, …" a two- or three-line human, innocent backstory → "Then…" → a single-image payoff.
 
-**Path B — interesting facts / psychology:** a real, published, well-replicated finding told as a story about one
+**Path B — interesting facts / psychology (underperformed Path A on this channel; use only if asked):** a real, published, well-replicated finding told as a story about one
 person. Shape: 0 s the strange action or a "you" hook → "You see," the mechanism in one sentence → an everyday
 analogy aimed at the viewer ("Ever walk into the kitchen and forget why?") → the name of the effect → a twist or
 practical last line. Name the study (authors, year) in the notes under the script; never invent statistics; say
