@@ -4,3 +4,4 @@ out/*
 !out/cmp/
 out/cmp/*
 !out/cmp/compare.png
+public/
