@@ -44,7 +44,7 @@ export const Asset: React.FC<AssetProps> = ({ film, name, p, r, fit, pre, tint =
   // useDelayRender (not the global delayRender) so the in-browser renderer waits too; release only after React has drawn
   // the loaded model (same pattern as useFonts)
   const { delayRender, continueRender } = useDelayRender();
-  const [handle] = useState(() => delayRender(`asset ${film}/${name}`, { timeoutInMilliseconds: 120000 }));
+  const [handle] = useState(() => delayRender(`asset ${film}/${name}`, { timeoutInMilliseconds: 600000 }));
   useEffect(() => {
     let live = true;
     load(url).then(

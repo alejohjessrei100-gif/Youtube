@@ -293,7 +293,7 @@ const App: React.FC = () => {
 // QA hook: render several frames of one composition in one pass (used by the contact-sheet check)
 (window as unknown as { __qaFrames: unknown }).__qaFrames = async (id: string, frames: number[], scale = 0.25) => {
   const c = COMPS.find((x) => x.id === id)!;
-  const res = await renderFramesOnWeb({ composition: { id: c.id, component: c.component, width: c.width, height: c.height, fps: c.fps, durationInFrames: c.durationInFrames, defaultProps: c.defaultProps }, inputProps: c.defaultProps, frames, scale, licenseKey: "free-license", delayRenderTimeoutInMilliseconds: 240_000 });
+  const res = await renderFramesOnWeb({ composition: { id: c.id, component: c.component, width: c.width, height: c.height, fps: c.fps, durationInFrames: c.durationInFrames, defaultProps: c.defaultProps }, inputProps: c.defaultProps, frames, scale, licenseKey: "free-license", delayRenderTimeoutInMilliseconds: 600_000 });
   const out: string[] = [];
   for (const r of res) {
     const b = await r.blob({ format: "jpeg", quality: 0.85 });
