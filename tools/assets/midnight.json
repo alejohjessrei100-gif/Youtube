@@ -1,0 +1,6 @@
+[
+ {"name": "wallclock", "src": "polyhaven", "id": "wall_clock"},
+ {"name": "clock2", "src": "polyhaven", "id": "alarm_clock_01"},
+ {"name": "bucket", "src": "polyhaven", "id": "wooden_bucket_01"},
+ {"name": "oillamp", "src": "polyhaven", "id": "vintage_oil_lamp"}
+]
