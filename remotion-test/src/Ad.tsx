@@ -15,7 +15,7 @@ import "@fontsource/poppins/latin-800.css";
 import "@fontsource/poppins/latin-600.css";
 
 export const AD_FPS = 30;
-export const AD_DURATION = 39 * AD_FPS;
+export const AD_DURATION = 1012; // 33.7 s
 
 const FONT = "Poppins, sans-serif";
 const YELLOW = "#ffd23f";
@@ -25,15 +25,16 @@ const INK = "#0a0a14";
 
 // scene boundaries (frames)
 // Timed to the ElevenLabs voiceover: narration plays 0-7.3 s, the 10 s sample clip
-// fills 7.3-17.3 s, then narration continues (ad time = voice time + 10 s).
+// fills 7.3-12.0 s (it stops on the guard's shocked face, clip frame 142), then
+// narration continues (ad time = voice time + 4.73 s).
 const S = {
   hook: [0, 99],
   intro: [99, 219],
-  demo: [219, 519],
-  how: [519, 770],
-  no: [770, 879],
-  price: [879, 1035],
-  cta: [1035, 1170],
+  demo: [219, 361],
+  how: [361, 612],
+  no: [612, 721],
+  price: [721, 877],
+  cta: [877, 1012],
 } as const;
 
 /* ------------------------------------------------------------ primitives */
@@ -592,9 +593,11 @@ const Cta: React.FC = () => {
 const bedVolume = (f: number) => {
   // loud for hook/pitch, ducked under the sample clip's own audio
   const demoA = S.demo[0], demoB = S.demo[1];
-  const duck = interpolate(f, [demoA - 8, demoA + 8, demoB - 10, demoB + 6], [1, 0.2, 0.2, 1], clamp);
+  // supplied track at 25%; dips under the sample clip so its own audio stays clear
+  const duck = interpolate(f, [demoA - 8, demoA + 8, demoB - 10, demoB + 6], [1, 0.4, 0.4, 1], clamp);
+  const fadeIn = interpolate(f, [0, 12], [0, 1], clamp);
   const fadeEnd = interpolate(f, [AD_DURATION - 30, AD_DURATION], [1, 0], clamp);
-  return 0.2 * duck * fadeEnd; // sits under the narration
+  return 0.25 * duck * fadeIn * fadeEnd;
 };
 
 /* ------------------------------------------------------------------ main */
@@ -613,7 +616,7 @@ export const Ad: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#090a1c" }}>
       <Background />
-      <Audio src={staticFile("bed.wav")} volume={bedVolume} />
+      <Audio src={staticFile("music.mp3")} volume={bedVolume} />
       {/* ElevenLabs narration, split around the sample clip (ad time = voice time + 10 s after the clip) */}
       <Sequence from={0} durationInFrames={S.demo[0]}>
         <Audio src={staticFile("vo.mp3")} trimAfter={S.demo[0]} />
