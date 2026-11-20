@@ -79,7 +79,7 @@ const MS_WAIT: V3 = Hh(-2.0, 0, 1.15);
 const LETTER_MEET: V3 = Hh(-2.12, 1.05, 0.8);
 /** a reachable point ~0.55 m from the shoulder toward a far target (pointing, not reaching) */
 const pointDir = (spec: CharacterSpec, p: V3, target: V3): V3 => { const sh = add(head(spec, p), [0, -0.42, 0]); const d = [target[0] - sh[0], target[1] - sh[1], target[2] - sh[2]]; const L = Math.hypot(d[0], d[1], d[2]) || 1; return [sh[0] + (d[0] / L) * 0.55, sh[1] + (d[1] / L) * 0.55, sh[2] + (d[2] / L) * 0.55]; };
-const MS_RUN: WalkSeg = { t0: T.borrow + 0.35, t1: T.rare + 0.4, from: MS_WAIT, to: Hh(-4.2, 0, 2.6) };
+const MS_RUN: WalkSeg = { t0: T.borrow + 0.2, t1: T.rare + 0.75, from: MS_WAIT, to: Hh(-4.2, 0, 2.6) };
 const HAND_OFF = T.letter + 0.45; // the letter leaves the desk for Franklin's hand, then the messenger's
 const s1Actors = (t: number): Actor[] => {
   // the rival: glares and jabs a finger across the aisle on "hated him"
@@ -102,10 +102,10 @@ const s1Actors = (t: number): Actor[] => {
   // the messenger: waits at the desk, takes the letter, runs for the door
   const w = walkAt([MS_RUN], MS_WAIT, t, MESSENGER.height * 1.7);
   const running = t > MS_RUN.t0;
-  const myaw = running ? lerpAng(yawTo(MS_WAIT, FR_P), yawTo(MS_RUN.from, MS_RUN.to), smooth((t - MS_RUN.t0) / 0.25)) : yawTo(MS_WAIT, FR_P);
+  const myaw = lerpAng(yawTo(MS_WAIT, FR_P), yawTo(MS_RUN.from, MS_RUN.to), smooth((t - (MS_RUN.t0 - 0.3)) / 0.85));
   const take = window01(t, HAND_OFF + 0.15, 99, 0.2, 0.1);
   let pm: BodyPose = { ...REST, walk: w.walk, lean: running ? 16 : 2 };
-  pm = reach(MESSENGER, w.p, myaw, pm, "R", LETTER_MEET, take * (running ? 0 : 1), 4);
+  pm = reach(MESSENGER, w.p, myaw, pm, "R", LETTER_MEET, take * (1 - smooth((t - (MS_RUN.t0 - 0.2)) / 0.2)), 4);
   return [A(RIVAL, RV_P, RV_YAW, pr, fr), A(FRANKLIN, FR_P, FR_YAW, pf, ff), A(MESSENGER, w.p, myaw, pm, F(running ? "wide" : "open", running ? "o" : "smile", "raised"))];
 };
 const s1: Scene = {
@@ -119,8 +119,8 @@ const s1: Scene = {
     [T.asked - 0.2, C(Hh(-0.65, 1.62, 1.8), Hh(-2.15, 1.5, 0.45), 40), "linear"],
     [T.asked + 0.3, C(Hh(-0.9, 1.7, 1.9), Hh(-1.8, 1.25, 0.55), 46), "inout"],
     [T.specifically - 0.15, C(Hh(-0.92, 1.7, 1.92), Hh(-1.8, 1.22, 0.55), 46), "linear"],
-    [T.specifically + 0.35, C(Hh(-1.95, 2.15, 1.05), PAGE_DESK, 40), "inout"],
-    [T.letter + 0.1, C(Hh(-1.94, 2.12, 1.02), PAGE_DESK, 36), "linear"],
+    [T.specifically + 0.35, C(Hh(-1.55, 2.45, 0.32), PAGE_DESK, 40), "inout"],
+    [T.letter + 0.1, C(Hh(-1.56, 2.4, 0.33), PAGE_DESK, 36), "linear"],
     [T.borrow - 0.1, C(Hh(-0.9, 1.55, 2.6), Hh(-2.0, 1.2, 1.2), 50), "inout"],
     [T.borrow + 0.35, C(Hh(-0.95, 1.55, 2.65), Hh(-2.2, 1.15, 1.4), 50), "linear"],
     [T.rare, C(Hh(-1.6, 1.5, 3.4), Hh(-3.9, 1.0, 2.5), 52), "inout"],
@@ -131,17 +131,17 @@ const s1: Scene = {
     const a = s1Actors(t);
     if (t < HAND_OFF) return { letter: { p: PAGE_DESK, r: [0.14, PI / 2 + 0.1, 0] } };
     if (t < HAND_OFF + 0.3) return { letter: { p: lerpV(PAGE_DESK, add(handAt(a[1], "L"), [0, 0.02, 0]), smooth((t - HAND_OFF) / 0.3)), r: [0.6, PI / 2, 0] } };
-    if (t < T.borrow + 0.1) return { letter: { p: add(handAt(a[1], "L"), [0, 0.02, 0]), r: [0.9, PI / 2, 0] } };
+    if (t < T.borrow - 0.05) return { letter: { p: add(handAt(a[1], "L"), [0, 0.02, 0]), r: [0.9, PI / 2, 0] } };
     // the messenger tucks it against his chest as he runs
     const chest = add(a[2].p, [0.18 * Math.sin(a[2].yaw), a[2].spec.height * 0.62, 0.18 * Math.cos(a[2].yaw)]);
-    return { letter: { p: lerpV(add(handAt(a[2], "R"), [0, 0.02, 0]), chest, smooth((t - (T.borrow + 0.1)) / 0.35)), r: [1.3, a[2].yaw, 0] } };
+    return { letter: { p: lerpV(add(handAt(a[2], "R"), [0, 0.02, 0]), chest, smooth((t - (T.borrow - 0.05)) / 0.55)), r: [1.3, a[2].yaw, 0] } };
   },
   focus: (t) => (t < T.so ? headPosed(s1Actors(t)[0]) : t < T.specifically ? headPosed(s1Actors(t)[1]) : t < T.borrow - 0.1 ? PAGE_DESK : headPosed(s1Actors(t)[2])),
 };
 
 // ================================================================== 2. LIB: the rare book is lent
 const RV_L: V3 = Lb(0.8, 0, -1.0);
-const RV_LYAW = lerpAng(0, yawTo(RV_L, Lb(2.0, 0, 1.6)), 0.3);
+const RV_LYAW = lerpAng(0, yawTo(RV_L, Lb(2.6, 0, 1.0)), 0.4);
 const MS_IN: WalkSeg = { t0: T.rare - 0.08, t1: T.lent - 0.38, from: Lb(-3.3, 0, 1.5), to: Lb(0.55, 0, 0.24) };
 const BOOK_DESK: V3 = Lb(0.85, 0.82, -0.45);
 const BOOK_SLIDE = { t0: T.lent - 0.08, t1: T.lent + 0.22 };
@@ -154,16 +154,15 @@ const s2Actors = (t: number): Actor[] => {
   const give = window01(t, MS_IN.t1 - 0.12, BOOK_SLIDE.t0 + 0.05, 0.12, 0.12);
   const grab = window01(t, BOOK_SLIDE.t1 - 0.05, 99, 0.15, 0.1);
   let pm: BodyPose = { ...REST, walk: w.walk, lean: arrived ? 6 : 16 };
-  pm = reach(MESSENGER, w.p, myaw, pm, "R", LETTER_L, give, 14);
-  pm = reach(MESSENGER, w.p, myaw, pm, "R", add(BOOK_EDGE, [0.06, 0.03, 0.05]), grab, 10);
-  pm = reach(MESSENGER, w.p, myaw, pm, "L", add(BOOK_EDGE, [-0.12, 0.03, 0.05]), grab, 10);
+  pm = reach(MESSENGER, w.p, myaw, pm, "R", LETTER_L, give, 22);
+  pm = reach(MESSENGER, w.p, myaw, pm, "R", add(BOOK_EDGE, [0.06, 0.03, 0.05]), grab, 22);
+  pm = reach(MESSENGER, w.p, myaw, pm, "L", add(BOOK_EDGE, [-0.12, 0.03, 0.05]), grab, 22);
   // the rival: takes the letter, glances at it, grumbles, pushes the book across with his right hand
-  const take = window01(t, MS_IN.t1 - 0.05, BOOK_SLIDE.t0 + 0.1, 0.12, 0.12);
-  const push = window01(t, BOOK_SLIDE.t0 - 0.1, BOOK_SLIDE.t1 + 0.15, 0.12, 0.2);
-  const bookAt = lerpV(BOOK_DESK, BOOK_EDGE, smooth((t - BOOK_SLIDE.t0) / (BOOK_SLIDE.t1 - BOOK_SLIDE.t0)));
+  const take = window01(t, MS_IN.t1 - 0.05, BOOK_SLIDE.t0 + 0.1, 0.2, 0.2);
+  const push = window01(t, BOOK_SLIDE.t0 - 0.1, BOOK_SLIDE.t0 + 0.2, 0.12, 0.15);
   let pr: BodyPose = { ...REST, lean: 6 + 10 * push };
-  pr = reach(RIVAL, RV_L, RV_LYAW, pr, "L", LETTER_L, take, 14);
-  pr = reach(RIVAL, RV_L, RV_LYAW, pr, "R", add(bookAt, [0.05, 0.05, -0.06]), push, 16);
+  pr = reach(RIVAL, RV_L, RV_LYAW, pr, "L", LETTER_L, take, 22);
+  pr = reach(RIVAL, RV_L, RV_LYAW, pr, "R", add(lerpV(BOOK_DESK, BOOK_EDGE, Math.min(0.5, smooth((t - BOOK_SLIDE.t0) / (BOOK_SLIDE.t1 - BOOK_SLIDE.t0)))), [0.05, 0.05, -0.06]), push, 16);
   pr = { ...pr, ...look(RIVAL, RV_L, RV_LYAW, take > 0.5 ? LETTER_L : head(MESSENGER, w.p)) };
   return [A(RIVAL, RV_L, RV_LYAW, pr, take > 0.5 ? F("squint", "frown", "angry") : F("half", "grimace", "angry")), A(MESSENGER, w.p, myaw, pm, F("open", arrived ? "smile" : "o", "raised"))];
 };
@@ -174,17 +173,18 @@ const s2: Scene = {
     [T.rare + 0.45, C(Lb(2.5, 1.75, 3.5), Lb(-0.6, 1.1, 0.6), 56), "inout"],
     [T.book + 0.35, C(Lb(2.1, 1.5, 1.6), Lb(0.8, 1.1, -0.6), 48), "inout"],
     [BOOK_SLIDE.t0, C(Lb(2.05, 1.48, 1.55), Lb(0.8, 1.05, -0.5), 48), "linear"],
-    [BOOK_SLIDE.t1 + 0.1, C(Lb(1.8, 1.5, 1.3), Lb(0.68, 1.15, -0.35), 48), "inout"],
-    [T.returned - 0.1, C(Lb(1.78, 1.5, 1.28), Lb(0.68, 1.18, -0.36), 47), "linear"],
+    [BOOK_SLIDE.t1 + 0.1, C(Lb(1.9, 1.55, 1.2), Lb(0.72, 1.35, -0.6), 50), "inout"],
+    [T.returned - 0.1, C(Lb(1.88, 1.55, 1.18), Lb(0.74, 1.4, -0.7), 49), "linear"],
   ]),
   actors: s2Actors,
   extra: (t) => {
     const a = s2Actors(t);
     const u = smooth((t - BOOK_SLIDE.t0) / (BOOK_SLIDE.t1 - BOOK_SLIDE.t0));
     const held = t > BOOK_SLIDE.t1 + 0.12;
-    const book: Prop = held ? { p: lerpV(handAt(a[1], "R"), handAt(a[1], "L"), 0.5), r: [0, a[1].yaw, 0] } : { p: lerpV(BOOK_DESK, BOOK_EDGE, u), r: [0, 0.2, 0] };
+    void held;
+    const book: Prop = { p: lerpV(lerpV(BOOK_DESK, BOOK_EDGE, u), lerpV(handAt(a[1], "R"), handAt(a[1], "L"), 0.5), smooth((t - (BOOK_SLIDE.t1 + 0.05)) / 0.3)), r: [0, 0.2, 0] };
     const swap = MS_IN.t1 + 0.02;
-    const letter: Prop = t < swap ? { p: add(handAt(a[1], "R"), [0, 0.02, 0]), r: [0.9, a[1].yaw, 0] } : t < BOOK_SLIDE.t0 ? { p: add(handAt(a[0], "L"), [0, 0.03, 0]), r: [-0.9, a[0].yaw, 0] } : { p: lerpV(add(handAt(a[0], "L"), [0, 0.03, 0]), Lb(0.4, 0.83, -0.55), smooth((t - BOOK_SLIDE.t0) / 0.3)), r: [0, 0.4, 0] };
+    const letter: Prop = t < swap ? { p: add(handAt(a[1], "R"), [0, 0.02, 0]), r: [0.9, a[1].yaw, 0] } : t < swap + 0.3 ? { p: lerpV(add(handAt(a[1], "R"), [0, 0.02, 0]), add(handAt(a[0], "L"), [0, 0.03, 0]), smooth((t - swap) / 0.3)), r: [0, a[0].yaw, 0] } : t < BOOK_SLIDE.t0 ? { p: add(handAt(a[0], "L"), [0, 0.03, 0]), r: [-0.9, a[0].yaw, 0] } : { p: lerpV(add(handAt(a[0], "L"), [0, 0.03, 0]), Lb(0.4, 0.83, -0.55), smooth((t - BOOK_SLIDE.t0) / 0.3)), r: [0, 0.4, 0] };
     return { book, letter };
   },
   focus: (t) => (t < T.book ? headPosed(s2Actors(t)[1]) : t < BOOK_SLIDE.t0 ? BOOK_DESK : t < BOOK_SLIDE.t1 + 0.1 ? BOOK_EDGE : headPosed(s2Actors(t)[0])),
@@ -212,8 +212,8 @@ const s3Actors = (t: number): Actor[] => {
   const tap = window01(t, T.figured - 0.15, T.when - 0.05, 0.2, 0.2);
   const lean = 4 + 16 * offer + 18 * shake + 16 * cup;
   let pf: BodyPose = { ...REST, walk: w.walk, lean };
-  pf = reach(FRANKLIN, fp, fyaw, pf, "R", add(fp, [0.2 * Math.sin(fyaw) + 0.18 * Math.cos(fyaw), 1.05, 0.2 * Math.cos(fyaw) - 0.18 * Math.sin(fyaw)]), carry, 2);
-  pf = reach(FRANKLIN, fp, fyaw, pf, "L", add(fp, [0.2 * Math.sin(fyaw) - 0.18 * Math.cos(fyaw), 1.05, 0.2 * Math.cos(fyaw) + 0.18 * Math.sin(fyaw)]), carry, 2);
+  pf = reach(FRANKLIN, fp, fyaw, pf, "R", add(fp, [0.28 * Math.sin(fyaw) + 0.14 * Math.cos(fyaw), 0.95, 0.28 * Math.cos(fyaw) - 0.14 * Math.sin(fyaw)]), carry, 2);
+  pf = reach(FRANKLIN, fp, fyaw, pf, "L", add(fp, [0.28 * Math.sin(fyaw) - 0.14 * Math.cos(fyaw), 0.95, 0.28 * Math.cos(fyaw) + 0.14 * Math.sin(fyaw)]), carry, 2);
   pf = reach(FRANKLIN, fp, fyaw, pf, "R", MEET, offer, lean);
   pf = reach(FRANKLIN, fp, fyaw, pf, "R", MEET, shake, lean);
   pf = reach(FRANKLIN, fp, fyaw, pf, "R", add(CLINK, [-0.07, 0, 0.03]), cup, lean);
@@ -252,12 +252,12 @@ const s3: Scene = {
   cam: keyed([
     [T.returned - 0.12, C(Lb(1.9, 1.62, 2.4), Lb(-3.2, 1.35, 1.6), 50)],
     [T.week - 0.15, C(Lb(1.95, 1.62, 2.45), Lb(-1.6, 1.35, 1.1), 52), "inout"],
-    [FR_IN.t1 + 0.2, C(Lb(1.75, 1.58, 1.55), Lb(0.75, 1.3, -0.45), 48), "inout"],
-    [T.day, C(Lb(1.72, 1.58, 1.5), Lb(0.78, 1.35, -0.7), 46), "linear"],
-    [T.polite2 - 0.1, C(Lb(1.55, 1.6, 1.25), Lb(0.8, 1.45, -0.9), 40), "inout"],
-    [SHAKE.t0 + 0.2, C(Lb(1.85, 1.5, 1.35), Lb(0.72, 1.2, -0.45), 48), "inout"],
-    [T.friend - 0.05, C(Lb(1.8, 1.45, 1.3), CLINK, 46), "inout"],
-    [T.life + 0.3, C(Lb(1.82, 1.46, 1.32), CLINK, 46), "linear"],
+    [FR_IN.t1 + 0.2, C(Lb(2.4, 1.6, 1.0), Lb(0.8, 1.45, -0.85), 48), "inout"],
+    [T.day, C(Lb(2.38, 1.6, 0.98), Lb(0.8, 1.48, -0.9), 46), "linear"],
+    [T.polite2 - 0.1, C(Lb(2.2, 1.62, 0.8), Lb(0.8, 1.45, -0.9), 40), "inout"],
+    [SHAKE.t0 + 0.2, C(Lb(2.15, 1.52, 1.2), Lb(0.76, 1.36, -0.66), 48), "inout"],
+    [T.friend - 0.05, C(Lb(2.12, 1.5, 1.18), Lb(0.76, 1.38, -0.6), 46), "inout"],
+    [T.life + 0.3, C(Lb(2.13, 1.5, 1.19), Lb(0.76, 1.38, -0.6), 46), "linear"],
     [T.benjamin - 0.15, C(Lb(1.25, 1.5, -0.1), NOTE_DESK, 36), "inout"],
     [T.franklin + 0.35, C(Lb(1.23, 1.48, -0.13), NOTE_DESK, 32), "linear"],
     [T.figured, C(Lb(1.65, 1.68, -0.55), Lb(0.6, 1.5, 0.2), 48), "inout"],
@@ -277,7 +277,7 @@ const s3: Scene = {
     // the note: in Franklin's right hand, to the rival's hands, then on the desk
     const inF = add(handAt(fr, "R"), [0, 0.03, 0]), inR = add(lerpV(handAt(rv, "L"), handAt(rv, "R"), 0.5), [0, 0.05, 0]);
     const note: Prop = t < NOTE_GIVE ? { p: inF, r: [0.9, fr.yaw, 0] } : t < T.polite2 + 0.25 ? { p: lerpV(inF, inR, smooth((t - NOTE_GIVE) / 0.3)), r: [-1.1, 0, 0] } : { p: lerpV(inR, NOTE_DESK, smooth((t - (T.polite2 + 0.25)) / 0.35)), r: [0, 0.25, 0] };
-    const held = smooth((t - (T.finally - 0.05)) / 0.25) * (1 - smooth((t - (T.you2 - 0.35)) / 0.3));
+    const held = smooth((t - (T.finally - 0.15)) / 0.45) * (1 - smooth((t - (T.you2 - 0.5)) / 0.45));
     const cupF: V3 = lerpV(CUP_F0, add(handAt(fr, "R"), [0, 0.02, 0]), held);
     const cupR: V3 = lerpV(CUP_R0, add(handAt(rv, "R"), [0, 0.02, 0]), held);
     const q = window01(t, T.why - 0.25, T.easiest + 0.1, 0.15, 0.15);
@@ -312,8 +312,8 @@ const s4Actors = (t: number): Actor[] => {
 const s4: Scene = {
   id: 4, t0: T.psychologists - 0.06, mood: "day", blur: 1.0, set: "lab",
   cam: keyed([
-    [T.psychologists - 0.06, C(Bb(-0.3, 1.6, -1.2), Bb(-0.6, 1.55, -2.82), 34)],
-    [T.tested - 0.05, C(Bb(-0.25, 1.6, -1.1), Bb(-0.6, 1.55, -2.82), 36), "linear"],
+    [T.psychologists - 0.06, C(Bb(1.25, 1.7, -1.15), Bb(-0.6, 1.55, -2.82), 30)],
+    [T.tested - 0.05, C(Bb(1.3, 1.7, -1.05), Bb(-0.6, 1.55, -2.82), 32), "linear"],
     [T.tested + 0.45, C(Bb(2.2, 1.65, 0.6), Bb(0.1, 1.15, -0.8), 50), "inout"],
     [T.held - 0.1, C(Bb(2.15, 1.63, 0.55), Bb(0.1, 1.2, -0.85), 48), "linear"],
     [T.held + 0.35, C(Bb(1.6, 1.62, 0.1), Bb(-0.2, 1.5, -1.6), 46), "inout"],
@@ -331,65 +331,64 @@ const s4: Scene = {
 };
 
 // ================================================================== 5. OFFICE, today
-const YOU_P: V3 = Oo(0.1, 0, 1.12);
-const GR_P: V3 = Oo(-0.05, 0, -1.12);
-const YOU_YAW = lerpAng(PI, yawTo(YOU_P, Oo(1.6, 0, 0.2)), 0.25);
-const GR_YAW = lerpAng(0, yawTo(GR_P, Oo(0.8, 0, 1.8)), 0.3);
-const GIFT_GO = { t0: T.dont - 0.15, t1: T.gift - 0.05 };
-const GIFT_BACK = { t0: T.gift + 0.12, t1: T.ask - 0.05 };
-const GIFT_YOU: V3 = Oo(0.25, 0.6, 0.42), GIFT_HER: V3 = Oo(0.25, 0.6, -0.4);
-const PEN_DESK: V3 = Oo(-0.35, 0.6, -0.5);
-const PEN_T = { pick: T.borrow2 - 0.1, give: T.pen - 0.05, done: T.pen + 0.3 };
-const HANDS_MEET: V3 = Oo(0.0, 1.12, 0.05);
+// You stand at the end of her desk (you walked over); both standing, so every handoff is at chest height.
+const GR_P: V3 = Oo(0.15, 0, -1.36);
+const YOU_P: V3 = Oo(1.0, 0, -0.85);
+const GR_YAW = lerpAng(yawTo(GR_P, YOU_P), yawTo(GR_P, Oo(0.6, 0, 0.6)), 0.45);
+const YOU_YAW = lerpAng(yawTo(YOU_P, GR_P), yawTo(YOU_P, Oo(0.6, 0, 0.6)), 0.25);
+const OMEET: V3 = Oo(0.58, 1.02, -1.08);
+const GIFT_OUT = { t0: T.dont - 0.15, t1: T.dont + 0.25 };
+const PUSH = { t0: T.gift - 0.05, t1: T.gift + 0.3 };
+const SET_DOWN = { t0: T.gift + 0.32, t1: T.ask - 0.05 };
+const GIFT_DESK: V3 = Oo(0.6, 0.6, -0.7);
+const PEN_T = { give: T.borrow2 - 0.1, take: T.pen - 0.05, done: T.pen + 0.35 };
 const s5Actors = (t: number): Actor[] => {
-  // you: push the gift across, then hold out a hand
-  const push = window01(t, GIFT_GO.t0 - 0.1, GIFT_GO.t1 + 0.1, 0.15, 0.2);
-  const ask = window01(t, T.ask - 0.1, 99, 0.2, 0.1);
-  const giftAt = s5Gift(t);
-  let py: BodyPose = { ...REST, lean: 4 + 10 * push + 6 * ask };
-  py = reach(YOU, YOU_P, YOU_YAW, py, "R", add(giftAt, [0.05, 0.12, 0.12]), push, 10);
-  py = reach(YOU, YOU_P, YOU_YAW, py, "R", add(HANDS_MEET, [0.04, -0.02, 0.1]), ask, 8);
+  // you: hold the gift out, take it back, set it on her desk corner, then hold out an open hand
+  const out = window01(t, GIFT_OUT.t0, SET_DOWN.t0 + 0.05, 0.25, 0.15);
+  const down = window01(t, SET_DOWN.t0, SET_DOWN.t1 + 0.1, 0.15, 0.2);
+  const ask = window01(t, T.ask - 0.05, 99, 0.25, 0.1);
+  const back = smooth((t - PUSH.t0) / 0.3) * (1 - smooth((t - SET_DOWN.t0) / 0.25));
+  const giftHold = lerpV(OMEET, add(OMEET, [0.22, 0.0, 0.15]), back);
+  let py: BodyPose = { ...REST, lean: 4 + 6 * out + 14 * down + 6 * ask };
+  py = reach(YOU, YOU_P, YOU_YAW, py, "R", giftHold, out, 12);
+  py = reach(YOU, YOU_P, YOU_YAW, py, "R", add(GIFT_DESK, [0.02, 0.2, 0.02]), down, 22);
+  py = reach(YOU, YOU_P, YOU_YAW, py, "R", add(OMEET, [0.08, -0.02, 0.06]), ask, 12);
   py = { ...py, ...look(YOU, YOU_P, YOU_YAW, head(GRUMP, GR_P)) };
-  // the grump: hands flat on the desk, glaring; flicks the gift back; picks up her pen, hands it over, softens
-  const flick = window01(t, GIFT_BACK.t0 - 0.1, GIFT_BACK.t0 + 0.25, 0.1, 0.2);
-  const pick = window01(t, PEN_T.pick - 0.1, PEN_T.give, 0.15, 0.1);
-  const give = window01(t, PEN_T.give - 0.05, PEN_T.done + 0.6, 0.15, 0.3);
-  let pg: BodyPose = { ...REST, lean: 10 };
-  pg = reach(GRUMP, GR_P, GR_YAW, pg, "L", Oo(-0.35, 0.62, -0.95), 1 - give, 10);
-  pg = reach(GRUMP, GR_P, GR_YAW, pg, "R", Oo(0.3, 0.62, -0.95), 1 - Math.max(flick, pick, give), 10);
-  pg = reach(GRUMP, GR_P, GR_YAW, pg, "R", add(GIFT_HER, [-0.05, 0.12, -0.12]), flick, 12);
-  pg = reach(GRUMP, GR_P, GR_YAW, pg, "R", add(PEN_DESK, [0, 0.03, 0]), pick, 12);
-  pg = reach(GRUMP, GR_P, GR_YAW, pg, "R", add(HANDS_MEET, [-0.04, 0.02, -0.1]), give, 10);
-  const soft = window01(t, PEN_T.done, 99, 0.35, 0.1);
-  pg = { ...pg, ...look(GRUMP, GR_P, GR_YAW, t > PEN_T.done + 0.2 ? s5.cam(t).pos : head(YOU, YOU_P)) };
-  const gf = soft > 0.4 ? F("half", "smile", "raised", { flush: 0.4 }) : t > T.ask + 0.1 ? F("wide", "o", "raised") : F("glare", "frown", "furious");
-  const yf = t > T.ask - 0.1 ? F("open", t < T.pen + 0.3 ? "open" : "grin", "raised") : t > GIFT_GO.t0 ? F("open", "smile", "raised") : F("half", "grimace", "worried", { sweat: true });
+  // the coworker: glares, pushes the gift back with a flat palm, then hands over her pen and softens
+  const push = window01(t, PUSH.t0 - 0.1, PUSH.t1, 0.12, 0.2);
+  const give = window01(t, PEN_T.give, PEN_T.done + 0.2, 0.25, 0.3);
+  let pg: BodyPose = { ...REST, lean: 2 + 8 * push + 6 * give };
+  pg = reach(GRUMP, GR_P, GR_YAW, pg, "L", add(OMEET, [-0.1, 0.02, -0.04]), push, 14);
+  pg = reach(GRUMP, GR_P, GR_YAW, pg, "R", add(OMEET, [-0.06, 0.0, -0.03]), give, 14);
+  const soft = window01(t, PEN_T.done, 99, 0.4, 0.1);
+  pg = { ...pg, ...look(GRUMP, GR_P, GR_YAW, t > PEN_T.done + 0.15 ? s5.cam(t).pos : head(YOU, YOU_P)) };
+  const gf = soft > 0.4 ? F("half", "smile", "raised", { flush: 0.4 }) : t > T.ask + 0.05 ? F("wide", "o", "raised") : push > 0.3 ? F("glare", "flat", "angry") : F("glare", "frown", "furious");
+  const yf = t > T.ask - 0.1 ? F("open", t < T.pen + 0.3 ? "open" : "grin", "raised") : out > 0.2 ? F("open", "smile", "raised") : F("half", "grimace", "worried", { sweat: true });
   return [A(GRUMP, GR_P, GR_YAW, pg, gf), A(YOU, YOU_P, YOU_YAW, py, yf)];
-};
-const s5Gift = (t: number): V3 => {
-  if (t < GIFT_BACK.t0) return lerpV(GIFT_YOU, GIFT_HER, smooth((t - GIFT_GO.t0) / (GIFT_GO.t1 - GIFT_GO.t0)));
-  return lerpV(GIFT_HER, GIFT_YOU, smooth((t - GIFT_BACK.t0) / (GIFT_BACK.t1 - GIFT_BACK.t0)));
 };
 const s5: Scene = {
   id: 5, t0: T.next - 0.06, mood: "day", blur: 1.0, set: "office",
   cam: keyed([
-    [T.next - 0.06, C(Oo(0.55, 1.65, 2.25), Oo(-0.05, 1.45, -1.12), 44)],
-    [T.stand + 0.1, C(Oo(0.5, 1.62, 1.95), Oo(-0.05, 1.48, -1.12), 36), "inout"],
-    [GIFT_GO.t0, C(Oo(0.5, 1.62, 1.93), Oo(-0.05, 1.48, -1.12), 36), "linear"],
-    [GIFT_GO.t1, C(Oo(1.6, 1.5, 0.5), Oo(0.2, 0.8, -0.2), 48), "inout"],
-    [GIFT_BACK.t1, C(Oo(1.65, 1.5, 0.6), Oo(0.2, 0.85, 0.3), 48), "inout"],
-    [T.borrow2, C(Oo(1.75, 1.42, 0.2), Oo(0.0, 1.15, 0.0), 46), "inout"],
-    [PEN_T.done + 0.1, C(Oo(1.7, 1.42, 0.2), HANDS_MEET, 44), "linear"],
-    [PEN_T.done + 0.55, C(Oo(0.55, 1.58, 0.85), Oo(-0.05, 1.5, -1.45), 40), "inout"],
-    [SECONDS, C(Oo(0.5, 1.58, 0.75), Oo(-0.05, 1.5, -1.45), 38), "linear"],
+    [T.next - 0.06, C(Oo(0.75, 1.62, 0.26), Oo(0.15, 1.5, -1.36), 46)],
+    [T.stand + 0.1, C(Oo(0.62, 1.62, 0.25), Oo(0.15, 1.52, -1.36), 40), "inout"],
+    [GIFT_OUT.t0, C(Oo(0.62, 1.62, 0.25), Oo(0.15, 1.52, -1.36), 40), "linear"],
+    [GIFT_OUT.t1, C(Oo(0.4, 1.15, 0.27), Oo(0.6, 1.05, -1.0), 52), "inout"],
+    [SET_DOWN.t1, C(Oo(0.42, 1.4, 0.27), Oo(0.66, 0.78, -0.68), 52), "inout"],
+    [T.borrow2, C(Oo(0.4, 1.15, 0.27), Oo(0.55, 1.1, -1.05), 50), "inout"],
+    [PEN_T.done + 0.1, C(Oo(0.4, 1.15, 0.27), OMEET, 48), "linear"],
+    [PEN_T.done + 0.55, C(Oo(0.45, 1.6, -0.12), Oo(0.15, 1.5, -1.36), 48), "inout"],
+    [SECONDS, C(Oo(0.44, 1.6, -0.14), Oo(0.15, 1.5, -1.36), 47), "linear"],
   ]),
   actors: s5Actors,
   extra: (t) => {
     const a = s5Actors(t);
-    const pen: Prop = t < PEN_T.pick + 0.15 ? { p: PEN_DESK, r: [0, 0, PI / 2] } : t < PEN_T.done ? { p: add(handAt(a[0], "R"), [0, 0.01, 0]), r: [0, 0, PI / 2] } : { p: add(handAt(a[1], "R"), [0, 0.01, 0]), r: [0, 0, PI / 2] };
-    return { gift: { p: s5Gift(t), r: [0, 0.4, 0] }, pen };
+    const inYou = add(handAt(a[1], "R"), [0, 0.06, 0]);
+    const gift: Prop = t < SET_DOWN.t1 ? { p: lerpV(inYou, GIFT_DESK, smooth((t - SET_DOWN.t0) / (SET_DOWN.t1 - SET_DOWN.t0))), r: [0, 0.4, 0] } : { p: GIFT_DESK, r: [0, 0.4, 0] };
+    const inHer = add(handAt(a[0], "R"), [0, 0.01, 0]);
+    const pen: Prop = { p: lerpV(inHer, add(handAt(a[1], "R"), [0, 0.01, 0]), smooth((t - PEN_T.take) / 0.25)), r: [0, 0, PI / 2] };
+    return { gift, pen };
   },
-  focus: (t) => (t < GIFT_GO.t0 ? headPosed(s5Actors(t)[0]) : t < T.ask ? s5Gift(t) : t < PEN_T.done + 0.3 ? HANDS_MEET : headPosed(s5Actors(t)[0])),
+  focus: (t) => (t < GIFT_OUT.t0 ? headPosed(s5Actors(t)[0]) : t < T.ask ? OMEET : t < PEN_T.done + 0.3 ? OMEET : headPosed(s5Actors(t)[0])),
 };
 
 export const SCENES: Scene[] = [s1, s2, s3, s4, s5];
@@ -398,5 +397,5 @@ export const sceneAt = (t: number) => {
   for (const x of SCENES) if (t >= x.t0) s = x;
   return s;
 };
-export const FRANKLIN_EVENTS = () => ({ ...T, cuts: SCENES.map((s) => s.t0), handOff: HAND_OFF, bookSlide: BOOK_SLIDE.t0, noteGive: NOTE_GIVE, shake: SHAKE.t0, clink: T.friend, coins: COINS_T.t0, giftGo: GIFT_GO.t0, giftBack: GIFT_BACK.t0, pen: PEN_T.give, msRun: MS_RUN.t0, msIn: MS_IN.t0, frIn: FR_IN.t0 });
+export const FRANKLIN_EVENTS = () => ({ ...T, cuts: SCENES.map((s) => s.t0), handOff: HAND_OFF, bookSlide: BOOK_SLIDE.t0, noteGive: NOTE_GIVE, shake: SHAKE.t0, clink: T.friend, coins: COINS_T.t0, giftGo: GIFT_OUT.t0, giftBack: PUSH.t0, pen: PEN_T.take, msRun: MS_RUN.t0, msIn: MS_IN.t0, frIn: FR_IN.t0 });
 export { FR_DESK, HALL_DOOR, LAB_DESK, LIB_DESK, LIB_DOOR };
