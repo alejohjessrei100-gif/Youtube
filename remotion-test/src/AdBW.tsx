@@ -399,6 +399,8 @@ const musicVolume = (f: number) => {
 export const AdBW: React.FC = () => (
   <AbsoluteFill style={{ backgroundColor: "#000" }}>
     <Audio src={staticFile("music.mp3")} volume={musicVolume} />
+    {/* synthesised sound effects, placed on each animation (see ad/gen_sfx.py) */}
+    <Audio src={staticFile("sfx.wav")} volume={0.9} />
     <Sequence from={0} durationInFrames={S.demo[0]}>
       <Audio src={staticFile("vo.mp3")} trimAfter={S.demo[0]} />
     </Sequence>
