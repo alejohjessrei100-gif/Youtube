@@ -143,7 +143,7 @@ export const CLOTH = {
   brass: "#c99f4b",
 } as const;
 /** default hat colors */
-export const HAT_COLORS: Record<string, string> = { cap: "#c94a3a", flat: "#7d6a55", beanie: "#3f8f6e", sunhat: "#e3c98e" };
+export const HAT_COLORS: Record<string, string> = { cap: "#c94a3a", flat: "#7d6a55", beanie: "#3f8f6e", sunhat: "#e3c98e", wig: "#ecebe6", tricorn: "#26232b" };
 /** face colors */
 export const FACE_COLORS = {
   eye: "#3a2a24",

@@ -780,6 +780,39 @@ export const hatParts = (hat: string, seed: number): HatPart[] => {
       });
       break;
     }
+    case "wig": {
+      // an 18th-century powdered periwig: a puffy crown down past the ears, two side curls each side, a tied queue + bow
+      const hv = headVariant(seed);
+      parts.push({ geo: capGeo({ seed, a0: () => 0, a1: (th) => (92 + 26 * sstep(1.2, 2.6, fromFront(th))) * D2R, thick: (s2) => 0.11 + 0.07 * Math.sin(Math.PI * Math.min(1, s2 * 1.3)), nt: 96, na: 28 }), color: "hat", spec: 0.05, hull: true, cast: true, tex: "rib" });
+      const side = headPoint(1, -0.05, -0.12, hv, new THREE.Vector3());
+      for (const sx of [-1, 1])
+        for (const [dy, r] of [[0.0, 0.2], [-0.42, 0.18]] as [number, number][]) {
+          const c = new THREE.CylinderGeometry(R * r, R * r, R * 0.95, 20, 1);
+          c.rotateX(Math.PI / 2);
+          c.translate(sx * (side.x + R * (r + 0.06)), side.y + R * dy, side.z - R * 0.05);
+          parts.push({ geo: c, color: "hat", spec: 0.05, hull: true, inkK: 0.7, cast: true });
+        }
+      const back = headPoint(0, -0.25, -1, hv, new THREE.Vector3());
+      const q = new THREE.CylinderGeometry(R * 0.13, R * 0.08, R * 0.95, 14, 1);
+      q.translate(0, back.y - R * 0.55, back.z - R * 0.2);
+      parts.push({ geo: q, color: "hat", spec: 0.05, hull: true, inkK: 0.7, cast: true });
+      for (const sx of [-1, 1]) {
+        const bw = new THREE.ConeGeometry(R * 0.14, R * 0.3, 10);
+        bw.rotateZ((sx * Math.PI) / 2);
+        bw.translate(sx * R * 0.15, back.y - R * 0.12, back.z - R * 0.22);
+        parts.push({ geo: bw, color: "band", spec: 0.3, hull: true, inkK: 0.6 });
+      }
+      break;
+    }
+    case "tricorn": {
+      // a tricorn: a low crown that hugs the head, a three-cornered brim turned up (one point at the front), a trim band
+      const A1 = 56 * D2R;
+      parts.push({ geo: capGeo({ seed, a0: () => 0, a1: () => A1, thick: (s2) => 0.11 + 0.05 * (1 - s2), nt: 96, na: 24 }), color: "hat", spec: 0.12, hull: true, cast: true, tex: "tweed" });
+      const tri = (th: number) => 0.55 + 0.6 * Math.pow(Math.max(0, Math.cos(3 * th)), 3);
+      parts.push({ geo: brimGeo(seed, A1 + 2 * D2R, 0.1, R * 0.62, -0.95, R * 0.05, tri), color: "hat", spec: 0.1, hull: true, cast: true, rim: 0 });
+      parts.push({ geo: capGeo({ seed, a0: () => A1 - 8 * D2R, a1: () => A1 + 1 * D2R, thick: () => 0.125, nt: 96, na: 4 }), color: "band", spec: 0.5, hull: true });
+      break;
+    }
     default:
       break;
   }

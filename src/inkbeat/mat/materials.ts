@@ -300,3 +300,17 @@ export function toonMaterial(o: ToonOpts): THREE.Material {
   matCache.set(key, mat);
   return mat;
 }
+
+/** a toon material on an imported model's own base-colour texture (UV-mapped), tinted; cached by texture + tint */
+const mapMatCache = new Map<string, THREE.MeshToonMaterial>();
+export function toonMapMaterial(map: THREE.Texture | null, color: string, side: THREE.Side = THREE.FrontSide): THREE.Material {
+  const key = (map ? map.uuid : "none") + "|" + color + "|" + side;
+  const hit = mapMatCache.get(key);
+  if (hit) return hit;
+  if (map) map.colorSpace = THREE.SRGBColorSpace;
+  const mat = new THREE.MeshToonMaterial({ color, map, gradientMap: toonRamp(), side });
+  mat.userData.triScale = { value: 1 };
+  patch(mat);
+  mapMatCache.set(key, mat);
+  return mat;
+}

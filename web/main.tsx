@@ -18,6 +18,7 @@ import { DIR_FRAMES, DirectorLab } from "../src/directorlab/DirectorLab";
 import { GULL_FRAMES, GullShort } from "../src/gull/Gull";
 import { MUSEUM_FRAMES, MuseumShort } from "../src/museum/Museum";
 import { MAPLE_FILM_FRAMES, MapleFilm } from "../src/maplefilm/MapleFilm";
+import { AssetSheet } from "../src/franklin/AssetSheet";
 import { MAPLE_FRAMES, MapleTest } from "../src/maple/Maple";
 import { BEAT_FRAMES, BeatSample } from "../src/beat/Beat";
 import { GRAVES_FRAMES, GravesShort } from "../src/graves/Graves";
@@ -44,6 +45,7 @@ const fileName = (c: Comp) => `${(c.title ?? c.id).replace(/[\\/:*?"<>|]/g, "").
 
 const COMPS: Comp[] = [
   { id: "MapleStreet", title: "Why Maple Street Flips Its Doormats", label: "Why Maple Street Flips Its Doormats (36 s)", component: MapleFilm, width: 1080, height: 1920, fps: 30, durationInFrames: MAPLE_FILM_FRAMES, defaultProps: { audio: true } },
+  { id: "FranklinAssets", label: "Franklin: asset + cast check (still)", component: AssetSheet, width: 1080, height: 1920, fps: 30, durationInFrames: 1, defaultProps: {} },
   { id: "MapleTest", label: "Maple Street doormat test (5 s, silent)", component: MapleTest, width: 1080, height: 1920, fps: 30, durationInFrames: MAPLE_FRAMES, defaultProps: {} },
   { id: "BeatSample", label: "Beat-camera sample (5 s, silent)", component: BeatSample, width: 1080, height: 1920, fps: 30, durationInFrames: BEAT_FRAMES, defaultProps: {} },
   { id: "Graves", title: "New Graves Keep Appearing for 22 Men Nobody Remembers 🪦 #shorts", label: "The Graves Nobody Dug (40 s)", component: GravesShort, width: 1080, height: 1920, fps: 30, durationInFrames: GRAVES_FRAMES, defaultProps: { audio: true } },
