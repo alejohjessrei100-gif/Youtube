@@ -84,7 +84,7 @@ const HAND_OFF = T.letter + 0.45; // the letter leaves the desk for Franklin's h
 const s1Actors = (t: number): Actor[] => {
   // the rival: glares and jabs a finger across the aisle on "hated him"
   const jab = window01(t, T.rival + 0.2, T.so + 0.3, 0.2, 0.3);
-  let pr = reach(RIVAL, RV_P, RV_YAW, REST, "R", pointDir(RIVAL, RV_P, head(FRANKLIN, FR_P)), jab, 6);
+  let pr = reach(RIVAL, RV_P, RV_YAW, REST, "R", pointDir(RIVAL, RV_P, add(head(FRANKLIN, FR_P), [0, 0.5, 0])), jab, 6);
   pr = { ...pr, lean: 6 + 6 * jab, ...look(RIVAL, RV_P, RV_YAW, head(FRANKLIN, FR_P)) };
   const fr = F("glare", t < T.hated ? "frown" : "yell", "furious");
   // Franklin: the smile, the quill dip, writing, the handoff
@@ -119,10 +119,10 @@ const s1: Scene = {
     [T.asked - 0.2, C(Hh(-0.65, 1.62, 1.8), Hh(-2.15, 1.5, 0.45), 40), "linear"],
     [T.asked + 0.3, C(Hh(-0.9, 1.7, 1.9), Hh(-1.8, 1.25, 0.55), 46), "inout"],
     [T.specifically - 0.15, C(Hh(-0.92, 1.7, 1.92), Hh(-1.8, 1.22, 0.55), 46), "linear"],
-    [T.specifically + 0.35, C(Hh(-1.55, 2.45, 0.32), PAGE_DESK, 40), "inout"],
-    [T.letter + 0.1, C(Hh(-1.56, 2.4, 0.33), PAGE_DESK, 36), "linear"],
-    [T.borrow - 0.1, C(Hh(-0.9, 1.55, 2.6), Hh(-2.0, 1.2, 1.2), 50), "inout"],
-    [T.borrow + 0.35, C(Hh(-0.95, 1.55, 2.65), Hh(-2.2, 1.15, 1.4), 50), "linear"],
+    [T.specifically + 0.35, C(Hh(-1.4, 2.35, 0.22), PAGE_DESK, 40), "inout"],
+    [T.letter + 0.1, C(Hh(-1.41, 2.32, 0.23), PAGE_DESK, 36), "linear"],
+    [T.borrow - 0.1, C(Hh(-0.6, 1.5, 1.3), Hh(-2.15, 1.3, 0.9), 52), "inout"],
+    [T.borrow + 0.35, C(Hh(-0.65, 1.5, 1.4), Hh(-2.4, 1.15, 1.3), 52), "linear"],
     [T.rare, C(Hh(-1.6, 1.5, 3.4), Hh(-3.9, 1.0, 2.5), 52), "inout"],
   ]),
   actors: s1Actors,
@@ -169,7 +169,7 @@ const s2Actors = (t: number): Actor[] => {
 const s2: Scene = {
   id: 2, t0: T.rare - 0.05, mood: "lamp", blur: 1.0, set: "lib",
   cam: keyed([
-    [T.rare - 0.05, C(Lb(2.4, 1.7, 3.4), Lb(-2.6, 1.2, 1.4), 54)],
+    [T.rare - 0.05, C(Lb(2.4, 1.7, 3.4), Lb(-3.2, 1.2, 1.5), 56)],
     [T.rare + 0.45, C(Lb(2.5, 1.75, 3.5), Lb(-0.6, 1.1, 0.6), 56), "inout"],
     [T.book + 0.35, C(Lb(2.1, 1.5, 1.6), Lb(0.8, 1.1, -0.6), 48), "inout"],
     [BOOK_SLIDE.t0, C(Lb(2.05, 1.48, 1.55), Lb(0.8, 1.05, -0.5), 48), "linear"],
@@ -194,8 +194,8 @@ const s2: Scene = {
 const FR_IN: WalkSeg = { t0: T.returned - 0.15, t1: T.week + 0.55, from: Lb(-3.3, 0, 1.5), to: Lb(0.6, 0, 0.22) };
 const FR_LYAW = lerpAng(PI, yawTo(Lb(0.6, 0, 0.22), Lb(2.0, 0, -0.9)), 0.3);
 const NOTE_GIVE = T.note - 0.1;
-const NOTE_DESK: V3 = Lb(1.05, 0.83, -0.55);
-const CUP_F0: V3 = Lb(0.42, 0.85, -0.25), CUP_R0: V3 = Lb(1.25, 0.85, -0.6);
+const NOTE_DESK: V3 = Lb(0.7, 0.83, -0.5);
+const CUP_F0: V3 = Lb(0.3, 0.85, -0.25), CUP_R0: V3 = Lb(1.0, 0.85, -0.25);
 const SHAKE = { t0: T.friendly - 0.2, t1: T.finally - 0.05 };
 const CLINK: V3 = Lb(0.72, 1.3, -0.38);
 const MEET: V3 = Lb(0.74, 1.1, -0.38);
@@ -217,7 +217,7 @@ const s3Actors = (t: number): Actor[] => {
   pf = reach(FRANKLIN, fp, fyaw, pf, "R", MEET, offer, lean);
   pf = reach(FRANKLIN, fp, fyaw, pf, "R", MEET, shake, lean);
   pf = reach(FRANKLIN, fp, fyaw, pf, "R", add(CLINK, [-0.07, 0, 0.03]), cup, lean);
-  pf = reach(FRANKLIN, fp, fyaw, pf, "L", add(head(FRANKLIN, fp), [-0.3 * Math.cos(fyaw) + 0.22 * Math.sin(fyaw), 0.05, 0.3 * Math.sin(fyaw) + 0.22 * Math.cos(fyaw)]), tap, 4);
+  pf = reach(FRANKLIN, fp, fyaw, pf, "L", add(head(FRANKLIN, fp), [-0.36 * Math.cos(fyaw) + 0.18 * Math.sin(fyaw), 0.12, 0.36 * Math.sin(fyaw) + 0.18 * Math.cos(fyaw)]), tap, 4);
   const winkAt = s3.cam(t).pos;
   pf = { ...pf, ...look(FRANKLIN, fp, fyaw, tap > 0.2 ? winkAt : head(RIVAL, RV_L)) };
   const ff = tap > 0.3 ? F("squint", "smirk", "raised") : cup > 0.3 ? F("closed", "beam", "raised", { flush: 0.2 }) : there ? F("open", "smile", "raised") : F("half", "smile", "neutral");
@@ -255,11 +255,11 @@ const s3: Scene = {
     [FR_IN.t1 + 0.2, C(Lb(2.4, 1.6, 1.0), Lb(0.8, 1.45, -0.85), 48), "inout"],
     [T.day, C(Lb(2.38, 1.6, 0.98), Lb(0.8, 1.48, -0.9), 46), "linear"],
     [T.polite2 - 0.1, C(Lb(2.2, 1.62, 0.8), Lb(0.8, 1.45, -0.9), 40), "inout"],
-    [SHAKE.t0 + 0.2, C(Lb(2.15, 1.52, 1.2), Lb(0.76, 1.36, -0.66), 48), "inout"],
-    [T.friend - 0.05, C(Lb(2.12, 1.5, 1.18), Lb(0.76, 1.38, -0.6), 46), "inout"],
-    [T.life + 0.3, C(Lb(2.13, 1.5, 1.19), Lb(0.76, 1.38, -0.6), 46), "linear"],
-    [T.benjamin - 0.15, C(Lb(1.25, 1.5, -0.1), NOTE_DESK, 36), "inout"],
-    [T.franklin + 0.35, C(Lb(1.23, 1.48, -0.13), NOTE_DESK, 32), "linear"],
+    [SHAKE.t0 + 0.2, C(Lb(2.6, 1.52, 0.55), Lb(0.76, 1.36, -0.66), 48), "inout"],
+    [T.friend - 0.05, C(Lb(2.58, 1.5, 0.52), Lb(0.76, 1.38, -0.6), 46), "inout"],
+    [T.life + 0.3, C(Lb(2.59, 1.5, 0.53), Lb(0.76, 1.38, -0.6), 46), "linear"],
+    [T.benjamin - 0.15, C(Lb(1.25, 1.55, -0.25), NOTE_DESK, 36), "inout"],
+    [T.franklin + 0.35, C(Lb(1.23, 1.53, -0.27), NOTE_DESK, 32), "linear"],
     [T.figured, C(Lb(1.65, 1.68, -0.55), Lb(0.6, 1.5, 0.2), 48), "inout"],
     [T.when - 0.15, C(Lb(1.64, 1.68, -0.53), Lb(0.6, 1.5, 0.2), 47), "linear"],
     [T.when + 0.35, C(Lb(1.5, 1.7, 0.35), Lb(0.82, 1.85, -1.0), 54), "inout"],
@@ -294,8 +294,8 @@ const s3: Scene = {
 // ================================================================== 4. LAB, 1969
 const PS_P: V3 = Bb(0.2, 0, -1.5);
 const ST_P: V3 = Bb(-0.05, 0, -0.3);
-const PS_YAW = lerpAng(0, yawTo(PS_P, Bb(2.4, 0, 0.6)), 0.3);
-const ST_YAW = lerpAng(PI, yawTo(ST_P, Bb(2.4, 0, 0.6)), 0.4);
+const PS_YAW = lerpAng(0, yawTo(PS_P, Bb(2.4, 0, -0.9)), 0.35);
+const ST_YAW = lerpAng(PI, yawTo(ST_P, Bb(2.4, 0, -0.9)), 0.45);
 const COINS_T = { t0: T.tested + 0.15, t1: T.y1969 + 0.3 };
 const s4Actors = (t: number): Actor[] => {
   const give = window01(t, COINS_T.t0, COINS_T.t1 + 0.2, 0.2, 0.25);
@@ -312,12 +312,12 @@ const s4Actors = (t: number): Actor[] => {
 const s4: Scene = {
   id: 4, t0: T.psychologists - 0.06, mood: "day", blur: 1.0, set: "lab",
   cam: keyed([
-    [T.psychologists - 0.06, C(Bb(1.25, 1.7, -1.15), Bb(-0.6, 1.55, -2.82), 30)],
-    [T.tested - 0.05, C(Bb(1.3, 1.7, -1.05), Bb(-0.6, 1.55, -2.82), 32), "linear"],
-    [T.tested + 0.45, C(Bb(2.2, 1.65, 0.6), Bb(0.1, 1.15, -0.8), 50), "inout"],
-    [T.held - 0.1, C(Bb(2.15, 1.63, 0.55), Bb(0.1, 1.2, -0.85), 48), "linear"],
-    [T.held + 0.35, C(Bb(1.6, 1.62, 0.1), Bb(-0.2, 1.5, -1.6), 46), "inout"],
-    [T.next - 0.06, C(Bb(1.58, 1.62, 0.08), Bb(-0.2, 1.5, -1.6), 45), "linear"],
+    [T.psychologists - 0.06, C(Bb(1.25, 1.7, -1.15), Bb(-0.6, 1.55, -2.82), 48)],
+    [T.tested - 0.05, C(Bb(1.3, 1.7, -1.05), Bb(-0.6, 1.55, -2.82), 50), "linear"],
+    [T.tested + 0.45, C(Bb(2.45, 1.5, -0.85), Bb(0.08, 1.15, -0.9), 50), "inout"],
+    [T.held - 0.1, C(Bb(2.42, 1.5, -0.82), Bb(0.08, 1.2, -0.92), 48), "linear"],
+    [T.held + 0.35, C(Bb(1.9, 1.7, 0.3), Bb(-0.1, 1.55, -2.0), 52), "inout"],
+    [T.next - 0.06, C(Bb(1.88, 1.7, 0.28), Bb(-0.1, 1.55, -2.0), 51), "linear"],
   ]),
   actors: s4Actors,
   extra: (t) => {
@@ -372,17 +372,17 @@ const s5: Scene = {
     [T.next - 0.06, C(Oo(0.75, 1.62, 0.26), Oo(0.15, 1.5, -1.36), 46)],
     [T.stand + 0.1, C(Oo(0.62, 1.62, 0.25), Oo(0.15, 1.52, -1.36), 40), "inout"],
     [GIFT_OUT.t0, C(Oo(0.62, 1.62, 0.25), Oo(0.15, 1.52, -1.36), 40), "linear"],
-    [GIFT_OUT.t1, C(Oo(0.4, 1.15, 0.27), Oo(0.6, 1.05, -1.0), 52), "inout"],
-    [SET_DOWN.t1, C(Oo(0.42, 1.4, 0.27), Oo(0.66, 0.78, -0.68), 52), "inout"],
-    [T.borrow2, C(Oo(0.4, 1.15, 0.27), Oo(0.55, 1.1, -1.05), 50), "inout"],
-    [PEN_T.done + 0.1, C(Oo(0.4, 1.15, 0.27), OMEET, 48), "linear"],
+    [GIFT_OUT.t1, C(Oo(0.3, 1.3, 0.3), Oo(0.55, 1.2, -1.0), 56), "inout"],
+    [SET_DOWN.t1, C(Oo(0.3, 1.4, 0.3), Oo(0.45, 1.0, -0.95), 56), "inout"],
+    [T.borrow2, C(Oo(-0.2, 1.3, 0.28), Oo(0.55, 1.15, -1.05), 52), "inout"],
+    [PEN_T.done + 0.1, C(Oo(-0.2, 1.3, 0.28), OMEET, 50), "linear"],
     [PEN_T.done + 0.55, C(Oo(0.45, 1.6, -0.12), Oo(0.15, 1.5, -1.36), 48), "inout"],
     [SECONDS, C(Oo(0.44, 1.6, -0.14), Oo(0.15, 1.5, -1.36), 47), "linear"],
   ]),
   actors: s5Actors,
   extra: (t) => {
     const a = s5Actors(t);
-    const inYou = add(handAt(a[1], "R"), [0, 0.06, 0]);
+    const inYou = add(handAt(a[1], "R"), [-0.04, 0.14, -0.04]);
     const gift: Prop = t < SET_DOWN.t1 ? { p: lerpV(inYou, GIFT_DESK, smooth((t - SET_DOWN.t0) / (SET_DOWN.t1 - SET_DOWN.t0))), r: [0, 0.4, 0] } : { p: GIFT_DESK, r: [0, 0.4, 0] };
     const inHer = add(handAt(a[0], "R"), [0, 0.01, 0]);
     const pen: Prop = { p: lerpV(inHer, add(handAt(a[1], "R"), [0, 0.01, 0]), smooth((t - PEN_T.take) / 0.25)), r: [0, 0, PI / 2] };

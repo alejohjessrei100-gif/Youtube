@@ -245,7 +245,7 @@ export const Lab: React.FC<{ t: number }> = ({ t }) => (
     <M g={boxG(7.2, 0.2, 6.8)} c="#e8e8e0" p={[0, 3.1, 0.25]} recv={false} />
     {[-1.5, 1.5].map((x) => <mesh key={x} geometry={boxG(1.2, 0.04, 0.3)} position={[x, 2.97, 0]} material={coreMat("#f8fbff", 1.6)} userData={{ outline: false }} />)}
     <A name="chalkboard" p={[-0.6, 0.9, -2.9]} />
-    <Label text="DO A FAVOR = LIKE MORE?" p={[-0.6, 1.75, -2.82]} w={1.4} h={0.22} fg="#f2f2ea" bg="#2e5a3e" />
+    <Label text="DO A FAVOR = LIKE MORE?" p={[-0.6, 1.75, -2.82]} w={1.15} h={0.2} fg="#f2f2ea" bg="#2e5a3e" />
     <Label text="1969" p={[-0.6, 1.45, -2.82]} w={0.6} h={0.24} fg="#f2f2ea" bg="#2e5a3e" />
     <Label text="PSYCHOLOGY DEPT. · STUDY 3" p={[2.3, 2.3, -2.97]} w={1.5} h={0.24} fg="#f2f2ea" bg="#2a3a5a" />
     <group position={LAB_DESK}>

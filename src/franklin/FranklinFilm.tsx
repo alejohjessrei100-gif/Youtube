@@ -27,14 +27,14 @@ const P: React.FC<{ name: string; p: V3; r?: V3 }> = ({ name, p, r }) => (
 /** the thought bubble: a white cloud facing the lens, two trailing puffs, the text */
 const Bubble: React.FC<{ p: V3; text: string; k: number; cam: V3 }> = ({ p, text, k, cam }) => {
   const yaw = Math.atan2(cam[0] - p[0], cam[2] - p[2]);
-  const s = 0.4 + 0.6 * k;
   const wide = text.length > 3;
+  const s = (0.4 + 0.6 * k) * (wide ? 0.6 : 0.85);
   return (
     <group position={p} rotation={[0, yaw, 0]} scale={s}>
       <M g={cylG(wide ? 0.5 : 0.2, wide ? 0.5 : 0.2, 0.03, 28)} c="#ffffff" r={[Math.PI / 2, 0, 0]} s={wide ? [1, 1, 0.42] : [1, 1, 1]} cast={false} />
       <M g={cylG(0.06, 0.06, 0.03, 16)} c="#ffffff" p={[-0.12, -0.3, 0]} r={[Math.PI / 2, 0, 0]} cast={false} />
       <M g={cylG(0.035, 0.035, 0.03, 12)} c="#ffffff" p={[-0.18, -0.42, 0]} r={[Math.PI / 2, 0, 0]} cast={false} />
-      <Label text={text} p={[0, 0, 0.03]} w={wide ? 0.88 : 0.3} h={wide ? 0.16 : 0.3} fg={wide ? "#c8304a" : "#1a1416"} bg="#ffffff" />
+      <Label text={text} p={[0, 0, 0.03]} w={wide ? 0.82 : 0.22} h={wide ? 0.15 : 0.22} fg={wide ? "#c8304a" : "#1a1416"} bg="#ffffff" />
     </group>
   );
 };

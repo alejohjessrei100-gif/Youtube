@@ -783,7 +783,7 @@ export const hatParts = (hat: string, seed: number): HatPart[] => {
     case "wig": {
       // an 18th-century powdered periwig: a puffy crown down past the ears, two side curls each side, a tied queue + bow
       const hv = headVariant(seed);
-      parts.push({ geo: capGeo({ seed, a0: () => 0, a1: (th) => (92 + 26 * sstep(1.2, 2.6, fromFront(th))) * D2R, thick: (s2) => 0.11 + 0.07 * Math.sin(Math.PI * Math.min(1, s2 * 1.3)), nt: 96, na: 28 }), color: "hat", spec: 0.05, hull: true, cast: true, tex: "rib" });
+      parts.push({ geo: capGeo({ seed, a0: () => 0, a1: (th) => (50 + 48 * sstep(0.5, 1.4, fromFront(th)) + 22 * sstep(1.6, 2.7, fromFront(th))) * D2R, thick: (s2) => 0.11 + 0.07 * Math.sin(Math.PI * Math.min(1, s2 * 1.3)), nt: 96, na: 28 }), color: "hat", spec: 0.05, hull: true, cast: true, tex: "rib" });
       const side = headPoint(1, -0.05, -0.12, hv, new THREE.Vector3());
       for (const sx of [-1, 1])
         for (const [dy, r] of [[0.0, 0.2], [-0.42, 0.18]] as [number, number][]) {

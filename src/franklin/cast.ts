@@ -29,7 +29,7 @@ export const MESSENGER: CharacterSpec = {
 export const PSYCH: CharacterSpec = {
   height: 1.78,
   build: B,
-  look: { skin: SKIN.tan, outfit: "apron", colors: { top: "#f2f2ee", inner: "#3a5a8a", bottom: "#4a4a52", shoes: CLOTH.graphite, accent: "#c8c8d0" }, hair: "crop", hairColor: HAIR.black, glasses: "#2a2420", face: F, seed: 607 },
+  look: { skin: SKIN.tan, outfit: "jacket", colors: { top: "#f4f4f0", inner: "#3a5a8a", bottom: "#4a4a52", shoes: CLOTH.graphite, accent: "#c8c8d0" }, hair: "crop", hairColor: HAIR.black, glasses: "#2a2420", face: F, seed: 607 },
 };
 /** 1969: the student volunteer, a mustard turtleneck and a swoop */
 export const STUDENT: CharacterSpec = {
