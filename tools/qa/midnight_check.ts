@@ -167,7 +167,7 @@ for (let f = 0; f < Math.round(SECONDS * 30); f++) {
   if (s.id === 1 && t > T.neighbors + 0.4 && t < T.police - 0.2) facing(actors[0], 55, "neighbour listening");
   if (s.id === 2 && t > T.police + 0.2 && t < T.three - 0.1) facing(actors[0], 55, "sergeant speaking");
   if (s.id === 3 && t > T.twelve + 0.5 && t < T.truck - 0.2) { for (let k = 4; k < 16; k++) if (actors[k]) facing(actors[k], 75, `man ${k - 3} frozen`); }
-  if (s.id === 3 && t > T.board + 0.6 && t < T.read - 0.3) facing(actors[3], 60, "Mrs. Bell speaking");
+  if (s.id === 3 && t > T.board + 0.6 && t < T.draft + 0.5) facing(actors[3], 60, "Mrs. Bell speaking");
   if (s.id === 3 && t > T.sergeant + 0.2) facing(actors[0], 65, "sergeant sitting");
   if (s.id === 4 && t > T.now + 0.3) facing(actors[0], 55, "Mrs. Bell at the door");
 }

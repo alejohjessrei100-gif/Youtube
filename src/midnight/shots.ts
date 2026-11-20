@@ -124,20 +124,21 @@ const sgtPath = (t: number) => walkAt([LEAD], LEAD.from, t, SERGEANT.height);
 const FOLLOW_A: WalkSeg = { t0: LEAD.t0 + 0.4, t1: LEAD.t1 + 0.4, from: Ii(3.6, 0, 0.35), to: Ii(2.2, 0, 0.3) };
 const FOLLOW_B: WalkSeg = { t0: LEAD.t0 + 0.8, t1: LEAD.t1 + 0.8, from: Ii(3.95, 0, 0.1), to: Ii(3.0, 0, 0.0) };
 const KICK = T.kicked + 0.0;
-const INSIDE = T.board + 1.3; // the sergeant steps into the room only after the roll call, when Mrs. Bell speaks to him
+const INSIDE = T.board + 0.9; // the sergeant steps into the room only after the roll call, when Mrs. Bell speaks to him
 const SGT_IN: WalkSeg[] = [
-  { t0: INSIDE, t1: INSIDE + 0.5, from: Ii(1.05, 0, -0.55), to: Ii(0.95, 0, -1.55) },
-  { t0: INSIDE + 0.5, t1: INSIDE + 1.1, from: Ii(0.95, 0, -1.55), to: Ii(1.95, 0, -2.1) },
+  { t0: INSIDE, t1: INSIDE + 0.4, from: Ii(1.05, 0, -0.55), to: Ii(0.7, 0, -1.15) },
+  { t0: INSIDE + 0.4, t1: INSIDE + 0.9, from: Ii(0.7, 0, -1.15), to: Ii(0.75, 0, -1.95) },
+  { t0: INSIDE + 0.9, t1: INSIDE + 1.5, from: Ii(0.75, 0, -1.95), to: Ii(1.95, 0, -2.1) },
   { t0: T.sit - 0.1, t1: T.sit + 1.4, from: Ii(1.95, 0, -2.1), to: Ii(1.62, 0, -2.5) },
 ];
 const SIT_AT = T.sergeant - 0.1;
 const sgtPos = (t: number): { p: V3; walk?: number } => {
-  if (t < INSIDE) return sgtPath(t);
+  if (t <= INSIDE) return sgtPath(t);
   if (t < SIT_AT) return walkAt(SGT_IN, Ii(1.95, 0, -2.1), t, SERGEANT.height);
   return { p: lerpV(Ii(1.62, 0, -2.5), Ii(SGT_DESK[0], 0, SGT_DESK[2]), smooth((t - SIT_AT) / 0.7)) };
 };
 const MB_P: V3 = Ii(-0.2, 0, -4.7);
-const CHALK_A = { drop: KICK + 0.25, from: Ii(-0.05, 0.012, -4.4), to: Ii(0.55, 0.012, -1.75) };
+const CHALK_A = { drop: KICK + 0.25, from: Ii(-0.05, 0.012, -4.4), to: Ii(0.25, 0.012, -2.9) };
 const chalkRoll = (t: number): Prop => {
   const u = Math.min(1, Math.max(0, (t - CHALK_A.drop - 0.12) / 1.2));
   const e = 1 - Math.pow(1 - u, 2);
@@ -173,9 +174,10 @@ const s3Actors = (t: number): Actor[] => {
   const sitK = smooth((t - SIT_AT) / 0.7);
   const kickK = window01(t, KICK - 0.25, KICK + 0.4, 0.2, 0.3);
   const sy = t < INSIDE ? lerpAng(-PI / 2, PI, smooth((t - (LEAD.t1 - 0.3)) / 0.35)) : t < SIT_AT ? lerpAng(PI, -PI / 2, smooth((t - (T.sit + 0.9)) / 0.6) * 0 + 0) : -PI / 2;
-  const syaw = t > INSIDE && t < T.sit - 0.1 ? lerpAng(PI, PI * 0.78, 0.5) : t < INSIDE ? sy : t < SIT_AT ? lerpAng(PI * 0.78, -PI / 2, smooth((t - (T.sit + 1.1)) / 0.7)) : -PI / 2;
+  const yIn = t < INSIDE + 1.5 ? lerpAng(PI, PI * 0.55, smooth((t - (INSIDE + 0.8)) / 0.5)) : lerpAng(PI * 0.55, PI * 0.78, smooth((t - (INSIDE + 1.5)) / 0.4));
+  const syaw = t <= INSIDE ? sy : t < SIT_AT ? lerpAng(yIn, -PI / 2, smooth((t - (T.sit + 1.1)) / 0.7)) : -PI / 2;
   const cap = window01(t, T.draft, T.read, 0.3, 0.3);
-  let pg: BodyPose = { ...REST, walk: t < INSIDE || (t > T.sit - 0.1 && t < T.sit + 1.4) ? sp.walk : undefined, lean: 3 + 6 * kickK + 4 * (inRoom ? 1 : 0), sit: sitK };
+  let pg: BodyPose = { ...REST, walk: t < INSIDE + 1.5 || (t > T.sit - 0.1 && t < T.sit + 1.4) ? sp.walk : undefined, lean: 3 + 6 * kickK + 4 * (inRoom ? 1 : 0), sit: sitK };
   pg = { ...pg, ...(kickK > 0.5 ? { walk: 0.7 + 0.5 * kickK } : {}) };
   pg = reach(SERGEANT, sp.p, syaw, pg, "R", add(head(SERGEANT, sp.p), [0.2 * Math.cos(syaw), 0.0, -0.2 * Math.sin(syaw)]), cap, 4, sitK);
   const fSg = t < KICK ? F("glare", "flat", "angry") : t < T.sit ? F("wide", "o", "raised", { sweat: true }) : t < SIT_AT ? F("half", "grimace", "worried", { flush: 0.3 }) : F("closed", "smile", "raised", { flush: 0.25 });
@@ -222,33 +224,38 @@ const s3: Scene = {
     [T.three - 0.06, C(Ii(-1.2, 1.45, 0.65), Ii(2.6, 1.3, 0.1), 50)],
     [T.inside + 0.4, C(Ii(-1.3, 1.45, 0.62), Ii(2.0, 1.3, 0.1), 48), "linear"],
     [KICK - 0.35, C(Ii(-1.7, 1.45, 0.55), Ii(1.0, 1.25, -0.5), 46), "inout"],
-    [KICK + 0.2, C(Ii(-1.65, 1.45, 0.55), Ii(0.9, 1.3, -0.6), 46), "linear"],
+    [KICK + 0.05, C(Ii(-1.65, 1.45, 0.55), Ii(0.9, 1.3, -0.6), 46), "linear"],
     // through the doorway, low, on the chalk rolling toward the sergeant's boot
-    [KICK + 0.9, C(Ii(0.55, 0.95, -1.9), Ii(0.05, 0.1, -3.9), 56), "inout"],
-    [T.twelve - 0.25, C(Ii(0.5, 0.95, -2.0), Ii(0.4, 0.2, -2.2), 56), "linear"],
+    [KICK + 0.8, C(Ii(0.65, 1.15, -1.0), Ii(0.4, 0.5, -3.2), 54), "inout"],
+    [KICK + 1.3, C(Ii(0.25, 0.95, -1.95), Ii(0.1, 0.1, -3.9), 56), "inout"],
+    [T.twelve - 0.25, C(Ii(0.0, 1.05, -1.9), Ii(0.25, 0.05, -3.05), 56), "linear"],
     // up to the frozen men: a wide look back across the room from just inside the door (the wall is behind the lens)
-    [T.twelve + 0.5, C(Ii(0.2, 1.7, -2.15), Ii(4.5, 1.2, -5.0), 66), "inout"],
-    [T.truck - 0.2, C(Ii(0.2, 1.7, -2.15), Ii(4.4, 1.2, -5.0), 66), "linear"],
+    [T.twelve + 0.15, C(Ii(-0.2, 1.45, -1.95), Ii(1.2, 1.4, -4.3), 60), "inout"],
+    [T.twelve + 0.55, C(Ii(-0.35, 1.8, -2.0), Ii(4.5, 1.2, -5.0), 66), "inout"],
+    [T.truck - 0.2, C(Ii(-0.25, 1.78, -2.15), Ii(4.4, 1.2, -5.0), 64), "linear"],
     [T.truck + 0.25, C(Ii(0.5, 1.5, -2.0), Ii(2.2, 1.3, -3.5), 34), "inout"],
     [T.baker - 0.1, C(Ii(0.5, 1.5, -2.0), Ii(2.2, 1.3, -3.5), 34), "linear"],
     [T.baker + 0.3, C(Ii(0.5, 1.5, -2.0), Ii(3.8, 1.3, -3.5), 30), "inout"],
     [T.janitor - 0.5, C(Ii(0.5, 1.5, -2.0), Ii(3.8, 1.3, -3.5), 30), "linear"],
     [T.janitor + 0.2, C(Ii(0.3, 1.5, -2.6), Ii(2.2, 1.3, -4.9), 36), "inout"],
-    [T.board - 0.55, C(Ii(0.3, 1.5, -2.6), Ii(2.2, 1.3, -4.9), 36), "linear"],
-    // Mrs. Bell at the board: the lens swings across the room, lands on her, pushes in for the chalk
-    [T.board + 0.4, C(Ii(1.7, 1.55, -4.2), Ii(-0.2, 1.4, -4.7), 40), "inout"],
+    [T.janitor + 0.55, C(Ii(0.3, 1.5, -2.6), Ii(2.2, 1.3, -4.9), 40), "linear"],
+    // pan to Mrs. Bell from the same spot (60 deg), then dolly round to her front
+    [T.board + 0.1, C(Ii(0.5, 1.55, -2.5), Ii(-0.2, 1.4, -4.7), 44), "inout"],
+    [T.board + 0.9, C(Ii(1.7, 1.55, -4.2), Ii(-0.2, 1.4, -4.7), 44), "inout"],
     [T.chalk + 0.1, C(Ii(1.6, 1.4, -4.1), Ii(-0.4, 1.05, -4.8), 36), "inout"],
-    [T.sit - 0.1, C(Ii(1.7, 1.45, -4.1), Ii(-0.2, 1.45, -4.7), 40), "inout"],
-    [T.draft + 0.6, C(Ii(1.65, 1.45, -4.1), Ii(-0.2, 1.45, -4.7), 39), "linear"],
-    // the sergeant stands by the door, then the men
-    [T.read - 0.3, C(Ii(-0.2, 1.6, -4.0), Ii(1.9, 1.5, -2.2), 44), "inout"],
-    [T.read + 0.6, C(Ii(-0.2, 1.6, -4.0), Ii(1.9, 1.5, -2.2), 44), "linear"],
-    [T.proud - 0.2, C(Ii(0.5, 1.5, -2.0), Ii(3.0, 1.3, -4.3), 50), "inout"],
-    [T.dark - 0.3, C(Ii(0.5, 1.5, -2.0), Ii(3.0, 1.3, -4.3), 50), "linear"],
+    [T.sit - 0.1, C(Ii(1.7, 1.5, -4.2), Ii(-0.2, 1.4, -4.7), 40), "inout"],
+    [T.draft + 0.3, C(Ii(1.65, 1.45, -4.1), Ii(-0.2, 1.45, -4.7), 39), "linear"],
+    // "none of them had ever learned to read": round through the back corner to the men's faces
+    [T.read - 1.25, C(Ii(0.8, 1.6, -7.9), Ii(0.8, 1.3, -4.6), 66), "inout"],
+    [T.read - 0.2, C(Ii(0.4, 1.55, -4.3), Ii(3.4, 1.2, -3.6), 56), "inout"],
+    [T.dark - 1.85, C(Ii(0.5, 1.55, -4.15), Ii(3.4, 1.2, -3.5), 52), "linear"],
+    // "after dark, where nobody would know": back round to Mrs. Bell's smile
+    [T.dark - 0.8, C(Ii(0.8, 1.6, -7.9), Ii(0.8, 1.3, -4.6), 66), "inout"],
     [T.dark + 0.4, C(Ii(1.7, 1.5, -4.2), Ii(-0.2, 1.4, -4.7), 40), "inout"],
-    [T.sergeant - 0.3, C(Ii(1.7, 1.5, -4.2), Ii(-0.2, 1.4, -4.7), 40), "linear"],
-    [T.sergeant - 0.05, C(Ii(-0.1, 1.6, -3.9), Ii(1.15, 1.2, -2.55), 56), "inout"],
-    [T.now - 0.06, C(Ii(-0.1, 1.6, -3.9), Ii(1.15, 1.2, -2.55), 55), "linear"],
+    [T.sergeant - 1.05, C(Ii(1.68, 1.5, -4.15), Ii(-0.2, 1.4, -4.7), 40), "linear"],
+    // "the sergeant took a seat": to the aisle, his profile at the desk
+    [T.sergeant + 0.3, C(Ii(0.35, 1.5, -5.7), Ii(0.95, 1.15, -2.6), 50), "inout"],
+    [T.now - 0.06, C(Ii(0.4, 1.5, -5.4), Ii(0.95, 1.15, -2.6), 48), "linear"],
   ]),
   actors: s3Actors,
   extra: (t) => {
@@ -264,13 +271,12 @@ const s3: Scene = {
   focus: (t) => {
     if (t < KICK + 0.8) return head(SERGEANT, sgtPos(t).p);
     if (t < T.twelve) return chalkRoll(t).p;
-    if (t < T.truck - 0.2) return head(MRS_BELL, MB_P);
+    if (t < T.truck - 0.2) return head(TRUCKER, Ii(DESK_SPOTS[2][0], 0, DESK_SPOTS[2][2]), 1);
     if (t < T.baker) return head(TRUCKER, Ii(DESK_SPOTS[0][0], 0, DESK_SPOTS[0][2]), 1);
     if (t < T.janitor - 0.4) return head(BAKER, Ii(DESK_SPOTS[1][0], 0, DESK_SPOTS[1][2]), 1);
     if (t < T.board) return head(JANITOR, Ii(DESK_SPOTS[4][0], 0, DESK_SPOTS[4][2]), 1);
-    if (t < T.read - 0.2) return headPosed(s3Actors(t)[3]);
-    if (t < T.proud - 0.2) return headPosed(s3Actors(t)[0]);
-    if (t < T.dark - 0.3) return head(TRUCKER, Ii(DESK_SPOTS[0][0], 0, DESK_SPOTS[0][2]), 1);
+    if (t < T.read - 0.6) return headPosed(s3Actors(t)[3]);
+    if (t < T.dark - 0.8) return head(TRUCKER, Ii(DESK_SPOTS[1][0], 0, DESK_SPOTS[1][2]), 1);
     if (t < T.sergeant - 0.2) return headPosed(s3Actors(t)[3]);
     return headPosed(s3Actors(t)[0]);
   },
@@ -300,9 +306,9 @@ const s4Actors = (t: number): Actor[] => {
 const s4: Scene = {
   id: 4, t0: T.now - 0.06, mood: "golden", blur: 1.0, set: "ext", night: false, dip: true,
   cam: keyed([
-    [T.now - 0.06, C(Ee(-2.6, 2.4, 11.6), Ee(0, 2.5, 0.8), 56)],
-    [T.waiting + 0.3, C(Ee(-1.2, 2.2, 10.4), Ee(0, 2.4, 0.8), 56), "inout"],
-    [SECONDS, C(Ee(-1.0, 2.2, 10.2), Ee(0, 2.4, 0.8), 56), "linear"],
+    [T.now - 0.06, C(Ee(-1.6, 2.5, 12.6), Ee(0, 2.5, 1.5), 56)],
+    [T.waiting + 0.3, C(Ee(-0.6, 2.3, 11.6), Ee(0, 2.4, 1.5), 56), "inout"],
+    [SECONDS, C(Ee(-0.5, 2.3, 11.4), Ee(0, 2.4, 1.5), 56), "linear"],
   ]),
   actors: s4Actors,
   extra: () => ({ open: 1, banner: true }),

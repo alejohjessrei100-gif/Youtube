@@ -283,9 +283,11 @@ export const Interior: React.FC<{ t: number; doorOpen: number; bell: number }> =
     <Floor p={[0, 0.015, 0]} w={9.0} d={3.0} a="#cfc6ae" b="#7a8a6a" n={18} k="hall" />
     <M g={boxG(9.2, 0.1, 3.2)} c="#6a6a5a" p={[0, -0.05, 0]} />
     <M g={boxG(9.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[0, 1.6, 1.5]} recv={false} />
-    <M g={boxG(9.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[0, 1.6, -1.5]} recv={false} />
-    <M g={boxG(9.2, 1.1, 0.06)} c="#6a8a7a" p={[0, 0.55, -1.38]} cast={false} />
-    <M g={boxG(9.2, 1.1, 0.06)} c="#6a8a7a" p={[0, 0.55, 1.38]} cast={false} />
+    <M g={boxG(4.6, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[-2.3, 1.6, -1.5]} recv={false} />
+    <M g={boxG(3.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[3.0, 1.6, -1.5]} recv={false} />
+    <M g={boxG(4.4, 1.1, 0.06)} c="#6a8a7a" p={[-2.2, 0.55, -1.36]} cast={false} />
+    <M g={boxG(3.0, 1.1, 0.06)} c="#6a8a7a" p={[2.9, 0.55, -1.36]} cast={false} />
+    <M g={boxG(9.2, 1.1, 0.06)} c="#6a8a7a" p={[0, 0.55, 1.36]} cast={false} />
     <M g={boxG(0.2, 3.2, 3.2)} c="#9ab0a4" tex="plaster" p={[-4.5, 1.6, 0]} recv={false} />
     <M g={boxG(9.2, 0.2, 3.2)} c="#d8d4c4" p={[0, 3.3, 0]} recv={false} />
     {/* the entrance door at the right end (open a crack: a moonlit gap) */}
@@ -327,10 +329,10 @@ export const Interior: React.FC<{ t: number; doorOpen: number; bell: number }> =
     <Glow p={[-4.38, 1.9, 0]} w={0.9} h={1.3} k={0.9} col="#7a9ad0" r={[0, Math.PI / 2, 0]} />
     <A name="clock2" p={[-4.34, 2.55, 0.9]} r={[0, 0, 0]} />
     {/* the classroom door: a frame in the back wall at x 0.2..1.2, a leaf that swings into the room, light spilling out */}
-    <M g={boxG(0.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[1.3, 1.6, -1.5]} recv={false} />
-    <M g={boxG(0.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[0.1, 1.6, -1.5]} recv={false} />
-    <M g={boxG(1.4, 0.9, 0.2)} c="#9ab0a4" tex="plaster" p={[0.7, 2.75, -1.5]} recv={false} />
-    <Label text="ROOM 4" p={[0.7, 2.5, -1.38]} w={0.6} h={0.2} fg="#f4ead0" bg="#3a2a22" />
+    <M g={boxG(0.2, 3.2, 0.26)} c="#7a5a3e" tex="wood" p={[1.3, 1.6, -1.5]} recv={false} />
+    <M g={boxG(0.2, 3.2, 0.26)} c="#7a5a3e" tex="wood" p={[0.1, 1.6, -1.5]} recv={false} />
+    <M g={boxG(1.0, 0.9, 0.24)} c="#9ab0a4" tex="plaster" p={[0.7, 2.75, -1.5]} recv={false} />
+    <Label text="ROOM 4" p={[0.7, 2.5, -1.35]} w={0.6} h={0.2} fg="#f4ead0" bg="#3a2a22" />
     <group position={[1.2, 0, -1.5]} rotation={[0, -doorOpen * 1.7, 0]}>
       <M g={boxG(1.0, 2.3, 0.06)} c="#6a4a2e" tex="wood" p={[-0.5, 1.15, 0]} />
       <Glow p={[-0.5, 1.5, 0.035]} w={0.4} h={0.7} k={1.4} col="#ffe0a0" />
@@ -338,22 +340,22 @@ export const Interior: React.FC<{ t: number; doorOpen: number; bell: number }> =
     </group>
     <mesh geometry={boxG(1.0, 0.012, 0.9)} position={[0.7, 0.03, -0.95]} material={coreMat("#ffd890", 0.35 + 0.5 * doorOpen)} userData={{ outline: false }} />
     {/* ---------------------------------------------------------------- classroom */}
-    <Floor p={[3.7, 0.015, -4.9]} w={9.0} d={7.0} a="#d8c9a0" b="#b89a6a" n={18} k="room" />
-    <M g={boxG(9.4, 0.1, 7.2)} c="#6a5a42" p={[3.7, -0.05, -4.9]} />
-    <M g={boxG(0.2, 3.2, 7.0)} c="#e8dcb8" tex="plaster" p={[-0.9, 1.6, -4.9]} recv={false} />
-    <M g={boxG(0.2, 3.2, 7.0)} c="#e8dcb8" tex="plaster" p={[8.3, 1.6, -4.9]} recv={false} />
+    <Floor p={[3.7, 0.015, -4.98]} w={9.0} d={6.96} a="#d8c9a0" b="#b89a6a" n={18} k="room" />
+    <M g={boxG(9.4, 0.1, 7.2)} c="#6a5a42" p={[3.7, -0.08, -4.9]} />
+    <M g={boxG(0.2, 3.2, 7.0)} c="#e8dcb8" tex="plaster" p={[-0.9, 1.6, -5.0]} recv={false} />
+    <M g={boxG(0.2, 3.2, 7.0)} c="#e8dcb8" tex="plaster" p={[8.3, 1.6, -5.0]} recv={false} />
     <M g={boxG(9.4, 3.2, 0.2)} c="#e8dcb8" tex="plaster" p={[3.7, 1.6, -8.5]} recv={false} />
-    <M g={boxG(9.4, 0.2, 7.2)} c="#d8d4c4" p={[3.7, 3.3, -4.9]} recv={false} />
-    <M g={boxG(9.4, 1.0, 0.06)} c="#8a6a4a" tex="wood" p={[3.7, 0.5, -8.38]} cast={false} />
-    <M g={boxG(0.06, 1.0, 7.0)} c="#8a6a4a" tex="wood" p={[8.18, 0.5, -4.9]} cast={false} />
+    <M g={boxG(9.4, 0.2, 7.0)} c="#d8d4c4" p={[3.7, 3.33, -5.0]} recv={false} />
+    <M g={boxG(9.0, 1.0, 0.06)} c="#8a6a4a" tex="wood" p={[3.7, 0.5, -8.36]} cast={false} />
+    <M g={boxG(0.06, 1.0, 6.9)} c="#8a6a4a" tex="wood" p={[8.16, 0.5, -4.95]} cast={false} />
     {/* the board on the left wall, with the lesson, the tray, the alphabet strip, the clock */}
     <M g={boxG(0.08, 1.5, 3.2)} c="#5a3a22" tex="wood" p={[-0.78, 1.6, -4.7]} />
     <M g={boxG(0.04, 1.36, 3.06)} c="#2e4a3a" p={[-0.72, 1.6, -4.7]} cast={false} />
     <M g={boxG(0.12, 0.05, 3.2)} c="#5a3a22" tex="wood" p={[-0.72, 0.86, -4.7]} />
     <M g={cylG(0.009, 0.009, 0.06, 6)} c="#f4f2ea" p={[-0.68, 0.9, -5.6]} r={[Math.PI / 2, 0, 0]} cast={false} />
-    <Label text="THE CAT SAT." p={[-0.69, 2.05, -4.7]} r={[0, -Math.PI / 2, 0]} w={2.2} h={0.4} fg="#f4f2ea" bg="#2e4a3a" />
-    <Label text="A  B  C  D  E  F  G" p={[-0.69, 1.55, -4.7]} r={[0, -Math.PI / 2, 0]} w={2.2} h={0.26} fg="#d8e8d0" bg="#2e4a3a" />
-    <Label text="I CAN READ!" p={[-0.69, 1.2, -4.0]} r={[0, -Math.PI / 2, 0]} w={1.2} h={0.26} fg="#ffe9a0" bg="#2e4a3a" />
+    <Label text="THE CAT SAT." p={[-0.67, 2.05, -4.7]} r={[0, -Math.PI / 2, 0]} w={2.2} h={0.4} fg="#f4f2ea" bg="#2e4a3a" />
+    <Label text="A  B  C  D  E  F  G" p={[-0.67, 1.55, -4.7]} r={[0, -Math.PI / 2, 0]} w={2.2} h={0.26} fg="#d8e8d0" bg="#2e4a3a" />
+    <Label text="I CAN READ!" p={[-0.67, 1.2, -4.0]} r={[0, -Math.PI / 2, 0]} w={1.2} h={0.26} fg="#ffe9a0" bg="#2e4a3a" />
     <Label text="A B C   a b c   1 2 3   READING IS POWER" p={[-0.8, 2.95, -4.7]} r={[0, -Math.PI / 2, 0]} w={3.8} h={0.18} fg="#7a2430" bg="#f4ead0" />
     <A name="wallclock" p={[-0.8, 2.6, -2.5]} r={[Math.PI / 2, 0, -Math.PI / 2]} />
     {/* windows on the back wall: moon-blue, curtains; the shelf of workbooks + lunch boxes; coat rack */}
