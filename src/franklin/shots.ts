@@ -331,16 +331,16 @@ const s4: Scene = {
 };
 
 // ================================================================== 5. OFFICE, today
-const YOU_P: V3 = Oo(0.1, 0, 1.45);
-const GR_P: V3 = Oo(-0.05, 0, -1.45);
+const YOU_P: V3 = Oo(0.1, 0, 1.12);
+const GR_P: V3 = Oo(-0.05, 0, -1.12);
 const YOU_YAW = lerpAng(PI, yawTo(YOU_P, Oo(1.6, 0, 0.2)), 0.25);
 const GR_YAW = lerpAng(0, yawTo(GR_P, Oo(0.8, 0, 1.8)), 0.3);
 const GIFT_GO = { t0: T.dont - 0.15, t1: T.gift - 0.05 };
 const GIFT_BACK = { t0: T.gift + 0.12, t1: T.ask - 0.05 };
-const GIFT_YOU: V3 = Oo(0.25, 0.6, 0.6), GIFT_HER: V3 = Oo(0.25, 0.6, -0.55);
-const PEN_DESK: V3 = Oo(-0.35, 0.6, -0.6);
+const GIFT_YOU: V3 = Oo(0.25, 0.6, 0.42), GIFT_HER: V3 = Oo(0.25, 0.6, -0.4);
+const PEN_DESK: V3 = Oo(-0.35, 0.6, -0.5);
 const PEN_T = { pick: T.borrow2 - 0.1, give: T.pen - 0.05, done: T.pen + 0.3 };
-const HANDS_MEET: V3 = Oo(0.0, 1.12, 0.1);
+const HANDS_MEET: V3 = Oo(0.0, 1.12, 0.05);
 const s5Actors = (t: number): Actor[] => {
   // you: push the gift across, then hold out a hand
   const push = window01(t, GIFT_GO.t0 - 0.1, GIFT_GO.t1 + 0.1, 0.15, 0.2);
@@ -373,9 +373,9 @@ const s5Gift = (t: number): V3 => {
 const s5: Scene = {
   id: 5, t0: T.next - 0.06, mood: "day", blur: 1.0, set: "office",
   cam: keyed([
-    [T.next - 0.06, C(Oo(0.55, 1.65, 2.25), Oo(-0.05, 1.45, -1.45), 44)],
-    [T.stand + 0.1, C(Oo(0.5, 1.62, 1.95), Oo(-0.05, 1.48, -1.45), 36), "inout"],
-    [GIFT_GO.t0, C(Oo(0.5, 1.62, 1.93), Oo(-0.05, 1.48, -1.45), 36), "linear"],
+    [T.next - 0.06, C(Oo(0.55, 1.65, 2.25), Oo(-0.05, 1.45, -1.12), 44)],
+    [T.stand + 0.1, C(Oo(0.5, 1.62, 1.95), Oo(-0.05, 1.48, -1.12), 36), "inout"],
+    [GIFT_GO.t0, C(Oo(0.5, 1.62, 1.93), Oo(-0.05, 1.48, -1.12), 36), "linear"],
     [GIFT_GO.t1, C(Oo(1.6, 1.5, 0.5), Oo(0.2, 0.8, -0.2), 48), "inout"],
     [GIFT_BACK.t1, C(Oo(1.65, 1.5, 0.6), Oo(0.2, 0.85, 0.3), 48), "inout"],
     [T.borrow2, C(Oo(1.75, 1.42, 0.2), Oo(0.0, 1.15, 0.0), 46), "inout"],
