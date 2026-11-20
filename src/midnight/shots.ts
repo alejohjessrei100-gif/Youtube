@@ -124,7 +124,7 @@ const sgtPath = (t: number) => walkAt([LEAD], LEAD.from, t, SERGEANT.height);
 const FOLLOW_A: WalkSeg = { t0: LEAD.t0 + 0.4, t1: LEAD.t1 + 0.4, from: Ii(3.6, 0, 0.35), to: Ii(2.2, 0, 0.3) };
 const FOLLOW_B: WalkSeg = { t0: LEAD.t0 + 0.8, t1: LEAD.t1 + 0.8, from: Ii(3.95, 0, 0.1), to: Ii(3.0, 0, 0.0) };
 const KICK = T.kicked + 0.0;
-const INSIDE = KICK + 1.9; // the sergeant steps into the room after the lens has passed
+const INSIDE = T.board + 1.3; // the sergeant steps into the room only after the roll call, when Mrs. Bell speaks to him
 const SGT_IN: WalkSeg[] = [
   { t0: INSIDE, t1: INSIDE + 0.5, from: Ii(1.05, 0, -0.55), to: Ii(0.95, 0, -1.55) },
   { t0: INSIDE + 0.5, t1: INSIDE + 1.1, from: Ii(0.95, 0, -1.55), to: Ii(1.95, 0, -2.1) },
@@ -137,7 +137,7 @@ const sgtPos = (t: number): { p: V3; walk?: number } => {
   return { p: lerpV(Ii(1.62, 0, -2.5), Ii(SGT_DESK[0], 0, SGT_DESK[2]), smooth((t - SIT_AT) / 0.7)) };
 };
 const MB_P: V3 = Ii(-0.2, 0, -4.7);
-const CHALK_A = { drop: KICK + 0.25, from: Ii(-0.05, 0.012, -4.4), to: Ii(0.95, 0.012, -1.05) };
+const CHALK_A = { drop: KICK + 0.25, from: Ii(-0.05, 0.012, -4.4), to: Ii(0.55, 0.012, -1.75) };
 const chalkRoll = (t: number): Prop => {
   const u = Math.min(1, Math.max(0, (t - CHALK_A.drop - 0.12) / 1.2));
   const e = 1 - Math.pow(1 - u, 2);
@@ -224,30 +224,30 @@ const s3: Scene = {
     [KICK - 0.35, C(Ii(-1.7, 1.45, 0.55), Ii(1.0, 1.25, -0.5), 46), "inout"],
     [KICK + 0.2, C(Ii(-1.65, 1.45, 0.55), Ii(0.9, 1.3, -0.6), 46), "linear"],
     // through the doorway, low, on the chalk rolling toward the sergeant's boot
-    [KICK + 0.9, C(Ii(0.35, 0.95, -1.05), Ii(0.05, 0.1, -3.4), 56), "inout"],
-    [T.twelve - 0.25, C(Ii(0.35, 0.95, -1.05), Ii(0.4, 0.2, -1.2), 56), "linear"],
-    // up to the frozen men: a wide look back across the room from the doorway
-    [T.twelve + 0.4, C(Ii(0.35, 1.75, -1.15), Ii(4.3, 1.2, -5.0), 70), "inout"],
-    [T.truck - 0.2, C(Ii(0.35, 1.75, -1.15), Ii(4.2, 1.2, -5.0), 70), "linear"],
+    [KICK + 0.9, C(Ii(0.55, 0.95, -1.9), Ii(0.05, 0.1, -3.9), 56), "inout"],
+    [T.twelve - 0.25, C(Ii(0.5, 0.95, -2.0), Ii(0.4, 0.2, -2.2), 56), "linear"],
+    // up to the frozen men: a wide look back across the room from just inside the door (the wall is behind the lens)
+    [T.twelve + 0.5, C(Ii(0.2, 1.7, -2.15), Ii(4.5, 1.2, -5.0), 66), "inout"],
+    [T.truck - 0.2, C(Ii(0.2, 1.7, -2.15), Ii(4.4, 1.2, -5.0), 66), "linear"],
     [T.truck + 0.25, C(Ii(0.5, 1.5, -2.0), Ii(2.2, 1.3, -3.5), 34), "inout"],
     [T.baker - 0.1, C(Ii(0.5, 1.5, -2.0), Ii(2.2, 1.3, -3.5), 34), "linear"],
     [T.baker + 0.3, C(Ii(0.5, 1.5, -2.0), Ii(3.8, 1.3, -3.5), 30), "inout"],
     [T.janitor - 0.5, C(Ii(0.5, 1.5, -2.0), Ii(3.8, 1.3, -3.5), 30), "linear"],
     [T.janitor + 0.2, C(Ii(0.3, 1.5, -2.6), Ii(2.2, 1.3, -4.9), 36), "inout"],
-    [T.board - 0.1, C(Ii(0.3, 1.5, -2.6), Ii(2.2, 1.3, -4.9), 36), "linear"],
+    [T.board - 0.55, C(Ii(0.3, 1.5, -2.6), Ii(2.2, 1.3, -4.9), 36), "linear"],
     // Mrs. Bell at the board: the lens swings across the room, lands on her, pushes in for the chalk
     [T.board + 0.4, C(Ii(1.7, 1.55, -4.2), Ii(-0.2, 1.4, -4.7), 40), "inout"],
     [T.chalk + 0.1, C(Ii(1.6, 1.4, -4.1), Ii(-0.4, 1.05, -4.8), 36), "inout"],
     [T.sit - 0.1, C(Ii(1.7, 1.45, -4.1), Ii(-0.2, 1.45, -4.7), 40), "inout"],
     [T.draft + 0.6, C(Ii(1.65, 1.45, -4.1), Ii(-0.2, 1.45, -4.7), 39), "linear"],
     // the sergeant stands by the door, then the men
-    [T.read - 0.3, C(Ii(0.1, 1.5, -3.2), Ii(1.95, 1.5, -2.1), 50), "inout"],
-    [T.read + 0.6, C(Ii(0.1, 1.5, -3.2), Ii(1.95, 1.5, -2.1), 50), "linear"],
+    [T.read - 0.3, C(Ii(-0.2, 1.6, -4.0), Ii(1.9, 1.5, -2.2), 44), "inout"],
+    [T.read + 0.6, C(Ii(-0.2, 1.6, -4.0), Ii(1.9, 1.5, -2.2), 44), "linear"],
     [T.proud - 0.2, C(Ii(0.5, 1.5, -2.0), Ii(3.0, 1.3, -4.3), 50), "inout"],
     [T.dark - 0.3, C(Ii(0.5, 1.5, -2.0), Ii(3.0, 1.3, -4.3), 50), "linear"],
     [T.dark + 0.4, C(Ii(1.7, 1.5, -4.2), Ii(-0.2, 1.4, -4.7), 40), "inout"],
     [T.sergeant - 0.3, C(Ii(1.7, 1.5, -4.2), Ii(-0.2, 1.4, -4.7), 40), "linear"],
-    [T.sergeant + 0.1, C(Ii(-0.1, 1.6, -3.9), Ii(1.15, 1.2, -2.55), 56), "inout"],
+    [T.sergeant - 0.05, C(Ii(-0.1, 1.6, -3.9), Ii(1.15, 1.2, -2.55), 56), "inout"],
     [T.now - 0.06, C(Ii(-0.1, 1.6, -3.9), Ii(1.15, 1.2, -2.55), 55), "linear"],
   ]),
   actors: s3Actors,
@@ -300,10 +300,9 @@ const s4Actors = (t: number): Actor[] => {
 const s4: Scene = {
   id: 4, t0: T.now - 0.06, mood: "golden", blur: 1.0, set: "ext", night: false, dip: true,
   cam: keyed([
-    [T.now - 0.06, C(Ee(-3.6, 1.5, 6.6), Ee(0.2, 1.3, 2.4), 52)],
-    [T.waiting - 0.2, C(Ee(-3.4, 1.7, 6.9), Ee(0.0, 1.5, 2.2), 52), "linear"],
-    [T.waiting + 0.5, C(Ee(2.4, 3.6, 9.4), Ee(0, 2.6, 0.5), 56), "inout"],
-    [SECONDS, C(Ee(2.3, 3.8, 9.8), Ee(0, 2.6, 0.5), 56), "linear"],
+    [T.now - 0.06, C(Ee(-2.6, 2.4, 11.6), Ee(0, 2.5, 0.8), 56)],
+    [T.waiting + 0.3, C(Ee(-1.2, 2.2, 10.4), Ee(0, 2.4, 0.8), 56), "inout"],
+    [SECONDS, C(Ee(-1.0, 2.2, 10.2), Ee(0, 2.4, 0.8), 56), "linear"],
   ]),
   actors: s4Actors,
   extra: () => ({ open: 1, banner: true }),

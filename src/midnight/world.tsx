@@ -201,7 +201,7 @@ export const Exterior: React.FC<{ t: number; lightsAt: number; night: boolean; o
       <Tree p={[-13, 0, 1.5]} seed={3} s={1.2} />
       <Tree p={[12.5, 0, 0.5]} seed={9} s={1.1} />
       <Tree p={[-9, 0, 4.2]} seed={5} s={0.9} />
-      <M g={boxG(3.6, 2.6, 3.2)} c="#c8b898" tex="plaster" p={[-6.5, 1.3, 10.4]} />
+      <M g={boxG(3.6, 2.6, 3.2)} c="#c8b898" tex="plaster" p={[-6.5, 1.3, 10.4]} recv={false} />
       <M g={coneG(3.0, 1.2, 4)} c="#4a3a3a" tex="shingles" p={[-6.5, 3.2, 10.4]} r={[0, Math.PI / 4, 0]} />
       <Glow p={[-6.5, 1.5, 8.77]} w={0.7} h={0.9} k={night ? 1.4 : 0.8} col={night ? "#ffcf80" : "#a8c0d8"} />
       <M g={boxG(3.6, 0.2, 1.2)} c="#9a7a56" tex="planks" p={[-6.5, 0.1, 8.5]} />
@@ -282,16 +282,16 @@ export const Interior: React.FC<{ t: number; doorOpen: number; bell: number }> =
     {/* ---------------------------------------------------------------- hallway: floor, walls, ceiling */}
     <Floor p={[0, 0.015, 0]} w={9.0} d={3.0} a="#cfc6ae" b="#7a8a6a" n={18} k="hall" />
     <M g={boxG(9.2, 0.1, 3.2)} c="#6a6a5a" p={[0, -0.05, 0]} />
-    <M g={boxG(9.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[0, 1.6, 1.5]} />
-    <M g={boxG(9.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[0, 1.6, -1.5]} />
+    <M g={boxG(9.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[0, 1.6, 1.5]} recv={false} />
+    <M g={boxG(9.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[0, 1.6, -1.5]} recv={false} />
     <M g={boxG(9.2, 1.1, 0.06)} c="#6a8a7a" p={[0, 0.55, -1.38]} cast={false} />
     <M g={boxG(9.2, 1.1, 0.06)} c="#6a8a7a" p={[0, 0.55, 1.38]} cast={false} />
-    <M g={boxG(0.2, 3.2, 3.2)} c="#9ab0a4" tex="plaster" p={[-4.5, 1.6, 0]} />
+    <M g={boxG(0.2, 3.2, 3.2)} c="#9ab0a4" tex="plaster" p={[-4.5, 1.6, 0]} recv={false} />
     <M g={boxG(9.2, 0.2, 3.2)} c="#d8d4c4" p={[0, 3.3, 0]} recv={false} />
     {/* the entrance door at the right end (open a crack: a moonlit gap) */}
-    <M g={boxG(0.2, 3.2, 1.0)} c="#9ab0a4" tex="plaster" p={[4.5, 1.6, 0.95]} />
-    <M g={boxG(0.2, 3.2, 1.0)} c="#9ab0a4" tex="plaster" p={[4.5, 1.6, -0.95]} />
-    <M g={boxG(0.2, 0.8, 0.9)} c="#9ab0a4" tex="plaster" p={[4.5, 2.8, 0]} />
+    <M g={boxG(0.2, 3.2, 1.0)} c="#9ab0a4" tex="plaster" p={[4.5, 1.6, 0.95]} recv={false} />
+    <M g={boxG(0.2, 3.2, 1.0)} c="#9ab0a4" tex="plaster" p={[4.5, 1.6, -0.95]} recv={false} />
+    <M g={boxG(0.2, 0.8, 0.9)} c="#9ab0a4" tex="plaster" p={[4.5, 2.8, 0]} recv={false} />
     <Glow p={[4.42, 1.2, 0]} w={0.02} h={2.0} k={0.8} col="#8aa8d8" r={[0, 0, 0]} />
     {/* lockers: a long bank on the back wall, doors with vents and handles, a few left ajar; names on some */}
     {Array.from({ length: 8 }, (_, i) => {
@@ -327,11 +327,11 @@ export const Interior: React.FC<{ t: number; doorOpen: number; bell: number }> =
     <Glow p={[-4.38, 1.9, 0]} w={0.9} h={1.3} k={0.9} col="#7a9ad0" r={[0, Math.PI / 2, 0]} />
     <A name="clock2" p={[-4.34, 2.55, 0.9]} r={[0, 0, 0]} />
     {/* the classroom door: a frame in the back wall at x 0.2..1.2, a leaf that swings into the room, light spilling out */}
-    <M g={boxG(0.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[1.3, 1.6, -1.5]} />
-    <M g={boxG(0.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[0.1, 1.6, -1.5]} />
-    <M g={boxG(1.4, 0.9, 0.2)} c="#9ab0a4" tex="plaster" p={[0.7, 2.75, -1.5]} />
+    <M g={boxG(0.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[1.3, 1.6, -1.5]} recv={false} />
+    <M g={boxG(0.2, 3.2, 0.2)} c="#9ab0a4" tex="plaster" p={[0.1, 1.6, -1.5]} recv={false} />
+    <M g={boxG(1.4, 0.9, 0.2)} c="#9ab0a4" tex="plaster" p={[0.7, 2.75, -1.5]} recv={false} />
     <Label text="ROOM 4" p={[0.7, 2.5, -1.38]} w={0.6} h={0.2} fg="#f4ead0" bg="#3a2a22" />
-    <group position={[1.2, 0, -1.5]} rotation={[0, doorOpen * 1.7, 0]}>
+    <group position={[1.2, 0, -1.5]} rotation={[0, -doorOpen * 1.7, 0]}>
       <M g={boxG(1.0, 2.3, 0.06)} c="#6a4a2e" tex="wood" p={[-0.5, 1.15, 0]} />
       <Glow p={[-0.5, 1.5, 0.035]} w={0.4} h={0.7} k={1.4} col="#ffe0a0" />
       <M g={sphG(0.045, 8)} c="#d8b040" p={[-0.88, 1.05, 0.05]} />
@@ -340,9 +340,9 @@ export const Interior: React.FC<{ t: number; doorOpen: number; bell: number }> =
     {/* ---------------------------------------------------------------- classroom */}
     <Floor p={[3.7, 0.015, -4.9]} w={9.0} d={7.0} a="#d8c9a0" b="#b89a6a" n={18} k="room" />
     <M g={boxG(9.4, 0.1, 7.2)} c="#6a5a42" p={[3.7, -0.05, -4.9]} />
-    <M g={boxG(0.2, 3.2, 7.0)} c="#e8dcb8" tex="plaster" p={[-0.9, 1.6, -4.9]} />
-    <M g={boxG(0.2, 3.2, 7.0)} c="#e8dcb8" tex="plaster" p={[8.3, 1.6, -4.9]} />
-    <M g={boxG(9.4, 3.2, 0.2)} c="#e8dcb8" tex="plaster" p={[3.7, 1.6, -8.5]} />
+    <M g={boxG(0.2, 3.2, 7.0)} c="#e8dcb8" tex="plaster" p={[-0.9, 1.6, -4.9]} recv={false} />
+    <M g={boxG(0.2, 3.2, 7.0)} c="#e8dcb8" tex="plaster" p={[8.3, 1.6, -4.9]} recv={false} />
+    <M g={boxG(9.4, 3.2, 0.2)} c="#e8dcb8" tex="plaster" p={[3.7, 1.6, -8.5]} recv={false} />
     <M g={boxG(9.4, 0.2, 7.2)} c="#d8d4c4" p={[3.7, 3.3, -4.9]} recv={false} />
     <M g={boxG(9.4, 1.0, 0.06)} c="#8a6a4a" tex="wood" p={[3.7, 0.5, -8.38]} cast={false} />
     <M g={boxG(0.06, 1.0, 7.0)} c="#8a6a4a" tex="wood" p={[8.18, 0.5, -4.9]} cast={false} />
