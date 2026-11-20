@@ -2,7 +2,7 @@
 // SET_BOXES); lens inside / grazing anything; lens near heads; actors inside furniture; overlaps; arm range; head turn;
 // per-frame jumps / turns; IK reach on every committed hand (takeReachErr); props jumping between frames; faces toward
 // the lens on their beats; and the FRAME CHECK (9x15 ray grid: blocked lens, big foreground, hidden focus, cropped faces).
-import { head, headPosed } from "../../src/crow/shots";
+import { hand, head, headPosed } from "../../src/crow/shots";
 import { SCENES, T, takeReachErr } from "../../src/franklin/shots";
 import { SET_BOXES } from "../../src/franklin/world";
 import { SECONDS } from "../../src/franklin/words";
@@ -16,6 +16,10 @@ const inBox = (p: V, b: Box, pad: number) => p[0] > b.min[0] - pad && p[0] < b.m
 const SETS: Record<string, Box[]> = Object.fromEntries(Object.entries(SET_BOXES).map(([k, v]) => [k, v.b.map((b) => ({ n: b.n, min: [b.min[0] + v.o[0], b.min[1] + v.o[1], b.min[2] + v.o[2]] as V, max: [b.max[0] + v.o[0], b.max[1] + v.o[1], b.max[2] + v.o[2]] as V }))]));
 const prevProps: Record<string, V> = {};
 const worst: Record<string, number> = {};
+const prevPose: Record<string, number[]> = {};
+let prevCam: { pos: V; fw: V; id: number } | null = null;
+let prevBubble: { k: number; id: number } | null = null;
+const segBox = (a: V, b: V, bx: Box, pad: number) => { for (let k = 0; k <= 12; k++) { const u = k / 12; if (inBox([a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u, a[2] + (b[2] - a[2]) * u], bx, pad)) return true; } return false; };
 // ---- ray casting
 const sub = (a: V, b: V): V => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
 const dot = (a: V, b: V) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
@@ -60,6 +64,41 @@ for (let f = 0; f < Math.round(SECONDS * 30); f++) {
   takeReachErr();
   const lens = s.cam(t).pos as V; const fo = s.focus(t) as V; const actors = s.actors(t);
   const re = takeReachErr(); if (re > 0.08) { add(`a committed hand misses its target (s${s.id})`, t); worst[`s${s.id}`] = Math.max(worst[`s${s.id}`] ?? 0, re); }
+  // ---- added after the Franklin review: arms through furniture, props through bodies, unheld props moving, camera
+  // jumps, pose pops, heads touching, bubble size pops
+  { const ex = s.extra(t) as Record<string, unknown>;
+    const hands: V[] = [];
+    actors.forEach((a, i) => {
+      const hp = headPosed(a as never) as V;
+      for (const side of ["L", "R"] as const) {
+        const hd = hand(a.spec, a.p as V, a.yaw, a.pose, side) as V; hands.push(hd);
+        // shoulder ~0.42 m below the head centre, 0.2 m to the side; the arm is the shoulder -> hand segment
+        const sx = side === "R" ? 1 : -1; const rt: V = [Math.cos(a.yaw), 0, -Math.sin(a.yaw)];
+        const sh: V = [hp[0] + rt[0] * 0.2 * sx, hp[1] - 0.42, hp[2] + rt[2] * 0.2 * sx];
+        const mid: V = [(sh[0] + hd[0]) / 2, (sh[1] + hd[1]) / 2, (sh[2] + hd[2]) / 2];
+        for (const b of boxes) if (b.max[1] > 0.3 && (inBox(hd, b, -0.01) || segBox(mid, hd, b, -0.03))) add(`actor${i} ${side} arm through ${b.n} (s${s.id})`, t);
+      }
+      const key = `s${s.id}a${i}`; const v = [...(a.pose.armL ?? [0, 0]), ...(a.pose.armR ?? [0, 0]), a.pose.armLFwd ?? 0, a.pose.armRFwd ?? 0, a.pose.headYaw ?? 0, a.pose.headNod ?? 0];
+      const q = prevPose[key]; if (q) { const d = Math.max(...v.map((x, k) => Math.abs(x - q[k]))); if (d > 15) add(`actor${i} pose pops ${d.toFixed(0)} deg in a frame (s${s.id})`, t); }
+      prevPose[key] = v;
+      actors.forEach((o, j) => { if (j > i && d3(hp, headPosed(o as never) as V) < 0.5) add(`heads ${i}/${j} touching (s${s.id})`, t); });
+    });
+    const sph = actors.flatMap((a, i) => bodySpheres(a as never, i));
+    const items: [string, V][] = [];
+    for (const k of ["letter", "note", "book", "gift", "pen"]) { const v = ex[k] as { p: V } | undefined; if (v) items.push([k, v.p]); }
+    ((ex.cups as { p: V }[] | undefined) ?? []).forEach((c, i) => items.push(["cup" + i, c.p]));
+    for (const [k, p] of items) {
+      for (const q of sph) if (!q.n.endsWith("legs") && d3(p, q.c) < q.r * 0.85) add(`prop ${k} inside ${q.n} (s${s.id})`, t);
+      const pp = prevProps["u" + s.id + k]; const near = Math.min(...hands.map((h) => d3(h, p)));
+      if (pp && d3(pp, p) > 0.02 && near > 0.15) add(`prop ${k} moves with no hand on it (s${s.id})`, t);
+      prevProps["u" + s.id + k] = p;
+    }
+    const cam = s.cam(t); const fwc = nrm(sub(cam.look as V, cam.pos as V));
+    if (prevCam && prevCam.id === s.id) { const ang = Math.acos(Math.min(1, dot(fwc, prevCam.fw))) * 57.3; const mv = d3(prevCam.pos, cam.pos as V); if (ang > 12 || mv > 0.35) add(`camera jumps (${ang.toFixed(0)} deg / ${mv.toFixed(2)} m in a frame) (s${s.id})`, t); }
+    prevCam = { pos: cam.pos as V, fw: fwc, id: s.id };
+    const bk = (ex.bubble as { k: number } | undefined)?.k ?? 0;
+    if (prevBubble && prevBubble.id === s.id && Math.abs(bk - prevBubble.k) > 0.25) add(`bubble size pops (s${s.id})`, t);
+    prevBubble = { k: bk, id: s.id }; }
   // props must not jump between frames inside a scene
   { const ex = s.extra(t) as Record<string, unknown>;
     const items: [string, V][] = [];

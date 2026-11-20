@@ -60,7 +60,14 @@ export const FranklinFilm: React.FC<{ audio?: boolean }> = ({ audio = true }) =>
         {(ex.cups ?? []).map((c, i) => <P key={i} name="teacup" p={c.p} r={c.r} />)}
         {(ex.coins ?? []).map((c, i) => <M key={i} g={cylG(0.035, 0.035, 0.008, 14)} c="#f0c84a" tex="metal" p={c} />)}
         {ex.gift ? <P name="gift" p={ex.gift.p} r={ex.gift.r} /> : null}
-        {ex.pen ? <P name="pen" p={ex.pen.p} r={ex.pen.r} /> : null}
+        {ex.pen ? (
+          <group position={ex.pen.p} rotation={ex.pen.r}>
+            <M g={cylG(0.013, 0.013, 0.13, 12)} c="#2a5ad8" />
+            <M g={cylG(0.013, 0.003, 0.03, 12)} c="#d8d8e0" tex="metal" p={[0, -0.08, 0]} />
+            <M g={cylG(0.014, 0.014, 0.025, 12)} c="#1a1a24" p={[0, 0.075, 0]} />
+            <M g={boxG(0.006, 0.05, 0.012)} c="#d8d8e0" tex="metal" p={[0.016, 0.05, 0]} />
+          </group>
+        ) : null}
         {ex.bubble ? <Bubble p={ex.bubble.p} text={ex.bubble.text} k={ex.bubble.k} cam={cam.pos} /> : null}
         {ex.check ? (
           <group position={[LAB[0] + 0.25, 1.62, LAB[2] - 2.8]} scale={0.4 + 0.6 * ex.check}>

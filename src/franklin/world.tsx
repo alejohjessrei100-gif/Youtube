@@ -33,7 +33,7 @@ const pageTex = (key: string, title: string, sign: string | null) =>
       for (let x = 46; x < w - 60 - (l === 6 ? 180 : 0); x += 8) g.lineTo(x, y + Math.sin(x * 0.21 + l) * 4 + (h1(x + l) - 0.5) * 3);
       g.stroke();
     }
-    if (sign) { g.font = "italic 800 62px serif"; g.fillStyle = "#1a120c"; g.fillText(sign, 130, 560); g.beginPath(); g.moveTo(120, 580); g.bezierCurveTo(250, 610, 380, 560, 470, 590); g.stroke(); }
+    if (sign) { let fs = 62; g.font = `italic 800 ${fs}px serif`; while (g.measureText(sign).width > w - 80 && fs > 20) { fs -= 2; g.font = `italic 800 ${fs}px serif`; } g.fillStyle = "#1a120c"; g.fillText(sign, 40, 560); g.beginPath(); g.moveTo(120, 580); g.bezierCurveTo(250, 610, 380, 560, 470, 590); g.stroke(); }
   });
 export const Page: React.FC<{ p: V3; r?: V3; s?: number; tex: "letter" | "note"; fold?: number }> = ({ p, r, s = 1, tex }) => {
   const t = tex === "letter" ? pageTex("letter", "Dear Sir,", "Your humble servant") : pageTex("note", "With thanks,", "B. Franklin");
@@ -272,7 +272,7 @@ export const LAB_BOXES: Box[] = [
   { n: "lab left wall", min: [-3.75, 0, -3.25], max: [-3.45, 3.0, 3.7] },
   { n: "lab right wall", min: [3.45, 0, -3.25], max: [3.75, 3.0, 3.7] },
   { n: "lab ceiling", min: [-3.6, 2.95, -3.25], max: [3.6, 3.25, 3.7] },
-  { n: "lab desk", min: [LAB_DESK[0] - 0.78, 0, LAB_DESK[2] - 0.38], max: [LAB_DESK[0] + 0.78, 0.95, LAB_DESK[2] + 0.38] },
+  { n: "lab desk", min: [LAB_DESK[0] - 0.78, 0, LAB_DESK[2] - 0.38], max: [LAB_DESK[0] + 0.78, 0.62, LAB_DESK[2] + 0.38] },
   { n: "cabinet", min: [2.8, 0, -2.85], max: [3.4, 1.3, -2.35] },
   { n: "lab plant", min: [-3.2, 0, -2.7], max: [-2.8, 0.85, -2.3] },
 ];
@@ -325,8 +325,8 @@ export const OFFICE_BOXES: Box[] = [
   { n: "office left wall", min: [-3.75, 0, -3.15], max: [-3.45, 2.9, 4.2] },
   { n: "office right wall", min: [3.45, 0, -3.15], max: [3.75, 2.9, 4.2] },
   { n: "office ceiling", min: [-3.6, 2.85, -3.15], max: [3.6, 3.15, 4.2] },
-  { n: "your desk", min: [-0.78, 0, 0.38], max: [0.78, 0.95, 1.12] },
-  { n: "grump desk", min: [-0.78, 0, -1.12], max: [0.78, 0.95, -0.38] },
+  { n: "your desk", min: [-0.78, 0, 0.38], max: [0.78, 0.62, 1.12] },
+  { n: "grump desk", min: [-0.78, 0, -1.12], max: [0.78, 0.62, -0.38] },
   { n: "partition", min: [-0.8, 0.59, -0.04], max: [0.8, 1.01, 0.04] },
   { n: "office plant L", min: [-3.15, 0, -2.65], max: [-2.65, 1.1, -2.15] },
   { n: "office plant R", min: [2.65, 0, 2.55], max: [3.15, 1.0, 3.05] },
