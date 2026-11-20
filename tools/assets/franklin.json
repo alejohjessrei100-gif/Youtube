@@ -5,11 +5,6 @@
   "id": "wooden_bookshelf_worn"
  },
  {
-  "name": "books",
-  "src": "polyhaven",
-  "id": "book_encyclopedia_set_01"
- },
- {
   "name": "table",
   "src": "polyhaven",
   "id": "WoodenTable_01"
@@ -48,11 +43,6 @@
   "name": "desklamp",
   "src": "polyhaven",
   "id": "desk_lamp_arm_01"
- },
- {
-  "name": "radio",
-  "src": "polyhaven",
-  "id": "vintage_radio_transceiver"
  },
  {
   "name": "quill",

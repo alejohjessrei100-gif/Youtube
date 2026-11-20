@@ -143,8 +143,6 @@ export const Hall: React.FC<{ t: number }> = ({ t }) => (
     <StandDesk p={[2.9, 0, -1.9]} yaw={Math.PI / 2} t={t} />
     <A name="chair" p={[-3.5, 0, -0.6]} r={[0, Math.PI / 2, 0]} />
     <A name="chair" p={[2.6, 0, 1.4]} r={[0, -Math.PI / 2, 0]} />
-    <A name="books" p={[-3.4, 0, -3.15]} />
-    <A name="books" p={[3.0, 0, -3.15]} />
     <Dust c={[-2.7, 1.8, -2.6]} t={t} />
     <Dust c={[2.7, 1.8, -2.6]} t={t + 3} />
   </group>
@@ -181,7 +179,7 @@ export const Library: React.FC<{ t: number }> = ({ t }) => (
     {[-2.9, -1.5, -0.1].map((x, k) => (
       <group key={x}>
         <A name="bookshelf" p={[x, 0, -2.7]} />
-        {[0.1, 0.5, 0.9, 1.3, 1.7].map((y, j) => (k + j) % 3 === 0 ? <A key={y} name="books" p={[x, y + 0.03, -2.72]} /> : <BookRow key={y} x0={x - 0.6} x1={x + 0.6} y={y + 0.03} z={-2.72} seed={k * 40 + j * 7} />)}
+        {[0.1, 0.5, 0.9, 1.3, 1.7].map((y, j) => <BookRow key={y} x0={x - 0.6} x1={x + 0.6} y={y + 0.03} z={-2.72} seed={k * 40 + j * 7} />)}
       </group>
     ))}
     {/* the fireplace: stone surround, flames, mantel with the clock and an oil lamp */}
@@ -201,7 +199,7 @@ export const Library: React.FC<{ t: number }> = ({ t }) => (
       <M g={boxG(1.4, 0.05, 0.76)} c="#5a3a22" tex="wood" p={[0, 0.785, 0]} />
       <M g={boxG(1.1, 0.012, 0.5)} c="#2e5a3a" tex="fabric" p={[0, 0.815, 0]} cast={false} />
       <A name="oillamp" p={[-0.55, 0.81, -0.22]} />
-      <A name="books" p={[0.35, 0.81, -0.28]} />
+      <BookRow x0={0.15} x1={0.55} y={0.81} z={-0.28} seed={91} />
     </group>
     <A name="armchair" p={[2.3, 0, 0.6]} r={[0, -2.2, 0]} />
     <Win p={[-3.99, 1.8, -1.2]} w={1.0} h={1.5} r={[0, Math.PI / 2, 0]} />
@@ -251,7 +249,10 @@ export const Lab: React.FC<{ t: number }> = ({ t }) => (
     <group position={LAB_DESK}>
       <A name="officedesk" p={[0, 0, 0]} tint="#a8b4a0" />
       <A name="reel" p={[-0.45, 0.6, -0.12]} />
-      <A name="radio" p={[0.35, 0.6, -0.12]} />
+      {/* a 1960s tape deck / radio set built in code (the scanned one was too heavy for phones) */}
+      <M g={boxG(0.42, 0.22, 0.26)} c="#6a5a48" tex="wood" p={[0.35, 0.71, -0.12]} />
+      <M g={boxG(0.3, 0.12, 0.01)} c="#d8d0b8" p={[0.33, 0.73, 0.016]} cast={false} />
+      {[0.22, 0.44].map((x) => <M key={x} g={cylG(0.025, 0.025, 0.03, 12)} c="#2a2420" p={[x, 0.66, 0.02]} r={[Math.PI / 2, 0, 0]} />)}
       <A name="desklamp" p={[0.65, 0.6, 0.1]} />
       <M g={boxG(0.22, 0.012, 0.3)} c="#c8a050" p={[-0.1, 0.606, 0.15]} />
     </group>

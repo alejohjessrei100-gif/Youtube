@@ -4,7 +4,6 @@ import type { AssetProps } from "../inkbeat/core/asset";
 type Fit = Pick<AssetProps, "fit" | "pre" | "tint">;
 export const FIT: Record<string, Fit> = {
   bookshelf: { fit: { axis: "y", size: 2.0 } },
-  books: { fit: { axis: "x", size: 0.55 } },
   table: { fit: { axis: "x", size: 1.5 } },
   chair: { fit: { axis: "y", size: 0.98 } },
   armchair: { fit: { axis: "y", size: 1.0 } },
@@ -13,7 +12,6 @@ export const FIT: Record<string, Fit> = {
   frame: { fit: { axis: "x", size: 0.6 } },
   officedesk: { fit: { axis: "x", size: 1.5 } },
   desklamp: { fit: { axis: "y", size: 0.5 } },
-  radio: { fit: { axis: "x", size: 0.45 } },
   quill: { fit: { axis: "max", size: 0.3 } },
   rarebook: { fit: { axis: "x", size: 0.3 } },
   gift: { fit: { axis: "max", size: 0.35 } },
