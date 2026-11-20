@@ -38,7 +38,7 @@ export type AssetProps = {
 };
 
 export const Asset: React.FC<AssetProps> = ({ film, name, p, r, fit, pre, tint = "#ffffff", cast = true, recv = true, ground = true, center = true, doubleSide = false }) => {
-  const url = staticFile(`assets/${film}/${name}/model.gltf`);
+  const url = staticFile(`assets/${film}/${name}/model.json`);
   const [src, setSrc] = useState<THREE.Group | null>(null);
   const [failed, setFailed] = useState(false);
   // useDelayRender (not the global delayRender) so the in-browser renderer waits too; release only after React has drawn

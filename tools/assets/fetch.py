@@ -91,3 +91,6 @@ for a in json.load(open(LIST)):
     print(f"{a['name']}: {size / 1e6:.2f} MB", flush=True)
 open(os.path.join(ROOT, "CREDITS.md"), "w").write(f"# 3D asset credits: {FILM}\n\nPaste the CC-BY lines into the YouTube description.\n\n" + "\n".join(credits) + "\n")
 print(open(os.path.join(ROOT, "CREDITS.md")).read())
+# pack every model into one served file (the phone page serves .json, not .gltf/.bin)
+import subprocess
+subprocess.run([sys.executable, "-I", os.path.join(os.path.dirname(__file__), "embed.py"), ROOT], check=True)
