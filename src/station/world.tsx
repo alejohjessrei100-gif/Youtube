@@ -7,7 +7,8 @@
 // Every solid that can meet the lens or a body is listed in HALL_BOXES / LAB_BOXES (local coordinates) for the checker.
 import React from "react";
 import * as THREE from "three";
-import { boxG, canvasTex, coneG, coreMat, cylG, Label, M, sphG } from "../inkbeat/core/kit";
+import { toonMapMaterial } from "../inkbeat/mat/materials";
+import { boxG, canvasTex, coneG, coreMat, cylG, Label, LightCone, M, sphG } from "../inkbeat/core/kit";
 import type { V3 } from "../inkbeat/types";
 
 export const HALL: V3 = [0, 0, 0];
@@ -16,7 +17,7 @@ export type Box = { n: string; min: V3; max: V3 };
 const PI = Math.PI;
 const h1 = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 const mats = new Map<string, THREE.Material>();
-const texMat = (key: string, tex: THREE.Texture) => { let m = mats.get(key); if (!m) { m = new THREE.MeshToonMaterial({ map: tex, color: "#ffffff" }); mats.set(key, m); } return m; };
+const texMat = (key: string, tex: THREE.Texture) => { let m = mats.get(key); if (!m) { m = toonMapMaterial(tex, "#ffffff"); mats.set(key, m); } return m; };
 const Glow: React.FC<{ p: V3; w: number; h: number; k?: number; col?: string; r?: V3; d?: number }> = ({ p, w, h, k = 1.4, col = "#fff0c8", r, d = 0.02 }) => (
   <mesh geometry={boxG(w, h, d)} position={p} rotation={r} material={coreMat(col, k)} userData={{ outline: false }} />
 );
@@ -130,11 +131,11 @@ export const Hall: React.FC<{ t: number; clockMin: number }> = ({ t, clockMin })
     <mesh geometry={boxG(26, 12, 0.4)} position={[0, 6, -14.2]} material={[texMat("hallwall", wallTex()), texMat("hallwall", wallTex()), mats.get("hallwall")!, mats.get("hallwall")!, mats.get("hallwall")!, mats.get("hallwall")!]} receiveShadow />
     {[-10.4, -5.2, 0, 5.2, 10.4].map((x) => <Glow key={x} p={[x, 7.4, -13.97]} w={2.6} h={5.6} col="#e8f4ff" k={1.15} />)}
     {/* side and front walls, ceiling with skylight strips */}
-    {[-13.2, 13.2].map((x) => <M key={x} g={boxG(0.4, 12, 26)} c="#d8ccb4" tex="plaster" p={[x, 6, -2]} recv={false} />)}
-    <M g={boxG(26, 12, 0.4)} c="#d0c4ac" tex="plaster" p={[0, 6, 11.2]} recv={false} />
+    {[-13.2, 13.2].map((x) => <M key={x} g={boxG(0.4, 12, 26)} c="#d8ccb4" tex="plaster" p={[x, 6, -2]} recv={false} cast={false} />)}
+    <M g={boxG(26, 12, 0.4)} c="#d0c4ac" tex="plaster" p={[0, 6, 11.2]} recv={false} cast={false} />
     {[-5, 5].map((x) => <Glow key={x} p={[x, 1.6, 10.97]} w={2.6} h={3.2} col="#f4f8ff" k={1.3} />)}
     {[-5, 5].map((x) => <Label key={x} text="EXIT" p={[x, 3.6, 10.96]} r={[0, PI, 0]} w={1.0} h={0.32} fg="#ffffff" bg="#2a8a4a" />)}
-    <M g={boxG(26.4, 0.4, 26.4)} c="#e8e0d0" p={[0, 12.2, -2]} recv={false} />
+    <M g={boxG(26.4, 0.4, 26.4)} c="#e8e0d0" p={[0, 12.2, -2]} recv={false} cast={false} />
     {[-6, 0, 6].map((z) => <Glow key={z} p={[0, 11.96, z - 2]} w={18} h={1.2} r={[PI / 2, 0, 0]} col="#f4f8ff" k={1.2} />)}
     {/* platform gates + numbers, a departures board */}
     {[-9, -3, 3, 9].map((x, i) => (
@@ -279,6 +280,7 @@ export const Lab: React.FC<{ t: number; talk: number; door: number }> = ({ t, ta
     <M g={boxG(0.04, 0.6, 0.45)} c="#f4efe0" p={[3.98, 1.6, -1.3]} />
     <Label text="APRIL 1968" p={[3.95, 1.75, -1.3]} r={[0, -PI / 2, 0]} w={0.4} h={0.12} fg="#a82a2a" bg="#f4efe0" />
     <mesh geometry={coneG(0.35, 0.3, 16)} position={[0, 3.05, 0.3]} material={coreMat("#fff0c8", 1.5)} />
+    <LightCone p={[0, 3.0, 0.3]} to={[0, 0, 0.3]} r={1.5} len={3.0} color="#ffe6b0" k={0.08} />
     <pointLight position={[0, 2.7, 0.5]} color="#fff0d0" intensity={6} distance={9} decay={1.4} />
     {/* a plant, coat hooks with a trench coat */}
     <group position={[3.5, 0, -2.5]}><M g={cylG(0.2, 0.16, 0.4, 10)} c="#b85a3a" p={[0, 0.2, 0]} /><M g={sphG(0.36, 10)} c="#3a7a3a" p={[0, 0.65, 0]} /></group>

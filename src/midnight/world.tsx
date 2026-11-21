@@ -6,9 +6,9 @@
 // Imported assets (Poly Haven CC0 / Sketchfab CC-BY, public/assets/midnight/CREDITS.md) go through <Asset>.
 // Every solid that can meet the lens or a body is listed in EXT_BOXES / INT_BOXES (local coordinates) for the checker.
 import React from "react";
-import * as THREE from "three";
 import { sitGeom } from "../crow/world";
 import { Asset } from "../inkbeat/core/asset";
+import { toonMapMaterial } from "../inkbeat/mat/materials";
 import { boxG, canvasTex, coneG, coreMat, cylG, Label, M, sphG, torG } from "../inkbeat/core/kit";
 import type { V3 } from "../inkbeat/types";
 import { Tuft } from "../gull/world";
@@ -91,7 +91,7 @@ const Floor: React.FC<{ p: V3; w: number; d: number; a: string; b: string; n: nu
     for (let y = 0; y * ch < H; y++) for (let x = 0; x < n; x++) { g.fillStyle = (x + y) % 2 ? a : b; g.fillRect(x * cw, y * ch, cw + 1, ch + 1); }
     for (let i = 0; i < 160; i++) { g.fillStyle = `rgba(60,40,20,${0.03 + h1(i) * 0.05})`; g.fillRect(h1(i + 3) * W, h1(i + 9) * H, 4 + h1(i + 5) * 14, 2 + h1(i + 7) * 5); }
   });
-  return <mesh geometry={boxG(w, 0.03, d)} position={p} material={new THREE.MeshToonMaterial({ map: tex, color: "#ffffff" })} receiveShadow />;
+  return <mesh geometry={boxG(w, 0.03, d)} position={p} material={toonMapMaterial(tex, "#ffffff")} receiveShadow />;
 };
 /** a hand-painted banner as a canvas texture */
 const bannerTex = (text: string, sub: string) =>
@@ -159,7 +159,7 @@ export const Exterior: React.FC<{ t: number; lightsAt: number; night: boolean; o
           <Label text="CLOSED" p={[-1.5, 1.7, 0.4]} w={0.6} h={0.28} fg="#ffffff" bg="#c83030" />
         </>
       ) : null}
-      {banner ? <mesh geometry={boxG(3.4, 0.85, 0.03)} position={[0, 2.35, 3.5]} material={new THREE.MeshToonMaterial({ map: bannerTex("NOW ENROLLING", "EVENING READING CLASS  ·  WAITING LIST"), color: "#ffffff" })} castShadow /> : null}
+      {banner ? <mesh geometry={boxG(3.4, 0.85, 0.03)} position={[0, 2.35, 3.5]} material={toonMapMaterial(bannerTex("NOW ENROLLING", "EVENING READING CLASS  ·  WAITING LIST"), "#ffffff")} castShadow /> : null}
       {banner ? [-1.6, 1.6].map((x) => <M key={x} g={cylG(0.03, 0.03, 1.5, 8)} c="#5a3a22" tex="wood" p={[x, 1.7, 3.5]} />) : null}
       {/* the chained front gate + fence + hedge */}
       {[[-14, -1.0], [1.0, 14]].map(([a, b], s) => (

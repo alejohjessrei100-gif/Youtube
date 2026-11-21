@@ -101,6 +101,8 @@ export const toonLook = {
   uRimColor: { value: new THREE.Color("#ffd9b0") },
   uRimAmt: { value: 0.22 },
   uPaint: { value: 0.07 }, // painterly low-frequency color drift (±7%)
+  uGround: { value: 0.85 }, // contact darkening where walls / legs meet the ground
+  uGroundY: { value: 0 },
 };
 
 /** shadowTint / hiTint are RGB multipliers (≈1 ± 0.2), rimColor is a color. Call during render (deterministic). */
@@ -150,10 +152,12 @@ export const toonRamp = () => {
 const VERT_PARS = /* glsl */ `
 varying vec3 vTriP;
 varying vec3 vTriN;
+varying vec3 vWP;
 `;
 const VERT_MAIN = /* glsl */ `
   vTriP = position * vec3(length(modelMatrix[0].xyz), length(modelMatrix[1].xyz), length(modelMatrix[2].xyz));
   vTriN = normal;
+  vWP = (modelMatrix * vec4(transformed, 1.0)).xyz;
 `;
 
 const FRAG_PARS = /* glsl */ `
@@ -165,8 +169,12 @@ uniform vec3 uRimColor;
 uniform float uRimAmt;
 uniform float uPaint;
 uniform float uTriScale;
+uniform float uSpec;
+uniform float uGround;
+uniform float uGroundY;
 varying vec3 vTriP;
 varying vec3 vTriN;
+varying vec3 vWP;
 // Hash without Sine (c) 2014 David Hoskins, MIT; see THIRD_PARTY_NOTICES.md
 float tn_h(vec3 p){ p = fract(p * 0.1031); p += dot(p, p.zyx + 31.32); return fract((p.x + p.y) * p.z); }
 float tn_n(vec3 p){
@@ -230,14 +238,36 @@ const FRAG_OUT = /* glsl */ `
     float fres = pow(1.0 - clamp(dot(normal, normalize(vViewPosition)), 0.0, 1.0), 3.0);
     float rim = fres * (1.0 - abs(wN.y) * 0.85) * uRimAmt;
     outgoingLight += uRimColor * diffuseColor.rgb * rim * (0.35 + 0.65 * iL / (iL + 0.15));
+    // painted terminator: a thin warm, saturated band where light turns to shade (the hand-painted cel look)
+    float term = smoothstep(0.08, 0.35, litK) * (1.0 - smoothstep(0.35, 0.8, litK));
+    outgoingLight += diffuseColor.rgb * diffuseColor.rgb * term * 0.34 * mix(vec3(1.0, 0.55, 0.3), uRimColor, 0.35);
+    // bounce light: colored fill from the ground on faces that look down or sideways in shade
+    float down = clamp(0.55 - wN.y * 0.9, 0.0, 1.0);
+    outgoingLight += diffuseColor.rgb * uShadowTint * (1.0 - litK) * down * 0.12;
+    // grounding: contact darkening where a vertical surface meets the floor (skirting, legs, trunks, wall bases)
+    float baseAO = mix(0.66, 1.0, smoothstep(0.0, 0.5, vWP.y - uGroundY));
+    outgoingLight *= mix(1.0, baseAO, (1.0 - abs(wN.y)) * uGround);
+    // a crisp cartoon specular glint from the key light, only where it is lit
+    #if NUM_DIR_LIGHTS > 0
+    {
+      vec3 Ld = directionalLights[0].direction;
+      vec3 kc = directionalLights[0].color;
+      kc /= max(dot(kc, vec3(0.3333)), 1e-3);
+      vec3 H = normalize(Ld + normalize(vViewPosition));
+      float nh = max(dot(normal, H), 0.0);
+      float glint = smoothstep(0.55, 0.64, pow(nh, 70.0)) * 0.85 + pow(nh, 9.0) * 0.1;
+      outgoingLight += kc * glint * smoothstep(0.5, 0.9, litK) * uSpec;
+    }
+    #endif
   }
   outgoingLight += totalEmissiveRadiance;
 `;
 
-const patch = (mat: THREE.MeshToonMaterial) => {
+export const patchToon = (mat: THREE.MeshToonMaterial) => {
   mat.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, toonLook);
     shader.uniforms.uTriScale = mat.userData.triScale;
+    shader.uniforms.uSpec = mat.userData.spec ?? { value: 0.16 };
     shader.vertexShader = shader.vertexShader
       .replace("#include <common>", "#include <common>\n" + VERT_PARS)
       .replace("#include <begin_vertex>", "#include <begin_vertex>\n" + VERT_MAIN);
@@ -296,7 +326,8 @@ export function toonMaterial(o: ToonOpts): THREE.Material {
       mat.map = texture(tex, { seed: o.seed, scale: o.texScale ?? 1 });
     }
   }
-  patch(mat);
+  mat.userData.spec = { value: tex === "metal" ? 0.7 : tex === "wood" || tex === "planks" ? 0.1 : tex === "plaster" || tex === "fabric" || tex === "paper" || tex === "grass" || tex === "sand" ? 0.03 : 0.2 };
+  patchToon(mat);
   matCache.set(key, mat);
   return mat;
 }
@@ -310,7 +341,11 @@ export function toonMapMaterial(map: THREE.Texture | null, color: string, side: 
   if (map) map.colorSpace = THREE.SRGBColorSpace;
   const mat = new THREE.MeshToonMaterial({ color, map, gradientMap: toonRamp(), side });
   mat.userData.triScale = { value: 1 };
-  patch(mat);
+  mat.userData.spec = { value: 0.1 };
+  patchToon(mat);
   mapMatCache.set(key, mat);
   return mat;
 }
+
+/** a patched toon material for a flat colour (no texture) */
+export const plainToon = (color: string): THREE.Material => toonMaterial({ color });

@@ -147,6 +147,8 @@ uniform vec3 uHighTint;
 uniform float uSplit;
 uniform float uWobble;
 uniform float uSharpen;
+uniform float uAO;           // screen-space ambient occlusion strength (0 = off)
+uniform float uAORadius;     // px at 1080 wide, already scaled
 uniform vec2 uRes;
 ${DEPTH_HELPERS}
 
@@ -210,6 +212,9 @@ vec3 grade(vec3 c) {
   // saturation (luma preserving)
   float l2 = luma(c);
   c = mix(vec3(l2), c, uSaturation);
+  // vibrance: low-saturation colors get the boost, already-vivid ones stay put (richer, never garish)
+  float sat0 = max(c.r, max(c.g, c.b)) - min(c.r, min(c.g, c.b));
+  c = mix(vec3(l2), c, 1.0 + 0.28 * (1.0 - clamp(sat0 * 1.6, 0.0, 1.0)));
   // split toning: chroma of the tint colors added by luminance band
   float l3 = clamp(luma(c), 0.0, 1.0);
   float wS = 1.0 - smoothstep(0.05, 0.5, l3);
@@ -224,6 +229,32 @@ void main() {
   vec3 col = scene0.rgb;
   // liquid marker (alpha 0.4; MSAA edges against alpha 1 resolve in between; the clear color has alpha 0)
   uLiq = clamp((1.0 - scene0.a) / 0.6, 0.0, 1.0) * step(0.2, scene0.a);
+  if (uAO > 0.0) {
+    // depth-crease ambient occlusion: 12 taps on three rings; a tap that is CLOSER than this pixel by 3 cm..0.9 m occludes
+    // (creases, wall/floor joins, contact under objects); a much closer one is a silhouette, not a crease: ignored
+    float d0 = texture2D(tDepth, vUv).x;
+    if (d0 < 0.999999) {
+      float zc = viewDist(d0);
+      float occ = 0.0;
+      float rot = hash12(floor(vUv * uRes)) * 6.2831853;
+      for (int r = 0; r < 3; r++) {
+        float rad = uAORadius * (r == 0 ? 0.45 : (r == 1 ? 1.0 : 2.1));
+        for (int k = 0; k < 4; k++) {
+          float a = rot + float(k) * 1.5707963 + float(r) * 0.7853982;
+          vec2 o = vec2(cos(a), sin(a)) * rad * uTexel;
+          float ds = texture2D(tDepth, vUv + o).x;
+          float zs = ds >= 0.999999 ? 1e6 : viewDist(ds);
+          float dz = zc - zs;
+          float near = smoothstep(0.03 + 0.004 * zc, 0.12 + 0.01 * zc, dz);
+          float far = 1.0 - smoothstep(0.9, 1.7, dz);
+          occ += near * far;
+        }
+      }
+      occ = clamp(occ / 12.0 * 1.6, 0.0, 1.0);
+      // tint the occlusion toward a deep violet instead of grey: shadows keep their colour
+      col *= mix(vec3(1.0), vec3(0.5, 0.42, 0.62), occ * uAO);
+    }
+  }
   if (uSharpen > 0.0) {
     // local contrast ("clarity"): luminance unsharp mask, radius ~2.5 px
     vec3 b = vec3(0.0);
@@ -424,7 +455,10 @@ float fbm(vec2 p) {
 }
 
 void main() {
-  vec3 c = texture2D(tColor, vUv).rgb;
+  // lens: a hair of chromatic aberration growing toward the corners
+  vec2 dir = vUv - 0.5;
+  float ca = dot(dir, dir) * 0.0042;
+  vec3 c = vec3(texture2D(tColor, vUv + dir * ca).r, texture2D(tColor, vUv).g, texture2D(tColor, vUv - dir * ca).b);
   // vignette: radial in frame space, 0 at the center, 1 at the corners
   float rr = length((vUv - 0.5) * 2.0) / 1.41421;
   float v = smoothstep(1.0 - clamp(uVigSoft, 0.05, 1.0), 1.0, rr);

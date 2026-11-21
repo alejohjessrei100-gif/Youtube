@@ -146,6 +146,8 @@ export class PostPipeline {
       uSS: { value: 2 },
       uSSOff: { value: 0.5 },
       uSharpen: { value: 0 },
+      uAO: { value: 0 },
+      uAORadius: { value: 7 },
       uRes: { value: new THREE.Vector2(1080, 1920) },
       ...depthU(),
     });
@@ -524,6 +526,8 @@ export class PostPipeline {
       u.uSS.value = ss;
       u.uSSOff.value = ss === 2 ? 0.5 : 0;
       u.uSharpen.value = g.sharpen ?? 0;
+      u.uAO.value = s.ao?.strength ?? 0;
+      u.uAORadius.value = (s.ao?.radius ?? 7) * scale;
       u.uRes.value.set(w, h);
       setDepthU(this.inkMat);
       this.blit(gl, this.inkMat, this.inkRT);

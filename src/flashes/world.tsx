@@ -8,9 +8,10 @@
 // Every solid that can meet the lens or a body is listed in LOT_BOXES / FB_BOXES (local coordinates) for the checker.
 import React from "react";
 import * as THREE from "three";
+import { toonMapMaterial, toonMaterial } from "../inkbeat/mat/materials";
 import { Car as OldCar } from "../agloe/world";
 import { Tuft } from "../gull/world";
-import { boxG, canvasTex, coneG, coreMat, cylG, Label, M, sphG } from "../inkbeat/core/kit";
+import { boxG, canvasTex, coneG, coreMat, cylG, Label, LightCone, M, sphG } from "../inkbeat/core/kit";
 import type { V3 } from "../inkbeat/types";
 
 export const LOT: V3 = [0, 0, 0];
@@ -33,12 +34,12 @@ export const VISIT_SIGN: V3 = [-3.6, 0, 10.6];
 const toonMats = new Map<string, THREE.Material>();
 const texMat = (key: string, tex: THREE.Texture) => {
   let m = toonMats.get(key);
-  if (!m) { m = new THREE.MeshToonMaterial({ map: tex, color: "#ffffff" }); toonMats.set(key, m); }
+  if (!m) { m = toonMapMaterial(tex, "#ffffff"); toonMats.set(key, m); }
   return m;
 };
 const plainMat = (col: string) => {
   let m = toonMats.get(col);
-  if (!m) { m = new THREE.MeshToonMaterial({ color: col }); toonMats.set(col, m); }
+  if (!m) { m = toonMaterial({ color: col }); toonMats.set(col, m); }
   return m;
 };
 const Glow: React.FC<{ p: V3; w: number; h: number; k?: number; col?: string; r?: V3; d?: number }> = ({ p, w, h, k = 1.5, col = "#ffe2a0", r, d = 0.02 }) => (
@@ -85,6 +86,7 @@ const Lamp: React.FC<{ p: V3; t: number; light?: boolean }> = ({ p, t, light }) 
     <M g={boxG(0.4, 0.18, 0.4)} c="#2a2e34" p={[0.82, 4.95, 0]} />
     <mesh geometry={boxG(0.32, 0.06, 0.32)} position={[0.82, 4.84, 0]} material={coreMat("#ffe0a0", 2.4)} userData={{ outline: false }} />
     {light ? <pointLight position={[0.82, 4.6, 0]} color="#ffd890" intensity={9} distance={12} decay={1.5} /> : null}
+    <LightCone p={[0.82, 4.8, 0]} to={[0.82, 0, 0]} r={2.1} len={4.8} color="#ffe0a0" k={0.075} />
     {Array.from({ length: 5 }, (_, i) => <mesh key={i} geometry={sphG(0.02, 5)} position={[0.82 + 0.32 * Math.cos(t * 3 + i * 1.3), 4.7 + 0.15 * Math.sin(t * 4.1 + i), 0.32 * Math.sin(t * 3 + i * 1.3)]} material={coreMat("#fff2c8", 1.4)} userData={{ outline: false }} />)}
   </group>
 );

@@ -54,6 +54,8 @@ export type PostSettings = {
     splitAmount: number; // 0..1
     sharpen?: number; // optional local-contrast boost for textures, 0..1 (default 0)
   };
+  /** screen-space ambient occlusion (depth creases): strength 0..1, radius in px at 1080 wide (default off) */
+  ao?: { strength: number; radius: number };
   vignette: { amount: number; softness: number; color: string }; // corners mix toward color*image by amount
   grain: number; // 0..1 subtle paper/film texture
 };
@@ -89,6 +91,7 @@ export const defaultPost: PostSettings = {
     splitAmount: 0.1,
     sharpen: 0.4,
   },
+  ao: { strength: 0.7, radius: 7 },
   vignette: { amount: 0.28, softness: 0.8, color: "#4a3050" },
   grain: 0.35,
 };
@@ -99,6 +102,7 @@ export const withPost = (o: DeepPartial<PostSettings>, base: PostSettings = defa
   dof: { ...base.dof, ...(o.dof ?? {}) },
   bloom: { ...base.bloom, ...(o.bloom ?? {}) },
   grade: { ...base.grade, ...(o.grade ?? {}) },
+  ao: o.ao ? { ...(base.ao ?? { strength: 0, radius: 7 }), ...o.ao } : base.ao,
   vignette: { ...base.vignette, ...(o.vignette ?? {}) },
   grain: o.grain ?? base.grain,
 });

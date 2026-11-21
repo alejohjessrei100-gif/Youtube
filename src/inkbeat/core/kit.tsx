@@ -156,3 +156,18 @@ export const Smoke: React.FC<{ p: V3; s?: number; t: number; seed?: number; n?: 
   </group>
 );
 export { h1 };
+
+/** a soft volumetric light cone (street lamp, window, skylight): an unlit cone from `p` along `to`, two nested layers so
+ *  the shaft is bright at the source and fades out. Opaque-ish toon glow (survives the ink pass; no outline). */
+export const LightCone: React.FC<{ p: V3; to: V3; len?: number; r?: number; color?: string; k?: number }> = ({ p, to, len, r = 1.2, color = "#ffe2a8", k = 0.09 }) => {
+  const d = [to[0] - p[0], to[1] - p[1], to[2] - p[2]];
+  const L = len ?? (Math.hypot(d[0], d[1], d[2]) || 1);
+  const yaw = Math.atan2(d[0], d[2]);
+  const pitch = Math.asin(-d[1] / (Math.hypot(d[0], d[1], d[2]) || 1));
+  return (
+    <group position={p} rotation={[pitch, yaw, 0]} rotation-order="YXZ">
+      <mesh geometry={coneG(r, L, 22)} material={coreMat(color, 1.0, k)} position={[0, 0, L / 2]} rotation={[-Math.PI / 2, 0, 0]} userData={{ outline: false }} />
+      <mesh geometry={coneG(r * 0.5, L * 0.8, 18)} material={coreMat(color, 1.1, k * 1.2)} position={[0, 0, L * 0.4]} rotation={[-Math.PI / 2, 0, 0]} userData={{ outline: false }} />
+    </group>
+  );
+};

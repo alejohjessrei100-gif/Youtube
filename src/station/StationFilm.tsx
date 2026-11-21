@@ -71,7 +71,7 @@ export const StationFilm: React.FC<{ audio?: boolean }> = ({ audio = true }) => 
   const dip = s.dip ? Math.max(0, 1 - (t - s.t0) / 0.22) : 0;
   return (
     <AbsoluteFill style={{ background: "#1a1814" }}>
-      <View mood={m} cam={cam} t={t} focus={s.focus(t)} blur={s.blur} sky fogK={0}>
+      <View mood={m} cam={cam} t={t} focus={s.focus(t)} blur={s.blur} exposure={s.set === "hall" ? -0.45 : 0} sky fogK={0}>
         {s.set === "hall" ? <Hall t={t} clockMin={ex.clockMin ?? 41} /> : <Lab t={t} talk={ex.talk ?? 0} door={ex.door ?? 0} />}
         {ex.backpack ? <Backpack p={ex.backpack.p} r={ex.backpack.r} /> : null}
         {ex.briefcase ? <Briefcase p={ex.briefcase.p} r={ex.briefcase.r} /> : null}
