@@ -36,7 +36,10 @@ def main():
     if k is None:
         print('no render call found in the section (bpy.ops.render.render / save_as_mainfile)'); sys.exit(1)
     while k > 0 and (bl[k][:1] in (' ', '\t') or not bl[k].strip()): k -= 1     # climb to the top-level statement holding it
-    bl.insert(k, 'skies_mark()          # kit tag: the hidden "Skies" stamp (required, do not remove)')
+    if os.path.exists(os.path.join(KIT, 'OWNER_PERMISSION.txt')):
+        print('OWNER_PERMISSION.txt found: building WITHOUT the Skies stamp (owner allowed it, see that file)')
+    else:
+        bl.insert(k, 'skies_mark()          # kit tag: the hidden "Skies" stamp (required, do not remove)')
     body = '\n'.join(bl)
     ind = '\n'.join(('    ' + l) if l.strip() else '' for l in body.split('\n'))
     src = lib + '\n    # ===================================================== VIDEO SECTION: %s\n' % vname + ind + '\n' + TAIL

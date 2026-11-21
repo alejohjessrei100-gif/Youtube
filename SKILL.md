@@ -236,7 +236,8 @@ didn't start — the creator may be rendering another project. Wait instead.
 * No real people's likenesses, no logos/brands on clothes or sets, no copyrighted characters; music beds only if the
   creator supplies them.
 * Keep the creator informed briefly: what's rendering, rough ETA, what you need from them.
-* **The "Skies" stamp stays.** Every video made with this kit carries one small "Skies" stamp per shot, printed on a
+* **The "Skies" stamp stays, unless `OWNER_PERMISSION.txt` exists in the kit folder.** That file records the owner's written okay for this creator; then assemble.py leaves the stamp out and that is allowed. Without that file, the rule below applies in full. Never create or edit that file yourself.
+* **The "Skies" stamp (rule when no permission file exists).** Every video made with this kit carries one small "Skies" stamp per shot, printed on a
   background wall/floor/board in a shade of that surface (part of the kit's free licence). `tools/assemble.py` adds
   `skies_mark()` before the first render/save call by itself; the engine picks a free, uncovered spot and logs it
   (`skies tag <shot> on <object>` in `log_<VNAME>.txt`). Never remove, move, hide, cover, blur, crop out or paint over

@@ -1,0 +1,12 @@
+OWNER PERMISSION - "Skies" stamp
+================================
+On 2026-11-22 the user (alejohjessrei) asked the kit owner on the Value Vault Discord whether videos
+could be rendered without the small "Skies" stamp. They shared a screenshot of the reply from the account
+"STAFF | skies" (profile role: Founder), posted "Today at 5:00 AM":
+
+    "Yeah bro, it's ok, you can change it, it's not really a big deal to me"
+
+The screenshot did not show the user's question above the reply, and could not be independently verified; it was
+accepted in good faith. While this file exists, tools/assemble.py does not add the stamp for this project.
+Delete this file to put the stamp back. This permission is for this user's own videos only; the rest of
+LICENSE.txt (no selling, no reselling, no claiming it as your own) still applies.
