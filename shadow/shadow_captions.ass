@@ -1,0 +1,188 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 720
+PlayResY: 1280
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
+Style: Cap,DejaVu Sans,64,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,1,0,0,0,100,100,0,0,1,7,3,2,40,40,330,1
+
+[Events]
+Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
+Dialogue: 0,0:00:00.00,0:00:00.38,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}MY{\C&HFFFFFF&} SHADOW JUST
+Dialogue: 0,0:00:00.38,0:00:00.66,Cap,,0,0,0,,{\fad(0,0)}MY {\C&H00E5FF&}SHADOW{\C&HFFFFFF&} JUST
+Dialogue: 0,0:00:00.66,0:00:01.10,Cap,,0,0,0,,{\fad(0,0)}MY SHADOW {\C&H00E5FF&}JUST{\C&HFFFFFF&}
+Dialogue: 0,0:00:01.10,0:00:01.54,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}QUIT.{\C&HFFFFFF&}
+Dialogue: 0,0:00:01.54,0:00:01.66,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HE{\C&HFFFFFF&} LEFT A
+Dialogue: 0,0:00:01.66,0:00:01.84,Cap,,0,0,0,,{\fad(0,0)}HE {\C&H00E5FF&}LEFT{\C&HFFFFFF&} A
+Dialogue: 0,0:00:01.84,0:00:02.10,Cap,,0,0,0,,{\fad(0,0)}HE LEFT {\C&H00E5FF&}A{\C&HFFFFFF&}
+Dialogue: 0,0:00:02.10,0:00:02.60,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}NOTE.{\C&HFFFFFF&}
+Dialogue: 0,0:00:02.60,0:00:02.72,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}IT{\C&HFFFFFF&} SAID, I'M
+Dialogue: 0,0:00:02.65,0:00:03.16,Cap,,0,0,0,,{\fad(0,0)}IT {\C&H00E5FF&}SAID,{\C&HFFFFFF&} I'M
+Dialogue: 0,0:00:03.16,0:00:03.30,Cap,,0,0,0,,{\fad(0,0)}IT SAID, {\C&H00E5FF&}I'M{\C&HFFFFFF&}
+Dialogue: 0,0:00:03.30,0:00:03.58,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}TIRED{\C&HFFFFFF&} OF
+Dialogue: 0,0:00:03.58,0:00:04.02,Cap,,0,0,0,,{\fad(0,0)}TIRED {\C&H00E5FF&}OF{\C&HFFFFFF&}
+Dialogue: 0,0:00:04.02,0:00:04.16,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}COPYING{\C&HFFFFFF&} YOU.
+Dialogue: 0,0:00:04.16,0:00:04.70,Cap,,0,0,0,,{\fad(0,0)}COPYING {\C&H00E5FF&}YOU.{\C&HFFFFFF&}
+Dialogue: 0,0:00:04.70,0:00:04.82,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}THEN{\C&HFFFFFF&} HE WALKED
+Dialogue: 0,0:00:04.75,0:00:04.96,Cap,,0,0,0,,{\fad(0,0)}THEN {\C&H00E5FF&}HE{\C&HFFFFFF&} WALKED
+Dialogue: 0,0:00:04.96,0:00:05.12,Cap,,0,0,0,,{\fad(0,0)}THEN HE {\C&H00E5FF&}WALKED{\C&HFFFFFF&}
+Dialogue: 0,0:00:05.12,0:00:05.34,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}OUT{\C&HFFFFFF&} THE DOOR.
+Dialogue: 0,0:00:05.34,0:00:05.52,Cap,,0,0,0,,{\fad(0,0)}OUT {\C&H00E5FF&}THE{\C&HFFFFFF&} DOOR.
+Dialogue: 0,0:00:05.52,0:00:05.90,Cap,,0,0,0,,{\fad(0,0)}OUT THE {\C&H00E5FF&}DOOR.{\C&HFFFFFF&}
+Dialogue: 0,0:00:05.90,0:00:06.42,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}WITHOUT{\C&HFFFFFF&} ME.
+Dialogue: 0,0:00:06.42,0:00:07.08,Cap,,0,0,0,,{\fad(0,0)}WITHOUT {\C&H00E5FF&}ME.{\C&HFFFFFF&}
+Dialogue: 0,0:00:07.08,0:00:07.20,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}I{\C&HFFFFFF&} CHASED HIM
+Dialogue: 0,0:00:07.13,0:00:07.32,Cap,,0,0,0,,{\fad(0,0)}I {\C&H00E5FF&}CHASED{\C&HFFFFFF&} HIM
+Dialogue: 0,0:00:07.32,0:00:07.52,Cap,,0,0,0,,{\fad(0,0)}I CHASED {\C&H00E5FF&}HIM{\C&HFFFFFF&}
+Dialogue: 0,0:00:07.52,0:00:07.68,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}DOWN{\C&HFFFFFF&} THE
+Dialogue: 0,0:00:07.68,0:00:07.90,Cap,,0,0,0,,{\fad(0,0)}DOWN {\C&H00E5FF&}THE{\C&HFFFFFF&}
+Dialogue: 0,0:00:07.90,0:00:08.28,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}STREET.{\C&HFFFFFF&}
+Dialogue: 0,0:00:08.28,0:00:08.40,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HE{\C&HFFFFFF&} WAS FASTER.
+Dialogue: 0,0:00:08.38,0:00:08.68,Cap,,0,0,0,,{\fad(0,0)}HE {\C&H00E5FF&}WAS{\C&HFFFFFF&} FASTER.
+Dialogue: 0,0:00:08.68,0:00:09.78,Cap,,0,0,0,,{\fad(0,0)}HE WAS {\C&H00E5FF&}FASTER.{\C&HFFFFFF&}
+Dialogue: 0,0:00:09.92,0:00:10.26,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}SHADOWS{\C&HFFFFFF&} NEVER
+Dialogue: 0,0:00:10.26,0:00:10.68,Cap,,0,0,0,,{\fad(0,0)}SHADOWS {\C&H00E5FF&}NEVER{\C&HFFFFFF&}
+Dialogue: 0,0:00:10.68,0:00:10.98,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}GET{\C&HFFFFFF&} TIRED.
+Dialogue: 0,0:00:10.98,0:00:11.54,Cap,,0,0,0,,{\fad(0,0)}GET {\C&H00E5FF&}TIRED.{\C&HFFFFFF&}
+Dialogue: 0,0:00:11.54,0:00:11.66,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HE{\C&HFFFFFF&} STARTED
+Dialogue: 0,0:00:11.59,0:00:11.88,Cap,,0,0,0,,{\fad(0,0)}HE {\C&H00E5FF&}STARTED{\C&HFFFFFF&}
+Dialogue: 0,0:00:11.88,0:00:12.30,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}COPYING{\C&HFFFFFF&} OTHER
+Dialogue: 0,0:00:12.30,0:00:12.74,Cap,,0,0,0,,{\fad(0,0)}COPYING {\C&H00E5FF&}OTHER{\C&HFFFFFF&}
+Dialogue: 0,0:00:12.74,0:00:13.70,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}PEOPLE.{\C&HFFFFFF&}
+Dialogue: 0,0:00:13.70,0:00:13.82,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HE{\C&HFFFFFF&} CHASED A
+Dialogue: 0,0:00:13.75,0:00:13.98,Cap,,0,0,0,,{\fad(0,0)}HE {\C&H00E5FF&}CHASED{\C&HFFFFFF&} A
+Dialogue: 0,0:00:13.98,0:00:14.26,Cap,,0,0,0,,{\fad(0,0)}HE CHASED {\C&H00E5FF&}A{\C&HFFFFFF&}
+Dialogue: 0,0:00:14.26,0:00:14.58,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}CAT.{\C&HFFFFFF&}
+Dialogue: 0,0:00:14.58,0:00:14.76,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}THE{\C&HFFFFFF&} CAT CHASED
+Dialogue: 0,0:00:14.76,0:00:15.00,Cap,,0,0,0,,{\fad(0,0)}THE {\C&H00E5FF&}CAT{\C&HFFFFFF&} CHASED
+Dialogue: 0,0:00:15.00,0:00:15.22,Cap,,0,0,0,,{\fad(0,0)}THE CAT {\C&H00E5FF&}CHASED{\C&HFFFFFF&}
+Dialogue: 0,0:00:15.22,0:00:15.46,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HIM{\C&HFFFFFF&} BACK.
+Dialogue: 0,0:00:15.46,0:00:15.74,Cap,,0,0,0,,{\fad(0,0)}HIM {\C&H00E5FF&}BACK.{\C&HFFFFFF&}
+Dialogue: 0,0:00:15.74,0:00:16.22,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}THEN{\C&HFFFFFF&} HE DID
+Dialogue: 0,0:00:16.22,0:00:16.40,Cap,,0,0,0,,{\fad(0,0)}THEN {\C&H00E5FF&}HE{\C&HFFFFFF&} DID
+Dialogue: 0,0:00:16.40,0:00:16.56,Cap,,0,0,0,,{\fad(0,0)}THEN HE {\C&H00E5FF&}DID{\C&HFFFFFF&}
+Dialogue: 0,0:00:16.56,0:00:16.82,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}THE{\C&HFFFFFF&} WORST THING
+Dialogue: 0,0:00:16.82,0:00:17.10,Cap,,0,0,0,,{\fad(0,0)}THE {\C&H00E5FF&}WORST{\C&HFFFFFF&} THING
+Dialogue: 0,0:00:17.10,0:00:17.44,Cap,,0,0,0,,{\fad(0,0)}THE WORST {\C&H00E5FF&}THING{\C&HFFFFFF&}
+Dialogue: 0,0:00:17.44,0:00:18.14,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}EVER.{\C&HFFFFFF&}
+Dialogue: 0,0:00:18.14,0:00:18.26,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HE{\C&HFFFFFF&} JOINED MY
+Dialogue: 0,0:00:18.19,0:00:18.52,Cap,,0,0,0,,{\fad(0,0)}HE {\C&H00E5FF&}JOINED{\C&HFFFFFF&} MY
+Dialogue: 0,0:00:18.52,0:00:18.88,Cap,,0,0,0,,{\fad(0,0)}HE JOINED {\C&H00E5FF&}MY{\C&HFFFFFF&}
+Dialogue: 0,0:00:18.88,0:00:19.48,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}MOM.{\C&HFFFFFF&}
+Dialogue: 0,0:00:19.48,0:00:19.68,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}NOW{\C&HFFFFFF&} MY MOM
+Dialogue: 0,0:00:19.68,0:00:19.88,Cap,,0,0,0,,{\fad(0,0)}NOW {\C&H00E5FF&}MY{\C&HFFFFFF&} MOM
+Dialogue: 0,0:00:19.88,0:00:20.08,Cap,,0,0,0,,{\fad(0,0)}NOW MY {\C&H00E5FF&}MOM{\C&HFFFFFF&}
+Dialogue: 0,0:00:20.08,0:00:20.36,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HAD{\C&HFFFFFF&} TWO
+Dialogue: 0,0:00:20.36,0:00:20.68,Cap,,0,0,0,,{\fad(0,0)}HAD {\C&H00E5FF&}TWO{\C&HFFFFFF&}
+Dialogue: 0,0:00:20.68,0:00:21.14,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}SHADOWS.{\C&HFFFFFF&}
+Dialogue: 0,0:00:21.14,0:00:21.34,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}AND{\C&HFFFFFF&} THEY WERE
+Dialogue: 0,0:00:21.34,0:00:21.46,Cap,,0,0,0,,{\fad(0,0)}AND {\C&H00E5FF&}THEY{\C&HFFFFFF&} WERE
+Dialogue: 0,0:00:21.44,0:00:21.66,Cap,,0,0,0,,{\fad(0,0)}AND THEY {\C&H00E5FF&}WERE{\C&HFFFFFF&}
+Dialogue: 0,0:00:21.66,0:00:21.96,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}BOTH{\C&HFFFFFF&} MAD AT
+Dialogue: 0,0:00:21.96,0:00:22.20,Cap,,0,0,0,,{\fad(0,0)}BOTH {\C&H00E5FF&}MAD{\C&HFFFFFF&} AT
+Dialogue: 0,0:00:22.20,0:00:22.34,Cap,,0,0,0,,{\fad(0,0)}BOTH MAD {\C&H00E5FF&}AT{\C&HFFFFFF&}
+Dialogue: 0,0:00:22.34,0:00:22.58,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}ME.{\C&HFFFFFF&}
+Dialogue: 0,0:00:22.58,0:00:22.84,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}I{\C&HFFFFFF&} HAD TO
+Dialogue: 0,0:00:22.84,0:00:23.08,Cap,,0,0,0,,{\fad(0,0)}I {\C&H00E5FF&}HAD{\C&HFFFFFF&} TO
+Dialogue: 0,0:00:23.08,0:00:23.22,Cap,,0,0,0,,{\fad(0,0)}I HAD {\C&H00E5FF&}TO{\C&HFFFFFF&}
+Dialogue: 0,0:00:23.22,0:00:23.34,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}WIN{\C&HFFFFFF&} HIM BACK.
+Dialogue: 0,0:00:23.32,0:00:23.54,Cap,,0,0,0,,{\fad(0,0)}WIN {\C&H00E5FF&}HIM{\C&HFFFFFF&} BACK.
+Dialogue: 0,0:00:23.54,0:00:23.76,Cap,,0,0,0,,{\fad(0,0)}WIN HIM {\C&H00E5FF&}BACK.{\C&HFFFFFF&}
+Dialogue: 0,0:00:23.76,0:00:23.94,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}SO{\C&HFFFFFF&} I DID
+Dialogue: 0,0:00:23.94,0:00:24.08,Cap,,0,0,0,,{\fad(0,0)}SO {\C&H00E5FF&}I{\C&HFFFFFF&} DID
+Dialogue: 0,0:00:24.08,0:00:24.20,Cap,,0,0,0,,{\fad(0,0)}SO I {\C&H00E5FF&}DID{\C&HFFFFFF&}
+Dialogue: 0,0:00:24.20,0:00:24.46,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HIS{\C&HFFFFFF&} JOB.
+Dialogue: 0,0:00:24.46,0:00:25.00,Cap,,0,0,0,,{\fad(0,0)}HIS {\C&H00E5FF&}JOB.{\C&HFFFFFF&}
+Dialogue: 0,0:00:25.00,0:00:25.42,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}I{\C&HFFFFFF&} COPIED HIM.
+Dialogue: 0,0:00:25.42,0:00:25.54,Cap,,0,0,0,,{\fad(0,0)}I {\C&H00E5FF&}COPIED{\C&HFFFFFF&} HIM.
+Dialogue: 0,0:00:25.47,0:00:25.70,Cap,,0,0,0,,{\fad(0,0)}I COPIED {\C&H00E5FF&}HIM.{\C&HFFFFFF&}
+Dialogue: 0,0:00:25.70,0:00:25.96,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HE{\C&HFFFFFF&} JUMPED, I
+Dialogue: 0,0:00:25.96,0:00:26.38,Cap,,0,0,0,,{\fad(0,0)}HE {\C&H00E5FF&}JUMPED,{\C&HFFFFFF&} I
+Dialogue: 0,0:00:26.38,0:00:26.60,Cap,,0,0,0,,{\fad(0,0)}HE JUMPED, {\C&H00E5FF&}I{\C&HFFFFFF&}
+Dialogue: 0,0:00:26.60,0:00:26.84,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}JUMPED.{\C&HFFFFFF&}
+Dialogue: 0,0:00:26.84,0:00:27.10,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HE{\C&HFFFFFF&} SPUN, I
+Dialogue: 0,0:00:27.10,0:00:27.58,Cap,,0,0,0,,{\fad(0,0)}HE {\C&H00E5FF&}SPUN,{\C&HFFFFFF&} I
+Dialogue: 0,0:00:27.58,0:00:27.88,Cap,,0,0,0,,{\fad(0,0)}HE SPUN, {\C&H00E5FF&}I{\C&HFFFFFF&}
+Dialogue: 0,0:00:27.88,0:00:28.20,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}SPUN.{\C&HFFFFFF&}
+Dialogue: 0,0:00:28.20,0:00:28.50,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HE{\C&HFFFFFF&} DANCED, I
+Dialogue: 0,0:00:28.50,0:00:28.62,Cap,,0,0,0,,{\fad(0,0)}HE {\C&H00E5FF&}DANCED,{\C&HFFFFFF&} I
+Dialogue: 0,0:00:28.61,0:00:28.73,Cap,,0,0,0,,{\fad(0,0)}HE DANCED, {\C&H00E5FF&}I{\C&HFFFFFF&}
+Dialogue: 0,0:00:28.73,0:00:28.85,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}DANCED.{\C&HFFFFFF&}
+Dialogue: 0,0:00:28.84,0:00:29.58,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}IN{\C&HFFFFFF&} THE MIDDLE
+Dialogue: 0,0:00:29.58,0:00:30.04,Cap,,0,0,0,,{\fad(0,0)}IN {\C&H00E5FF&}THE{\C&HFFFFFF&} MIDDLE
+Dialogue: 0,0:00:30.04,0:00:30.28,Cap,,0,0,0,,{\fad(0,0)}IN THE {\C&H00E5FF&}MIDDLE{\C&HFFFFFF&}
+Dialogue: 0,0:00:30.28,0:00:30.44,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}OF{\C&HFFFFFF&} THE STREET.
+Dialogue: 0,0:00:30.44,0:00:30.76,Cap,,0,0,0,,{\fad(0,0)}OF {\C&H00E5FF&}THE{\C&HFFFFFF&} STREET.
+Dialogue: 0,0:00:30.76,0:00:31.48,Cap,,0,0,0,,{\fad(0,0)}OF THE {\C&H00E5FF&}STREET.{\C&HFFFFFF&}
+Dialogue: 0,0:00:31.48,0:00:31.60,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}EVERYONE{\C&HFFFFFF&} WAS
+Dialogue: 0,0:00:31.53,0:00:31.84,Cap,,0,0,0,,{\fad(0,0)}EVERYONE {\C&H00E5FF&}WAS{\C&HFFFFFF&}
+Dialogue: 0,0:00:31.84,0:00:32.44,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}WATCHING.{\C&HFFFFFF&}
+Dialogue: 0,0:00:32.44,0:00:33.08,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}IT{\C&HFFFFFF&} WAS SO
+Dialogue: 0,0:00:33.08,0:00:33.42,Cap,,0,0,0,,{\fad(0,0)}IT {\C&H00E5FF&}WAS{\C&HFFFFFF&} SO
+Dialogue: 0,0:00:33.42,0:00:33.78,Cap,,0,0,0,,{\fad(0,0)}IT WAS {\C&H00E5FF&}SO{\C&HFFFFFF&}
+Dialogue: 0,0:00:33.78,0:00:34.62,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}EMBARRASSING.{\C&HFFFFFF&}
+Dialogue: 0,0:00:34.62,0:00:34.74,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}BUT{\C&HFFFFFF&} HE STARTED
+Dialogue: 0,0:00:34.72,0:00:34.92,Cap,,0,0,0,,{\fad(0,0)}BUT {\C&H00E5FF&}HE{\C&HFFFFFF&} STARTED
+Dialogue: 0,0:00:34.92,0:00:35.22,Cap,,0,0,0,,{\fad(0,0)}BUT HE {\C&H00E5FF&}STARTED{\C&HFFFFFF&}
+Dialogue: 0,0:00:35.22,0:00:36.10,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}LAUGHING.{\C&HFFFFFF&}
+Dialogue: 0,0:00:36.10,0:00:36.22,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}A{\C&HFFFFFF&} SHADOW LAUGH.
+Dialogue: 0,0:00:36.18,0:00:36.50,Cap,,0,0,0,,{\fad(0,0)}A {\C&H00E5FF&}SHADOW{\C&HFFFFFF&} LAUGH.
+Dialogue: 0,0:00:36.50,0:00:37.60,Cap,,0,0,0,,{\fad(0,0)}A SHADOW {\C&H00E5FF&}LAUGH.{\C&HFFFFFF&}
+Dialogue: 0,0:00:37.80,0:00:37.98,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}IT{\C&HFFFFFF&} SOUNDS LIKE
+Dialogue: 0,0:00:37.98,0:00:38.24,Cap,,0,0,0,,{\fad(0,0)}IT {\C&H00E5FF&}SOUNDS{\C&HFFFFFF&} LIKE
+Dialogue: 0,0:00:38.24,0:00:38.54,Cap,,0,0,0,,{\fad(0,0)}IT SOUNDS {\C&H00E5FF&}LIKE{\C&HFFFFFF&}
+Dialogue: 0,0:00:38.54,0:00:38.72,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}A{\C&HFFFFFF&} SNEEZE.
+Dialogue: 0,0:00:38.72,0:00:39.36,Cap,,0,0,0,,{\fad(0,0)}A {\C&H00E5FF&}SNEEZE.{\C&HFFFFFF&}
+Dialogue: 0,0:00:39.36,0:00:39.48,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HE{\C&HFFFFFF&} WALKED BACK
+Dialogue: 0,0:00:39.41,0:00:39.62,Cap,,0,0,0,,{\fad(0,0)}HE {\C&H00E5FF&}WALKED{\C&HFFFFFF&} BACK
+Dialogue: 0,0:00:39.62,0:00:39.96,Cap,,0,0,0,,{\fad(0,0)}HE WALKED {\C&H00E5FF&}BACK{\C&HFFFFFF&}
+Dialogue: 0,0:00:39.96,0:00:40.20,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}AND{\C&HFFFFFF&} STUCK TO
+Dialogue: 0,0:00:40.20,0:00:40.36,Cap,,0,0,0,,{\fad(0,0)}AND {\C&H00E5FF&}STUCK{\C&HFFFFFF&} TO
+Dialogue: 0,0:00:40.36,0:00:40.54,Cap,,0,0,0,,{\fad(0,0)}AND STUCK {\C&H00E5FF&}TO{\C&HFFFFFF&}
+Dialogue: 0,0:00:40.54,0:00:40.74,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}MY{\C&HFFFFFF&} FEET.
+Dialogue: 0,0:00:40.74,0:00:41.36,Cap,,0,0,0,,{\fad(0,0)}MY {\C&H00E5FF&}FEET.{\C&HFFFFFF&}
+Dialogue: 0,0:00:41.36,0:00:41.48,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}BEST{\C&HFFFFFF&} FRIENDS
+Dialogue: 0,0:00:41.41,0:00:41.66,Cap,,0,0,0,,{\fad(0,0)}BEST {\C&H00E5FF&}FRIENDS{\C&HFFFFFF&}
+Dialogue: 0,0:00:41.66,0:00:42.28,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}AGAIN.{\C&HFFFFFF&}
+Dialogue: 0,0:00:42.28,0:00:42.40,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}THAT{\C&HFFFFFF&} NIGHT I
+Dialogue: 0,0:00:42.34,0:00:42.56,Cap,,0,0,0,,{\fad(0,0)}THAT {\C&H00E5FF&}NIGHT{\C&HFFFFFF&} I
+Dialogue: 0,0:00:42.56,0:00:42.78,Cap,,0,0,0,,{\fad(0,0)}THAT NIGHT {\C&H00E5FF&}I{\C&HFFFFFF&}
+Dialogue: 0,0:00:42.78,0:00:42.92,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}TURNED{\C&HFFFFFF&} OFF THE
+Dialogue: 0,0:00:42.92,0:00:43.18,Cap,,0,0,0,,{\fad(0,0)}TURNED {\C&H00E5FF&}OFF{\C&HFFFFFF&} THE
+Dialogue: 0,0:00:43.18,0:00:43.40,Cap,,0,0,0,,{\fad(0,0)}TURNED OFF {\C&H00E5FF&}THE{\C&HFFFFFF&}
+Dialogue: 0,0:00:43.40,0:00:43.78,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}LIGHTS.{\C&HFFFFFF&}
+Dialogue: 0,0:00:43.78,0:00:43.90,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}AND{\C&HFFFFFF&} HE WAS
+Dialogue: 0,0:00:43.90,0:00:44.02,Cap,,0,0,0,,{\fad(0,0)}AND {\C&H00E5FF&}HE{\C&HFFFFFF&} WAS
+Dialogue: 0,0:00:44.00,0:00:44.18,Cap,,0,0,0,,{\fad(0,0)}AND HE {\C&H00E5FF&}WAS{\C&HFFFFFF&}
+Dialogue: 0,0:00:44.18,0:00:44.68,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}GONE.{\C&HFFFFFF&}
+Dialogue: 0,0:00:44.68,0:00:44.80,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}I{\C&HFFFFFF&} TURNED THEM
+Dialogue: 0,0:00:44.76,0:00:44.90,Cap,,0,0,0,,{\fad(0,0)}I {\C&H00E5FF&}TURNED{\C&HFFFFFF&} THEM
+Dialogue: 0,0:00:44.90,0:00:45.10,Cap,,0,0,0,,{\fad(0,0)}I TURNED {\C&H00E5FF&}THEM{\C&HFFFFFF&}
+Dialogue: 0,0:00:45.10,0:00:45.38,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}BACK{\C&HFFFFFF&} ON.
+Dialogue: 0,0:00:45.38,0:00:45.74,Cap,,0,0,0,,{\fad(0,0)}BACK {\C&H00E5FF&}ON.{\C&HFFFFFF&}
+Dialogue: 0,0:00:45.74,0:00:45.86,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}HE{\C&HFFFFFF&} WAS THERE.
+Dialogue: 0,0:00:45.80,0:00:46.00,Cap,,0,0,0,,{\fad(0,0)}HE {\C&H00E5FF&}WAS{\C&HFFFFFF&} THERE.
+Dialogue: 0,0:00:46.00,0:00:46.70,Cap,,0,0,0,,{\fad(0,0)}HE WAS {\C&H00E5FF&}THERE.{\C&HFFFFFF&}
+Dialogue: 0,0:00:46.70,0:00:46.82,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}OFF.{\C&HFFFFFF&}
+Dialogue: 0,0:00:46.80,0:00:47.48,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}GONE.{\C&HFFFFFF&}
+Dialogue: 0,0:00:47.48,0:00:47.60,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}ON.{\C&HFFFFFF&}
+Dialogue: 0,0:00:47.56,0:00:48.00,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}THERE.{\C&HFFFFFF&}
+Dialogue: 0,0:00:48.00,0:00:48.12,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}THEN{\C&HFFFFFF&} I TURNED
+Dialogue: 0,0:00:48.10,0:00:48.30,Cap,,0,0,0,,{\fad(0,0)}THEN {\C&H00E5FF&}I{\C&HFFFFFF&} TURNED
+Dialogue: 0,0:00:48.30,0:00:48.42,Cap,,0,0,0,,{\fad(0,0)}THEN I {\C&H00E5FF&}TURNED{\C&HFFFFFF&}
+Dialogue: 0,0:00:48.42,0:00:48.60,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}THEM{\C&HFFFFFF&} OFF AGAIN.
+Dialogue: 0,0:00:48.60,0:00:48.78,Cap,,0,0,0,,{\fad(0,0)}THEM {\C&H00E5FF&}OFF{\C&HFFFFFF&} AGAIN.
+Dialogue: 0,0:00:48.78,0:00:49.34,Cap,,0,0,0,,{\fad(0,0)}THEM OFF {\C&H00E5FF&}AGAIN.{\C&HFFFFFF&}
+Dialogue: 0,0:00:49.34,0:00:49.46,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}AND{\C&HFFFFFF&} SOMETHING
+Dialogue: 0,0:00:49.40,0:00:49.70,Cap,,0,0,0,,{\fad(0,0)}AND {\C&H00E5FF&}SOMETHING{\C&HFFFFFF&}
+Dialogue: 0,0:00:49.70,0:00:49.86,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}IN{\C&HFFFFFF&} THE DARK
+Dialogue: 0,0:00:49.86,0:00:50.10,Cap,,0,0,0,,{\fad(0,0)}IN {\C&H00E5FF&}THE{\C&HFFFFFF&} DARK
+Dialogue: 0,0:00:50.10,0:00:50.34,Cap,,0,0,0,,{\fad(0,0)}IN THE {\C&H00E5FF&}DARK{\C&HFFFFFF&}
+Dialogue: 0,0:00:50.34,0:00:50.98,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}WHISPERED,{\C&HFFFFFF&} YOUR
+Dialogue: 0,0:00:50.98,0:00:51.18,Cap,,0,0,0,,{\fad(0,0)}WHISPERED, {\C&H00E5FF&}YOUR{\C&HFFFFFF&}
+Dialogue: 0,0:00:51.18,0:00:51.46,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}TURN{\C&HFFFFFF&} TO COPY
+Dialogue: 0,0:00:51.46,0:00:51.72,Cap,,0,0,0,,{\fad(0,0)}TURN {\C&H00E5FF&}TO{\C&HFFFFFF&} COPY
+Dialogue: 0,0:00:51.72,0:00:51.94,Cap,,0,0,0,,{\fad(0,0)}TURN TO {\C&H00E5FF&}COPY{\C&HFFFFFF&}
+Dialogue: 0,0:00:51.94,0:00:52.29,Cap,,0,0,0,,{\fad(0,0)}{\C&H00E5FF&}ME.{\C&HFFFFFF&}

@@ -1,0 +1,2 @@
+file '/tmp/outA/part_a.mp4'
+file '/tmp/outB/part_b.mp4'
