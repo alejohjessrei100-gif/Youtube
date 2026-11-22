@@ -66,14 +66,14 @@ for k in range(11):
     a_ = k * 2.4; rr_ = _r.uniform(.4, 1.3)
     obj('puff', SPH, (math.cos(a_) * rr_, _r.uniform(-.6, .6), math.sin(a_) * rr_ * .8), (_r.uniform(.55, .95),) * 3, m=_pm, parent=PUFF, shadow=False)
 # the crowd (static blocky people) around the dance spot, all looking at the centre
-DC = (-55., -3.)
+DC = (-42.5, -3.)
 CROWD = []
 for k in range(11):
     a_ = k / 11 * 2 * math.pi + .3; rad = 10.5 + (k % 3) * 1.6
     cx_, cy_ = DC[0] + math.cos(a_) * rad, DC[1] + math.sin(a_) * rad * .75
     extra(cx_, cy_, face_to(cx_, cy_, DC[0], DC[1]), 40 + k, 0., False, 'up' if k % 4 == 0 else 'down', 1.05)
 # ordinary people for "copying other people"
-extra(20., -5., 180., 71, 0., False, 'up', 1.05); extra(40., -5., 180., 72, 0., False, 'up', 1.05)
+extra(2.5, -14.5, 180., 71, 0., False, 'up', 1.05); extra(31., -14.5, 180., 72, 0., False, 'up', 1.05)
 
 # ====================================================================================== TIMELINE (cleaned VO)
 SHOTS = [('b_look', 0.00), ('b_floor', .75), ('b_note', 1.47), ('b_notecu', 2.395), ('b_read', 3.4), ('b_door', 4.525), ('b_without', 5.945),
@@ -98,7 +98,7 @@ def lights_on(t): return t < 43.35 or 44.6 <= t < 46.29 or 47.035 <= t < 48.4
 # ---------------------------------------------------------- spots
 KD = (DBX + 2., DBY - 3.); SD = (DBX + 6.5, DBY - 9.5); DOORP = (DOOR_X, DBY - 12.3); NOTE_FL = Vector((DBX + 5., DBY - 7.6, .08))
 K_SW = (NBX + 13.6, SW_Y)
-KS0 = (-30., -3.); KSP, SSP = 9., 14.          # chase speeds
+KS0 = (-22., -3.); KSP, SSP = 9., 14.          # chase speeds
 K_STOP = KS0[0] + KSP * (ts('st_pant') - ts('st_chase'))
 CATC = {'x0': 18.}
 MOMP = (46., -3.)
@@ -173,12 +173,12 @@ def st_shd(t):
             x, y, d, mv, h = along(t, 4.75, SD, DOORP, 4.4)
             if t > 5.55: return HIDE_
             return ST(x, y, h, walk2(walkph(d, 2.29)) if mv else alive(t), 'neutral')
-    if n == 'st_chase': x, y, h, p = runner(t, ts('st_chase'), (-18., -3.), (80., -3.), SSP); return ST(x, y, h, p, 'smug')
-    if n == 'st_faster': x, y, h, p = runner(t, ts('st_chase'), (-18., -3.), (80., -3.), SSP); return ST(x, y, h, p, 'smug')
+    if n == 'st_chase': x, y, h, p = runner(t, ts('st_chase'), (-10., -3.), (80., -3.), SSP); return ST(x, y, h, p, 'smug')
+    if n == 'st_faster': x, y, h, p = runner(t, ts('st_chase'), (-10., -3.), (80., -3.), SSP); return ST(x, y, h, p, 'smug')
     if n == 'st_pant': x, y, h, p = runner(t, ts('st_pant'), (K_STOP + 32., -3.), (80., -3.), SSP); return ST(x, y, h, p, 'smug')
     if n == 'st_far': x, y, h, p = runner(t, ts('st_far'), (K_STOP + 13., -3.), (90., -3.), 8.); return ST(x, y, h, p, 'smug')
-    if n == 'st_copy1': return ST(23., -5., 180., add(dance(t, 0), {'hdY': 0}), 'smug')
-    if n == 'st_copy2': return ST(43., -5., 180., dance(t, 3), 'smug')
+    if n == 'st_copy1': return ST(5.5, -14.5, 180., add(dance(t, 0), {'hdY': 0}), 'smug')
+    if n == 'st_copy2': return ST(34., -14.5, 180., dance(t, 3), 'smug')
     if n == 'st_cat1': x, y, h, p = runner(t, a, (CATC['x0'] - 7., -3.), (90., -3.), 22.); return ST(x, y, h, p, 'angry')
     if n == 'st_cat2': x, y, h, p = runner(t, a, (52., -3.), (-40., -3.), 17.); return ST(x, y, h, p, 'scared')
     if n == 'st_join':
@@ -271,7 +271,7 @@ for c in range(3): bake(NOTE, 'rotation_euler', c, FRAMES, [p[1][c] * D2R for p 
 for c in range(3): bake(PUFF, 'location', c, FRAMES, [p[0][c] for p in PUFFP], 'LINEAR'); bake(PUFF, 'scale', c, FRAMES, [p[1] for p in PUFFP], 'LINEAR')
 bake(DOORH, 'rotation_euler', 2, FRAMES, [a * D2R for a in DOORA], 'LINEAR')
 for e_ in EYES: bake(e_, 'scale', 2, FRAMES, [max(.001, v) for v in EYEA], 'LINEAR')
-for o, e0 in NLIGHTS: bake(o.data, 'energy', 0, FRAMES, [e0 * (4. if m > .5 else .02) for m in LMULT], 'CONSTANT')
+for o, e0 in NLIGHTS: bake(o.data, 'energy', 0, FRAMES, [e0 * (22. if m > .5 else .02) for m in LMULT], 'CONSTANT')
 _late = [1. if tsec(f) < 42.0 else 0. for f in FRAMES]   # after the street, no sky/sun leaks into the night room
 if 'LAMPSH' in globals():
     try: bake(LAMPM.node_tree, 'nodes["Principled BSDF"].inputs["Emission Strength"].default_value', 0, FRAMES, [4. * m for m in LMULT], 'CONSTANT')
@@ -296,7 +296,7 @@ for i_ in range(3):
     nt.nodes['HOR'].outputs[0].default_value[i_] = DAY[0][i_]; nt.nodes['ZEN'].outputs[0].default_value[i_] = DAY[1][i_]
     nt.nodes['GLOW'].outputs[0].default_value[i_] = DAY[2][i_]; nt.nodes['SUNDIR'].inputs[i_].default_value = (-.6, -.3, .45)[i_]
 nt.nodes['GLOWS'].outputs[0].default_value = DAY[3]; nt.nodes['STARS'].outputs[0].default_value = 0.; nt.nodes['BG'].inputs[1].default_value = .75
-bake(nt, 'nodes["BG"].inputs[1].default_value', 0, FRAMES, [.75 if tsec(f) < 42.0 else .03 for f in FRAMES], 'CONSTANT')
+bake(nt, 'nodes["BG"].inputs[1].default_value', 0, FRAMES, [.75 if tsec(f) < 42.0 else .1 for f in FRAMES], 'CONSTANT')
 try: clouds(0, 40, 14, 120, 260, 60, 110, 3)
 except Exception as ex: log('clouds', ex)
 SUN = light('sun', 'SUN', (0, 0, 60), 2.6, (1, .95, .86), 1); SUN.data.angle = 5 * D2R
@@ -323,18 +323,18 @@ def cam_state(i):
     elif n == 'b_floor': pos = L2((KD[0] + 1.8, KD[1] - 6.8, 1.6), (KD[0] + 1.2, KD[1] - 6.0, 1.9), e); tgt = V(KD[0], KD[1], 1.3); lens = 24
     elif n == 'b_note': pos = L2((DBX - 2., DBY + 5., 6.2), (DBX - 1., DBY + 4.4, 5.9), e); tgt = V(SD[0] - 1., SD[1], 3.6); lens = 24
     elif n == 'b_notecu': pos = V(NOTE_FL.x - .4, NOTE_FL.y - 1.0, 7.8); tgt = V(NOTE_FL.x, NOTE_FL.y + .1, .2); lens = 28
-    elif n == 'b_read': pos, tgt = ecu('hero', n, e, 5.0, 2.2, .6, .12, -.3); lens = 30
+    elif n == 'b_read': pos, tgt = ecu('hero', n, e, 3.8, 3.8, .5, .12, -.3); lens = 30
     elif n == 'b_door': pos = L2((DBX + 1., DBY + 2.5, 5.6), (DBX + 2.4, DBY + 1.8, 5.2), e); tgt = V(DOOR_X - 1., DBY - 9., 3.6); lens = 24
     elif n == 'b_without': pos, tgt = ecu('hero', n, eq, 3.6, -.3, .2, .2, -.3); lens = 30; shake = .03
     # ---- street, chase
-    elif n == 'st_chase': kx = kuro_run(t); pos = V(kx + 6., -17., 7.5); tgt = V(kx + 6., -3., 2.2); lens = 22
+    elif n == 'st_chase': kx = kuro_run(t); pos = V(kx - 8., -1.5, 3.4); tgt = V(kx + 10., -3., 3.2); lens = 24
     elif n == 'st_faster': kx = kuro_run(t); pos = V(kx - 9., -3.5, 2.6); tgt = V(kx + 26., -3., 3.4); lens = 24
     elif n == 'st_pant': pos, tgt = ecu('hero', n, eq, 4.6, .3, -1.0, .2, -.9); lens = 30
     elif n == 'st_far': pos = V(K_STOP - 8., -5., 2.6); tgt = V(K_STOP + 13. + 8. * lt, -3., 3.4); lens = 24
-    elif n == 'st_copy1': pos = L2((19.5, -16., 8.0), (20.5, -14.5, 7.6), e); tgt = V(21.5, -5., 3.2); lens = 24
-    elif n == 'st_copy2': pos = L2((41.5, -15., 7.6), (42.5, -14.2, 7.4), e); tgt = V(43., -5., 3.2); lens = 24
+    elif n == 'st_copy1': pos = L2((3.5, -20., 3.8), (4.5, -19., 3.8), e); tgt = V(4., -14.5, 3.4); lens = 24
+    elif n == 'st_copy2': pos = L2((32., -20., 3.8), (33., -19., 3.8), e); tgt = V(32.5, -14.5, 3.4); lens = 24
     elif n == 'st_cat1': pos, tgt = wide_side(n, 30., 44., e, -15., 7.2); lens = 24
-    elif n == 'st_cat2': pos, tgt = wide_side(n, 40., 24., e, -15., 7.2); lens = 24
+    elif n == 'st_cat2': cx = 55. - 17. * lt; pos = V(cx + 11., -1.5, 3.6); tgt = V(cx - 6., -3., 3.0); lens = 24
     elif n == 'st_worst': pos, tgt = ecu('hero', n, eq, 3.6, .2, .2, .25, -.35); lens = 30; shake = .04
     elif n == 'st_join': pos = L2((34., -17., 4.6), (38., -16., 4.4), e); tgt = V(40., -3., 3.2); lens = 22
     elif n == 'mom_join': pos = L2((43.5, -12., 4.2), (44.2, -9.6, 4.0), e); tgt = V(44.6, -3., 3.6); lens = 28
@@ -352,7 +352,7 @@ def cam_state(i):
     elif n == 'embarrassed': pos, tgt = ecu('hero', n, eq, 3.8, -.2, .5, .3, -.3); lens = 30; roll = -3
     # ---- laughing / sneeze / stuck
     elif n == 'shd_laugh': pos, tgt = ecu('shd', n, e, 3.6, .3, .2, .1, -.3); lens = 30; shake = .02
-    elif n == 'shd_laugh2': pos = L2((DC[0] - .5, -14., 5.0), (DC[0] + .5, -13., 5.0), e); tgt = V(DC[0], DC[1], 3.2); lens = 26
+    elif n == 'shd_laugh2': pos = L2((DC[0] - .5, -13., 3.4), (DC[0] + .5, -12., 3.6), e); tgt = V(DC[0], DC[1], 3.4); lens = 26
     elif n == 'sneeze': pos, tgt = ecu('shd', n, eq, 4.2, .5, .2, .1, -.3); lens = 30; shake = .05 * prog(lt, 1.1, 1.2) * (1 - prog(lt, 1.2, 1.6))
     elif n == 'stuck': pos = L2((DC[0] - 2., -16., 5.6), (DC[0] - 1., -13., 5.0), e); tgt = V(DC[0], DC[1], 2.2); lens = 24
     elif n == 'friends': pos = L2((DC[0] + 1., DC[1] - 8.5, 4.4), (DC[0] + .5, DC[1] - 7.2, 4.2), e); tgt = V(DC[0], DC[1] + 1.4, 2.6); lens = 26
