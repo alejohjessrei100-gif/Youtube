@@ -26,7 +26,7 @@ CLI use: `pip install kaggle; export KAGGLE_API_TOKEN=KGAT_proxyinjected00000000
 (kg.py bypasses the CLI's local token check; the proxy injects the real token.)
 
 ## Voice and script
-- Script prompt for any AI: `SCRIPT_PROMPT.md`. Videos are 45-60 s (about 150-200 words at 1.35x).
+- Script prompt for any AI: `PROMPT_1_SCRIPT_CHAT.md` (separate chat; the render chat is `PROMPT_2_RENDER_CHAT.md`). Videos are 45-60 s (about 150-200 words at 1.35x).
 - The creator's voice is sped up 1.35x and pitched +6 semitones BEFORE it reaches this pipeline (AI voice tool settings, or
   `python tools/voice_fx.py in.mp3 out.wav 1.35 6`). Do not stretch or pitch it again; just run tools/vo_clean.py on it.
 - Length 45-60 s means about 1,350-1,800 frames: render in two parallel Kaggle notebooks (halves), 720x1280 first.
