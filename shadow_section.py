@@ -34,12 +34,12 @@ box('sw_plate', (.12, .9, 1.4), (NBX + 14.94, SW_Y, 4.5), M_('sw_plate', (.97, .
 # night room lights: collect so they can be switched
 NLIGHTS = [(o, o.data.energy) for o in bpy.data.objects if o.type == 'LIGHT' and abs(o.location.x - NBX) < 30 and abs(o.location.y - NBY) < 30]
 log('night lights', [o.name for o, e in NLIGHTS])
-MOON = light('moon', 'AREA', (NBX - 12, NBY - 2, 8.), 260, (.55, .65, 1.), 8., (0, -90, 0))
-DARKFILL = light('dark_fill', 'AREA', (NBX, NBY, 11.), 60, (.6, .7, 1.), 20.)
+MOON = light('moon', 'AREA', (NBX - 12, NBY - 2, 8.), 110, (.55, .65, 1.), 8., (0, -90, 0))
+DARKFILL = light('dark_fill', 'AREA', (NBX, NBY, 11.), 25, (.6, .7, 1.), 20.)
 for o in bpy.data.objects:                                      # the bedside lamp shade glows only with the lights on
     if o.name.startswith('lampshade') and abs(o.location.x - NBX) < 30 and abs(o.location.y - NBY) < 30: LAMPSH = o
 if 'LAMPSH' in globals(): LAMPM = emit_mat('lampsh_night', (1, .85, .55), 4.); LAMPSH.material_slots[0].link = 'OBJECT'; LAMPSH.material_slots[0].material = LAMPM
-EYES = [obj('eye', SPH, (NBX + 4.2 + sx * 1.0, NBY + 12.3, 5.2), (.5, .12, .75), m=emit_mat('shd_eye', (1, 1, 1), 14.), shadow=False) for sx in (-1, 1)]
+EYES = [obj('eye', SPH, (NBX + 10.8 + sx * 1.0, NBY + 12.4, 3.4), (.5, .12, .75), m=emit_mat('shd_eye', (1, 1, 1), 14.), shadow=False) for sx in (-1, 1)]
 # street
 city_street(0, 0, 180, False, 0., 3)
 
@@ -143,7 +143,7 @@ def st_hero(t):
         d_ = .25; hh = -90. + 720. * eio(prog(t - a, .1 + d_, 1.2 + d_)); return ST(KA[0], KA[1], hh, add({'uaLZ': 75, 'uaRZ': -75}, alive(t, .4)), 'smirk')
     if n == 'dance': return ST(KA[0], KA[1], -90., dance(t - .25, 4), 'neutral')
     if n in ('street_mid', 'watching'): return ST(KA[0] + 1.5, KA[1], -60., dance(t - .25, 1) if n == 'street_mid' else add(dance(t - .25, 1), {'hdX': 16}), 'nervous' if n == 'street_mid' else 'sad')
-    if n == 'embarrassed': return ST(KA[0] + 1.5, KA[1], 180., add(P['cover'], {'hdY': 8 * math.sin(t * 2.3)}), 'cringe')
+    if n == 'embarrassed': return ST(KA[0] + 1.5, KA[1], 180., add(P['cover'], {'spX': -14, 'hdX': -22, 'hdY': 8 * math.sin(t * 2.3)}), 'cringe')
     if n in ('shd_laugh', 'shd_laugh2', 'sneeze'): return ST(KA[0], KA[1], -90., add(P['scared'], {'spX': -4}) if n == 'sneeze' else add(alive(t), {'hdX': -6}), 'surprised' if n != 'sneeze' else 'smirk')
     if n == 'stuck': return ST(KA[0], KA[1], 180., add(P['hero'], alive(t, .5)), 'happy')
     if n == 'friends': return ST(KA[0], KA[1], 180., add({'uaRZ': -150 + 18 * math.sin(t * 9), 'uaLZ': 8}, alive(t, .5)), 'happy')
@@ -176,7 +176,7 @@ def st_shd(t):
     if n == 'st_chase': x, y, h, p = runner(t, ts('st_chase'), (-18., -3.), (80., -3.), SSP); return ST(x, y, h, p, 'smug')
     if n == 'st_faster': x, y, h, p = runner(t, ts('st_chase'), (-18., -3.), (80., -3.), SSP); return ST(x, y, h, p, 'smug')
     if n == 'st_pant': x, y, h, p = runner(t, ts('st_pant'), (K_STOP + 32., -3.), (80., -3.), SSP); return ST(x, y, h, p, 'smug')
-    if n == 'st_far': x, y, h, p = runner(t, ts('st_far'), (K_STOP + 22., -3.), (90., -3.), SSP); return ST(x, y, h, p, 'smug')
+    if n == 'st_far': x, y, h, p = runner(t, ts('st_far'), (K_STOP + 13., -3.), (90., -3.), 8.); return ST(x, y, h, p, 'smug')
     if n == 'st_copy1': return ST(23., -5., 180., add(dance(t, 0), {'hdY': 0}), 'smug')
     if n == 'st_copy2': return ST(43., -5., 180., dance(t, 3), 'smug')
     if n == 'st_cat1': x, y, h, p = runner(t, a, (CATC['x0'] - 7., -3.), (90., -3.), 22.); return ST(x, y, h, p, 'angry')
@@ -196,7 +196,7 @@ def st_shd(t):
     if n in ('shd_laugh', 'shd_laugh2'):
         sh_ = math.sin(t * 22); return ST(SA[0], SA[1], 90., add(P['laugh'], {'spX': 28 + 10 * sh_, 'hdX': 10 * sh_, 'bob': .05 * abs(sh_)}), 'laugh')
     if n == 'sneeze':
-        k = kp(lt, [(0, {}), (1.05, {'spX': -28, 'hdX': -24, 'uaLX': -40, 'laLX': -90}, eo), (1.12, {'spX': 42, 'hdX': 30, 'uaLX': -80, 'laLX': -100}), (2.0, {'spX': 6, 'hdX': 4}, eo)])
+        k = kp(lt, [(0, {}), (1.05, {'spX': -18, 'hdX': -14, 'uaLX': -40, 'laLX': -90}, eo), (1.12, {'spX': 26, 'hdX': 14, 'uaLX': -80, 'laLX': -100}), (2.0, {'spX': 6, 'hdX': 4}, eo)])
         return ST(SA[0], SA[1], 90., add(alive(t, .5), k), 'S:tiny_o' if 1.0 < lt < 1.3 else 'happy')
     if n == 'stuck':
         s0 = (SA[0] + 8., SA[1] - 1.)
@@ -254,7 +254,7 @@ for i, f in enumerate(FRAMES):
     elif t < 3.4: NOTEP.append((NOTE_FL + Vector((0, 0, .1)), (-90, 0, 12)))
     else:
         hl, hr = HANDS['hero'][i]; h_ = STATES['hero'][i][3]; k = eo(prog(t, 3.4, 3.75))
-        held = (hl + hr) / 2 + fwv(h_) * .35 + Vector((0, 0, .5))
+        held = (hl + hr) / 2 + fwv(h_) * .35 + Vector((0, 0, .15))
         NOTEP.append((lerpV(NOTE_FL + Vector((0, 0, .1)), held, k), (lerp(-90., -15., k), 0, h_ if k > .5 else 12)))
     # sneeze puff
     if n == 'sneeze' and lt >= 1.1:
@@ -271,7 +271,8 @@ for c in range(3): bake(NOTE, 'rotation_euler', c, FRAMES, [p[1][c] * D2R for p 
 for c in range(3): bake(PUFF, 'location', c, FRAMES, [p[0][c] for p in PUFFP], 'LINEAR'); bake(PUFF, 'scale', c, FRAMES, [p[1] for p in PUFFP], 'LINEAR')
 bake(DOORH, 'rotation_euler', 2, FRAMES, [a * D2R for a in DOORA], 'LINEAR')
 for e_ in EYES: bake(e_, 'scale', 2, FRAMES, [max(.001, v) for v in EYEA], 'LINEAR')
-for o, e0 in NLIGHTS: bake(o.data, 'energy', 0, FRAMES, [e0 * m for m in LMULT], 'CONSTANT')
+for o, e0 in NLIGHTS: bake(o.data, 'energy', 0, FRAMES, [e0 * (4. if m > .5 else .02) for m in LMULT], 'CONSTANT')
+_late = [1. if tsec(f) < 42.0 else 0. for f in FRAMES]   # after the street, no sky/sun leaks into the night room
 if 'LAMPSH' in globals():
     try: bake(LAMPM.node_tree, 'nodes["Principled BSDF"].inputs["Emission Strength"].default_value', 0, FRAMES, [4. * m for m in LMULT], 'CONSTANT')
     except Exception as ex: log('lamp bake', ex)
@@ -295,10 +296,12 @@ for i_ in range(3):
     nt.nodes['HOR'].outputs[0].default_value[i_] = DAY[0][i_]; nt.nodes['ZEN'].outputs[0].default_value[i_] = DAY[1][i_]
     nt.nodes['GLOW'].outputs[0].default_value[i_] = DAY[2][i_]; nt.nodes['SUNDIR'].inputs[i_].default_value = (-.6, -.3, .45)[i_]
 nt.nodes['GLOWS'].outputs[0].default_value = DAY[3]; nt.nodes['STARS'].outputs[0].default_value = 0.; nt.nodes['BG'].inputs[1].default_value = .75
+bake(nt, 'nodes["BG"].inputs[1].default_value', 0, FRAMES, [.75 if tsec(f) < 42.0 else .03 for f in FRAMES], 'CONSTANT')
 try: clouds(0, 40, 14, 120, 260, 60, 110, 3)
 except Exception as ex: log('clouds', ex)
 SUN = light('sun', 'SUN', (0, 0, 60), 2.6, (1, .95, .86), 1); SUN.data.angle = 5 * D2R
 SUN.rotation_mode = 'QUATERNION'; SUN.rotation_quaternion = Vector((.55, .4, -.75)).normalized().to_track_quat('-Z', 'Y')
+bake(SUN.data, 'energy', 0, FRAMES, [2.6 if tsec(f) < 42.0 else 0. for f in FRAMES], 'CONSTANT')
 
 # ---------------------------------------------------------- camera
 camd = bpy.data.cameras.new('Cam'); camd.sensor_fit = 'VERTICAL'; camd.sensor_height = 36; camd.clip_start = .02; camd.clip_end = 2000
@@ -311,7 +314,7 @@ def HMH(nm, n): return STATES[nm][mid_i(n)][3]
 def ecu(nm, n, e, dist, side=0., up=0., push=.12, tz=-.15):
     h = HMH(nm, n); H_ = HM(nm, n) + V(0, 0, .62 * CH[nm].scale); d_ = dist * 1.12 * (1 - push * e)
     return H_ + fwv(h) * d_ + sidev(h) * side + V(0, 0, up - .28 * CH[nm].scale), H_ + V(0, 0, tz - .12 * CH[nm].scale)
-def wide_side(n, x0, x1, e, y=-17., z=4.5, ty=-3.): return V(lerp(x0, x1, e), y, z), V(lerp(x0, x1, e), ty, 3.0)
+def wide_side(n, x0, x1, e, y=-17., z=7.0, ty=-3.): return V(lerp(x0, x1, e), y, z), V(lerp(x0, x1, e), ty, 3.0)
 def cam_state(i):
     t = tsec(FRAMES[i]); n, lt = shot_at(t); a, b = S[n]; e = eio(prog(lt, 0, b - a)); eq = eo(prog(lt, 0, (b - a) * .6)); shake = 0.; roll = 0.; lens = 26
     KDv = V(KD[0], KD[1], 3.)
@@ -319,19 +322,19 @@ def cam_state(i):
     if n == 'b_look': pos, tgt = ecu('hero', n, eq, 5.4, .2, .3, .2, -.2); lens = 30
     elif n == 'b_floor': pos = L2((KD[0] + 1.8, KD[1] - 6.8, 1.6), (KD[0] + 1.2, KD[1] - 6.0, 1.9), e); tgt = V(KD[0], KD[1], 1.3); lens = 24
     elif n == 'b_note': pos = L2((DBX - 2., DBY + 5., 6.2), (DBX - 1., DBY + 4.4, 5.9), e); tgt = V(SD[0] - 1., SD[1], 3.6); lens = 24
-    elif n == 'b_notecu': pos = V(NOTE_FL.x + .3, NOTE_FL.y - 2.6 + .6 * e, 4.6); tgt = V(NOTE_FL.x, NOTE_FL.y + .1, .2); lens = 30
-    elif n == 'b_read': pos, tgt = ecu('hero', n, e, 4.8, .4, .5, .12, -.3); lens = 30
+    elif n == 'b_notecu': pos = V(NOTE_FL.x - .4, NOTE_FL.y - 1.0, 7.8); tgt = V(NOTE_FL.x, NOTE_FL.y + .1, .2); lens = 28
+    elif n == 'b_read': pos, tgt = ecu('hero', n, e, 5.0, 2.2, .6, .12, -.3); lens = 30
     elif n == 'b_door': pos = L2((DBX + 1., DBY + 2.5, 5.6), (DBX + 2.4, DBY + 1.8, 5.2), e); tgt = V(DOOR_X - 1., DBY - 9., 3.6); lens = 24
     elif n == 'b_without': pos, tgt = ecu('hero', n, eq, 3.6, -.3, .2, .2, -.3); lens = 30; shake = .03
     # ---- street, chase
-    elif n == 'st_chase': kx = kuro_run(t); pos = V(kx + 6., -17., 3.4); tgt = V(kx + 6., -3., 2.8); lens = 22
+    elif n == 'st_chase': kx = kuro_run(t); pos = V(kx + 6., -17., 7.5); tgt = V(kx + 6., -3., 2.2); lens = 22
     elif n == 'st_faster': kx = kuro_run(t); pos = V(kx - 9., -3.5, 2.6); tgt = V(kx + 26., -3., 3.4); lens = 24
-    elif n == 'st_pant': pos, tgt = ecu('hero', n, eq, 4.8, .2, -.1, .2, -.5); lens = 30
-    elif n == 'st_far': pos = V(K_STOP - 8., -5., 2.6); tgt = V(K_STOP + 22. + 8. * lt, -3., 3.4); lens = 24
-    elif n == 'st_copy1': pos = L2((19.5, -16., 4.3), (20.5, -14.5, 4.1), e); tgt = V(21.5, -5., 3.6); lens = 24
-    elif n == 'st_copy2': pos = L2((41.5, -15., 4.0), (42.5, -14.2, 4.0), e); tgt = V(43., -5., 3.6); lens = 24
-    elif n == 'st_cat1': pos, tgt = wide_side(n, 30., 44., e, -15., 3.8); lens = 24
-    elif n == 'st_cat2': pos, tgt = wide_side(n, 40., 24., e, -15., 3.8); lens = 24
+    elif n == 'st_pant': pos, tgt = ecu('hero', n, eq, 4.6, .3, -1.0, .2, -.9); lens = 30
+    elif n == 'st_far': pos = V(K_STOP - 8., -5., 2.6); tgt = V(K_STOP + 13. + 8. * lt, -3., 3.4); lens = 24
+    elif n == 'st_copy1': pos = L2((19.5, -16., 8.0), (20.5, -14.5, 7.6), e); tgt = V(21.5, -5., 3.2); lens = 24
+    elif n == 'st_copy2': pos = L2((41.5, -15., 7.6), (42.5, -14.2, 7.4), e); tgt = V(43., -5., 3.2); lens = 24
+    elif n == 'st_cat1': pos, tgt = wide_side(n, 30., 44., e, -15., 7.2); lens = 24
+    elif n == 'st_cat2': pos, tgt = wide_side(n, 40., 24., e, -15., 7.2); lens = 24
     elif n == 'st_worst': pos, tgt = ecu('hero', n, eq, 3.6, .2, .2, .25, -.35); lens = 30; shake = .04
     elif n == 'st_join': pos = L2((34., -17., 4.6), (38., -16., 4.4), e); tgt = V(40., -3., 3.2); lens = 22
     elif n == 'mom_join': pos = L2((43.5, -12., 4.2), (44.2, -9.6, 4.0), e); tgt = V(44.6, -3., 3.6); lens = 28
@@ -339,19 +342,19 @@ def cam_state(i):
     elif n == 'mom_mad': pos, tgt = ecu('hero', n, e, 3.4, .3, .1, .2, -.3); lens = 30
     # ---- copying
     elif n == 'win_back': pos, tgt = ecu('hero', n, eq, 3.6, .2, .3, .2, -.3); lens = 30
-    elif n == 'did_job': pos = L2((DC[0] - 1., -17., 4.3), (DC[0] - 1., -15.5, 4.1), e); tgt = V(DC[0], -3., 3.2); lens = 24
+    elif n == 'did_job': pos = L2((DC[0] - 1., -15., 6.5), (DC[0] - 1., -13., 6.0), e); tgt = V(DC[0], -3., 2.8); lens = 26
     elif n == 'copied': pos, tgt = ecu('hero', n, e, 3.4, .5, .3, .15, -.3); lens = 30
-    elif n == 'jump': pos = V(DC[0], -17., 3.4); tgt = V(DC[0], -3., 4.0); lens = 24
-    elif n == 'spin': pos = L2((DC[0], -15., 3.4), (DC[0], -13., 3.3), e); tgt = V(DC[0], -3., 3.2); lens = 24; roll = 3 * math.sin(t * 6)
+    elif n == 'jump': pos = V(DC[0], -15., 6.2); tgt = V(DC[0], -3., 3.6); lens = 26
+    elif n == 'spin': pos = L2((DC[0], -15., 6.0), (DC[0], -13., 5.6), e); tgt = V(DC[0], -3., 3.0); lens = 26; roll = 3 * math.sin(t * 6)
     elif n == 'dance': pos = L2((DC[0] - 6., -12., 3.2), (DC[0] - 3., -10., 3.0), e); tgt = V(DC[0], -3., 3.2); lens = 26; roll = -4 * math.sin(t * 7)
-    elif n == 'street_mid': pos = L2((DC[0], -30., 17.), (DC[0], -26., 14.), e); tgt = V(DC[0], -3., 2.0); lens = 26
-    elif n == 'watching': pos = L2((DC[0] - 7., DC[1] - .6, 3.3), (DC[0] - 6., DC[1] - .6, 3.2), e); tgt = V(DC[0] + 9., DC[1], 3.4); lens = 30
-    elif n == 'embarrassed': pos, tgt = ecu('hero', n, eq, 3.8, -.2, .1, .3, -.3); lens = 30; roll = -3
+    elif n == 'street_mid': pos = L2((DC[0], -20., 14.), (DC[0], -18.5, 12.), e); tgt = V(DC[0], -3., 2.0); lens = 24
+    elif n == 'watching': pos = L2((DC[0] - 9., DC[1] + 2.6, 4.4), (DC[0] - 8., DC[1] + 2.6, 4.2), e); tgt = V(DC[0] + 9., DC[1], 3.6); lens = 26
+    elif n == 'embarrassed': pos, tgt = ecu('hero', n, eq, 3.8, -.2, .5, .3, -.3); lens = 30; roll = -3
     # ---- laughing / sneeze / stuck
     elif n == 'shd_laugh': pos, tgt = ecu('shd', n, e, 3.6, .3, .2, .1, -.3); lens = 30; shake = .02
-    elif n == 'shd_laugh2': pos = L2((DC[0] - .5, -13., 3.2), (DC[0] + .5, -12., 3.4), e); tgt = V(DC[0], DC[1], 3.4); lens = 26
+    elif n == 'shd_laugh2': pos = L2((DC[0] - .5, -14., 5.0), (DC[0] + .5, -13., 5.0), e); tgt = V(DC[0], DC[1], 3.2); lens = 26
     elif n == 'sneeze': pos, tgt = ecu('shd', n, eq, 4.2, .5, .2, .1, -.3); lens = 30; shake = .05 * prog(lt, 1.1, 1.2) * (1 - prog(lt, 1.2, 1.6))
-    elif n == 'stuck': pos = L2((DC[0] + 7., -15., 5.), (DC[0] + 4., -12., 4.6), e); tgt = V(DC[0], DC[1], 2.2); lens = 24
+    elif n == 'stuck': pos = L2((DC[0] - 2., -16., 5.6), (DC[0] - 1., -13., 5.0), e); tgt = V(DC[0], DC[1], 2.2); lens = 24
     elif n == 'friends': pos = L2((DC[0] + 1., DC[1] - 8.5, 4.4), (DC[0] + .5, DC[1] - 7.2, 4.2), e); tgt = V(DC[0], DC[1] + 1.4, 2.6); lens = 26
     # ---- night bedroom
     elif n == 'n_switch': pos = L2((NBX + 6., NBY - 12.4, 4.6), (NBX + 8., NBY - 12.3, 4.6), e); tgt = V(K_SW[0], K_SW[1], 3.6); lens = 28
@@ -364,7 +367,7 @@ def cam_state(i):
     elif n == 'f_there': pos = V(NBX + 5., NBY - 3., 4.6); tgt = V(K_SW[0], K_SW[1] + .8, 1.2); lens = 24
     elif n == 'n_again': pos, tgt = ecu('hero', n, e, 2.6, -.4, .2, .1, -.2); lens = 38
     elif n == 'n_whisper': pos = L2((NBX + 4., NBY - 12.3, 5.0), (NBX + 5.5, NBY - 12.3, 4.8), e); tgt = V(K_SW[0], K_SW[1], 3.4); lens = 26
-    elif n == 'n_eyes': pos = V(NBX + 12.5, NBY - 11.5, 4.6); tgt = V(NBX + 4.2, NBY + 12., 4.8); lens = 40; shake = .01
+    elif n == 'n_eyes': pos = V(NBX + 2., NBY - 8., 4.2); tgt = V(NBX + 10.8, NBY + 12.4, 3.6); lens = 36; shake = .01
     elif n == 'n_zoom': pos, tgt = ecu('hero', n, e, 2.4, 0., .1, .55, -.25); lens = 34 + 16 * e; shake = .02
     else: pos = V(0, -900, 5); tgt = V(0, -880, 5)
     drift = V(noise1(t * 1.3, 2.) * .03, 0, noise1(t * 1.1, 5.) * .03)
@@ -409,7 +412,9 @@ if RUNMODE == 'stills':
     r.image_settings.file_format = 'JPEG'; r.image_settings.quality = 88
     SD_ = os.path.join(HERE, VNAME + 'stills', RROUND); os.makedirs(SD_, exist_ok=True)
     PROG = os.path.join(HERE, VNAME + '_progress.txt')
+    ONLY = open(os.path.join(HERE, VNAME + '_only.txt')).read().split() if os.path.exists(os.path.join(HERE, VNAME + '_only.txt')) else None
     for k, (n, a, b) in enumerate(shots):
+        if ONLY and n not in ONLY: continue
         open(PROG, 'w').write('%d %d' % (k, len(shots)))
         f = int((a + (min(b, DUR) - a) * .55) * FPS) + 1
         sc.frame_set(f); r.filepath = os.path.join(SD_, '%02d_%s.jpg' % (k + 1, n)); bpy.ops.render.render(write_still=True)
