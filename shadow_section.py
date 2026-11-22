@@ -393,6 +393,22 @@ except Exception:
     try: r.engine = 'BLENDER_EEVEE_NEXT'
     except Exception: pass
 r.resolution_x, r.resolution_y = 1080, 1920; r.resolution_percentage = 50 if RUNMODE == 'stills' else 100; r.fps = FPS
+PART_LO, PART_HI = 1, NF
+if RUNMODE == 'video':        # Kaggle GPU render: Cycles, 720x1280, one half of the frames per notebook (shadow_range.txt = 'lo hi')
+    try: PART_LO, PART_HI = [int(x) for x in open(os.path.join(HERE, VNAME + '_range.txt')).read().split()]
+    except Exception: pass
+    sc.render.engine = 'CYCLES'; sc.cycles.samples = 24; sc.cycles.use_denoising = True; sc.cycles.use_adaptive_sampling = True
+    _cp = bpy.context.preferences.addons['cycles'].preferences; _dev = 'CPU'
+    for _t in ('OPTIX', 'CUDA'):
+        try:
+            _cp.compute_device_type = _t; _cp.get_devices()
+            _g = [d for d in _cp.devices if d.type != 'CPU']
+            if _g:
+                for d in _cp.devices: d.use = d.type != 'CPU'
+                sc.cycles.device = 'GPU'; _dev = _t + ' ' + ', '.join(d.name for d in _g); break
+        except Exception as _e: log('device try failed', _t, _e)
+    log('CYCLES DEVICE', _dev)
+    r.resolution_x, r.resolution_y = 720, 1280; r.resolution_percentage = 100; r.use_persistent_data = True
 try: sc.eevee.taa_render_samples = 12 if RUNMODE == 'stills' else 24
 except Exception: pass
 for attr, val in (('use_shadows', True), ('use_raytracing', True), ('shadow_ray_count', 1), ('use_gtao', True), ('use_fast_gi', True), ('use_bloom', False)):
@@ -419,6 +435,13 @@ if RUNMODE == 'stills':
         f = int((a + (min(b, DUR) - a) * .55) * FPS) + 1
         sc.frame_set(f); r.filepath = os.path.join(SD_, '%02d_%s.jpg' % (k + 1, n)); bpy.ops.render.render(write_still=True)
     open(PROG, 'w').write('DONE'); log('STILLS DONE', round(time.time() - T0, 1), 's')
+elif RUNMODE == 'video':
+    r.image_settings.file_format = 'PNG'; FD = os.path.join(HERE, 'clipframes'); os.makedirs(FD, exist_ok=True); T_ = time.time()
+    for f_ in [x for x in FRAMES if PART_LO <= x <= PART_HI]:
+        if os.path.exists(os.path.join(FD, '%04d.png' % f_)): continue
+        r.filepath = os.path.join(FD, '%04d.png' % f_); sc.frame_set(f_); bpy.ops.render.render(write_still=True)
+        if f_ in (PART_LO, PART_LO + 1, PART_LO + 5) or f_ % 25 == 0: log('FRAME', f_, 'of', PART_HI, 'elapsed', round(time.time() - T_, 1))
+    open(os.path.join(HERE, VNAME + '_progress.txt'), 'w').write('DONE'); log('VIDEO PART DONE')
 elif RUNMODE == 'build':
     open(os.path.join(HERE, VNAME + '_progress.txt'), 'w').write('DONE'); log('BUILD ONLY DONE')
 else:
