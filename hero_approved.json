@@ -1,23 +1,34 @@
 {
-  "name": "Velo",
+  "name": "Kuro",
   "mode": "describe",
-  "fam": "npc",
+  "fam": "tom",
   "skin": "#0a0a0d",
   "scale": 1.05,
-  "top": "#0b0b0f",
-  "sleeve": "#0b0b0f",
-  "legs": "#09090c",
-  "shoes": "#050506",
-  "hair": null,
-  "extras": [
+  "top": [
     [
-      "trench",
-      "#0e0e13",
-      3.0
+      0,
+      "#14141a"
     ],
     [
-      "fedora",
-      "#09090c"
+      0.35,
+      "#f4f4f8"
+    ]
+  ],
+  "sleeve": "#f4f4f8",
+  "legs": [
+    "shorts",
+    "#1c1f2b",
+    "#f4f4f8"
+  ],
+  "shoes": "#f4f4f8",
+  "hair": [
+    "r_spiky",
+    "#f4f4f8"
+  ],
+  "extras": [
+    [
+      "headband",
+      "#f4f4f8"
     ]
   ],
   "import_id": null,

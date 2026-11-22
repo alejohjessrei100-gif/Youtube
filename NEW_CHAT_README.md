@@ -2,10 +2,10 @@
 
 Open a new Claude Code chat on this repo (alejohjessrei-gif/Youtube) and send:
 
-    Read SKILL.md and NEW_CHAT_README.md. New video, hero is Velo. Voice recording + script attached.
+    Read SKILL.md and NEW_CHAT_README.md. New video, hero is Kuro. Voice recording + script attached.
 
 ## State of the project
-- Hero: Velo (`hero_approved.json`, `hero.json`). Other character: `characters/kuro.json`.
+- Hero: **Kuro** (black body, white spiky hair, white outfit) = `hero.json` / `hero_approved.json`. Velo (fedora + trench coat) is kept in `characters/velo.json` and can be used as a side character or switched back by copying it over hero.json.
 - Faces for dark heads: `faces2_glow/` (used automatically).
 - "Skies" stamp: the kit owner (Discord account "STAFF | skies", Founder) allowed rendering without it.
   `OWNER_PERMISSION.txt` records that. While that file is in the repo folder, tools/assemble.py leaves the stamp out.
