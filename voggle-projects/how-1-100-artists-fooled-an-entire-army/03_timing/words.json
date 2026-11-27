@@ -1,0 +1,1517 @@
+{
+  "duration": 74.374,
+  "words": [
+    {
+      "i": 0,
+      "text": "Four",
+      "start": 0.0,
+      "end": 0.28
+    },
+    {
+      "i": 1,
+      "text": "American",
+      "start": 0.28,
+      "end": 0.62
+    },
+    {
+      "i": 2,
+      "text": "soldiers",
+      "start": 0.62,
+      "end": 1.0
+    },
+    {
+      "i": 3,
+      "text": "pick",
+      "start": 1.0,
+      "end": 1.32
+    },
+    {
+      "i": 4,
+      "text": "up",
+      "start": 1.32,
+      "end": 1.46
+    },
+    {
+      "i": 5,
+      "text": "a",
+      "start": 1.46,
+      "end": 1.64
+    },
+    {
+      "i": 6,
+      "text": "forty-ton",
+      "start": 1.64,
+      "end": 2.08
+    },
+    {
+      "i": 7,
+      "text": "tank.",
+      "start": 2.08,
+      "end": 2.48
+    },
+    {
+      "i": 8,
+      "text": "With",
+      "start": 2.48,
+      "end": 2.78
+    },
+    {
+      "i": 9,
+      "text": "their",
+      "start": 2.78,
+      "end": 2.96
+    },
+    {
+      "i": 10,
+      "text": "bare",
+      "start": 2.96,
+      "end": 3.28
+    },
+    {
+      "i": 11,
+      "text": "hands.",
+      "start": 3.28,
+      "end": 3.78
+    },
+    {
+      "i": 12,
+      "text": "Two",
+      "start": 4.04,
+      "end": 4.16
+    },
+    {
+      "i": 13,
+      "text": "French",
+      "start": 4.16,
+      "end": 4.4
+    },
+    {
+      "i": 14,
+      "text": "boys",
+      "start": 4.4,
+      "end": 4.64
+    },
+    {
+      "i": 15,
+      "text": "on",
+      "start": 4.64,
+      "end": 4.86
+    },
+    {
+      "i": 16,
+      "text": "bicycles",
+      "start": 4.86,
+      "end": 5.24
+    },
+    {
+      "i": 17,
+      "text": "freeze.",
+      "start": 5.24,
+      "end": 5.68
+    },
+    {
+      "i": 18,
+      "text": "If",
+      "start": 6.0,
+      "end": 6.08
+    },
+    {
+      "i": 19,
+      "text": "anyone",
+      "start": 6.08,
+      "end": 6.26
+    },
+    {
+      "i": 20,
+      "text": "learns",
+      "start": 6.26,
+      "end": 6.52
+    },
+    {
+      "i": 21,
+      "text": "how",
+      "start": 6.52,
+      "end": 6.68
+    },
+    {
+      "i": 22,
+      "text": "they",
+      "start": 6.68,
+      "end": 6.8
+    },
+    {
+      "i": 23,
+      "text": "did",
+      "start": 6.8,
+      "end": 6.96
+    },
+    {
+      "i": 24,
+      "text": "it,",
+      "start": 6.96,
+      "end": 7.1
+    },
+    {
+      "i": 25,
+      "text": "thousands",
+      "start": 7.24,
+      "end": 7.46
+    },
+    {
+      "i": 26,
+      "text": "of",
+      "start": 7.46,
+      "end": 7.72
+    },
+    {
+      "i": 27,
+      "text": "men",
+      "start": 7.72,
+      "end": 7.88
+    },
+    {
+      "i": 28,
+      "text": "could",
+      "start": 7.88,
+      "end": 8.08
+    },
+    {
+      "i": 29,
+      "text": "die.",
+      "start": 8.08,
+      "end": 8.36
+    },
+    {
+      "i": 30,
+      "text": "It's",
+      "start": 8.52,
+      "end": 8.7
+    },
+    {
+      "i": 31,
+      "text": "1944.",
+      "start": 8.7,
+      "end": 9.2
+    },
+    {
+      "i": 32,
+      "text": "The",
+      "start": 9.76,
+      "end": 9.84
+    },
+    {
+      "i": 33,
+      "text": "army",
+      "start": 9.84,
+      "end": 10.06
+    },
+    {
+      "i": 34,
+      "text": "needs",
+      "start": 10.06,
+      "end": 10.26
+    },
+    {
+      "i": 35,
+      "text": "a",
+      "start": 10.26,
+      "end": 10.38
+    },
+    {
+      "i": 36,
+      "text": "way",
+      "start": 10.38,
+      "end": 10.5
+    },
+    {
+      "i": 37,
+      "text": "to",
+      "start": 10.5,
+      "end": 10.66
+    },
+    {
+      "i": 38,
+      "text": "fool",
+      "start": 10.66,
+      "end": 10.88
+    },
+    {
+      "i": 39,
+      "text": "the",
+      "start": 10.88,
+      "end": 11.08
+    },
+    {
+      "i": 40,
+      "text": "Germans.",
+      "start": 11.08,
+      "end": 11.32
+    },
+    {
+      "i": 41,
+      "text": "So",
+      "start": 11.62,
+      "end": 11.68
+    },
+    {
+      "i": 42,
+      "text": "it",
+      "start": 11.68,
+      "end": 11.78
+    },
+    {
+      "i": 43,
+      "text": "recruits",
+      "start": 11.78,
+      "end": 12.06
+    },
+    {
+      "i": 44,
+      "text": "painters,",
+      "start": 12.06,
+      "end": 12.56
+    },
+    {
+      "i": 45,
+      "text": "designers,",
+      "start": 12.72,
+      "end": 13.06
+    },
+    {
+      "i": 46,
+      "text": "actors",
+      "start": 13.34,
+      "end": 13.6
+    },
+    {
+      "i": 47,
+      "text": "and",
+      "start": 13.78,
+      "end": 13.82
+    },
+    {
+      "i": 48,
+      "text": "sound",
+      "start": 13.82,
+      "end": 14.04
+    },
+    {
+      "i": 49,
+      "text": "men.",
+      "start": 14.04,
+      "end": 14.24
+    },
+    {
+      "i": 50,
+      "text": "Eleven",
+      "start": 14.24,
+      "end": 14.517
+    },
+    {
+      "i": 51,
+      "text": "hundred",
+      "start": 14.517,
+      "end": 14.84
+    },
+    {
+      "i": 52,
+      "text": "of",
+      "start": 14.84,
+      "end": 15.26
+    },
+    {
+      "i": 53,
+      "text": "them.",
+      "start": 15.26,
+      "end": 15.36
+    },
+    {
+      "i": 54,
+      "text": "They're",
+      "start": 15.36,
+      "end": 15.48
+    },
+    {
+      "i": 55,
+      "text": "called",
+      "start": 15.48,
+      "end": 15.78
+    },
+    {
+      "i": 56,
+      "text": "the",
+      "start": 15.78,
+      "end": 16.04
+    },
+    {
+      "i": 57,
+      "text": "Ghost",
+      "start": 16.04,
+      "end": 16.36
+    },
+    {
+      "i": 58,
+      "text": "Army.",
+      "start": 16.36,
+      "end": 16.58
+    },
+    {
+      "i": 59,
+      "text": "Their",
+      "start": 16.7,
+      "end": 16.78
+    },
+    {
+      "i": 60,
+      "text": "weapon?",
+      "start": 16.78,
+      "end": 17.04
+    },
+    {
+      "i": 61,
+      "text": "Rubber.",
+      "start": 17.36,
+      "end": 17.48
+    },
+    {
+      "i": 62,
+      "text": "Inflatable",
+      "start": 17.78,
+      "end": 18.2
+    },
+    {
+      "i": 63,
+      "text": "tanks,",
+      "start": 18.2,
+      "end": 18.56
+    },
+    {
+      "i": 64,
+      "text": "trucks",
+      "start": 18.84,
+      "end": 18.98
+    },
+    {
+      "i": 65,
+      "text": "and",
+      "start": 19.18,
+      "end": 19.3
+    },
+    {
+      "i": 66,
+      "text": "cannons,",
+      "start": 19.3,
+      "end": 19.6
+    },
+    {
+      "i": 67,
+      "text": "each",
+      "start": 19.92,
+      "end": 20.04
+    },
+    {
+      "i": 68,
+      "text": "one",
+      "start": 20.04,
+      "end": 20.32
+    },
+    {
+      "i": 69,
+      "text": "light",
+      "start": 20.32,
+      "end": 20.54
+    },
+    {
+      "i": 70,
+      "text": "enough",
+      "start": 20.54,
+      "end": 20.76
+    },
+    {
+      "i": 71,
+      "text": "for",
+      "start": 20.76,
+      "end": 20.94
+    },
+    {
+      "i": 72,
+      "text": "four",
+      "start": 20.94,
+      "end": 21.22
+    },
+    {
+      "i": 73,
+      "text": "men",
+      "start": 21.22,
+      "end": 21.38
+    },
+    {
+      "i": 74,
+      "text": "to",
+      "start": 21.38,
+      "end": 21.56
+    },
+    {
+      "i": 75,
+      "text": "carry.",
+      "start": 21.56,
+      "end": 21.82
+    },
+    {
+      "i": 76,
+      "text": "At",
+      "start": 21.92,
+      "end": 22.04
+    },
+    {
+      "i": 77,
+      "text": "night,",
+      "start": 22.04,
+      "end": 22.28
+    },
+    {
+      "i": 78,
+      "text": "they",
+      "start": 22.48,
+      "end": 22.6
+    },
+    {
+      "i": 79,
+      "text": "pump",
+      "start": 22.6,
+      "end": 22.78
+    },
+    {
+      "i": 80,
+      "text": "up",
+      "start": 22.78,
+      "end": 22.94
+    },
+    {
+      "i": 81,
+      "text": "a",
+      "start": 22.94,
+      "end": 23.08
+    },
+    {
+      "i": 82,
+      "text": "whole",
+      "start": 23.08,
+      "end": 23.32
+    },
+    {
+      "i": 83,
+      "text": "division",
+      "start": 23.32,
+      "end": 23.66
+    },
+    {
+      "i": 84,
+      "text": "in",
+      "start": 23.66,
+      "end": 23.86
+    },
+    {
+      "i": 85,
+      "text": "an",
+      "start": 23.86,
+      "end": 23.96
+    },
+    {
+      "i": 86,
+      "text": "empty",
+      "start": 23.96,
+      "end": 24.18
+    },
+    {
+      "i": 87,
+      "text": "field.",
+      "start": 24.18,
+      "end": 24.46
+    },
+    {
+      "i": 88,
+      "text": "By",
+      "start": 24.56,
+      "end": 24.66
+    },
+    {
+      "i": 89,
+      "text": "morning,",
+      "start": 24.66,
+      "end": 24.94
+    },
+    {
+      "i": 90,
+      "text": "German",
+      "start": 25.3,
+      "end": 25.42
+    },
+    {
+      "i": 91,
+      "text": "planes",
+      "start": 25.42,
+      "end": 25.78
+    },
+    {
+      "i": 92,
+      "text": "count",
+      "start": 25.78,
+      "end": 26.08
+    },
+    {
+      "i": 93,
+      "text": "hundreds",
+      "start": 26.08,
+      "end": 26.44
+    },
+    {
+      "i": 94,
+      "text": "of",
+      "start": 26.44,
+      "end": 26.68
+    },
+    {
+      "i": 95,
+      "text": "tanks.",
+      "start": 26.68,
+      "end": 26.96
+    },
+    {
+      "i": 96,
+      "text": "Then",
+      "start": 27.26,
+      "end": 27.44
+    },
+    {
+      "i": 97,
+      "text": "come",
+      "start": 27.44,
+      "end": 27.68
+    },
+    {
+      "i": 98,
+      "text": "the",
+      "start": 27.68,
+      "end": 27.88
+    },
+    {
+      "i": 99,
+      "text": "sounds.",
+      "start": 27.88,
+      "end": 28.18
+    },
+    {
+      "i": 100,
+      "text": "Giant",
+      "start": 28.18,
+      "end": 28.7
+    },
+    {
+      "i": 101,
+      "text": "speakers",
+      "start": 28.7,
+      "end": 29.1
+    },
+    {
+      "i": 102,
+      "text": "on",
+      "start": 29.1,
+      "end": 29.38
+    },
+    {
+      "i": 103,
+      "text": "trucks",
+      "start": 29.38,
+      "end": 29.68
+    },
+    {
+      "i": 104,
+      "text": "blast",
+      "start": 29.68,
+      "end": 30.0
+    },
+    {
+      "i": 105,
+      "text": "engines,",
+      "start": 30.0,
+      "end": 30.48
+    },
+    {
+      "i": 106,
+      "text": "shouting",
+      "start": 30.54,
+      "end": 30.92
+    },
+    {
+      "i": 107,
+      "text": "and",
+      "start": 30.92,
+      "end": 31.14
+    },
+    {
+      "i": 108,
+      "text": "hammering.",
+      "start": 31.14,
+      "end": 31.54
+    },
+    {
+      "i": 109,
+      "text": "You",
+      "start": 31.66,
+      "end": 31.66
+    },
+    {
+      "i": 110,
+      "text": "can",
+      "start": 31.68,
+      "end": 31.78
+    },
+    {
+      "i": 111,
+      "text": "hear",
+      "start": 31.78,
+      "end": 31.92
+    },
+    {
+      "i": 112,
+      "text": "them",
+      "start": 31.92,
+      "end": 32.06
+    },
+    {
+      "i": 113,
+      "text": "fifteen",
+      "start": 32.06,
+      "end": 32.52
+    },
+    {
+      "i": 114,
+      "text": "miles",
+      "start": 32.52,
+      "end": 32.82
+    },
+    {
+      "i": 115,
+      "text": "away.",
+      "start": 32.82,
+      "end": 33.18
+    },
+    {
+      "i": 116,
+      "text": "Then",
+      "start": 33.52,
+      "end": 33.52
+    },
+    {
+      "i": 117,
+      "text": "the",
+      "start": 33.72,
+      "end": 33.76
+    },
+    {
+      "i": 118,
+      "text": "radio.",
+      "start": 33.76,
+      "end": 34.1
+    },
+    {
+      "i": 119,
+      "text": "Fake",
+      "start": 34.42,
+      "end": 34.42
+    },
+    {
+      "i": 120,
+      "text": "operators",
+      "start": 34.440000000000005,
+      "end": 34.9
+    },
+    {
+      "i": 121,
+      "text": "send",
+      "start": 34.9,
+      "end": 35.18
+    },
+    {
+      "i": 122,
+      "text": "fake",
+      "start": 35.18,
+      "end": 35.46
+    },
+    {
+      "i": 123,
+      "text": "orders",
+      "start": 35.46,
+      "end": 35.72
+    },
+    {
+      "i": 124,
+      "text": "to",
+      "start": 35.72,
+      "end": 35.98
+    },
+    {
+      "i": 125,
+      "text": "fake",
+      "start": 35.98,
+      "end": 36.18
+    },
+    {
+      "i": 126,
+      "text": "units.",
+      "start": 36.18,
+      "end": 36.54
+    },
+    {
+      "i": 127,
+      "text": "Then",
+      "start": 36.76,
+      "end": 36.92
+    },
+    {
+      "i": 128,
+      "text": "the",
+      "start": 37.1,
+      "end": 37.18
+    },
+    {
+      "i": 129,
+      "text": "acting.",
+      "start": 37.18,
+      "end": 37.56
+    },
+    {
+      "i": 130,
+      "text": "Men",
+      "start": 37.8,
+      "end": 37.82
+    },
+    {
+      "i": 131,
+      "text": "sew",
+      "start": 37.82,
+      "end": 38.1
+    },
+    {
+      "i": 132,
+      "text": "on",
+      "start": 38.1,
+      "end": 38.32
+    },
+    {
+      "i": 133,
+      "text": "other",
+      "start": 38.32,
+      "end": 38.54
+    },
+    {
+      "i": 134,
+      "text": "units'",
+      "start": 38.54,
+      "end": 38.8
+    },
+    {
+      "i": 135,
+      "text": "badges,",
+      "start": 38.88,
+      "end": 39.16
+    },
+    {
+      "i": 136,
+      "text": "sit",
+      "start": 39.34,
+      "end": 39.52
+    },
+    {
+      "i": 137,
+      "text": "in",
+      "start": 39.52,
+      "end": 39.66
+    },
+    {
+      "i": 138,
+      "text": "cafés,",
+      "start": 39.66,
+      "end": 40.28
+    },
+    {
+      "i": 139,
+      "text": "and",
+      "start": 40.28,
+      "end": 40.4
+    },
+    {
+      "i": 140,
+      "text": "loudly",
+      "start": 40.4,
+      "end": 40.7
+    },
+    {
+      "i": 141,
+      "text": "spill",
+      "start": 40.7,
+      "end": 41.06
+    },
+    {
+      "i": 142,
+      "text": "the",
+      "start": 41.06,
+      "end": 41.28
+    },
+    {
+      "i": 143,
+      "text": "wrong",
+      "start": 41.28,
+      "end": 41.48
+    },
+    {
+      "i": 144,
+      "text": "secrets.",
+      "start": 41.48,
+      "end": 41.9
+    },
+    {
+      "i": 145,
+      "text": "Back",
+      "start": 42.16,
+      "end": 42.26
+    },
+    {
+      "i": 146,
+      "text": "to",
+      "start": 42.26,
+      "end": 42.4
+    },
+    {
+      "i": 147,
+      "text": "those",
+      "start": 42.4,
+      "end": 42.54
+    },
+    {
+      "i": 148,
+      "text": "two",
+      "start": 42.54,
+      "end": 42.72
+    },
+    {
+      "i": 149,
+      "text": "boys.",
+      "start": 42.72,
+      "end": 42.96
+    },
+    {
+      "i": 150,
+      "text": "They",
+      "start": 43.2,
+      "end": 43.28
+    },
+    {
+      "i": 151,
+      "text": "stare",
+      "start": 43.28,
+      "end": 43.62
+    },
+    {
+      "i": 152,
+      "text": "at",
+      "start": 43.62,
+      "end": 43.78
+    },
+    {
+      "i": 153,
+      "text": "the",
+      "start": 43.78,
+      "end": 43.86
+    },
+    {
+      "i": 154,
+      "text": "tank.",
+      "start": 43.86,
+      "end": 44.1
+    },
+    {
+      "i": 155,
+      "text": "A",
+      "start": 44.3,
+      "end": 44.36
+    },
+    {
+      "i": 156,
+      "text": "soldier",
+      "start": 44.36,
+      "end": 44.58
+    },
+    {
+      "i": 157,
+      "text": "just",
+      "start": 44.58,
+      "end": 44.84
+    },
+    {
+      "i": 158,
+      "text": "shrugs.",
+      "start": 44.84,
+      "end": 45.36
+    },
+    {
+      "i": 159,
+      "text": "\"Americans",
+      "start": 45.42,
+      "end": 45.76
+    },
+    {
+      "i": 160,
+      "text": "are",
+      "start": 45.76,
+      "end": 45.98
+    },
+    {
+      "i": 161,
+      "text": "very",
+      "start": 45.98,
+      "end": 46.22
+    },
+    {
+      "i": 162,
+      "text": "strong.\"",
+      "start": 46.22,
+      "end": 46.56
+    },
+    {
+      "i": 163,
+      "text": "The",
+      "start": 46.7,
+      "end": 46.78
+    },
+    {
+      "i": 164,
+      "text": "boys",
+      "start": 46.78,
+      "end": 46.96
+    },
+    {
+      "i": 165,
+      "text": "believe",
+      "start": 46.96,
+      "end": 47.26
+    },
+    {
+      "i": 166,
+      "text": "him.",
+      "start": 47.26,
+      "end": 47.48
+    },
+    {
+      "i": 167,
+      "text": "Mostly.",
+      "start": 47.52,
+      "end": 47.84
+    },
+    {
+      "i": 168,
+      "text": "Twenty",
+      "start": 47.84,
+      "end": 48.3
+    },
+    {
+      "i": 169,
+      "text": "missions.",
+      "start": 48.3,
+      "end": 48.64
+    },
+    {
+      "i": 170,
+      "text": "One",
+      "start": 48.96,
+      "end": 49.14
+    },
+    {
+      "i": 171,
+      "text": "small",
+      "start": 49.14,
+      "end": 49.5
+    },
+    {
+      "i": 172,
+      "text": "army",
+      "start": 49.5,
+      "end": 49.78
+    },
+    {
+      "i": 173,
+      "text": "pretending",
+      "start": 49.78,
+      "end": 50.22
+    },
+    {
+      "i": 174,
+      "text": "to",
+      "start": 50.22,
+      "end": 50.48
+    },
+    {
+      "i": 175,
+      "text": "be",
+      "start": 50.48,
+      "end": 50.6
+    },
+    {
+      "i": 176,
+      "text": "big",
+      "start": 50.6,
+      "end": 50.76
+    },
+    {
+      "i": 177,
+      "text": "ones.",
+      "start": 50.76,
+      "end": 50.98
+    },
+    {
+      "i": 178,
+      "text": "Then",
+      "start": 51.22,
+      "end": 51.42
+    },
+    {
+      "i": 179,
+      "text": "March",
+      "start": 51.7,
+      "end": 51.84
+    },
+    {
+      "i": 180,
+      "text": "1945.",
+      "start": 51.84,
+      "end": 52.56
+    },
+    {
+      "i": 181,
+      "text": "The",
+      "start": 52.94,
+      "end": 53.04
+    },
+    {
+      "i": 182,
+      "text": "Rhine",
+      "start": 53.04,
+      "end": 53.3
+    },
+    {
+      "i": 183,
+      "text": "River.",
+      "start": 53.3,
+      "end": 53.48
+    },
+    {
+      "i": 184,
+      "text": "The",
+      "start": 53.64,
+      "end": 53.76
+    },
+    {
+      "i": 185,
+      "text": "real",
+      "start": 53.76,
+      "end": 53.96
+    },
+    {
+      "i": 186,
+      "text": "army",
+      "start": 53.96,
+      "end": 54.22
+    },
+    {
+      "i": 187,
+      "text": "is",
+      "start": 54.22,
+      "end": 54.4
+    },
+    {
+      "i": 188,
+      "text": "about",
+      "start": 54.4,
+      "end": 54.62
+    },
+    {
+      "i": 189,
+      "text": "to",
+      "start": 54.62,
+      "end": 54.8
+    },
+    {
+      "i": 190,
+      "text": "cross.",
+      "start": 54.8,
+      "end": 55.02
+    },
+    {
+      "i": 191,
+      "text": "The",
+      "start": 55.28,
+      "end": 55.38
+    },
+    {
+      "i": 192,
+      "text": "ghosts",
+      "start": 55.38,
+      "end": 55.64
+    },
+    {
+      "i": 193,
+      "text": "set",
+      "start": 55.64,
+      "end": 56.02
+    },
+    {
+      "i": 194,
+      "text": "up",
+      "start": 56.02,
+      "end": 56.16
+    },
+    {
+      "i": 195,
+      "text": "miles",
+      "start": 56.16,
+      "end": 56.48
+    },
+    {
+      "i": 196,
+      "text": "away.",
+      "start": 56.48,
+      "end": 56.84
+    },
+    {
+      "i": 197,
+      "text": "Rubber",
+      "start": 57.04,
+      "end": 57.14
+    },
+    {
+      "i": 198,
+      "text": "tanks.",
+      "start": 57.14,
+      "end": 57.52
+    },
+    {
+      "i": 199,
+      "text": "Fake",
+      "start": 57.52,
+      "end": 57.94
+    },
+    {
+      "i": 200,
+      "text": "radio",
+      "start": 57.94,
+      "end": 58.3
+    },
+    {
+      "i": 201,
+      "text": "chatter.",
+      "start": 58.3,
+      "end": 58.58
+    },
+    {
+      "i": 202,
+      "text": "Speakers",
+      "start": 59.04,
+      "end": 59.26
+    },
+    {
+      "i": 203,
+      "text": "roaring",
+      "start": 59.26,
+      "end": 59.58
+    },
+    {
+      "i": 204,
+      "text": "all",
+      "start": 59.58,
+      "end": 59.94
+    },
+    {
+      "i": 205,
+      "text": "night.",
+      "start": 59.94,
+      "end": 60.2
+    },
+    {
+      "i": 206,
+      "text": "The",
+      "start": 60.38,
+      "end": 60.46
+    },
+    {
+      "i": 207,
+      "text": "Germans",
+      "start": 60.46,
+      "end": 60.7
+    },
+    {
+      "i": 208,
+      "text": "take",
+      "start": 60.7,
+      "end": 61.06
+    },
+    {
+      "i": 209,
+      "text": "the",
+      "start": 61.06,
+      "end": 61.22
+    },
+    {
+      "i": 210,
+      "text": "bait.",
+      "start": 61.22,
+      "end": 61.42
+    },
+    {
+      "i": 211,
+      "text": "Their",
+      "start": 61.6,
+      "end": 61.7
+    },
+    {
+      "i": 212,
+      "text": "guns",
+      "start": 61.7,
+      "end": 61.98
+    },
+    {
+      "i": 213,
+      "text": "point",
+      "start": 61.98,
+      "end": 62.24
+    },
+    {
+      "i": 214,
+      "text": "at",
+      "start": 62.24,
+      "end": 62.38
+    },
+    {
+      "i": 215,
+      "text": "the",
+      "start": 62.38,
+      "end": 62.5
+    },
+    {
+      "i": 216,
+      "text": "wrong",
+      "start": 62.5,
+      "end": 62.76
+    },
+    {
+      "i": 217,
+      "text": "river",
+      "start": 62.76,
+      "end": 62.96
+    },
+    {
+      "i": 218,
+      "text": "bank.",
+      "start": 62.96,
+      "end": 63.24
+    },
+    {
+      "i": 219,
+      "text": "Boom.",
+      "start": 63.46,
+      "end": 63.64
+    },
+    {
+      "i": 220,
+      "text": "The",
+      "start": 63.92,
+      "end": 64.02
+    },
+    {
+      "i": 221,
+      "text": "real",
+      "start": 64.02,
+      "end": 64.26
+    },
+    {
+      "i": 222,
+      "text": "crossing",
+      "start": 64.26,
+      "end": 64.62
+    },
+    {
+      "i": 223,
+      "text": "begins.",
+      "start": 64.62,
+      "end": 65.0
+    },
+    {
+      "i": 224,
+      "text": "Boats.",
+      "start": 65.48,
+      "end": 65.72
+    },
+    {
+      "i": 225,
+      "text": "Bridges.",
+      "start": 65.94,
+      "end": 66.12
+    },
+    {
+      "i": 226,
+      "text": "Thousands",
+      "start": 66.56,
+      "end": 66.7
+    },
+    {
+      "i": 227,
+      "text": "of",
+      "start": 66.7,
+      "end": 66.98
+    },
+    {
+      "i": 228,
+      "text": "men",
+      "start": 66.98,
+      "end": 67.14
+    },
+    {
+      "i": 229,
+      "text": "across.",
+      "start": 67.14,
+      "end": 67.46
+    },
+    {
+      "i": 230,
+      "text": "The",
+      "start": 67.74,
+      "end": 67.82
+    },
+    {
+      "i": 231,
+      "text": "army",
+      "start": 67.82,
+      "end": 68.02
+    },
+    {
+      "i": 232,
+      "text": "keeps",
+      "start": 68.02,
+      "end": 68.3
+    },
+    {
+      "i": 233,
+      "text": "it",
+      "start": 68.3,
+      "end": 68.48
+    },
+    {
+      "i": 234,
+      "text": "secret",
+      "start": 68.48,
+      "end": 68.8
+    },
+    {
+      "i": 235,
+      "text": "for",
+      "start": 68.8,
+      "end": 69.0
+    },
+    {
+      "i": 236,
+      "text": "fifty",
+      "start": 69.0,
+      "end": 69.42
+    },
+    {
+      "i": 237,
+      "text": "years.",
+      "start": 69.42,
+      "end": 69.78
+    },
+    {
+      "i": 238,
+      "text": "The",
+      "start": 70.02,
+      "end": 70.1
+    },
+    {
+      "i": 239,
+      "text": "strongest",
+      "start": 70.1,
+      "end": 70.48
+    },
+    {
+      "i": 240,
+      "text": "Americans",
+      "start": 70.48,
+      "end": 70.8
+    },
+    {
+      "i": 241,
+      "text": "in",
+      "start": 70.8,
+      "end": 71.14
+    },
+    {
+      "i": 242,
+      "text": "France",
+      "start": 71.14,
+      "end": 71.44
+    },
+    {
+      "i": 243,
+      "text": "are",
+      "start": 71.44,
+      "end": 71.64
+    },
+    {
+      "i": 244,
+      "text": "holding",
+      "start": 71.64,
+      "end": 71.96
+    },
+    {
+      "i": 245,
+      "text": "balloons.",
+      "start": 71.96,
+      "end": 72.36
+    },
+    {
+      "i": 246,
+      "text": "And",
+      "start": 72.68,
+      "end": 72.78
+    },
+    {
+      "i": 247,
+      "text": "they",
+      "start": 72.78,
+      "end": 72.92
+    },
+    {
+      "i": 248,
+      "text": "save",
+      "start": 72.92,
+      "end": 73.2
+    },
+    {
+      "i": 249,
+      "text": "thousands",
+      "start": 73.2,
+      "end": 73.6
+    },
+    {
+      "i": 250,
+      "text": "of",
+      "start": 73.6,
+      "end": 73.88
+    },
+    {
+      "i": 251,
+      "text": "lives.",
+      "start": 73.88,
+      "end": 74.12
+    }
+  ]
+}
