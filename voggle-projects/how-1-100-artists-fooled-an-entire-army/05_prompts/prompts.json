@@ -1,0 +1,629 @@
+{
+  "title": "How 1,100 Artists Fooled An Entire Army 🎨",
+  "world": "Northern France and the Rhine river area, 1944-1945, Second World War. American soldiers are 1944 US Army GIs in olive-drab uniforms and M1 helmets with period US Army equipment; French villagers wear 1940s rural clothing; German soldiers appear only from behind or in silhouette in plain field-grey uniforms with NO insignia, badges or symbols. 1940s vehicles, farmland, hedgerows and stone villages. Nothing modern.",
+  "look": "Clean vivid colours, clear air, no dust haze, crisp outlines against simple uncluttered backgrounds, theatrical exaggerated body language.",
+  "characters": {
+    "C1": {
+      "name": "The artist GI (hero)",
+      "kit": "a 24-year-old American WWII army private and former art student, slim build, fair skin with light freckles, short wavy chestnut-brown hair, clean-shaven, friendly narrow face; olive-drab M1 steel helmet with the chin strap hanging loose, olive-drab M-1941 field jacket with a small brick-red paint smear on the right sleeve, a brick-red knitted scarf tucked in at the collar, khaki wool trousers, brown leather lace-up boots. Signature colours: olive drab and brick red"
+    },
+    "C2": {
+      "name": "The two French boys",
+      "kit": "two French village boys aged about 11: the taller boy wears a navy-blue flat cap, a navy wool jacket, short grey trousers and knee socks; the smaller boy has messy blond hair, a mustard-yellow knitted sweater and brown shorts; both wear worn leather shoes and ride old black bicycles. Signature colours: navy blue and mustard yellow"
+    }
+  },
+  "round1": [
+    {
+      "id": "C1_REF",
+      "kind": "ref",
+      "character": "C1"
+    },
+    {
+      "id": "C2_REF",
+      "kind": "ref",
+      "character": "C2"
+    }
+  ],
+  "round2": [
+    {
+      "id": "S01_FULL",
+      "kind": "full",
+      "used_in": [
+        "S01",
+        "S17"
+      ],
+      "desc": "C1_REF and three other American GIs in the same olive-drab uniform stand in a row in an open green field and casually lift a full-size Sherman tank above their heads with their bare hands, arms straight up, the tank perfectly balanced on their palms. It is secretly a rubber inflatable tank, but it must look like a real heavy olive-drab tank. C1_REF is second from the left.",
+      "camera": "low angle, wide shot, whole tank and all four men from head to boots",
+      "light": "bright clear morning sun from the right, blue sky",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S02_FULL",
+      "kind": "full",
+      "used_in": [
+        "S02"
+      ],
+      "desc": "C1_REF alone, waist up, holding the front edge of an olive-drab tank hull above his head with both hands, elbows bent, standing tall and relaxed, a clear blue sky behind him.",
+      "camera": "low angle medium shot, waist up",
+      "light": "bright clear morning sun from the right, blue sky",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S03_INS",
+      "kind": "insert",
+      "used_in": [
+        "S03"
+      ],
+      "desc": "two bare hands of an American GI in olive-drab sleeves, palms up, holding the underside of an olive-drab tank hull; the hull's surface shows a faint rubbery sheen and a small brass air valve",
+      "camera": "close-up from slightly below",
+      "light": "bright clear morning sun from the right, blue sky"
+    },
+    {
+      "id": "S04_FULL",
+      "kind": "full",
+      "used_in": [
+        "S04",
+        "S29"
+      ],
+      "desc": "C2_REF: the two French boys on their bicycles on a narrow dirt country road between hedgerows, both feet down, stopped side by side and looking toward the right of the frame.",
+      "camera": "eye level, medium-long shot, both boys full body with their bicycles",
+      "light": "bright clear morning sun from the right, blue sky",
+      "attach": [
+        "C2_REF"
+      ]
+    },
+    {
+      "id": "S05_FULL",
+      "kind": "full",
+      "used_in": [
+        "S05",
+        "S30"
+      ],
+      "desc": "Over-the-shoulder view from behind the two French boys of C2_REF on their bicycles (backs of their heads and shoulders in the foreground, left edge), looking across a field at four American GIs in the distance holding a Sherman tank above their heads.",
+      "camera": "eye level, over-the-shoulder from behind the boys, deep focus",
+      "light": "bright clear morning sun from the right, blue sky",
+      "attach": [
+        "C2_REF",
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S06_FULL",
+      "kind": "full",
+      "used_in": [
+        "S06",
+        "S44"
+      ],
+      "desc": "A German officer seen only from behind, in a plain field-grey greatcoat and cap with no insignia, standing on a ridge and looking through binoculars across a wide valley toward a distant line of tanks.",
+      "camera": "eye level, back view, medium shot, the man on the left third, valley on the right",
+      "light": "cold overcast light, grey-blue sky",
+      "attach": []
+    },
+    {
+      "id": "S07_FULL",
+      "kind": "full",
+      "used_in": [
+        "S07",
+        "S12"
+      ],
+      "desc": "Hundreds of American GIs in olive-drab uniforms and helmets standing in neat rows in a huge open field, seen from far above; at the front centre stands C1_REF.",
+      "camera": "high aerial wide shot, deep focus",
+      "light": "warm golden late-afternoon sun from the left, soft fill",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S08_FULL",
+      "kind": "full",
+      "used_in": [
+        "S08"
+      ],
+      "desc": "A wide French countryside landscape in 1944: patchwork farm fields, hedgerows, a stone village with a church steeple, and a small US Army jeep driving along a dirt road with C1_REF in the passenger seat.",
+      "camera": "high wide establishing shot, deep focus",
+      "light": "warm golden late-afternoon sun from the left, soft fill",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S09_FULL",
+      "kind": "full",
+      "used_in": [
+        "S09"
+      ],
+      "desc": "Inside a canvas army command tent, three American officers in 1944 uniforms lean over a big paper map of France on a wooden table, one pointing, lit by a hanging lantern.",
+      "camera": "slightly high angle, medium shot",
+      "light": "warm lantern light from above, cool daylight from the tent door",
+      "attach": []
+    },
+    {
+      "id": "S10_FULL",
+      "kind": "full",
+      "used_in": [
+        "S10"
+      ],
+      "desc": "C1_REF stands at a wooden easel in a farmhouse barn turned into an art studio, holding a paintbrush and a palette, painting a big camouflage pattern of green and brown blobs on canvas; paint pots and stencils around.",
+      "camera": "eye level, medium-long shot, full body",
+      "light": "warm sunlight through a barn door from the left",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S11_FULL",
+      "kind": "full",
+      "used_in": [
+        "S11"
+      ],
+      "desc": "C1_REF wearing big 1940s headphones sits at a large wooden disc-recording machine with a microphone on a stand; beside him a second GI holding a script reads lines dramatically with one arm raised like a stage actor.",
+      "camera": "eye level, medium shot",
+      "light": "warm desk lamp light, dark wooden room",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S13_FULL",
+      "kind": "full",
+      "used_in": [
+        "S13"
+      ],
+      "desc": "C1_REF stands in front of a small group of GIs on a misty field at dawn, chin up, hands on hips, the men behind him half lost in pale mist like ghosts.",
+      "camera": "low angle, medium-long shot",
+      "light": "cold pale dawn light, mist",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S14_FULL",
+      "kind": "full",
+      "used_in": [
+        "S14",
+        "S53"
+      ],
+      "desc": "C1_REF, from the chest up, leans slightly toward the camera with both hands hidden behind his back as if hiding a surprise, head tilted, looking straight into the lens.",
+      "camera": "eye level, medium close-up",
+      "light": "warm golden late-afternoon sun from the left, soft fill",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S15_INS",
+      "kind": "insert",
+      "used_in": [
+        "S15"
+      ],
+      "desc": "a GI's hand squeezing and denting the soft olive-drab rubber skin of an inflatable tank, the rubber creased under his fingers",
+      "camera": "close-up",
+      "light": "bright clear morning sun from the right, blue sky"
+    },
+    {
+      "id": "S16_FULL",
+      "kind": "full",
+      "used_in": [
+        "S16",
+        "S41"
+      ],
+      "desc": "A row of olive-drab inflatable dummy Sherman tanks, a truck and an artillery cannon standing in an open field, some still half-inflated and sagging; C1_REF in the foreground works a hand air pump connected by a hose.",
+      "camera": "eye level, wide shot",
+      "light": "warm golden late-afternoon sun from the left, soft fill",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S18A_FULL",
+      "kind": "full",
+      "used_in": [
+        "S18"
+      ],
+      "desc": "At night in an empty field, C1_REF pumps a long-handled air pump with both arms; behind him a flat, sagging rubber tank lies on the grass, half inflated.",
+      "camera": "eye level, medium-long shot, full body",
+      "light": "cool blue moonlight from above-left, faint warm lantern glow from the right",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S18B_FULL",
+      "kind": "full",
+      "edit_of": "S18A_FULL",
+      "used_in": [
+        "S18"
+      ],
+      "change": "the rubber tank behind him is now fully inflated and looks like a real tank; C1_REF leans back against it with his arms crossed, one boot crossed over the other",
+      "attach": [
+        "S18A_FULL"
+      ]
+    },
+    {
+      "id": "S19_FULL",
+      "kind": "full",
+      "used_in": [
+        "S19"
+      ],
+      "desc": "Morning aerial view looking down from a small plane: the plain grey wingtip of the plane in the top-left corner (no markings), and below it a green field filled with long neat rows of hundreds of olive-drab tanks.",
+      "camera": "aerial view looking down from a plane, deep focus",
+      "light": "soft early-morning sun, long shadows",
+      "attach": []
+    },
+    {
+      "id": "S20_FULL",
+      "kind": "full",
+      "used_in": [
+        "S20"
+      ],
+      "desc": "C1_REF, from the waist up, cups one hand behind his ear and leans to the side as if listening for something, eyebrows raised, a clear simple dark background.",
+      "camera": "eye level, medium shot",
+      "light": "cool blue moonlight from above-left, faint warm lantern glow from the right",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S21_FULL",
+      "kind": "full",
+      "used_in": [
+        "S21",
+        "S43"
+      ],
+      "desc": "A 1944 US Army half-track truck at night with a huge loudspeaker horn array mounted on its back pointing across a dark field; C1_REF stands on the truck bed beside the speakers.",
+      "camera": "low angle, medium-long shot",
+      "light": "cool blue moonlight from above-left, faint warm lantern glow from the right",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S22_FULL",
+      "kind": "full",
+      "used_in": [
+        "S22"
+      ],
+      "desc": "Inside the back of an army truck at night, C1_REF wearing big headphones turns the knobs of a bulky 1940s sound control panel with spinning record discs, leaning in, excited.",
+      "camera": "eye level, medium shot",
+      "light": "warm amber glow from the dials, cool moonlight outside",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S23_FULL",
+      "kind": "full",
+      "used_in": [
+        "S23"
+      ],
+      "desc": "A German sentry seen only from behind, in a plain field-grey uniform and helmet with no insignia, standing in a dark pine forest at night and turning his head toward a distant glow on the horizon.",
+      "camera": "eye level, back view, medium-long shot",
+      "light": "cool blue moonlight from above-left, faint warm lantern glow from the right",
+      "attach": []
+    },
+    {
+      "id": "S24_INS",
+      "kind": "insert",
+      "used_in": [
+        "S24",
+        "S42"
+      ],
+      "desc": "a 1940s US Army field radio set with dials, a coiled cable, a pair of headphones and a brass Morse key on a wooden crate, a hand resting on the Morse key",
+      "camera": "high angle, three-quarter close-up",
+      "light": "warm lamp light, dark surroundings"
+    },
+    {
+      "id": "S25A_FULL",
+      "kind": "full",
+      "used_in": [
+        "S25"
+      ],
+      "desc": "C1_REF sits at a wooden crate with a 1940s field radio, headphones on, tapping a Morse key with one finger and looking sideways at the camera, sly.",
+      "camera": "eye level, medium shot",
+      "light": "warm lamp light, dark tent interior",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S25B_FULL",
+      "kind": "full",
+      "edit_of": "S25A_FULL",
+      "used_in": [
+        "S25"
+      ],
+      "change": "C1_REF now leans far back in his chair with both boots up on the crate and his hands behind his head, relaxed and smug",
+      "attach": [
+        "S25A_FULL"
+      ]
+    },
+    {
+      "id": "S26A_FULL",
+      "kind": "full",
+      "used_in": [
+        "S26"
+      ],
+      "desc": "A small French village cafe terrace with little round tables; C1_REF and another GI sit at a table with glasses of wine while a French waiter in a white apron stands nearby with a tray.",
+      "camera": "eye level, medium-long shot",
+      "light": "warm sunny afternoon light",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S27_INS",
+      "kind": "insert",
+      "used_in": [
+        "S27"
+      ],
+      "desc": "hands sewing a plain round embroidered army shoulder patch (simple coloured circle design, no letters) onto the olive-drab sleeve of a field jacket with needle and thread",
+      "camera": "close-up from above",
+      "light": "warm lamp light"
+    },
+    {
+      "id": "S28_FULL",
+      "kind": "full",
+      "edit_of": "S26A_FULL",
+      "used_in": [
+        "S28"
+      ],
+      "change": "C1_REF now leans far back in his chair, one arm flung out wide and the other hand held beside his mouth like he is announcing a secret loudly, while the waiter leans in to eavesdrop",
+      "attach": [
+        "S26A_FULL"
+      ]
+    },
+    {
+      "id": "S31_FULL",
+      "kind": "full",
+      "used_in": [
+        "S31"
+      ],
+      "desc": "C1_REF stands in a sunny field with a rubber Sherman tank behind him, shrugging dramatically, both palms up and shoulders raised, looking at the camera.",
+      "camera": "eye level, medium-long shot, full body",
+      "light": "bright clear morning sun from the right, blue sky",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S32_FULL",
+      "kind": "full",
+      "edit_of": "S31_FULL",
+      "used_in": [
+        "S32"
+      ],
+      "change": "C1_REF now flexes his right biceps proudly like a strongman, chest puffed out, chin up",
+      "attach": [
+        "S31_FULL"
+      ]
+    },
+    {
+      "id": "S33_FULL",
+      "kind": "full",
+      "used_in": [
+        "S33"
+      ],
+      "desc": "C2_REF: the two French boys on their bicycles side by side, both nodding slowly, mouths closed, holding the handlebars.",
+      "camera": "eye level, medium shot from the waist up",
+      "light": "bright clear morning sun from the right, blue sky",
+      "attach": [
+        "C2_REF"
+      ]
+    },
+    {
+      "id": "S34_FULL",
+      "kind": "full",
+      "edit_of": "S33_FULL",
+      "used_in": [
+        "S34"
+      ],
+      "change": "the smaller boy in the mustard sweater now leans back with his arms crossed and one eyebrow raised, unconvinced; the taller boy is unchanged",
+      "attach": [
+        "S33_FULL"
+      ]
+    },
+    {
+      "id": "S35_INS",
+      "kind": "insert",
+      "used_in": [
+        "S35",
+        "S38"
+      ],
+      "desc": "an old paper army map of northern France, Belgium and the Rhine river on a wooden table, hand-drawn with faded colours, rivers in blue, no readable text",
+      "camera": "top-down",
+      "light": "warm lamp light, soft shadows"
+    },
+    {
+      "id": "S36_FULL",
+      "kind": "full",
+      "used_in": [
+        "S36"
+      ],
+      "desc": "C1_REF stands tiny next to an enormous inflatable tank that towers over him, puffing out his chest and standing on tiptoe to look bigger.",
+      "camera": "low angle, wide shot, full body",
+      "light": "warm golden late-afternoon sun from the left, soft fill",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S37_FULL",
+      "kind": "full",
+      "used_in": [
+        "S37"
+      ],
+      "desc": "A wide river landscape in early spring at dawn: a broad grey river with cold mist on the water, bare trees on the flat banks, a ruined stone bridge in the distance. No people.",
+      "camera": "high wide establishing shot",
+      "light": "cold blue dawn light",
+      "attach": []
+    },
+    {
+      "id": "S39_FULL",
+      "kind": "full",
+      "used_in": [
+        "S39",
+        "S48"
+      ],
+      "desc": "At night on a muddy riverbank, many American GIs crouch beside rows of wooden and canvas assault boats, ready to launch them.",
+      "camera": "eye level, wide shot",
+      "light": "cool blue moonlight from above-left, faint warm lantern glow from the right",
+      "attach": []
+    },
+    {
+      "id": "S40_FULL",
+      "kind": "full",
+      "used_in": [
+        "S40"
+      ],
+      "desc": "At night on a different stretch of riverbank, C1_REF stands pointing ahead with one arm like a general, directing a row of rubber tanks being rolled into place behind him.",
+      "camera": "low angle, medium-long shot, full body",
+      "light": "cool blue moonlight from above-left, faint warm lantern glow from the right",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S45_FULL",
+      "kind": "full",
+      "used_in": [
+        "S45"
+      ],
+      "desc": "On a dark ridge at night, the silhouettes of big field artillery guns all point toward the left of the frame; silhouettes of soldiers stand beside them, no insignia.",
+      "camera": "eye level, wide shot, silhouettes against a deep blue sky",
+      "light": "deep blue night sky, faint moon rim light",
+      "attach": []
+    },
+    {
+      "id": "S46_FULL",
+      "kind": "full",
+      "used_in": [
+        "S46"
+      ],
+      "desc": "A huge orange artillery flash lights up the night sky over a dark river, the sky glowing orange above the black treeline.",
+      "camera": "wide shot",
+      "light": "bright orange flash against deep night",
+      "attach": []
+    },
+    {
+      "id": "S47_FULL",
+      "kind": "full",
+      "used_in": [
+        "S47"
+      ],
+      "desc": "Dawn on a wide river: many small assault boats full of American GIs paddle across the misty water toward the far bank.",
+      "camera": "high angle, wide shot",
+      "light": "cold blue-grey dawn light",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S49_FULL",
+      "kind": "full",
+      "used_in": [
+        "S49"
+      ],
+      "desc": "A long floating pontoon bridge across a wide river with 1944 US Army trucks and jeeps driving over it.",
+      "camera": "high angle, wide shot",
+      "light": "soft morning light",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S50_FULL",
+      "kind": "full",
+      "used_in": [
+        "S50"
+      ],
+      "desc": "A long column of American GIs marching across a pontoon bridge toward the sunrise, rifles on shoulders.",
+      "camera": "low angle, wide shot, silhouettes against the sunrise",
+      "light": "golden sunrise backlight",
+      "attach": [
+        "C1_REF"
+      ]
+    },
+    {
+      "id": "S51_INS",
+      "kind": "insert",
+      "used_in": [
+        "S51"
+      ],
+      "desc": "a thick manila army file folder tied with string and sealed with a red wax seal, lying in a dusty cardboard archive box among other old files; no readable text",
+      "camera": "high angle close-up",
+      "light": "dim cool archive light, a single shaft of light"
+    },
+    {
+      "id": "S52_FULL",
+      "kind": "full",
+      "used_in": [
+        "S52"
+      ],
+      "desc": "Golden sunset over an open French field: C1_REF and three other GIs stand in a row holding a big inflatable rubber tank above their heads like a balloon, their figures dark against the sky.",
+      "camera": "eye level, very wide shot, the men small in the frame",
+      "light": "golden sunset backlight",
+      "attach": [
+        "C1_REF"
+      ]
+    }
+  ],
+  "scene_lines": {
+    "S01": "Four American soldiers",
+    "S02": "pick up a forty-ton tank.",
+    "S03": "With their bare hands.",
+    "S04": "Two French boys on bicycles",
+    "S05": "freeze.",
+    "S06": "If anyone learns how they did it,",
+    "S07": "thousands of men could die.",
+    "S08": "It's 1944.",
+    "S09": "The army needs a way to fool the Germans.",
+    "S10": "So it recruits painters, designers,",
+    "S11": "actors and sound men.",
+    "S12": "Eleven hundred of them.",
+    "S13": "They're called the Ghost Army.",
+    "S14": "Their weapon?",
+    "S15": "Rubber.",
+    "S16": "Inflatable tanks, trucks and cannons,",
+    "S17": "each one light enough for four men to carry.",
+    "S18": "At night, they pump up a whole division in an empty field.",
+    "S19": "By morning, German planes count hundreds of tanks.",
+    "S20": "Then come the sounds.",
+    "S21": "Giant speakers on trucks",
+    "S22": "blast engines, shouting and hammering.",
+    "S23": "You can hear them fifteen miles away.",
+    "S24": "Then the radio.",
+    "S25": "Fake operators send fake orders to fake units.",
+    "S26": "Then the acting.",
+    "S27": "Men sew on other units' badges,",
+    "S28": "sit in cafés, and loudly spill the wrong secrets.",
+    "S29": "Back to those two boys.",
+    "S30": "They stare at the tank.",
+    "S31": "A soldier just shrugs.",
+    "S32": "\"Americans are very strong.\"",
+    "S33": "The boys believe him.",
+    "S34": "Mostly.",
+    "S35": "Twenty missions.",
+    "S36": "One small army pretending to be big ones.",
+    "S37": "Then March 1945.",
+    "S38": "The Rhine River.",
+    "S39": "The real army is about to cross.",
+    "S40": "The ghosts set up miles away.",
+    "S41": "Rubber tanks.",
+    "S42": "Fake radio chatter.",
+    "S43": "Speakers roaring all night.",
+    "S44": "The Germans take the bait.",
+    "S45": "Their guns point at the wrong river bank.",
+    "S46": "Boom.",
+    "S47": "The real crossing begins.",
+    "S48": "Boats.",
+    "S49": "Bridges.",
+    "S50": "Thousands of men across.",
+    "S51": "The army keeps it secret for fifty years.",
+    "S52": "The strongest Americans in France are holding balloons.",
+    "S53": "And they save thousands of lives."
+  }
+}

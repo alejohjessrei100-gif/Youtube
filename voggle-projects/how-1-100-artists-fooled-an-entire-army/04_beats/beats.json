@@ -1,0 +1,1623 @@
+{
+  "protagonist": "C1",
+  "mainFaces": {},
+  "shots": [
+    {
+      "id": "S01",
+      "w": 0,
+      "template": "T1",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.35
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S01_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S02",
+      "w": 3,
+      "template": "T4",
+      "grade": "WARM",
+      "camera": {
+        "move": "punch",
+        "amount": 0.07,
+        "focus": [
+          0.5,
+          0.3
+        ],
+        "pulses": [
+          {
+            "w": 6
+          }
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S02_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 3,
+                  "eyes": "E3",
+                  "mouth": "M2"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 3
+    },
+    {
+      "id": "S03",
+      "w": 8,
+      "template": "T9",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S03_INS",
+          "kind": "insert"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S04",
+      "w": 12,
+      "template": "T3",
+      "grade": "WARM",
+      "camera": {
+        "move": "creep",
+        "tilt": 1.2
+      },
+      "layers": [
+        {
+          "asset": "S04_FULL",
+          "kind": "full",
+          "character": "C2",
+          "faces": [
+            {
+              "face": "*",
+              "exprs": [
+                {
+                  "w": 12,
+                  "eyes": "E1",
+                  "mouth": "M1",
+                  "gaze": [
+                    0.6,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 2
+    },
+    {
+      "id": "S05",
+      "w": 17,
+      "template": "T6",
+      "grade": "WARM",
+      "camera": {
+        "move": "punch",
+        "amount": 0.07,
+        "focus": [
+          0.62,
+          0.45
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S05_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S06",
+      "w": 18,
+      "template": "T13",
+      "grade": "COOL",
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.3,
+          0.35
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S06_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 2
+    },
+    {
+      "id": "S07",
+      "w": 25,
+      "template": "T13",
+      "grade": "MONO",
+      "camera": {
+        "move": "pull",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S07_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0,
+      "exit": "zoomblur"
+    },
+    {
+      "id": "S08",
+      "w": 30,
+      "template": "T2",
+      "grade": "WARM",
+      "camera": {
+        "move": "pan_r",
+        "amount": 0.08
+      },
+      "layers": [
+        {
+          "asset": "S08_FULL",
+          "kind": "full"
+        }
+      ],
+      "transition": "whip",
+      "dof": 0
+    },
+    {
+      "id": "S09",
+      "w": 32,
+      "template": "T8",
+      "grade": "WARM",
+      "camera": {
+        "move": "creep",
+        "tilt": -1.2,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S09_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 2
+    },
+    {
+      "id": "S10",
+      "w": 41,
+      "template": "T3",
+      "grade": "WARM",
+      "camera": {
+        "move": "frame_face",
+        "s": 1.25,
+        "pulses": [
+          {
+            "w": 44
+          }
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S10_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 41,
+                  "eyes": "E6",
+                  "mouth": "M2",
+                  "gaze": [
+                    0.5,
+                    0
+                  ]
+                },
+                {
+                  "w": 45,
+                  "eyes": "E1",
+                  "mouth": "M5"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 3
+    },
+    {
+      "id": "S11",
+      "w": 46,
+      "template": "T3",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.4,
+          0.35
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S11_FULL",
+          "kind": "full",
+          "character": "C1",
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 46,
+                  "eyes": "E3",
+                  "mouth": "M1"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 3
+    },
+    {
+      "id": "S12",
+      "w": 50,
+      "template": "T10",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.6
+        ],
+        "pulses": [
+          {
+            "w": 51
+          }
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S07_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S13",
+      "w": 54,
+      "template": "T4",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.3
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S13_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 54,
+                  "eyes": "E3",
+                  "mouth": "M2"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "gradeFlip": {
+        "w": 57,
+        "to": "TEAL"
+      },
+      "dof": 3
+    },
+    {
+      "id": "S14",
+      "w": 59,
+      "template": "T5",
+      "grade": "WARM",
+      "camera": {
+        "move": "creep",
+        "tilt": 1.0,
+        "focus": [
+          0.5,
+          0.32
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S14_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 59,
+                  "eyes": "E6",
+                  "mouth": "M2",
+                  "gaze": [
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 4
+    },
+    {
+      "id": "S15",
+      "w": 61,
+      "template": "T6",
+      "grade": "WARM",
+      "camera": {
+        "move": "punch",
+        "amount": 0.07,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S15_INS",
+          "kind": "insert"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S16",
+      "w": 62,
+      "template": "T10",
+      "grade": "WARM",
+      "camera": {
+        "move": "pan_r",
+        "amount": 0.08
+      },
+      "layers": [
+        {
+          "asset": "S16_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S17",
+      "w": 67,
+      "template": "T3",
+      "grade": "WARM",
+      "camera": {
+        "move": "pan_l",
+        "amount": 0.06,
+        "focus": [
+          0.4,
+          0.4
+        ],
+        "pulses": [
+          {
+            "w": 72
+          }
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S01_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S18",
+      "w": 76,
+      "template": "T3",
+      "grade": "NIGHT",
+      "camera": {
+        "move": "creep",
+        "focus": [
+          0.5,
+          0.35
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S18A_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "swaps": [
+            {
+              "w": 83,
+              "asset": "S18B_FULL",
+              "blur": true,
+              "zoom": 1.15
+            }
+          ],
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 76,
+                  "eyes": "E1",
+                  "mouth": "M8"
+                },
+                {
+                  "w": 83,
+                  "eyes": "E3",
+                  "mouth": "M2"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "transition": "whip",
+      "dof": 2
+    },
+    {
+      "id": "S19",
+      "w": 88,
+      "template": "T2",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.6,
+          0.6
+        ],
+        "pulses": [
+          {
+            "w": 93
+          }
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S19_FULL",
+          "kind": "full"
+        }
+      ],
+      "transition": "whip",
+      "dof": 0
+    },
+    {
+      "id": "S20",
+      "w": 96,
+      "template": "T5",
+      "grade": "NIGHT",
+      "camera": {
+        "move": "punch",
+        "amount": 0.06,
+        "focus": [
+          0.5,
+          0.3
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S20_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 96,
+                  "eyes": "E6",
+                  "mouth": "M2",
+                  "gaze": [
+                    -0.6,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 4
+    },
+    {
+      "id": "S21",
+      "w": 100,
+      "template": "T4",
+      "grade": "NIGHT",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.4
+        ],
+        "tilt": -1.2
+      },
+      "layers": [
+        {
+          "asset": "S21_FULL",
+          "kind": "full",
+          "character": "C1",
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 100,
+                  "eyes": "E3",
+                  "mouth": "M6"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 2
+    },
+    {
+      "id": "S22",
+      "w": 104,
+      "template": "T5",
+      "grade": "WARM",
+      "camera": {
+        "move": "creep",
+        "pulses": [
+          {
+            "w": 105
+          },
+          {
+            "w": 108
+          }
+        ],
+        "focus": [
+          0.5,
+          0.35
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S22_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 104,
+                  "eyes": "E1",
+                  "mouth": "M6"
+                },
+                {
+                  "w": 106,
+                  "eyes": "E6",
+                  "mouth": "M9"
+                }
+              ]
+            }
+          ],
+          "loops": [
+            {
+              "type": "shake",
+              "amp": 0.004,
+              "period": 5,
+              "from": {
+                "w": 108
+              },
+              "to": {
+                "w": 109
+              }
+            }
+          ]
+        }
+      ],
+      "dof": 3
+    },
+    {
+      "id": "S23",
+      "w": 109,
+      "template": "T13",
+      "grade": "COOL",
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.5,
+          0.35
+        ],
+        "pulses": [
+          {
+            "w": 113
+          }
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S23_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 2
+    },
+    {
+      "id": "S24",
+      "w": 116,
+      "template": "T9",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S24_INS",
+          "kind": "insert"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S25",
+      "w": 119,
+      "template": "T5",
+      "grade": "WARM",
+      "camera": {
+        "move": "creep",
+        "tilt": 1.0,
+        "focus": [
+          0.5,
+          0.35
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S25A_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "swaps": [
+            {
+              "w": 125,
+              "asset": "S25B_FULL",
+              "blur": true,
+              "zoom": 1.15
+            }
+          ],
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 119,
+                  "eyes": "E6",
+                  "mouth": "M2",
+                  "gaze": [
+                    0.6,
+                    0
+                  ]
+                },
+                {
+                  "w": 125,
+                  "eyes": "E3",
+                  "mouth": "M6"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 3
+    },
+    {
+      "id": "S26",
+      "w": 127,
+      "template": "T3",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.45,
+          0.4
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S26A_FULL",
+          "kind": "full",
+          "character": "C1",
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 127,
+                  "eyes": "E3",
+                  "mouth": "M1"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 2
+    },
+    {
+      "id": "S27",
+      "w": 130,
+      "template": "T9",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S27_INS",
+          "kind": "insert"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S28",
+      "w": 136,
+      "template": "T7",
+      "grade": "WARM",
+      "camera": {
+        "move": "creep",
+        "focus": [
+          0.45,
+          0.35
+        ],
+        "pulses": [
+          {
+            "w": 143
+          }
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S28_FULL",
+          "kind": "full",
+          "character": "C1",
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 136,
+                  "eyes": "E3",
+                  "mouth": "M6"
+                },
+                {
+                  "w": 141,
+                  "eyes": "E6",
+                  "mouth": "M9"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 2
+    },
+    {
+      "id": "S29",
+      "w": 145,
+      "template": "T3",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.5,
+          0.4
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S04_FULL",
+          "kind": "full",
+          "character": "C2",
+          "faces": [
+            {
+              "face": "*",
+              "exprs": [
+                {
+                  "w": 145,
+                  "eyes": "E1",
+                  "mouth": "M10",
+                  "gaze": [
+                    0.6,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "transition": "whip",
+      "dof": 2
+    },
+    {
+      "id": "S30",
+      "w": 150,
+      "template": "T17",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.62,
+          0.45
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S05_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S31",
+      "w": 155,
+      "template": "T3",
+      "grade": "WARM",
+      "camera": {
+        "move": "frame_face",
+        "s": 1.2
+      },
+      "layers": [
+        {
+          "asset": "S31_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 155,
+                  "eyes": "E3",
+                  "mouth": "M2"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 2
+    },
+    {
+      "id": "S32",
+      "w": 159,
+      "template": "T6",
+      "grade": "WARM",
+      "camera": {
+        "move": "punch",
+        "amount": 0.07,
+        "focus": [
+          0.5,
+          0.3
+        ],
+        "tilt": -1.0
+      },
+      "layers": [
+        {
+          "asset": "S32_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 159,
+                  "eyes": "E3",
+                  "mouth": "M6"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 2
+    },
+    {
+      "id": "S33",
+      "w": 163,
+      "template": "T7",
+      "grade": "WARM",
+      "camera": {
+        "move": "creep"
+      },
+      "layers": [
+        {
+          "asset": "S33_FULL",
+          "kind": "full",
+          "character": "C2",
+          "faces": [
+            {
+              "face": "*",
+              "exprs": [
+                {
+                  "w": 163,
+                  "eyes": "E1",
+                  "mouth": "M5",
+                  "gaze": [
+                    0.3,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 3
+    },
+    {
+      "id": "S34",
+      "w": 167,
+      "template": "T6",
+      "grade": "WARM",
+      "camera": {
+        "move": "static"
+      },
+      "layers": [
+        {
+          "asset": "S34_FULL",
+          "kind": "full",
+          "character": "C2",
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 167,
+                  "eyes": "E1",
+                  "mouth": "M5"
+                }
+              ]
+            },
+            {
+              "face": 1,
+              "exprs": [
+                {
+                  "w": 167,
+                  "eyes": "E3",
+                  "mouth": "M3",
+                  "gaze": [
+                    -0.5,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 3
+    },
+    {
+      "id": "S35",
+      "w": 168,
+      "template": "T12",
+      "grade": "WARM",
+      "camera": {
+        "move": "creep",
+        "amount": 0.05
+      },
+      "layers": [
+        {
+          "asset": "S35_INS",
+          "kind": "insert"
+        },
+        {
+          "asset": "ROUTE",
+          "kind": "route",
+          "route": {
+            "points": [
+              [
+                0.25,
+                0.3
+              ],
+              [
+                0.4,
+                0.38
+              ],
+              [
+                0.55,
+                0.33
+              ],
+              [
+                0.68,
+                0.42
+              ]
+            ],
+            "pins": [
+              {
+                "at": [
+                  0.25,
+                  0.3
+                ],
+                "w": 168
+              },
+              {
+                "at": [
+                  0.4,
+                  0.38
+                ],
+                "w": 168
+              },
+              {
+                "at": [
+                  0.55,
+                  0.33
+                ],
+                "w": 169
+              },
+              {
+                "at": [
+                  0.68,
+                  0.42
+                ],
+                "w": 169
+              }
+            ]
+          }
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S36",
+      "w": 170,
+      "template": "T4",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.4,
+          0.4
+        ],
+        "pulses": [
+          {
+            "w": 176
+          }
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S36_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 170,
+                  "eyes": "E3",
+                  "mouth": "M2"
+                },
+                {
+                  "w": 176,
+                  "eyes": "E6",
+                  "mouth": "M6"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 0,
+      "exit": "zoomblur"
+    },
+    {
+      "id": "S37",
+      "w": 178,
+      "template": "T2",
+      "grade": "COOL",
+      "camera": {
+        "move": "pull",
+        "amount": 0.05
+      },
+      "layers": [
+        {
+          "asset": "S37_FULL",
+          "kind": "full"
+        }
+      ],
+      "transition": "whip",
+      "dof": 0
+    },
+    {
+      "id": "S38",
+      "w": 181,
+      "template": "T12",
+      "grade": "COOL",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.72,
+          0.42
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S35_INS",
+          "kind": "insert"
+        },
+        {
+          "asset": "ROUTE",
+          "kind": "route",
+          "route": {
+            "points": [
+              [
+                0.72,
+                0.22
+              ],
+              [
+                0.7,
+                0.36
+              ],
+              [
+                0.74,
+                0.5
+              ],
+              [
+                0.7,
+                0.64
+              ]
+            ],
+            "color": "#2a6fd1",
+            "pins": [
+              {
+                "at": [
+                  0.7,
+                  0.4
+                ],
+                "w": 182
+              }
+            ]
+          }
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S39",
+      "w": 184,
+      "template": "T7",
+      "grade": "NIGHT",
+      "camera": {
+        "move": "pan_l",
+        "amount": 0.08
+      },
+      "layers": [
+        {
+          "asset": "S39_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S40",
+      "w": 191,
+      "template": "T4",
+      "grade": "NIGHT",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.35
+        ],
+        "tilt": 1.2
+      },
+      "layers": [
+        {
+          "asset": "S40_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 191,
+                  "eyes": "E4",
+                  "mouth": "M2"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 2
+    },
+    {
+      "id": "S41",
+      "w": 197,
+      "template": "T10",
+      "grade": "NIGHT",
+      "camera": {
+        "move": "punch",
+        "amount": 0.06,
+        "focus": [
+          0.6,
+          0.5
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S16_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S42",
+      "w": 199,
+      "template": "T9",
+      "grade": "NIGHT",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S24_INS",
+          "kind": "insert"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S43",
+      "w": 202,
+      "template": "T4",
+      "grade": "NIGHT",
+      "camera": {
+        "move": "punch",
+        "amount": 0.06,
+        "focus": [
+          0.5,
+          0.4
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S21_FULL",
+          "kind": "full",
+          "character": "C1",
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 202,
+                  "eyes": "E6",
+                  "mouth": "M9"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 2
+    },
+    {
+      "id": "S44",
+      "w": 206,
+      "template": "T17",
+      "grade": "NIGHT",
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.3,
+          0.35
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S06_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 2
+    },
+    {
+      "id": "S45",
+      "w": 211,
+      "template": "T18",
+      "grade": "NIGHT",
+      "camera": {
+        "move": "pan_l",
+        "amount": 0.06,
+        "pulses": [
+          {
+            "w": 216
+          }
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S45_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0,
+      "exit": "zoomblur"
+    },
+    {
+      "id": "S46",
+      "w": 219,
+      "template": "T6",
+      "grade": "ANGER",
+      "camera": {
+        "move": "punch",
+        "amount": 0.07,
+        "handheld": 1.0
+      },
+      "layers": [
+        {
+          "asset": "S46_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S47",
+      "w": 220,
+      "template": "T2",
+      "grade": "COOL",
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S47_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S48",
+      "w": 224,
+      "template": "T7",
+      "grade": "COOL",
+      "camera": {
+        "move": "punch",
+        "amount": 0.06
+      },
+      "layers": [
+        {
+          "asset": "S39_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S49",
+      "w": 225,
+      "template": "T2",
+      "grade": "WARM",
+      "camera": {
+        "move": "pan_r",
+        "amount": 0.06
+      },
+      "layers": [
+        {
+          "asset": "S49_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S50",
+      "w": 226,
+      "template": "T2",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.5,
+          0.45
+        ],
+        "pulses": [
+          {
+            "w": 226
+          }
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S50_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S51",
+      "w": 230,
+      "template": "T9",
+      "grade": "WARM",
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S51_INS",
+          "kind": "insert"
+        }
+      ],
+      "gradeFlip": {
+        "w": 234,
+        "to": "MONO"
+      },
+      "dof": 0
+    },
+    {
+      "id": "S52",
+      "w": 238,
+      "template": "T18",
+      "grade": "WARM",
+      "camera": {
+        "move": "static",
+        "drift": 0.01
+      },
+      "layers": [
+        {
+          "asset": "S52_FULL",
+          "kind": "full"
+        }
+      ],
+      "dof": 0
+    },
+    {
+      "id": "S53",
+      "w": 246,
+      "template": "T19",
+      "grade": "WARM",
+      "camera": {
+        "move": "creep",
+        "focus": [
+          0.5,
+          0.32
+        ]
+      },
+      "layers": [
+        {
+          "asset": "S14_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": true,
+          "faces": [
+            {
+              "face": 0,
+              "exprs": [
+                {
+                  "w": 246,
+                  "eyes": "E3",
+                  "mouth": "M2",
+                  "gaze": [
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dof": 4
+    }
+  ]
+}

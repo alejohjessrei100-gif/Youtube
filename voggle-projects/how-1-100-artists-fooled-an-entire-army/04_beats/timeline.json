@@ -1,0 +1,3130 @@
+{
+  "slug": "how-1-100-artists-fooled-an-entire-army",
+  "fps": 24,
+  "width": 1080,
+  "height": 1920,
+  "duration": 74.625,
+  "audio": "vo.wav",
+  "sfx": [],
+  "shots": [
+    {
+      "energy": 0.2,
+      "id": "S01",
+      "start": 0.0,
+      "end": 0.9583,
+      "text": "Four American soldiers",
+      "template": "T1",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.35
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S01_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S02",
+      "start": 0.9583,
+      "end": 2.4583,
+      "text": "pick up a forty-ton tank.",
+      "template": "T4",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "punch",
+        "amount": 0.07,
+        "focus": [
+          0.5,
+          0.3
+        ],
+        "pulses": [
+          {
+            "t": 1.5833
+          }
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 3,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S02_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "faces": [],
+          "swaps": [],
+          "loops": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S03",
+      "start": 2.4583,
+      "end": 4.0,
+      "text": "With their bare hands.",
+      "template": "T9",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S03_INS",
+          "kind": "insert",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S04",
+      "start": 4.0,
+      "end": 5.2083,
+      "text": "Two French boys on bicycles",
+      "template": "T3",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "creep",
+        "tilt": 1.2
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S04_FULL",
+          "kind": "full",
+          "character": "C2",
+          "faces": [],
+          "swaps": [],
+          "loops": [],
+          "split": false
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S05",
+      "start": 5.2083,
+      "end": 5.9583,
+      "text": "freeze.",
+      "template": "T6",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "punch",
+        "amount": 0.07,
+        "focus": [
+          0.62,
+          0.45
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S05_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S06",
+      "start": 5.9583,
+      "end": 7.2083,
+      "text": "If anyone learns how they did it,",
+      "template": "T13",
+      "grade": "COOL",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.3,
+          0.35
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S06_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S07",
+      "start": 7.2083,
+      "end": 8.4583,
+      "text": "thousands of men could die.",
+      "template": "T13",
+      "grade": "MONO",
+      "gradeFlip": null,
+      "camera": {
+        "move": "pull",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "transition": "cut",
+      "exit": "zoomblur",
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S07_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S08",
+      "start": 8.4583,
+      "end": 9.7083,
+      "text": "It's 1944.",
+      "template": "T2",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "pan_r",
+        "amount": 0.08
+      },
+      "transition": "whip",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S08_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S09",
+      "start": 9.7083,
+      "end": 11.5833,
+      "text": "The army needs a way to fool the Germans.",
+      "template": "T8",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "creep",
+        "tilt": -1.2,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S09_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S10",
+      "start": 11.5833,
+      "end": 13.2917,
+      "text": "So it recruits painters, designers,",
+      "template": "T3",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "frame_face",
+        "s": 1.25,
+        "pulses": [
+          {
+            "t": 12.0
+          }
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 3,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S10_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "faces": [],
+          "swaps": [],
+          "loops": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S11",
+      "start": 13.2917,
+      "end": 14.2083,
+      "text": "actors and sound men.",
+      "template": "T3",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.4,
+          0.35
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 3,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S11_FULL",
+          "kind": "full",
+          "character": "C1",
+          "faces": [],
+          "swaps": [],
+          "loops": [],
+          "split": false
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S12",
+      "start": 14.2083,
+      "end": 15.3333,
+      "text": "Eleven hundred of them.",
+      "template": "T10",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.6
+        ],
+        "pulses": [
+          {
+            "t": 14.4583
+          }
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S07_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S13",
+      "start": 15.3333,
+      "end": 16.6667,
+      "text": "They're called the Ghost Army.",
+      "template": "T4",
+      "grade": "WARM",
+      "gradeFlip": {
+        "t": 16.0,
+        "to": "TEAL"
+      },
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.3
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 3,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S13_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "faces": [],
+          "swaps": [],
+          "loops": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S14",
+      "start": 16.6667,
+      "end": 17.3333,
+      "text": "Their weapon?",
+      "template": "T5",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "creep",
+        "tilt": 1.0,
+        "focus": [
+          0.5,
+          0.32
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 4,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S14_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "faces": [],
+          "swaps": [],
+          "loops": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S15",
+      "start": 17.3333,
+      "end": 17.75,
+      "text": "Rubber.",
+      "template": "T6",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "punch",
+        "amount": 0.07,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S15_INS",
+          "kind": "insert",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S16",
+      "start": 17.75,
+      "end": 19.875,
+      "text": "Inflatable tanks, trucks and cannons,",
+      "template": "T10",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "pan_r",
+        "amount": 0.08
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S16_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S17",
+      "start": 19.875,
+      "end": 21.875,
+      "text": "each one light enough for four men to carry.",
+      "template": "T3",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "pan_l",
+        "amount": 0.06,
+        "focus": [
+          0.4,
+          0.4
+        ],
+        "pulses": [
+          {
+            "t": 20.9167
+          }
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S01_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S18",
+      "start": 21.875,
+      "end": 24.5,
+      "text": "At night, they pump up a whole division in an empty field.",
+      "template": "T3",
+      "grade": "NIGHT",
+      "gradeFlip": null,
+      "camera": {
+        "move": "creep",
+        "focus": [
+          0.5,
+          0.35
+        ]
+      },
+      "transition": "whip",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S18A_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "swaps": [
+            {
+              "t": 23.2917,
+              "asset": "S18B_FULL",
+              "blur": true,
+              "pop": 0,
+              "keepBg": false,
+              "matchFace": false,
+              "matchBody": false,
+              "zoom": 1.15
+            }
+          ],
+          "faces": [],
+          "loops": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S19",
+      "start": 24.5,
+      "end": 27.2083,
+      "text": "By morning, German planes count hundreds of tanks.",
+      "template": "T2",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.6,
+          0.6
+        ],
+        "pulses": [
+          {
+            "t": 26.0417
+          }
+        ]
+      },
+      "transition": "whip",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S19_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S20",
+      "start": 27.2083,
+      "end": 28.125,
+      "text": "Then come the sounds.",
+      "template": "T5",
+      "grade": "NIGHT",
+      "gradeFlip": null,
+      "camera": {
+        "move": "punch",
+        "amount": 0.06,
+        "focus": [
+          0.5,
+          0.3
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 4,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S20_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "faces": [],
+          "swaps": [],
+          "loops": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S21",
+      "start": 28.125,
+      "end": 29.625,
+      "text": "Giant speakers on trucks",
+      "template": "T4",
+      "grade": "NIGHT",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.4
+        ],
+        "tilt": -1.2
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S21_FULL",
+          "kind": "full",
+          "character": "C1",
+          "faces": [],
+          "swaps": [],
+          "loops": [],
+          "split": false
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S22",
+      "start": 29.625,
+      "end": 31.625,
+      "text": "blast engines, shouting and hammering.",
+      "template": "T5",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "creep",
+        "pulses": [
+          {
+            "t": 29.9583
+          },
+          {
+            "t": 31.0833
+          }
+        ],
+        "focus": [
+          0.5,
+          0.35
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 3,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S22_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "faces": [],
+          "loops": [
+            {
+              "type": "shake",
+              "amp": 0.004,
+              "period": 5,
+              "t0": 31.0833,
+              "t1": 31.625
+            }
+          ],
+          "swaps": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S23",
+      "start": 31.625,
+      "end": 33.4583,
+      "text": "You can hear them fifteen miles away.",
+      "template": "T13",
+      "grade": "COOL",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.5,
+          0.35
+        ],
+        "pulses": [
+          {
+            "t": 32.0
+          }
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S23_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S24",
+      "start": 33.4583,
+      "end": 34.375,
+      "text": "Then the radio.",
+      "template": "T9",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S24_INS",
+          "kind": "insert",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S25",
+      "start": 34.375,
+      "end": 36.7083,
+      "text": "Fake operators send fake orders to fake units.",
+      "template": "T5",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "creep",
+        "tilt": 1.0,
+        "focus": [
+          0.5,
+          0.35
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 3,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S25A_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "swaps": [
+            {
+              "t": 35.9583,
+              "asset": "S25B_FULL",
+              "blur": true,
+              "pop": 0,
+              "keepBg": false,
+              "matchFace": false,
+              "matchBody": false,
+              "zoom": 1.15
+            }
+          ],
+          "faces": [],
+          "loops": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S26",
+      "start": 36.7083,
+      "end": 37.75,
+      "text": "Then the acting.",
+      "template": "T3",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.45,
+          0.4
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S26A_FULL",
+          "kind": "full",
+          "character": "C1",
+          "faces": [],
+          "swaps": [],
+          "loops": [],
+          "split": false
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S27",
+      "start": 37.75,
+      "end": 39.2917,
+      "text": "Men sew on other units' badges,",
+      "template": "T9",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S27_INS",
+          "kind": "insert",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S28",
+      "start": 39.2917,
+      "end": 42.125,
+      "text": "sit in cafés, and loudly spill the wrong secrets.",
+      "template": "T7",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "creep",
+        "focus": [
+          0.45,
+          0.35
+        ],
+        "pulses": [
+          {
+            "t": 41.25
+          }
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S28_FULL",
+          "kind": "full",
+          "character": "C1",
+          "faces": [],
+          "swaps": [],
+          "loops": [],
+          "split": false
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S29",
+      "start": 42.125,
+      "end": 43.1667,
+      "text": "Back to those two boys.",
+      "template": "T3",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.5,
+          0.4
+        ]
+      },
+      "transition": "whip",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S04_FULL",
+          "kind": "full",
+          "character": "C2",
+          "faces": [],
+          "swaps": [],
+          "loops": [],
+          "split": false
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S30",
+      "start": 43.1667,
+      "end": 44.25,
+      "text": "They stare at the tank.",
+      "template": "T17",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.62,
+          0.45
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S05_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S31",
+      "start": 44.25,
+      "end": 45.375,
+      "text": "A soldier just shrugs.",
+      "template": "T3",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "frame_face",
+        "s": 1.2
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S31_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "faces": [],
+          "swaps": [],
+          "loops": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S32",
+      "start": 45.375,
+      "end": 46.6667,
+      "text": "\"Americans are very strong.\"",
+      "template": "T6",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "punch",
+        "amount": 0.07,
+        "focus": [
+          0.5,
+          0.3
+        ],
+        "tilt": -1.0
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S32_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "faces": [],
+          "swaps": [],
+          "loops": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S33",
+      "start": 46.6667,
+      "end": 47.4583,
+      "text": "The boys believe him.",
+      "template": "T7",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "creep"
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 3,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S33_FULL",
+          "kind": "full",
+          "character": "C2",
+          "faces": [],
+          "swaps": [],
+          "loops": [],
+          "split": false
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S34",
+      "start": 47.4583,
+      "end": 47.7917,
+      "text": "Mostly.",
+      "template": "T6",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "static"
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 3,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S34_FULL",
+          "kind": "full",
+          "character": "C2",
+          "faces": [],
+          "swaps": [],
+          "loops": [],
+          "split": false
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S35",
+      "start": 47.7917,
+      "end": 48.9167,
+      "text": "Twenty missions.",
+      "template": "T12",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "creep",
+        "amount": 0.05
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S35_INS",
+          "kind": "insert",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        },
+        {
+          "asset": "ROUTE",
+          "kind": "route",
+          "route": {
+            "points": [
+              [
+                0.25,
+                0.3
+              ],
+              [
+                0.4,
+                0.38
+              ],
+              [
+                0.55,
+                0.33
+              ],
+              [
+                0.68,
+                0.42
+              ]
+            ],
+            "pins": [
+              {
+                "at": [
+                  0.25,
+                  0.3
+                ],
+                "w": 168,
+                "t": 47.7917
+              },
+              {
+                "at": [
+                  0.4,
+                  0.38
+                ],
+                "w": 168,
+                "t": 47.7917
+              },
+              {
+                "at": [
+                  0.55,
+                  0.33
+                ],
+                "w": 169,
+                "t": 48.25
+              },
+              {
+                "at": [
+                  0.68,
+                  0.42
+                ],
+                "w": 169,
+                "t": 48.25
+              }
+            ],
+            "t0": 47.7917,
+            "t1": 48.9167
+          },
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S36",
+      "start": 48.9167,
+      "end": 51.1667,
+      "text": "One small army pretending to be big ones.",
+      "template": "T4",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.4,
+          0.4
+        ],
+        "pulses": [
+          {
+            "t": 50.5417
+          }
+        ]
+      },
+      "transition": "cut",
+      "exit": "zoomblur",
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S36_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "faces": [],
+          "swaps": [],
+          "loops": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S37",
+      "start": 51.1667,
+      "end": 52.9167,
+      "text": "Then March 1945.",
+      "template": "T2",
+      "grade": "COOL",
+      "gradeFlip": null,
+      "camera": {
+        "move": "pull",
+        "amount": 0.05
+      },
+      "transition": "whip",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S37_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S38",
+      "start": 52.9167,
+      "end": 53.5833,
+      "text": "The Rhine River.",
+      "template": "T12",
+      "grade": "COOL",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.72,
+          0.42
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S35_INS",
+          "kind": "insert",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        },
+        {
+          "asset": "ROUTE",
+          "kind": "route",
+          "route": {
+            "points": [
+              [
+                0.72,
+                0.22
+              ],
+              [
+                0.7,
+                0.36
+              ],
+              [
+                0.74,
+                0.5
+              ],
+              [
+                0.7,
+                0.64
+              ]
+            ],
+            "color": "#2a6fd1",
+            "pins": [
+              {
+                "at": [
+                  0.7,
+                  0.4
+                ],
+                "w": 182,
+                "t": 53.0
+              }
+            ],
+            "t0": 52.9167,
+            "t1": 53.5833
+          },
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S39",
+      "start": 53.5833,
+      "end": 55.25,
+      "text": "The real army is about to cross.",
+      "template": "T7",
+      "grade": "NIGHT",
+      "gradeFlip": null,
+      "camera": {
+        "move": "pan_l",
+        "amount": 0.08
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S39_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S40",
+      "start": 55.25,
+      "end": 57.0,
+      "text": "The ghosts set up miles away.",
+      "template": "T4",
+      "grade": "NIGHT",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.35
+        ],
+        "tilt": 1.2
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S40_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "faces": [],
+          "swaps": [],
+          "loops": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S41",
+      "start": 57.0,
+      "end": 57.4583,
+      "text": "Rubber tanks.",
+      "template": "T10",
+      "grade": "NIGHT",
+      "gradeFlip": null,
+      "camera": {
+        "move": "punch",
+        "amount": 0.06,
+        "focus": [
+          0.6,
+          0.5
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S16_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S42",
+      "start": 57.4583,
+      "end": 59.0,
+      "text": "Fake radio chatter.",
+      "template": "T9",
+      "grade": "NIGHT",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S24_INS",
+          "kind": "insert",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S43",
+      "start": 59.0,
+      "end": 60.3333,
+      "text": "Speakers roaring all night.",
+      "template": "T4",
+      "grade": "NIGHT",
+      "gradeFlip": null,
+      "camera": {
+        "move": "punch",
+        "amount": 0.06,
+        "focus": [
+          0.5,
+          0.4
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S21_FULL",
+          "kind": "full",
+          "character": "C1",
+          "faces": [],
+          "swaps": [],
+          "loops": [],
+          "split": false
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S44",
+      "start": 60.3333,
+      "end": 61.5417,
+      "text": "The Germans take the bait.",
+      "template": "T17",
+      "grade": "NIGHT",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.3,
+          0.35
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 2,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S06_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S45",
+      "start": 61.5417,
+      "end": 63.4167,
+      "text": "Their guns point at the wrong river bank.",
+      "template": "T18",
+      "grade": "NIGHT",
+      "gradeFlip": null,
+      "camera": {
+        "move": "pan_l",
+        "amount": 0.06,
+        "pulses": [
+          {
+            "t": 62.4583
+          }
+        ]
+      },
+      "transition": "cut",
+      "exit": "zoomblur",
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S45_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S46",
+      "start": 63.4167,
+      "end": 63.875,
+      "text": "Boom.",
+      "template": "T6",
+      "grade": "ANGER",
+      "gradeFlip": null,
+      "camera": {
+        "move": "punch",
+        "amount": 0.07,
+        "handheld": 1.0
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S46_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S47",
+      "start": 63.875,
+      "end": 65.4583,
+      "text": "The real crossing begins.",
+      "template": "T2",
+      "grade": "COOL",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S47_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S48",
+      "start": 65.4583,
+      "end": 65.9167,
+      "text": "Boats.",
+      "template": "T7",
+      "grade": "COOL",
+      "gradeFlip": null,
+      "camera": {
+        "move": "punch",
+        "amount": 0.06
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S39_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S49",
+      "start": 65.9167,
+      "end": 66.5,
+      "text": "Bridges.",
+      "template": "T2",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "pan_r",
+        "amount": 0.06
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S49_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S50",
+      "start": 66.5,
+      "end": 67.7083,
+      "text": "Thousands of men across.",
+      "template": "T2",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "push",
+        "amount": 0.04,
+        "focus": [
+          0.5,
+          0.45
+        ],
+        "pulses": [
+          {
+            "t": 66.5
+          }
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S50_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S51",
+      "start": 67.7083,
+      "end": 69.9583,
+      "text": "The army keeps it secret for fifty years.",
+      "template": "T9",
+      "grade": "WARM",
+      "gradeFlip": {
+        "t": 68.4583,
+        "to": "MONO"
+      },
+      "camera": {
+        "move": "push",
+        "amount": 0.05,
+        "focus": [
+          0.5,
+          0.5
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S51_INS",
+          "kind": "insert",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S52",
+      "start": 69.9583,
+      "end": 72.625,
+      "text": "The strongest Americans in France are holding balloons.",
+      "template": "T18",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "static",
+        "drift": 0.01
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 0,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S52_FULL",
+          "kind": "full",
+          "swaps": [],
+          "loops": [],
+          "split": false,
+          "faces": []
+        }
+      ]
+    },
+    {
+      "energy": 0.2,
+      "id": "S53",
+      "start": 72.625,
+      "end": 74.625,
+      "text": "And they save thousands of lives.",
+      "template": "T19",
+      "grade": "WARM",
+      "gradeFlip": null,
+      "camera": {
+        "move": "creep",
+        "focus": [
+          0.5,
+          0.32
+        ]
+      },
+      "transition": "cut",
+      "exit": null,
+      "dof": 4,
+      "vignette": 0.75,
+      "layers": [
+        {
+          "asset": "S14_FULL",
+          "kind": "full",
+          "character": "C1",
+          "split": false,
+          "faces": [],
+          "swaps": [],
+          "loops": []
+        }
+      ]
+    }
+  ],
+  "captions": [
+    {
+      "text": "Four",
+      "start": 0.0,
+      "end": 0.25
+    },
+    {
+      "text": "American",
+      "start": 0.25,
+      "end": 0.5833333333333334
+    },
+    {
+      "text": "soldiers",
+      "start": 0.5833333333333334,
+      "end": 0.9583333333333334
+    },
+    {
+      "text": "pick",
+      "start": 0.9583333333333334,
+      "end": 1.2916666666666667
+    },
+    {
+      "text": "up",
+      "start": 1.2916666666666667,
+      "end": 1.4166666666666667
+    },
+    {
+      "text": "a",
+      "start": 1.4166666666666667,
+      "end": 1.5833333333333333
+    },
+    {
+      "text": "forty-ton",
+      "start": 1.5833333333333333,
+      "end": 2.0416666666666665
+    },
+    {
+      "text": "tank.",
+      "start": 2.0416666666666665,
+      "end": 2.4583333333333335
+    },
+    {
+      "text": "With",
+      "start": 2.4583333333333335,
+      "end": 2.75
+    },
+    {
+      "text": "their",
+      "start": 2.75,
+      "end": 2.9166666666666665
+    },
+    {
+      "text": "bare",
+      "start": 2.9166666666666665,
+      "end": 3.25
+    },
+    {
+      "text": "hands.",
+      "start": 3.25,
+      "end": 4.0
+    },
+    {
+      "text": "Two",
+      "start": 4.0,
+      "end": 4.125
+    },
+    {
+      "text": "French",
+      "start": 4.125,
+      "end": 4.375
+    },
+    {
+      "text": "boys",
+      "start": 4.375,
+      "end": 4.583333333333333
+    },
+    {
+      "text": "on",
+      "start": 4.583333333333333,
+      "end": 4.833333333333333
+    },
+    {
+      "text": "bicycles",
+      "start": 4.833333333333333,
+      "end": 5.208333333333333
+    },
+    {
+      "text": "freeze.",
+      "start": 5.208333333333333,
+      "end": 5.958333333333333
+    },
+    {
+      "text": "If",
+      "start": 5.958333333333333,
+      "end": 6.083333333333333
+    },
+    {
+      "text": "anyone",
+      "start": 6.083333333333333,
+      "end": 6.208333333333333
+    },
+    {
+      "text": "learns",
+      "start": 6.208333333333333,
+      "end": 6.458333333333333
+    },
+    {
+      "text": "how",
+      "start": 6.458333333333333,
+      "end": 6.625
+    },
+    {
+      "text": "they",
+      "start": 6.625,
+      "end": 6.75
+    },
+    {
+      "text": "did",
+      "start": 6.75,
+      "end": 6.916666666666667
+    },
+    {
+      "text": "it,",
+      "start": 6.916666666666667,
+      "end": 7.208333333333333
+    },
+    {
+      "text": "thousands",
+      "start": 7.208333333333333,
+      "end": 7.416666666666667
+    },
+    {
+      "text": "of",
+      "start": 7.416666666666667,
+      "end": 7.666666666666667
+    },
+    {
+      "text": "men",
+      "start": 7.666666666666667,
+      "end": 7.833333333333333
+    },
+    {
+      "text": "could",
+      "start": 7.833333333333333,
+      "end": 8.041666666666666
+    },
+    {
+      "text": "die.",
+      "start": 8.041666666666666,
+      "end": 8.458333333333334
+    },
+    {
+      "text": "It's",
+      "start": 8.458333333333334,
+      "end": 8.666666666666666
+    },
+    {
+      "text": "1944.",
+      "start": 8.666666666666666,
+      "end": 9.708333333333334
+    },
+    {
+      "text": "The",
+      "start": 9.708333333333334,
+      "end": 9.833333333333334
+    },
+    {
+      "text": "army",
+      "start": 9.833333333333334,
+      "end": 10.0
+    },
+    {
+      "text": "needs",
+      "start": 10.0,
+      "end": 10.208333333333334
+    },
+    {
+      "text": "a",
+      "start": 10.208333333333334,
+      "end": 10.333333333333334
+    },
+    {
+      "text": "way",
+      "start": 10.333333333333334,
+      "end": 10.458333333333334
+    },
+    {
+      "text": "to",
+      "start": 10.458333333333334,
+      "end": 10.625
+    },
+    {
+      "text": "fool",
+      "start": 10.625,
+      "end": 10.833333333333334
+    },
+    {
+      "text": "the",
+      "start": 10.833333333333334,
+      "end": 11.041666666666666
+    },
+    {
+      "text": "Germans.",
+      "start": 11.041666666666666,
+      "end": 11.583333333333334
+    },
+    {
+      "text": "So",
+      "start": 11.583333333333334,
+      "end": 11.708333333333334
+    },
+    {
+      "text": "it",
+      "start": 11.708333333333334,
+      "end": 11.833333333333334
+    },
+    {
+      "text": "recruits",
+      "start": 11.833333333333334,
+      "end": 12.0
+    },
+    {
+      "text": "painters,",
+      "start": 12.0,
+      "end": 12.666666666666666
+    },
+    {
+      "text": "designers,",
+      "start": 12.666666666666666,
+      "end": 13.291666666666666
+    },
+    {
+      "text": "actors",
+      "start": 13.291666666666666,
+      "end": 13.75
+    },
+    {
+      "text": "and",
+      "start": 13.75,
+      "end": 13.875
+    },
+    {
+      "text": "sound",
+      "start": 13.875,
+      "end": 14.0
+    },
+    {
+      "text": "men.",
+      "start": 14.0,
+      "end": 14.208333333333334
+    },
+    {
+      "text": "Eleven",
+      "start": 14.208333333333334,
+      "end": 14.458333333333334
+    },
+    {
+      "text": "hundred",
+      "start": 14.458333333333334,
+      "end": 14.791666666666666
+    },
+    {
+      "text": "of",
+      "start": 14.791666666666666,
+      "end": 15.208333333333334
+    },
+    {
+      "text": "them.",
+      "start": 15.208333333333334,
+      "end": 15.333333333333334
+    },
+    {
+      "text": "They're",
+      "start": 15.333333333333334,
+      "end": 15.458333333333334
+    },
+    {
+      "text": "called",
+      "start": 15.458333333333334,
+      "end": 15.75
+    },
+    {
+      "text": "the",
+      "start": 15.75,
+      "end": 16.0
+    },
+    {
+      "text": "Ghost",
+      "start": 16.0,
+      "end": 16.333333333333332
+    },
+    {
+      "text": "Army.",
+      "start": 16.333333333333332,
+      "end": 16.666666666666668
+    },
+    {
+      "text": "Their",
+      "start": 16.666666666666668,
+      "end": 16.791666666666668
+    },
+    {
+      "text": "weapon?",
+      "start": 16.791666666666668,
+      "end": 17.333333333333332
+    },
+    {
+      "text": "Rubber.",
+      "start": 17.333333333333332,
+      "end": 17.75
+    },
+    {
+      "text": "Inflatable",
+      "start": 17.75,
+      "end": 18.166666666666668
+    },
+    {
+      "text": "tanks,",
+      "start": 18.166666666666668,
+      "end": 18.791666666666668
+    },
+    {
+      "text": "trucks",
+      "start": 18.791666666666668,
+      "end": 19.125
+    },
+    {
+      "text": "and",
+      "start": 19.125,
+      "end": 19.25
+    },
+    {
+      "text": "cannons,",
+      "start": 19.25,
+      "end": 19.875
+    },
+    {
+      "text": "each",
+      "start": 19.875,
+      "end": 20.0
+    },
+    {
+      "text": "one",
+      "start": 20.0,
+      "end": 20.291666666666668
+    },
+    {
+      "text": "light",
+      "start": 20.291666666666668,
+      "end": 20.5
+    },
+    {
+      "text": "enough",
+      "start": 20.5,
+      "end": 20.708333333333332
+    },
+    {
+      "text": "for",
+      "start": 20.708333333333332,
+      "end": 20.916666666666668
+    },
+    {
+      "text": "four",
+      "start": 20.916666666666668,
+      "end": 21.166666666666668
+    },
+    {
+      "text": "men",
+      "start": 21.166666666666668,
+      "end": 21.333333333333332
+    },
+    {
+      "text": "to",
+      "start": 21.333333333333332,
+      "end": 21.5
+    },
+    {
+      "text": "carry.",
+      "start": 21.5,
+      "end": 21.875
+    },
+    {
+      "text": "At",
+      "start": 21.875,
+      "end": 22.0
+    },
+    {
+      "text": "night,",
+      "start": 22.0,
+      "end": 22.458333333333332
+    },
+    {
+      "text": "they",
+      "start": 22.458333333333332,
+      "end": 22.583333333333332
+    },
+    {
+      "text": "pump",
+      "start": 22.583333333333332,
+      "end": 22.75
+    },
+    {
+      "text": "up",
+      "start": 22.75,
+      "end": 22.916666666666668
+    },
+    {
+      "text": "a",
+      "start": 22.916666666666668,
+      "end": 23.041666666666668
+    },
+    {
+      "text": "whole",
+      "start": 23.041666666666668,
+      "end": 23.291666666666668
+    },
+    {
+      "text": "division",
+      "start": 23.291666666666668,
+      "end": 23.625
+    },
+    {
+      "text": "in",
+      "start": 23.625,
+      "end": 23.833333333333332
+    },
+    {
+      "text": "an",
+      "start": 23.833333333333332,
+      "end": 23.958333333333332
+    },
+    {
+      "text": "empty",
+      "start": 23.958333333333332,
+      "end": 24.125
+    },
+    {
+      "text": "field.",
+      "start": 24.125,
+      "end": 24.5
+    },
+    {
+      "text": "By",
+      "start": 24.5,
+      "end": 24.625
+    },
+    {
+      "text": "morning,",
+      "start": 24.625,
+      "end": 25.25
+    },
+    {
+      "text": "German",
+      "start": 25.25,
+      "end": 25.375
+    },
+    {
+      "text": "planes",
+      "start": 25.375,
+      "end": 25.75
+    },
+    {
+      "text": "count",
+      "start": 25.75,
+      "end": 26.041666666666668
+    },
+    {
+      "text": "hundreds",
+      "start": 26.041666666666668,
+      "end": 26.416666666666668
+    },
+    {
+      "text": "of",
+      "start": 26.416666666666668,
+      "end": 26.625
+    },
+    {
+      "text": "tanks.",
+      "start": 26.625,
+      "end": 27.208333333333332
+    },
+    {
+      "text": "Then",
+      "start": 27.208333333333332,
+      "end": 27.416666666666668
+    },
+    {
+      "text": "come",
+      "start": 27.416666666666668,
+      "end": 27.625
+    },
+    {
+      "text": "the",
+      "start": 27.625,
+      "end": 27.833333333333332
+    },
+    {
+      "text": "sounds.",
+      "start": 27.833333333333332,
+      "end": 28.125
+    },
+    {
+      "text": "Giant",
+      "start": 28.125,
+      "end": 28.666666666666668
+    },
+    {
+      "text": "speakers",
+      "start": 28.666666666666668,
+      "end": 29.041666666666668
+    },
+    {
+      "text": "on",
+      "start": 29.041666666666668,
+      "end": 29.333333333333332
+    },
+    {
+      "text": "trucks",
+      "start": 29.333333333333332,
+      "end": 29.625
+    },
+    {
+      "text": "blast",
+      "start": 29.625,
+      "end": 29.958333333333332
+    },
+    {
+      "text": "engines,",
+      "start": 29.958333333333332,
+      "end": 30.5
+    },
+    {
+      "text": "shouting",
+      "start": 30.5,
+      "end": 30.875
+    },
+    {
+      "text": "and",
+      "start": 30.875,
+      "end": 31.083333333333332
+    },
+    {
+      "text": "hammering.",
+      "start": 31.083333333333332,
+      "end": 31.625
+    },
+    {
+      "text": "You",
+      "start": 31.625,
+      "end": 31.75
+    },
+    {
+      "text": "can",
+      "start": 31.75,
+      "end": 31.875
+    },
+    {
+      "text": "hear",
+      "start": 31.875,
+      "end": 32.0
+    },
+    {
+      "text": "them",
+      "start": 32.0,
+      "end": 32.125
+    },
+    {
+      "text": "fifteen",
+      "start": 32.125,
+      "end": 32.458333333333336
+    },
+    {
+      "text": "miles",
+      "start": 32.458333333333336,
+      "end": 32.791666666666664
+    },
+    {
+      "text": "away.",
+      "start": 32.791666666666664,
+      "end": 33.458333333333336
+    },
+    {
+      "text": "Then",
+      "start": 33.458333333333336,
+      "end": 33.666666666666664
+    },
+    {
+      "text": "the",
+      "start": 33.666666666666664,
+      "end": 33.791666666666664
+    },
+    {
+      "text": "radio.",
+      "start": 33.791666666666664,
+      "end": 34.375
+    },
+    {
+      "text": "Fake",
+      "start": 34.375,
+      "end": 34.5
+    },
+    {
+      "text": "operators",
+      "start": 34.5,
+      "end": 34.875
+    },
+    {
+      "text": "send",
+      "start": 34.875,
+      "end": 35.125
+    },
+    {
+      "text": "fake",
+      "start": 35.125,
+      "end": 35.416666666666664
+    },
+    {
+      "text": "orders",
+      "start": 35.416666666666664,
+      "end": 35.666666666666664
+    },
+    {
+      "text": "to",
+      "start": 35.666666666666664,
+      "end": 35.958333333333336
+    },
+    {
+      "text": "fake",
+      "start": 35.958333333333336,
+      "end": 36.125
+    },
+    {
+      "text": "units.",
+      "start": 36.125,
+      "end": 36.708333333333336
+    },
+    {
+      "text": "Then",
+      "start": 36.708333333333336,
+      "end": 37.041666666666664
+    },
+    {
+      "text": "the",
+      "start": 37.041666666666664,
+      "end": 37.166666666666664
+    },
+    {
+      "text": "acting.",
+      "start": 37.166666666666664,
+      "end": 37.75
+    },
+    {
+      "text": "Men",
+      "start": 37.75,
+      "end": 37.875
+    },
+    {
+      "text": "sew",
+      "start": 37.875,
+      "end": 38.041666666666664
+    },
+    {
+      "text": "on",
+      "start": 38.041666666666664,
+      "end": 38.291666666666664
+    },
+    {
+      "text": "other",
+      "start": 38.291666666666664,
+      "end": 38.5
+    },
+    {
+      "text": "units'",
+      "start": 38.5,
+      "end": 38.833333333333336
+    },
+    {
+      "text": "badges,",
+      "start": 38.833333333333336,
+      "end": 39.291666666666664
+    },
+    {
+      "text": "sit",
+      "start": 39.291666666666664,
+      "end": 39.458333333333336
+    },
+    {
+      "text": "in",
+      "start": 39.458333333333336,
+      "end": 39.625
+    },
+    {
+      "text": "cafés,",
+      "start": 39.625,
+      "end": 40.25
+    },
+    {
+      "text": "and",
+      "start": 40.25,
+      "end": 40.375
+    },
+    {
+      "text": "loudly",
+      "start": 40.375,
+      "end": 40.666666666666664
+    },
+    {
+      "text": "spill",
+      "start": 40.666666666666664,
+      "end": 41.0
+    },
+    {
+      "text": "the",
+      "start": 41.0,
+      "end": 41.25
+    },
+    {
+      "text": "wrong",
+      "start": 41.25,
+      "end": 41.458333333333336
+    },
+    {
+      "text": "secrets.",
+      "start": 41.458333333333336,
+      "end": 42.125
+    },
+    {
+      "text": "Back",
+      "start": 42.125,
+      "end": 42.25
+    },
+    {
+      "text": "to",
+      "start": 42.25,
+      "end": 42.375
+    },
+    {
+      "text": "those",
+      "start": 42.375,
+      "end": 42.5
+    },
+    {
+      "text": "two",
+      "start": 42.5,
+      "end": 42.666666666666664
+    },
+    {
+      "text": "boys.",
+      "start": 42.666666666666664,
+      "end": 43.166666666666664
+    },
+    {
+      "text": "They",
+      "start": 43.166666666666664,
+      "end": 43.291666666666664
+    },
+    {
+      "text": "stare",
+      "start": 43.291666666666664,
+      "end": 43.583333333333336
+    },
+    {
+      "text": "at",
+      "start": 43.583333333333336,
+      "end": 43.75
+    },
+    {
+      "text": "the",
+      "start": 43.75,
+      "end": 43.875
+    },
+    {
+      "text": "tank.",
+      "start": 43.875,
+      "end": 44.25
+    },
+    {
+      "text": "A",
+      "start": 44.25,
+      "end": 44.375
+    },
+    {
+      "text": "soldier",
+      "start": 44.375,
+      "end": 44.541666666666664
+    },
+    {
+      "text": "just",
+      "start": 44.541666666666664,
+      "end": 44.791666666666664
+    },
+    {
+      "text": "shrugs.",
+      "start": 44.791666666666664,
+      "end": 45.375
+    },
+    {
+      "text": "\"Americans",
+      "start": 45.375,
+      "end": 45.708333333333336
+    },
+    {
+      "text": "are",
+      "start": 45.708333333333336,
+      "end": 45.958333333333336
+    },
+    {
+      "text": "very",
+      "start": 45.958333333333336,
+      "end": 46.166666666666664
+    },
+    {
+      "text": "strong.\"",
+      "start": 46.166666666666664,
+      "end": 46.666666666666664
+    },
+    {
+      "text": "The",
+      "start": 46.666666666666664,
+      "end": 46.791666666666664
+    },
+    {
+      "text": "boys",
+      "start": 46.791666666666664,
+      "end": 46.916666666666664
+    },
+    {
+      "text": "believe",
+      "start": 46.916666666666664,
+      "end": 47.208333333333336
+    },
+    {
+      "text": "him.",
+      "start": 47.208333333333336,
+      "end": 47.458333333333336
+    },
+    {
+      "text": "Mostly.",
+      "start": 47.458333333333336,
+      "end": 47.791666666666664
+    },
+    {
+      "text": "Twenty",
+      "start": 47.791666666666664,
+      "end": 48.25
+    },
+    {
+      "text": "missions.",
+      "start": 48.25,
+      "end": 48.916666666666664
+    },
+    {
+      "text": "One",
+      "start": 48.916666666666664,
+      "end": 49.083333333333336
+    },
+    {
+      "text": "small",
+      "start": 49.083333333333336,
+      "end": 49.458333333333336
+    },
+    {
+      "text": "army",
+      "start": 49.458333333333336,
+      "end": 49.75
+    },
+    {
+      "text": "pretending",
+      "start": 49.75,
+      "end": 50.166666666666664
+    },
+    {
+      "text": "to",
+      "start": 50.166666666666664,
+      "end": 50.458333333333336
+    },
+    {
+      "text": "be",
+      "start": 50.458333333333336,
+      "end": 50.583333333333336
+    },
+    {
+      "text": "big",
+      "start": 50.583333333333336,
+      "end": 50.708333333333336
+    },
+    {
+      "text": "ones.",
+      "start": 50.708333333333336,
+      "end": 51.166666666666664
+    },
+    {
+      "text": "Then",
+      "start": 51.166666666666664,
+      "end": 51.666666666666664
+    },
+    {
+      "text": "March",
+      "start": 51.666666666666664,
+      "end": 51.791666666666664
+    },
+    {
+      "text": "1945.",
+      "start": 51.791666666666664,
+      "end": 52.916666666666664
+    },
+    {
+      "text": "The",
+      "start": 52.916666666666664,
+      "end": 53.041666666666664
+    },
+    {
+      "text": "Rhine",
+      "start": 53.041666666666664,
+      "end": 53.25
+    },
+    {
+      "text": "River.",
+      "start": 53.25,
+      "end": 53.583333333333336
+    },
+    {
+      "text": "The",
+      "start": 53.583333333333336,
+      "end": 53.708333333333336
+    },
+    {
+      "text": "real",
+      "start": 53.708333333333336,
+      "end": 53.916666666666664
+    },
+    {
+      "text": "army",
+      "start": 53.916666666666664,
+      "end": 54.166666666666664
+    },
+    {
+      "text": "is",
+      "start": 54.166666666666664,
+      "end": 54.375
+    },
+    {
+      "text": "about",
+      "start": 54.375,
+      "end": 54.583333333333336
+    },
+    {
+      "text": "to",
+      "start": 54.583333333333336,
+      "end": 54.75
+    },
+    {
+      "text": "cross.",
+      "start": 54.75,
+      "end": 55.25
+    },
+    {
+      "text": "The",
+      "start": 55.25,
+      "end": 55.375
+    },
+    {
+      "text": "ghosts",
+      "start": 55.375,
+      "end": 55.583333333333336
+    },
+    {
+      "text": "set",
+      "start": 55.583333333333336,
+      "end": 55.958333333333336
+    },
+    {
+      "text": "up",
+      "start": 55.958333333333336,
+      "end": 56.125
+    },
+    {
+      "text": "miles",
+      "start": 56.125,
+      "end": 56.458333333333336
+    },
+    {
+      "text": "away.",
+      "start": 56.458333333333336,
+      "end": 57.0
+    },
+    {
+      "text": "Rubber",
+      "start": 57.0,
+      "end": 57.125
+    },
+    {
+      "text": "tanks.",
+      "start": 57.125,
+      "end": 57.458333333333336
+    },
+    {
+      "text": "Fake",
+      "start": 57.458333333333336,
+      "end": 57.916666666666664
+    },
+    {
+      "text": "radio",
+      "start": 57.916666666666664,
+      "end": 58.25
+    },
+    {
+      "text": "chatter.",
+      "start": 58.25,
+      "end": 59.0
+    },
+    {
+      "text": "Speakers",
+      "start": 59.0,
+      "end": 59.208333333333336
+    },
+    {
+      "text": "roaring",
+      "start": 59.208333333333336,
+      "end": 59.541666666666664
+    },
+    {
+      "text": "all",
+      "start": 59.541666666666664,
+      "end": 59.916666666666664
+    },
+    {
+      "text": "night.",
+      "start": 59.916666666666664,
+      "end": 60.333333333333336
+    },
+    {
+      "text": "The",
+      "start": 60.333333333333336,
+      "end": 60.458333333333336
+    },
+    {
+      "text": "Germans",
+      "start": 60.458333333333336,
+      "end": 60.666666666666664
+    },
+    {
+      "text": "take",
+      "start": 60.666666666666664,
+      "end": 61.0
+    },
+    {
+      "text": "the",
+      "start": 61.0,
+      "end": 61.166666666666664
+    },
+    {
+      "text": "bait.",
+      "start": 61.166666666666664,
+      "end": 61.541666666666664
+    },
+    {
+      "text": "Their",
+      "start": 61.541666666666664,
+      "end": 61.666666666666664
+    },
+    {
+      "text": "guns",
+      "start": 61.666666666666664,
+      "end": 61.958333333333336
+    },
+    {
+      "text": "point",
+      "start": 61.958333333333336,
+      "end": 62.208333333333336
+    },
+    {
+      "text": "at",
+      "start": 62.208333333333336,
+      "end": 62.333333333333336
+    },
+    {
+      "text": "the",
+      "start": 62.333333333333336,
+      "end": 62.458333333333336
+    },
+    {
+      "text": "wrong",
+      "start": 62.458333333333336,
+      "end": 62.708333333333336
+    },
+    {
+      "text": "river",
+      "start": 62.708333333333336,
+      "end": 62.916666666666664
+    },
+    {
+      "text": "bank.",
+      "start": 62.916666666666664,
+      "end": 63.416666666666664
+    },
+    {
+      "text": "Boom.",
+      "start": 63.416666666666664,
+      "end": 63.875
+    },
+    {
+      "text": "The",
+      "start": 63.875,
+      "end": 64.0
+    },
+    {
+      "text": "real",
+      "start": 64.0,
+      "end": 64.20833333333333
+    },
+    {
+      "text": "crossing",
+      "start": 64.20833333333333,
+      "end": 64.58333333333333
+    },
+    {
+      "text": "begins.",
+      "start": 64.58333333333333,
+      "end": 65.45833333333333
+    },
+    {
+      "text": "Boats.",
+      "start": 65.45833333333333,
+      "end": 65.91666666666667
+    },
+    {
+      "text": "Bridges.",
+      "start": 65.91666666666667,
+      "end": 66.5
+    },
+    {
+      "text": "Thousands",
+      "start": 66.5,
+      "end": 66.66666666666667
+    },
+    {
+      "text": "of",
+      "start": 66.66666666666667,
+      "end": 66.95833333333333
+    },
+    {
+      "text": "men",
+      "start": 66.95833333333333,
+      "end": 67.08333333333333
+    },
+    {
+      "text": "across.",
+      "start": 67.08333333333333,
+      "end": 67.70833333333333
+    },
+    {
+      "text": "The",
+      "start": 67.70833333333333,
+      "end": 67.83333333333333
+    },
+    {
+      "text": "army",
+      "start": 67.83333333333333,
+      "end": 67.95833333333333
+    },
+    {
+      "text": "keeps",
+      "start": 67.95833333333333,
+      "end": 68.25
+    },
+    {
+      "text": "it",
+      "start": 68.25,
+      "end": 68.45833333333333
+    },
+    {
+      "text": "secret",
+      "start": 68.45833333333333,
+      "end": 68.75
+    },
+    {
+      "text": "for",
+      "start": 68.75,
+      "end": 68.95833333333333
+    },
+    {
+      "text": "fifty",
+      "start": 68.95833333333333,
+      "end": 69.375
+    },
+    {
+      "text": "years.",
+      "start": 69.375,
+      "end": 69.95833333333333
+    },
+    {
+      "text": "The",
+      "start": 69.95833333333333,
+      "end": 70.08333333333333
+    },
+    {
+      "text": "strongest",
+      "start": 70.08333333333333,
+      "end": 70.45833333333333
+    },
+    {
+      "text": "Americans",
+      "start": 70.45833333333333,
+      "end": 70.75
+    },
+    {
+      "text": "in",
+      "start": 70.75,
+      "end": 71.08333333333333
+    },
+    {
+      "text": "France",
+      "start": 71.08333333333333,
+      "end": 71.41666666666667
+    },
+    {
+      "text": "are",
+      "start": 71.41666666666667,
+      "end": 71.58333333333333
+    },
+    {
+      "text": "holding",
+      "start": 71.58333333333333,
+      "end": 71.91666666666667
+    },
+    {
+      "text": "balloons.",
+      "start": 71.91666666666667,
+      "end": 72.625
+    },
+    {
+      "text": "And",
+      "start": 72.625,
+      "end": 72.75
+    },
+    {
+      "text": "they",
+      "start": 72.75,
+      "end": 72.875
+    },
+    {
+      "text": "save",
+      "start": 72.875,
+      "end": 73.16666666666667
+    },
+    {
+      "text": "thousands",
+      "start": 73.16666666666667,
+      "end": 73.54166666666667
+    },
+    {
+      "text": "of",
+      "start": 73.54166666666667,
+      "end": 73.83333333333333
+    },
+    {
+      "text": "lives.",
+      "start": 73.83333333333333,
+      "end": 74.625
+    }
+  ],
+  "faces": {},
+  "boxes": {}
+}
