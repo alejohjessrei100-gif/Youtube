@@ -1,16 +1,1 @@
-Four American soldiers pick up a forty-ton tank. With their bare hands. Two French boys on bicycles freeze.
-If anyone learns how they did it, thousands of men could die.
-It's 1944. The army needs a way to fool the Germans. So it recruits painters, designers, actors and sound men. Eleven hundred of them. They're called the Ghost Army.
-Their weapon? Rubber. Inflatable tanks, trucks and cannons, each one light enough for four men to carry. At night, they pump up a whole division in an empty field. By morning, German planes count hundreds of tanks.
-Then come the sounds. Giant speakers on trucks blast engines, shouting and hammering. You can hear them fifteen miles away.
-Then the radio. Fake operators send fake orders to fake units.
-Then the acting. Men sew on other units' badges, sit in cafés, and loudly spill the wrong secrets.
-Back to those two boys. They stare at the tank. A soldier just shrugs.
-"Americans are very strong."
-The boys believe him. Mostly.
-Twenty missions. One small army pretending to be big ones. Then March 1945. The Rhine River. The real army is about to cross.
-The ghosts set up miles away. Rubber tanks. Fake radio chatter. Speakers roaring all night.
-The Germans take the bait. Their guns point at the wrong river bank.
-Boom. The real crossing begins. Boats. Bridges. Thousands of men across.
-The army keeps it secret for fifty years.
-The strongest Americans in France are holding balloons. And they save thousands of lives.
+Four American soldiers pick up a forty-ton tank. With their bare hands. Two French boys on bicycles freeze. If anyone learns how they did it, thousands of men could die. It's 1944. The army needs a way to fool the Germans. So it recruits painters, designers, actors and sound men. Eleven hundred of them. They're called the Ghost Army. Their weapon? Rubber. Inflatable tanks, trucks and cannons, each one light enough for four men to carry. At night, they pump up a whole division in an empty field. By morning, German planes count hundreds of tanks. Then come the sounds. Giant speakers on trucks blast engines, shouting and hammering. You can hear them fifteen miles away. Then the radio. Fake operators send fake orders to fake units. Then the acting. Men sew on other units' badges, sit in cafés, and loudly spill the wrong secrets. Back to those two boys. They stare at the tank. A soldier just shrugs. "Americans are very strong." The boys believe him. Mostly. Twenty missions. One small army pretending to be big ones. Then March 1945. The Rhine River. The real army is about to cross. The ghosts set up miles away. Rubber tanks. Fake radio chatter. Speakers roaring all night. The Germans take the bait. Their guns point at the wrong river bank. Boom. The real crossing begins. Boats. Bridges. Thousands of men across. The army keeps it secret for fifty years. The strongest Americans in France are holding balloons. And they save thousands of lives.
