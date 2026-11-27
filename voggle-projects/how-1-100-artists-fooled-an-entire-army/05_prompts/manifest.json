@@ -1,0 +1,333 @@
+{
+  "assets": [
+    {
+      "id": "C1_REF",
+      "kind": "ref",
+      "used_in": []
+    },
+    {
+      "id": "C2_REF",
+      "kind": "ref",
+      "used_in": []
+    },
+    {
+      "id": "S01_FULL",
+      "kind": "full",
+      "used_in": [
+        "S01",
+        "S17"
+      ]
+    },
+    {
+      "id": "S02_FULL",
+      "kind": "full",
+      "used_in": [
+        "S02"
+      ]
+    },
+    {
+      "id": "S03_INS",
+      "kind": "insert",
+      "used_in": [
+        "S03"
+      ]
+    },
+    {
+      "id": "S04_FULL",
+      "kind": "full",
+      "used_in": [
+        "S04",
+        "S29"
+      ]
+    },
+    {
+      "id": "S05_FULL",
+      "kind": "full",
+      "used_in": [
+        "S05",
+        "S30"
+      ]
+    },
+    {
+      "id": "S06_FULL",
+      "kind": "full",
+      "used_in": [
+        "S06",
+        "S44"
+      ]
+    },
+    {
+      "id": "S07_FULL",
+      "kind": "full",
+      "used_in": [
+        "S07",
+        "S12"
+      ]
+    },
+    {
+      "id": "S08_FULL",
+      "kind": "full",
+      "used_in": [
+        "S08"
+      ]
+    },
+    {
+      "id": "S09_FULL",
+      "kind": "full",
+      "used_in": [
+        "S09"
+      ]
+    },
+    {
+      "id": "S10_FULL",
+      "kind": "full",
+      "used_in": [
+        "S10"
+      ]
+    },
+    {
+      "id": "S11_FULL",
+      "kind": "full",
+      "used_in": [
+        "S11"
+      ]
+    },
+    {
+      "id": "S13_FULL",
+      "kind": "full",
+      "used_in": [
+        "S13"
+      ]
+    },
+    {
+      "id": "S14_FULL",
+      "kind": "full",
+      "used_in": [
+        "S14",
+        "S53"
+      ]
+    },
+    {
+      "id": "S15_INS",
+      "kind": "insert",
+      "used_in": [
+        "S15"
+      ]
+    },
+    {
+      "id": "S16_FULL",
+      "kind": "full",
+      "used_in": [
+        "S16",
+        "S41"
+      ]
+    },
+    {
+      "id": "S18A_FULL",
+      "kind": "full",
+      "used_in": [
+        "S18"
+      ]
+    },
+    {
+      "id": "S18B_FULL",
+      "kind": "full",
+      "used_in": [
+        "S18"
+      ]
+    },
+    {
+      "id": "S19_FULL",
+      "kind": "full",
+      "used_in": [
+        "S19"
+      ]
+    },
+    {
+      "id": "S20_FULL",
+      "kind": "full",
+      "used_in": [
+        "S20"
+      ]
+    },
+    {
+      "id": "S21_FULL",
+      "kind": "full",
+      "used_in": [
+        "S21",
+        "S43"
+      ]
+    },
+    {
+      "id": "S22_FULL",
+      "kind": "full",
+      "used_in": [
+        "S22"
+      ]
+    },
+    {
+      "id": "S23_FULL",
+      "kind": "full",
+      "used_in": [
+        "S23"
+      ]
+    },
+    {
+      "id": "S24_INS",
+      "kind": "insert",
+      "used_in": [
+        "S24",
+        "S42"
+      ]
+    },
+    {
+      "id": "S25A_FULL",
+      "kind": "full",
+      "used_in": [
+        "S25"
+      ]
+    },
+    {
+      "id": "S25B_FULL",
+      "kind": "full",
+      "used_in": [
+        "S25"
+      ]
+    },
+    {
+      "id": "S26A_FULL",
+      "kind": "full",
+      "used_in": [
+        "S26"
+      ]
+    },
+    {
+      "id": "S27_INS",
+      "kind": "insert",
+      "used_in": [
+        "S27"
+      ]
+    },
+    {
+      "id": "S28_FULL",
+      "kind": "full",
+      "used_in": [
+        "S28"
+      ]
+    },
+    {
+      "id": "S31_FULL",
+      "kind": "full",
+      "used_in": [
+        "S31"
+      ]
+    },
+    {
+      "id": "S32_FULL",
+      "kind": "full",
+      "used_in": [
+        "S32"
+      ]
+    },
+    {
+      "id": "S33_FULL",
+      "kind": "full",
+      "used_in": [
+        "S33"
+      ]
+    },
+    {
+      "id": "S34_FULL",
+      "kind": "full",
+      "used_in": [
+        "S34"
+      ]
+    },
+    {
+      "id": "S35_INS",
+      "kind": "insert",
+      "used_in": [
+        "S35",
+        "S38"
+      ]
+    },
+    {
+      "id": "S36_FULL",
+      "kind": "full",
+      "used_in": [
+        "S36"
+      ]
+    },
+    {
+      "id": "S37_FULL",
+      "kind": "full",
+      "used_in": [
+        "S37"
+      ]
+    },
+    {
+      "id": "S39_FULL",
+      "kind": "full",
+      "used_in": [
+        "S39",
+        "S48"
+      ]
+    },
+    {
+      "id": "S40_FULL",
+      "kind": "full",
+      "used_in": [
+        "S40"
+      ]
+    },
+    {
+      "id": "S45_FULL",
+      "kind": "full",
+      "used_in": [
+        "S45"
+      ]
+    },
+    {
+      "id": "S46_FULL",
+      "kind": "full",
+      "used_in": [
+        "S46"
+      ]
+    },
+    {
+      "id": "S47_FULL",
+      "kind": "full",
+      "used_in": [
+        "S47"
+      ]
+    },
+    {
+      "id": "S49_FULL",
+      "kind": "full",
+      "used_in": [
+        "S49"
+      ]
+    },
+    {
+      "id": "S50_FULL",
+      "kind": "full",
+      "used_in": [
+        "S50"
+      ]
+    },
+    {
+      "id": "S51_INS",
+      "kind": "insert",
+      "used_in": [
+        "S51"
+      ]
+    },
+    {
+      "id": "S52_FULL",
+      "kind": "full",
+      "used_in": [
+        "S52"
+      ]
+    }
+  ]
+}
